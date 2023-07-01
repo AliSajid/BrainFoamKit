@@ -14,8 +14,12 @@ path = "src/brainfoamkit_lib/lib.rs"
 crate-type = ["lib"]
 
 [[bin]]
-name = "brainfoamkit"
-path = "src/brainfoamkit/main.rs"
+name = "bfkview"
+path = "src/brainfoamkit_visualizer/main.rs"
+
+[[bin]]
+name = "bfkrun"
+path = "src/brainfoamkit_interpreter/main.rs"
 
 [dependencies]
 cursive = "0.20.0"
