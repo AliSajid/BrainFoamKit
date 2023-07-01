@@ -42,6 +42,16 @@
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
+use cursive::views::Dialog;
+
 fn main() {
-    println!("Hello, BRAINFOAMKIT!");
+    let mut siv = cursive::default();
+
+    siv.add_layer(
+        Dialog::text("This is a placeholder for the final interface.")
+            .title("BrainFoamKit")
+            .button("Exit", |s| s.quit()),
+    );
+
+    siv.run();
 }

@@ -18,6 +18,7 @@ name = "brainfoamkit"
 path = "src/brainfoamkit/main.rs"
 
 [dependencies]
+cursive = "0.20.0"
 
 
 [profile.dev]
