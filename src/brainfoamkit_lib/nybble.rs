@@ -258,10 +258,10 @@ mod tests {
 
     #[test]
     fn test_get_bit() {
-        let nybble = Nybble::from_u8(0b1010);
-        assert_eq!(nybble.get_bit(0), Bit::one());
+        let nybble = Nybble::from_u8(12);
+        assert_eq!(nybble.get_bit(0), Bit::zero());
         assert_eq!(nybble.get_bit(1), Bit::zero());
         assert_eq!(nybble.get_bit(2), Bit::one());
-        assert_eq!(nybble.get_bit(3), Bit::zero());
+        assert_eq!(nybble.get_bit(3), Bit::one());
     }
 }
