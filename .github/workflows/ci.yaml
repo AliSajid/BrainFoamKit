@@ -103,7 +103,8 @@ jobs:
 
       - name: Set Result
         if: always()
-        run: echo "result=${{job.status}}" >> $GITHUB_OUTPUT
+        id: result
+        run: echo "result=${{job.status}}" >> "$GITHUB_OUTPUT"
 
   ubuntu-ci:
     runs-on: ${{matrix.os}}-latest
@@ -187,7 +188,8 @@ jobs:
 
       - name: Set Result
         if: always()
-        run: echo "result=${{job.status}}" >> $GITHUB_OUTPUT
+        id: result
+        run: echo "result=${{job.status}}" >> "$GITHUB_OUTPUT"
 
   macos-ci:
     runs-on: ${{matrix.os}}-latest
@@ -269,7 +271,8 @@ jobs:
 
       - name: Set Result
         if: always()
-        run: echo "result=${{job.status}}" >> $GITHUB_OUTPUT
+        id: result
+        run: echo "result=${{job.status}}" >> "$GITHUB_OUTPUT"
 
   semantic-release:
     needs: [macos-ci, windows-ci, ubuntu-ci]
@@ -282,7 +285,7 @@ jobs:
     uses: ./.github/workflows/release_upload.yaml
     secrets: inherit # pragma: allowlist secret
     with:
-      new_version: ${{needs.semantic-release.outputs.new_version}}
+      new_release_version: ${{needs.semantic-release.outputs.new_release_version}}
       new_release_published: ${{needs.semantic-release.outputs.new_release_published}}
       new_release_notes: ${{needs.semantic-release.outputs.new_release_notes}}
       new_release_channel: ${{needs.semantic-release.outputs.new_release_channel}}
