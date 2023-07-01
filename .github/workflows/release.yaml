@@ -1,0 +1,74 @@
+on:
+  workflow_call:
+    outputs:
+      new_release_version:
+        description: 'The new version to release'
+        value: ${{jobs.release.outputs.new_release_version}}
+      new_release_published:
+        description: 'Whether a new release was published'
+        value: ${{jobs.release.outputs.new_release_published}}
+      new_release_notes:
+        description: 'The release notes'
+        value: ${{jobs.release.outputs.new_release_notes}}
+      new_release_channel:
+        description: 'The release channel'
+        value: ${{jobs.release.outputs.new_release_channel}}
+
+name: Semantic Release
+
+env:
+  RUST_BACKTRACE: 1
+  SEMREL_RUST_VERSION: 2.1.53
+
+
+jobs:
+    release:
+        name: Semantic Release
+        runs-on: ubuntu-latest
+        outputs:
+          new_release_version: ${{steps.semantic.outputs.new_release_version}}
+          new_release_published: ${{steps.semantic.outputs.new_release_published}}
+          new_release_notes: ${{steps.semantic.outputs.new_release_notes}}
+          new_release_channel: ${{steps.semantic.outputs.new_release_channel}}
+        steps:
+          - name: Checkout
+            uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+            with:
+                fetch-depth: 0
+                persist-credentials: false
+
+          - name: Install Python
+            uses: actions/setup-python@d27e3f3d7c64b4bbf8e4abfb9b63b83e846e0435 # v4.5.0
+            with:
+              python-version: '3.10'
+
+          - name: install commitizen
+            run: pip install -U commitizen
+
+          - name: Install Rust
+            uses: dtolnay/rust-toolchain@stable
+
+          - name: Install Semantic Release Rust
+            run: cargo install semantic-release-cargo --version ${{env.SEMREL_RUST_VERSION}}
+
+          - name: Install Conventional Commit preset
+            run: npm install conventional-changelog-conventionalcommits
+
+          - name: Cache dependencies
+            uses: Swatinem/rust-cache@6fd3edff6979b79f87531400ad694fb7f2c84b1f # v2.2.1
+
+          # The release build is used in the Semantic Release step
+          - name: Cargo Build Release
+            run: cargo build --verbose --release
+
+          - name: Semantic Release
+            uses: cycjimmy/semantic-release-action@91ab76a4a393a8d0c4739e9aea1818b56bc953ea # v3.4.0
+            id: semantic
+            with:
+                semantic_version: 19
+                extra_plugins: |
+                    @semantic-release/exec@6
+                    @semantic-release/git@10
+            env:
+                GITHUB_TOKEN: ${{secrets.ACTIONS_PAT_GITHUB}}
+                CARGO_REGISTRY_TOKEN: ${{secrets.SEMREL_CRATES_IO}}

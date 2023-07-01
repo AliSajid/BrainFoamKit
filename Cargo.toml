@@ -1,0 +1,31 @@
+[package]
+name = "brainfoamkit"
+version = "1.0.0-alpha.1"
+edition = "2021"
+readme = "README.md"
+description = ""
+rust-version = "1.64.0"
+repository = "https://github.com/AliSajid/brainfoamkit"
+license = "MIT OR Apache-2.0"
+
+[lib]
+name = "brainfoamkit_lib"
+path = "src/brainfoamkit_lib/lib.rs"
+crate-type = ["lib"]
+
+[[bin]]
+name = "brainfoamkit"
+path = "src/brainfoamkit/main.rs"
+
+[dependencies]
+
+
+[profile.dev]
+opt-level = 1
+debug = true
+
+[profile.release]
+opt-level = 3
+strip = true
+lto = true
+codegen-units = 1

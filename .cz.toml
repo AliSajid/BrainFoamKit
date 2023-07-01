@@ -1,0 +1,8 @@
+[tool]
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "1.0.0-alpha.1"
+tag_format = "v$major.$minor.$patch-$prerelease.$devrelease"
+gpg_sign = true
+update_changelog_on_bump = true
+changelog_incremental = true

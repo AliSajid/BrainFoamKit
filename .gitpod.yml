@@ -1,0 +1,12 @@
+image:
+  file: .gitpod.Dockerfile
+
+tasks:
+  - name: Cargo Check
+    init: cargo check
+  - name: Run Cargo Check
+    command: >
+      cargo watch -d 2 -w src -w Cargo.toml -x check -s 'touch .trigger' &&
+      gp sync-done CargoTrigger
+  - name: Watch For Successful Check
+    command: gp sync-await CargoTrigger && cargo watch -d 2 --no-gitignore -w .trigger -x  run

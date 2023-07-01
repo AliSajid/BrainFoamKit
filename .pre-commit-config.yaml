@@ -1,0 +1,92 @@
+repos:
+- hooks:
+  - id: commitizen
+  repo: https://github.com/commitizen-tools/commitizen
+  rev: v2.32.2
+- hooks:
+  - id: check-json
+  - id: check-merge-conflict
+  - id: check-toml
+  - id: check-xml
+  - id: check-yaml
+  - id: end-of-file-fixer
+  - args:
+    - --fix=no
+    id: mixed-line-ending
+  - args:
+    - --indent=4
+    - --autofix
+    id: pretty-format-json
+  - args:
+    - --markdown-linebreak-ext=md
+    id: trailing-whitespace
+  repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.1.0
+- hooks:
+  - args:
+    - build
+    - chore
+    - ci
+    - docs
+    - feat
+    - fix
+    - perf
+    - refactor
+    - revert
+    - style
+    - test
+    - bump
+    id: conventional-pre-commit
+    stages:
+    - commit-msg
+  repo: https://github.com/compilerla/conventional-pre-commit
+  rev: v2.0.0
+- hooks:
+  - id: forbid-crlf
+  - id: remove-crlf
+  - id: forbid-tabs
+  - id: remove-tabs
+  - args:
+    - --license-filepath
+    - meta/LICENSE-HEADER
+    - --comment-style
+    - //
+    files: \.rs$
+    id: insert-license
+  repo: https://github.com/Lucas-C/pre-commit-hooks
+  rev: v1.3.1
+- hooks:
+  - args:
+    - --config=$(pwd)/.yamllint.yml
+    id: yamllint
+    stages:
+    - commit-msg
+  repo: https://github.com/adrienverge/yamllint
+  rev: v1.27.1
+- hooks:
+  - args:
+    - --ignore
+    - CHANGELOG.md
+    id: markdownlint
+  repo: https://github.com/igorshubovych/markdownlint-cli
+  rev: v0.32.1
+- hooks:
+  - id: detect-secrets
+  repo: https://github.com/Yelp/detect-secrets
+  rev: v1.3.0
+- hooks:
+  - id: fix-smartquotes
+  - id: fix-ligatures
+  - id: forbid-bidi-controls
+  repo: https://github.com/sirosen/texthooks
+  rev: 0.3.1
+- hooks:
+  - id: gitleaks
+  repo: https://github.com/zricethezav/gitleaks
+  rev: v8.2.0
+- hooks:
+  - id: fmt
+  - id: cargo-check
+  - id: clippy
+  repo: https://github.com/doublify/pre-commit-rust
+  rev: v1.0

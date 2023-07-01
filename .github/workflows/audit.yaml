@@ -1,0 +1,22 @@
+name: Security Audit
+on:
+    schedule:
+        - cron: 0 0 1,15 * *
+    push:
+        paths:
+            - '**/Cargo.toml'
+            - '**/Cargo.lock'
+    workflow_dispatch:
+
+
+jobs:
+    security_audit:
+        if: "!contains(github.event.commits[0].message, '[skip ci]')"
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+            - name: Audit
+              uses: actions-rs/audit-check@35b7b53b1e25b55642157ac01b4adceb5b9ebef3 # v1.2.0
+              with:
+                  token: ${{secrets.ACTIONS_PAT_GITHUB}}
