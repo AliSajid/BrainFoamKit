@@ -100,6 +100,16 @@ impl Nybble {
         }
         n
     }
+
+    pub fn get_bit(&self, index: usize) -> Bit {
+        match index {
+            0 => self.bit_0,
+            1 => self.bit_1,
+            2 => self.bit_2,
+            3 => self.bit_3,
+            _ => panic!("Index out of bounds"),
+        }
+    }
 }
 
 impl Display for Nybble {
@@ -244,5 +254,14 @@ mod tests {
         assert_eq!(nybble.to_u8(), 15);
         assert_eq!(nybble.to_string(), "0x0F");
         assert_eq!(Nybble::from_u8(15), nybble);
+    }
+
+    #[test]
+    fn test_get_bit() {
+        let nybble = Nybble::from_u8(0b1010);
+        assert_eq!(nybble.get_bit(0), Bit::one());
+        assert_eq!(nybble.get_bit(1), Bit::zero());
+        assert_eq!(nybble.get_bit(2), Bit::one());
+        assert_eq!(nybble.get_bit(3), Bit::zero());
     }
 }
