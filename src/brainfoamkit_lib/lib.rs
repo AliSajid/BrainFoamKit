@@ -42,116 +42,12 @@
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-use std::fmt::{self, Display, Formatter};
+// Add the relevant modules
+mod bit;
+mod byte;
+mod nybble;
 
-#[allow(dead_code)]
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-enum Bit {
-    One,
-    Zero,
-}
-
-#[allow(dead_code)]
-impl Bit {
-    fn new() -> Self {
-        Bit::Zero
-    }
-
-    fn flip(&mut self) {
-        *self = match self {
-            Bit::Zero => Bit::One,
-            Bit::One => Bit::Zero,
-        }
-    }
-}
-
-impl Display for Bit {
-    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        match self {
-            Bit::Zero => write!(f, "0"),
-            Bit::One => write!(f, "1"),
-        }
-    }
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-struct Byte {
-    bits: [Bit; 8],
-}
-
-impl Byte {
-    fn new() -> Self {
-        Self {
-            bits: [Bit::Zero; 8],
-        }
-    }
-}
-
-impl Display for Byte {
-    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        write!(
-            f,
-            "{}{}{}{}{}{}{}{}",
-            self.bits[0],
-            self.bits[1],
-            self.bits[2],
-            self.bits[3],
-            self.bits[4],
-            self.bits[5],
-            self.bits[6],
-            self.bits[7],
-        )
-    }
-}
-
-#[allow(dead_code)]
-struct Tape {
-    bytes: Vec<Byte>,
-}
-
-impl Tape {
-    fn new(length: usize) -> Self {
-        Self {
-            // Create a vector of bytes with the specified length
-            bytes: vec![Byte::new(); length],
-        }
-    }
-}
-
-impl Default for Tape {
-    fn default() -> Self {
-        Self::new(30000)
-    }
-}
-
-#[allow(dead_code)]
-struct Machine {
-    tape: Tape,
-    pointer: usize,
-}
-
-mod tests {
-
-    #[allow(unused_imports)]
-    use super::*;
-
-    #[test]
-    fn test_byte() {
-        let byte = Byte::new();
-        assert_eq!(byte.to_string(), "00000000");
-    }
-
-    #[test]
-    fn test_bit() {
-        let mut bit = Bit::new();
-        assert_eq!(bit.to_string(), "0");
-        bit.flip();
-        assert_eq!(bit.to_string(), "1");
-    }
-
-    #[test]
-    fn test_tape() {
-        let tape = Tape::new(10);
-        assert_eq!(tape.bytes.len(), 10);
-    }
-}
+// Re-export the useful contents
+pub use bit::Bit;
+pub use byte::Byte;
+pub use nybble::Nybble;
