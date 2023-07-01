@@ -112,8 +112,7 @@ mod tests {
     fn test_bit_display() {
         let bit = Bit::zero();
         assert_eq!(format!("{}", bit), "0");
-        let mut bit = Bit::one();
-        bit.flip();
+        let bit = Bit::one();
         assert_eq!(format!("{}", bit), "1");
     }
 }
