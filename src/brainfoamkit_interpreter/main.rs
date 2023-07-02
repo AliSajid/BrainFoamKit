@@ -42,6 +42,11 @@
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
+use brainfoamkit_lib::Nybble;
+use std::env;
+
 fn main() {
-    println!("Hello BFKit!")
+    let args: Vec<String> = env::args().collect();
+    let number = &args[1].parse::<u8>().expect("Invalid input");
+    println!("{}", Nybble::from_u8(*number));
 }
