@@ -60,7 +60,7 @@ representative at an online or offline event.
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the community leaders responsible for enforcement at
-Ali.Sajid.Imami+iptmnet@gmail.com.
+[Ali.Sajid.Imami+brainfoamkit@gmail.com](mailto:Ali.Sajid.Imami+brainfoamkit@gmail.com).
 All complaints will be reviewed and investigated promptly and fairly.
 
 All community leaders are obligated to respect the privacy and security of the
