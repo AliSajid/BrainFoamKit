@@ -1,0 +1,11 @@
+program          ::= statement* (* A program is a collection of zero or more statements *)
+
+statement        ::= increment | decrement | moveRight | moveLeft | loop | output | input
+
+increment        ::= '+'                (* Increment the value in the current memory cell *)
+decrement        ::= '-'                (* Decrement the value in the current memory cell *)
+moveRight        ::= '>'                (* Move the current memory pointer to the right *)
+moveLeft         ::= '<'                (* Move the current memory pointer to the left *)
+loop             ::= '[' statement* ']' (* Loop construct: Executes statements inside the loop until the value in the current memory cell is zero *)
+output           ::= '.'                (* Output the value in the current memory cell as an ASCII character *)
+input            ::= ','                (* Read a character from the input and store its ASCII value in the current memory cell *)
