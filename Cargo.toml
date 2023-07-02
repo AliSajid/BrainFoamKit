@@ -22,7 +22,7 @@ name = "bfkrun"
 path = "src/brainfoamkit_interpreter/main.rs"
 
 [dependencies]
-cursive = "0.20.0"
+cursive = { version = "0.20.0", features = ["pancurses"] }
 
 
 [profile.dev]
