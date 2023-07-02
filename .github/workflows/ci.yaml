@@ -31,13 +31,13 @@ jobs:
           - stable
           - beta
           - nightly
-          - 1.64.0  # MSRV
+          - 1.70.0  # MSRV
         os:
           - windows
         include:
           - os: windows
             logo: windows
-          - rust: 1.64.0
+          - rust: 1.70.0
             label: msrv
           - rust: nightly
             label: nightly
@@ -116,13 +116,13 @@ jobs:
           - stable
           - beta
           - nightly
-          - 1.64.0  # MSRV
+          - 1.70.0  # MSRV
         os:
           - ubuntu
         include:
           - os: ubuntu
             logo: ubuntu
-          - rust: 1.64.0
+          - rust: 1.70.0
             label: msrv
           - rust: nightly
             label: nightly
@@ -199,13 +199,13 @@ jobs:
           - stable
           - beta
           - nightly
-          - 1.64.0  # MSRV
+          - 1.70.0  # MSRV
         os:
           - macos
         include:
           - os: macos
             logo: apple
-          - rust: 1.64.0
+          - rust: 1.70.0
             label: msrv
           - rust: nightly
             label: nightly
