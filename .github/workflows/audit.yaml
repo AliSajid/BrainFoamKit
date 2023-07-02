@@ -11,7 +11,7 @@ on:
 
 jobs:
     security_audit:
-        if: '!contains(github.event.commits[0].message, "[skip ci]")'
+        if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
