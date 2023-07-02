@@ -22,21 +22,32 @@ This document adapts from the following sources:
 [grammar.ebnf](./grammar.ebnf) contains a comprehensive grammar for brainfuck in the Extended Backus-Naur Form. We can also visualize the language as a syntax diagram:
 
 ```mermaid
-graph LR
-    program --> statement
-    statement --> increment
-    statement --> decrement
-    statement --> moveRight
-    statement --> moveLeft
-    statement --> loop
-    statement --> output
-    statement --> input
-    loop --> "["
-    loop --> statement
-    loop --> "]"
+flowchart TD
+    subgraph PROGRAM
+        direction TB
+        statementP[Statement] --> program[Program]
+    end
+    subgraph STATEMENT
+        direction TB
+        increment[Increment Current Cell] --> statementS[Statement]
+        decrement[Decrement Current Cell] --> statementS
+        moveRight[Move Right One Cell] --> statementS
+        moveLeft[Move Left One Cell] --> statementS
+        output[Print Output] --> statementS
+        input[Read Input] --> statementS
+        loopS[Loop] --> statementS
+    end
+    subgraph LOOP
+        direction TB
+        startLoop[Start Loop] --> loopL[Loop]
+        statementInLoop["Statement in Loop (>= 0)"] --> loopL
+        endLoop[End Loop] --> loopL
+    end
+
+    LOOP --> STATEMENT --> PROGRAM
 ```
 
-Each of the above rules is represented as a single character. The following sections explores that.
+Railroad diagrams are an alternate way of representing an EBNF grammar. You can see an exhaustive railroad diagram of this grammar [here](railroad.md)
 
 ### Brainfuck Syntax
 
