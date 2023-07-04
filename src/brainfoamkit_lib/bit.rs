@@ -42,7 +42,10 @@
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-use std::fmt::{self, Display, Formatter};
+use std::{
+    fmt::{self, Display, Formatter},
+    ops::Not,
+};
 
 /// Representation of a single bit.
 ///
@@ -198,6 +201,17 @@ impl Default for Bit {
     }
 }
 
+impl Not for Bit {
+    type Output = Self;
+
+    fn not(self) -> Self::Output {
+        match self {
+            Self::Zero => Self::One,
+            Self::One => Self::Zero,
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -244,5 +258,13 @@ mod tests {
         assert_eq!(bit.to_u8(), 0);
         let bit = Bit::one();
         assert_eq!(bit.to_u8(), 1);
+    }
+
+    #[test]
+    fn test_bit_not() {
+        let bit = !Bit::zero();
+        assert_eq!(bit, Bit::One);
+        let bit = !Bit::one();
+        assert_eq!(bit, Bit::Zero);
     }
 }
