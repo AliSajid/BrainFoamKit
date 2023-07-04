@@ -43,7 +43,10 @@
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 use crate::Bit;
-use std::fmt::{self, Display, Formatter};
+use std::{
+    fmt::{self, Display, Formatter},
+    ops::Not,
+};
 
 /// A Nybble is a 4-bit unsigned integer (u4).
 ///
@@ -359,6 +362,16 @@ impl Default for Nybble {
     }
 }
 
+impl Not for Nybble {
+    type Output = Self;
+
+    fn not(self) -> Self::Output {
+        let mut nybble = self;
+        nybble.flip();
+        nybble
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -572,5 +585,13 @@ mod tests {
         nybble.flip();
         assert_eq!(nybble.to_u8(), 0);
         assert_eq!(nybble.to_string(), "0x00");
+    }
+
+    #[test]
+    fn test_not() {
+        let nybble = Nybble::from_u8(15).unwrap();
+        let nybble_not = !nybble;
+        assert_eq!(nybble_not.to_u8(), 0);
+        assert_eq!(nybble_not.to_string(), "0x00");
     }
 }
