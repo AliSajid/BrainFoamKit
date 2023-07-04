@@ -65,6 +65,13 @@ impl Bit {
             Bit::One => Bit::Zero,
         }
     }
+
+    pub fn to_u8(&self) -> u8 {
+        match self {
+            Bit::Zero => 0,
+            Bit::One => 1,
+        }
+    }
 }
 
 impl Display for Bit {
@@ -114,5 +121,19 @@ mod tests {
         assert_eq!(format!("{}", bit), "0");
         let bit = Bit::one();
         assert_eq!(format!("{}", bit), "1");
+    }
+
+    #[test]
+    fn test_bit_default() {
+        let bit = Bit::default();
+        assert_eq!(bit, Bit::Zero);
+    }
+
+    #[test]
+    fn test_bit_to_u8() {
+        let bit = Bit::zero();
+        assert_eq!(bit.to_u8(), 0);
+        let bit = Bit::one();
+        assert_eq!(bit.to_u8(), 1);
     }
 }
