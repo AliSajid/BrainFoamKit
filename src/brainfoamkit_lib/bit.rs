@@ -51,25 +51,28 @@ pub enum Bit {
 }
 
 impl Bit {
-    pub fn zero() -> Self {
+    #[must_use]
+    pub const fn zero() -> Self {
         Self::Zero
     }
 
-    pub fn one() -> Self {
+    #[must_use]
+    pub const fn one() -> Self {
         Self::One
     }
 
     pub fn flip(&mut self) {
         *self = match self {
-            Bit::Zero => Bit::One,
-            Bit::One => Bit::Zero,
+            Self::Zero => Self::One,
+            Self::One => Self::Zero,
         }
     }
 
-    pub fn to_u8(&self) -> u8 {
+    #[must_use]
+    pub const fn to_u8(&self) -> u8 {
         match self {
-            Bit::Zero => 0,
-            Bit::One => 1,
+            Self::Zero => 0,
+            Self::One => 1,
         }
     }
 }
@@ -77,15 +80,15 @@ impl Bit {
 impl Display for Bit {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         match self {
-            Bit::Zero => write!(f, "0"),
-            Bit::One => write!(f, "1"),
+            Self::Zero => write!(f, "0"),
+            Self::One => write!(f, "1"),
         }
     }
 }
 
 impl Default for Bit {
     fn default() -> Self {
-        Bit::zero()
+        Self::zero()
     }
 }
 
