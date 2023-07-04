@@ -45,7 +45,7 @@
 fn main() {
     for num in 0..=255 {
         println!(
-            "Deciaml: {:#03}\t\tBinary: {:#010b}\t\tHexadecimal: {:#04X}",
+            "Decimal: {:#03}\t\tBinary: {:#010b}\t\tHexadecimal: {:#04X}",
             num, num, num
         )
     }
