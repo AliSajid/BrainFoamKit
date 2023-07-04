@@ -42,11 +42,11 @@
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-use brainfoamkit_lib::Nybble;
-use std::env;
-
 fn main() {
-    let args: Vec<String> = env::args().collect();
-    let number = &args[1].parse::<u8>().expect("Invalid input");
-    println!("{}", Nybble::from_u8(*number));
+    for num in 0..=255 {
+        println!(
+            "Deciaml: {:#03}\t\tBinary: {:#010b}\t\tHexadecimal: {:#04X}",
+            num, num, num
+        )
+    }
 }
