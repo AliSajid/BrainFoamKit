@@ -523,10 +523,11 @@ mod tests {
     }
 
     #[test]
+    #[allow(unused_variables)]
     #[should_panic(expected = "Index out of bounds")]
     fn test_get_bit_oob() {
         let nybble = Nybble::from_u8(12).unwrap();
-        nybble.get_bit(4);
+        let p = nybble.get_bit(4);
     }
 
     #[test]
