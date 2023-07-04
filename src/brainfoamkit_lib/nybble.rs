@@ -50,7 +50,7 @@ use std::{
 
 /// A Nybble is a 4-bit unsigned integer (u4).
 ///
-/// This is a wrapper around four Bit instances. The least significant bit is bit_0 and the most significant bit is bit_3.
+/// This is a wrapper around four Bit instances. The least significant bit is `bit_0` and the most significant bit is `bit_3`.
 /// This struct is used to conveniently manipulate 4-bit values.
 ///
 /// # Examples
@@ -79,7 +79,7 @@ use std::{
 ///
 /// # Panics
 ///
-/// The methods set_bit() and unset_bit() will panic if the index is out of bounds.
+/// The methods `set_bit()`, `unset_bit()` and `get_bit()` will panic if the index is out of bounds.
 ///
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -93,7 +93,7 @@ pub struct Nybble {
 impl Nybble {
     /// Creates a new Nybble instance with the specified Bit values.
     ///
-    /// This method takes four Bit instances as arguments. The least significant bit is bit_0 and the most significant bit is bit_3.
+    /// This method takes four Bit instances as arguments. The least significant bit is `bit_0` and the most significant bit is `bit_3`.
     ///
     /// # Examples
     ///
@@ -105,7 +105,8 @@ impl Nybble {
     /// assert_eq!(nybble.to_u8(), 5);
     /// assert_eq!(nybble.to_string(), "0x05");
     /// ```
-    pub fn new(bit_0: Bit, bit_1: Bit, bit_2: Bit, bit_3: Bit) -> Self {
+    #[must_use]
+    pub const fn new(bit_0: Bit, bit_1: Bit, bit_2: Bit, bit_3: Bit) -> Self {
         Self {
             bit_0, // Least significant bit
             bit_1,
@@ -129,6 +130,7 @@ impl Nybble {
     /// assert_eq!(nybble.to_string(), "0x05");
     /// ```
     ///
+    #[must_use]
     pub fn from_u8(n: u8) -> Option<Self> {
         // Check if the input value is within the valid range for a Nybble (0-15)
         if n <= 15 {
@@ -137,16 +139,16 @@ impl Nybble {
 
             // Test each bit in the u8 value and flip the corresponding bit in the Nybble if necessary
             if n & 0b0001 != 0 {
-                nybble.bit_0.flip()
+                nybble.bit_0.flip();
             };
             if n & 0b0010 != 0 {
-                nybble.bit_1.flip()
+                nybble.bit_1.flip();
             };
             if n & 0b0100 != 0 {
-                nybble.bit_2.flip()
+                nybble.bit_2.flip();
             };
             if n & 0b1000 != 0 {
-                nybble.bit_3.flip()
+                nybble.bit_3.flip();
             };
 
             Some(nybble)
@@ -230,6 +232,7 @@ impl Nybble {
     /// let result = nybble.to_u8();
     /// assert_eq!(result, 5);
     /// ```
+    #[must_use]
     pub fn to_u8(&self) -> u8 {
         let mut n = 0;
 
@@ -267,6 +270,7 @@ impl Nybble {
     /// # Panics
     ///
     /// This method will panic if the index is out of bounds.
+    #[must_use]
     pub fn get_bit(&self, index: usize) -> Bit {
         match index {
             0 => self.bit_0,

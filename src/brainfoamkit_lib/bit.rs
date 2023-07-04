@@ -49,7 +49,7 @@ use std::{
 
 /// Representation of a single bit.
 ///
-/// This Enum is the most basic building block of the BrainfoamKit library.
+/// This Enum is the most basic building block of the `BrainfoamKit` library.
 /// This encodes a single bit, which can be either a 0 or a 1.
 /// I have implemented this as an Enum to ensure that the only possible values are 0 and 1.
 /// Additionally, the the variants are not public and can only be accessed through the `Bit::zero()` and `Bit::one()` constructor functions.
@@ -111,7 +111,7 @@ impl Bit {
     ///
     /// # Returns
     ///
-    /// A new Bit with the Bit::Zero variant.
+    /// A new Bit with the `Bit::Zero` variant.
     #[must_use]
     pub const fn zero() -> Self {
         Self::Zero
@@ -130,7 +130,7 @@ impl Bit {
     /// ```
     /// # Returns
     ///
-    /// A new Bit with the Bit::One variant.
+    /// A new Bit with the `Bit::One` variant.
     #[must_use]
     pub const fn one() -> Self {
         Self::One
