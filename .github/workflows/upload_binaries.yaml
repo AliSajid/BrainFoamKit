@@ -80,6 +80,10 @@ jobs:
           - name: Checkout
             uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
 
+          - name: Install tree
+            if: runner.os == 'Linux'
+            run: sudo apt install tree
+
           - name: Install build inputs
             if: runner.os == 'Linux' && !matrix.build.cross
             run: sudo apt install musl-tools mingw-w64
@@ -105,6 +109,9 @@ jobs:
 
           - name: Compile release binary
             run: ${{ env.CARGO }} build --bin ${{ matrix.bin }} --release --target ${{ matrix.build.target }} --verbose
+
+          - name: Show generated binary
+            run: tree target/
 
           - name: Create release archive
             run: |
