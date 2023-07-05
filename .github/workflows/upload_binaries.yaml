@@ -69,10 +69,10 @@ jobs:
                 - os: ubuntu-latest
                   target: x86_64-unknown-linux-musl
                   cross: false
-                - os: windows-latest
+                - os: ubuntu-latest
                   target: x86_64-pc-windows-gnu
-                  cross: false
-                - os: windows-latest
+                  cross: true
+                - os: ubuntu-latest
                   target: i686-pc-windows-gnu
                   cross: true
 
@@ -82,7 +82,7 @@ jobs:
 
           - name: Install build inputs
             if: runner.os == 'Linux' && !matrix.build.cross
-            run: sudo apt install musl-tools
+            run: sudo apt install musl-tools mingw-w64
 
           - name: Install Rust toolchain
             uses: dtolnay/rust-toolchain@master
