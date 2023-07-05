@@ -48,18 +48,13 @@ jobs:
           - name: Install Rust
             uses: dtolnay/rust-toolchain@stable
 
-          - name: Install Semantic Release Rust
-            run: cargo install semantic-release-cargo --version ${{env.SEMREL_RUST_VERSION}}
+          - name: Install cross
+            uses: taiki-e/install-action@v2
+            with:
+                tool: semantic-release-cargo@${{env.SEMREL_RUST_VERSION}}
 
           - name: Install Conventional Commit preset
             run: npm install conventional-changelog-conventionalcommits
-
-          - name: Cache dependencies
-            uses: Swatinem/rust-cache@6fd3edff6979b79f87531400ad694fb7f2c84b1f # v2.2.1
-
-          # The release build is used in the Semantic Release step
-          - name: Cargo Build Release
-            run: cargo build --verbose --release
 
           - name: Semantic Release
             uses: cycjimmy/semantic-release-action@91ab76a4a393a8d0c4739e9aea1818b56bc953ea # v3.4.0
