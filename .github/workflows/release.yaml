@@ -13,6 +13,7 @@ concurrency:
 jobs:
   get-next-version:
     uses: semantic-release-action/next-release-version/.github/workflows/next-release-version.yml@v4
+    secrets: inherit # pragma: allowlist secret
 
   build_application:
     name: Build CLI ${{ matrix.build.target }}
