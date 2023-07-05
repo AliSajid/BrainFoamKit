@@ -2,24 +2,24 @@
 name: Upload Binaries
 
 on:
-    workflow_dispatch:
-      inputs:
-        new_release_version:
-          description: 'The new version to release'
-          required: true
-          type: string
-        new_release_published:
-          description: 'Whether a new release was published'
-          required: true
-          type: string
-        new_release_notes:
-          description: 'The release notes'
-          required: true
-          type: string
-        new_release_channel:
-          description: 'The release channel'
-          required: true
-          type: string
+  workflow_call:
+    inputs:
+      new_release_version:
+        description: 'The new version to release'
+        required: true
+        type: string
+      new_release_published:
+        description: 'Whether a new release was published'
+        required: true
+        type: string
+      new_release_notes:
+        description: 'The release notes'
+        required: true
+        type: string
+      new_release_channel:
+        description: 'The release channel'
+        required: true
+        type: string
 
 # Only allow one release workflow to execute at a time, since each release
 # workflow uses shared resources (git tags, package registries)
