@@ -44,7 +44,7 @@
 
 use std::{
     fmt::{self, Display, Formatter},
-    ops::Not,
+    ops::{BitAnd, BitOr, BitXor, Not},
 };
 
 /// Representation of a single bit.
@@ -212,6 +212,40 @@ impl Not for Bit {
     }
 }
 
+impl BitOr for Bit {
+    type Output = Self;
+
+    fn bitor(self, rhs: Self) -> Self::Output {
+        match (self, rhs) {
+            (Self::Zero, Self::Zero) => Self::Zero,
+            _ => Self::One,
+        }
+    }
+}
+
+impl BitAnd for Bit {
+    type Output = Self;
+
+    fn bitand(self, rhs: Self) -> Self::Output {
+        match (self, rhs) {
+            (Self::One, Self::One) => Self::One,
+            _ => Self::Zero,
+        }
+    }
+}
+
+impl BitXor for Bit {
+    type Output = Self;
+
+    fn bitxor(self, rhs: Self) -> Self::Output {
+        match (self, rhs) {
+            (Self::Zero, Self::One) => Self::One,
+            (Self::One, Self::Zero) => Self::One,
+            _ => Self::Zero,
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -265,6 +299,42 @@ mod tests {
         let bit = !Bit::zero();
         assert_eq!(bit, Bit::One);
         let bit = !Bit::one();
+        assert_eq!(bit, Bit::Zero);
+    }
+
+    #[test]
+    fn test_bit_or() {
+        let bit = Bit::zero() | Bit::zero();
+        assert_eq!(bit, Bit::Zero);
+        let bit = Bit::zero() | Bit::one();
+        assert_eq!(bit, Bit::One);
+        let bit = Bit::one() | Bit::zero();
+        assert_eq!(bit, Bit::One);
+        let bit = Bit::one() | Bit::one();
+        assert_eq!(bit, Bit::One);
+    }
+
+    #[test]
+    fn test_bit_and() {
+        let bit = Bit::zero() & Bit::zero();
+        assert_eq!(bit, Bit::Zero);
+        let bit = Bit::zero() & Bit::one();
+        assert_eq!(bit, Bit::Zero);
+        let bit = Bit::one() & Bit::zero();
+        assert_eq!(bit, Bit::Zero);
+        let bit = Bit::one() & Bit::one();
+        assert_eq!(bit, Bit::One);
+    }
+
+    #[test]
+    fn test_bit_xor() {
+        let bit = Bit::zero() ^ Bit::zero();
+        assert_eq!(bit, Bit::Zero);
+        let bit = Bit::zero() ^ Bit::one();
+        assert_eq!(bit, Bit::One);
+        let bit = Bit::one() ^ Bit::zero();
+        assert_eq!(bit, Bit::One);
+        let bit = Bit::one() ^ Bit::one();
         assert_eq!(bit, Bit::Zero);
     }
 }
