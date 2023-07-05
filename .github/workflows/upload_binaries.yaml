@@ -111,6 +111,7 @@ jobs:
             run: ${{ env.CARGO }} build --bin ${{ matrix.bin }} --release --target ${{ matrix.build.target }} --verbose
 
           - name: Show generated binary
+            if: runner.os == 'Linux'
             run: tree target/
 
           - name: Create release archive
