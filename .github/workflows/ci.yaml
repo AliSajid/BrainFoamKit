@@ -116,14 +116,3 @@ jobs:
     needs: [ci]
     uses: ./.github/workflows/release.yaml
     secrets: inherit # pragma: allowlist secret
-
-  upload-release-artifacts:
-    needs: [semantic-release]
-    if: ${{needs.semantic-release.outputs.new_release_published == 'true'}}
-    uses: ./.github/workflows/upload_binaries.yaml
-    secrets: inherit # pragma: allowlist secret
-    with:
-      new_release_version: ${{needs.semantic-release.outputs.new_release_version}}
-      new_release_published: ${{needs.semantic-release.outputs.new_release_published}}
-      new_release_notes: ${{needs.semantic-release.outputs.new_release_notes}}
-      new_release_channel: ${{needs.semantic-release.outputs.new_release_channel}}
