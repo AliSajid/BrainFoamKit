@@ -13,6 +13,9 @@ concurrency:
 jobs:
   get-next-version:
     uses: semantic-release-action/next-release-version/.github/workflows/next-release-version.yml@v4
+    permissions:
+      contents: write
+      pull-requests: read
     secrets: inherit # pragma: allowlist secret
 
   build_application:
