@@ -44,7 +44,7 @@
 
 use std::{
     fmt::{self, Display, Formatter},
-    ops::{BitAnd, BitOr, BitXor, Not},
+    ops::{BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Not},
 };
 
 /// Representation of a single bit.
@@ -223,6 +223,12 @@ impl BitOr for Bit {
     }
 }
 
+impl BitOrAssign for Bit {
+    fn bitor_assign(&mut self, rhs: Self) {
+        *self = *self | rhs;
+    }
+}
+
 impl BitAnd for Bit {
     type Output = Self;
 
@@ -231,6 +237,12 @@ impl BitAnd for Bit {
             (Self::One, Self::One) => Self::One,
             _ => Self::Zero,
         }
+    }
+}
+
+impl BitAndAssign for Bit {
+    fn bitand_assign(&mut self, rhs: Self) {
+        *self = *self & rhs;
     }
 }
 
@@ -243,6 +255,12 @@ impl BitXor for Bit {
             (Self::One, Self::Zero) => Self::One,
             _ => Self::Zero,
         }
+    }
+}
+
+impl BitXorAssign for Bit {
+    fn bitxor_assign(&mut self, rhs: Self) {
+        *self = *self ^ rhs;
     }
 }
 
@@ -335,6 +353,54 @@ mod tests {
         let bit = Bit::one() ^ Bit::zero();
         assert_eq!(bit, Bit::One);
         let bit = Bit::one() ^ Bit::one();
+        assert_eq!(bit, Bit::Zero);
+    }
+
+    #[test]
+    fn test_bit_or_assign() {
+        let mut bit = Bit::zero();
+        bit |= Bit::zero();
+        assert_eq!(bit, Bit::Zero);
+        let mut bit = Bit::zero();
+        bit |= Bit::one();
+        assert_eq!(bit, Bit::One);
+        let mut bit = Bit::one();
+        bit |= Bit::zero();
+        assert_eq!(bit, Bit::One);
+        let mut bit = Bit::one();
+        bit |= Bit::one();
+        assert_eq!(bit, Bit::One);
+    }
+
+    #[test]
+    fn test_bit_and_assign() {
+        let mut bit = Bit::zero();
+        bit &= Bit::zero();
+        assert_eq!(bit, Bit::Zero);
+        let mut bit = Bit::zero();
+        bit &= Bit::one();
+        assert_eq!(bit, Bit::Zero);
+        let mut bit = Bit::one();
+        bit &= Bit::zero();
+        assert_eq!(bit, Bit::Zero);
+        let mut bit = Bit::one();
+        bit &= Bit::one();
+        assert_eq!(bit, Bit::One);
+    }
+
+    #[test]
+    fn test_bit_xor_assign() {
+        let mut bit = Bit::zero();
+        bit ^= Bit::zero();
+        assert_eq!(bit, Bit::Zero);
+        let mut bit = Bit::zero();
+        bit ^= Bit::one();
+        assert_eq!(bit, Bit::One);
+        let mut bit = Bit::one();
+        bit ^= Bit::zero();
+        assert_eq!(bit, Bit::One);
+        let mut bit = Bit::one();
+        bit ^= Bit::one();
         assert_eq!(bit, Bit::Zero);
     }
 }
