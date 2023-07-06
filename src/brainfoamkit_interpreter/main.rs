@@ -43,5 +43,7 @@
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 fn main() {
-    println!("Hello BFKit!")
+    for num in 0..=128 {
+        println!("Decimal: {num:#03}\t\tBinary: {num:#010b}\t\tHexadecimal: {num:#04X}");
+    }
 }

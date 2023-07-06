@@ -44,10 +44,8 @@
 
 // Add the relevant modules
 mod bit;
-mod byte;
 mod nybble;
 
 // Re-export the useful contents
 pub use bit::Bit;
-pub use byte::Byte;
 pub use nybble::Nybble;

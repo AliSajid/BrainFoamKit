@@ -42,27 +42,146 @@
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-use std::fmt::{self, Display, Formatter};
+use std::{
+    fmt::{self, Display, Formatter},
+    ops::{BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Not},
+};
 
+/// Representation of a single bit.
+///
+/// This Enum is the most basic building block of the `BrainfoamKit` library.
+/// This encodes a single bit, which can be either a 0 or a 1.
+/// I have implemented this as an Enum to ensure that the only possible values are 0 and 1.
+/// Additionally, the the variants are not public and can only be accessed through the `Bit::zero()` and `Bit::one()` constructor functions.
+///
+/// # Examples
+///
+/// ```
+/// use brainfoamkit_lib::Bit;
+///
+/// let bit = Bit::zero();
+/// assert_eq!(bit, Bit::Zero);
+/// let bit = Bit::one();
+/// assert_eq!(bit, Bit::One);
+/// ```
+///
+/// ```
+/// use brainfoamkit_lib::Bit;
+///
+/// let mut bit = Bit::zero();
+/// bit.flip();
+/// assert_eq!(bit, Bit::One);
+/// let mut bit = Bit::one();
+/// bit.flip();
+/// assert_eq!(bit, Bit::Zero);
+/// ```
+///
+/// ```
+/// use brainfoamkit_lib::Bit;
+///
+/// let bit = Bit::zero();
+/// assert_eq!(format!("{}", bit), "0");
+/// let bit = Bit::one();
+/// assert_eq!(format!("{}", bit), "1");
+/// ```
+///
+///
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
 pub enum Bit {
+    /// The zero variant of the Bit Enum.
+    /// Represents the value 0 or the Off state.
     Zero,
+    /// The one variant of the Bit Enum.
+    /// Represents the value 1 or the On state.
     One,
 }
 
 impl Bit {
-    pub fn zero() -> Self {
+    /// Constructs a new Bit with the value 0.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Bit;
+    ///
+    /// let bit = Bit::zero();
+    /// assert_eq!(bit, Bit::Zero);
+    /// assert_eq!(bit.to_string(), "0");
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// A new Bit with the `Bit::Zero` variant.
+    #[must_use]
+    pub const fn zero() -> Self {
         Self::Zero
     }
 
-    pub fn one() -> Self {
+    /// Constructs a new Bit with the value 1.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Bit;
+    ///
+    /// let bit = Bit::one();
+    /// assert_eq!(bit, Bit::One);
+    /// assert_eq!(bit.to_string(), "1");
+    /// ```
+    /// # Returns
+    ///
+    /// A new Bit with the `Bit::One` variant.
+    #[must_use]
+    pub const fn one() -> Self {
         Self::One
     }
 
+    /// Flips the value of the Bit.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Bit;
+    ///
+    /// let mut bit = Bit::zero();
+    /// bit.flip();
+    /// assert_eq!(bit, Bit::One);
+    /// let mut bit = Bit::one();
+    /// bit.flip();
+    /// assert_eq!(bit, Bit::Zero);
+    /// ```
+    ///
+    /// # Side Effects
+    ///
+    /// The value of the Bit is flipped.
     pub fn flip(&mut self) {
         *self = match self {
-            Bit::Zero => Bit::One,
-            Bit::One => Bit::Zero,
+            Self::Zero => Self::One,
+            Self::One => Self::Zero,
+        }
+    }
+
+    /// Converts the Bit to a u8.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Bit;
+    ///
+    /// let bit = Bit::zero();
+    /// assert_eq!(bit.to_u8(), 0);
+    /// let bit = Bit::one();
+    /// assert_eq!(bit.to_u8(), 1);
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// The value of the Bit as a u8.
+    #[must_use]
+    pub const fn to_u8(&self) -> u8 {
+        match self {
+            Self::Zero => 0,
+            Self::One => 1,
         }
     }
 }
@@ -70,15 +189,78 @@ impl Bit {
 impl Display for Bit {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         match self {
-            Bit::Zero => write!(f, "0"),
-            Bit::One => write!(f, "1"),
+            Self::Zero => write!(f, "0"),
+            Self::One => write!(f, "1"),
         }
     }
 }
 
 impl Default for Bit {
     fn default() -> Self {
-        Bit::zero()
+        Self::zero()
+    }
+}
+
+impl Not for Bit {
+    type Output = Self;
+
+    fn not(self) -> Self::Output {
+        match self {
+            Self::Zero => Self::One,
+            Self::One => Self::Zero,
+        }
+    }
+}
+
+impl BitOr for Bit {
+    type Output = Self;
+
+    fn bitor(self, rhs: Self) -> Self::Output {
+        match (self, rhs) {
+            (Self::Zero, Self::Zero) => Self::Zero,
+            _ => Self::One,
+        }
+    }
+}
+
+impl BitOrAssign for Bit {
+    fn bitor_assign(&mut self, rhs: Self) {
+        *self = *self | rhs;
+    }
+}
+
+impl BitAnd for Bit {
+    type Output = Self;
+
+    fn bitand(self, rhs: Self) -> Self::Output {
+        match (self, rhs) {
+            (Self::One, Self::One) => Self::One,
+            _ => Self::Zero,
+        }
+    }
+}
+
+impl BitAndAssign for Bit {
+    fn bitand_assign(&mut self, rhs: Self) {
+        *self = *self & rhs;
+    }
+}
+
+impl BitXor for Bit {
+    type Output = Self;
+
+    fn bitxor(self, rhs: Self) -> Self::Output {
+        match (self, rhs) {
+            (Self::Zero, Self::One) => Self::One,
+            (Self::One, Self::Zero) => Self::One,
+            _ => Self::Zero,
+        }
+    }
+}
+
+impl BitXorAssign for Bit {
+    fn bitxor_assign(&mut self, rhs: Self) {
+        *self = *self ^ rhs;
     }
 }
 
@@ -114,5 +296,111 @@ mod tests {
         assert_eq!(format!("{}", bit), "0");
         let bit = Bit::one();
         assert_eq!(format!("{}", bit), "1");
+    }
+
+    #[test]
+    fn test_bit_default() {
+        let bit = Bit::default();
+        assert_eq!(bit, Bit::Zero);
+    }
+
+    #[test]
+    fn test_bit_to_u8() {
+        let bit = Bit::zero();
+        assert_eq!(bit.to_u8(), 0);
+        let bit = Bit::one();
+        assert_eq!(bit.to_u8(), 1);
+    }
+
+    #[test]
+    fn test_bit_not() {
+        let bit = !Bit::zero();
+        assert_eq!(bit, Bit::One);
+        let bit = !Bit::one();
+        assert_eq!(bit, Bit::Zero);
+    }
+
+    #[test]
+    fn test_bit_or() {
+        let bit = Bit::zero() | Bit::zero();
+        assert_eq!(bit, Bit::Zero);
+        let bit = Bit::zero() | Bit::one();
+        assert_eq!(bit, Bit::One);
+        let bit = Bit::one() | Bit::zero();
+        assert_eq!(bit, Bit::One);
+        let bit = Bit::one() | Bit::one();
+        assert_eq!(bit, Bit::One);
+    }
+
+    #[test]
+    fn test_bit_and() {
+        let bit = Bit::zero() & Bit::zero();
+        assert_eq!(bit, Bit::Zero);
+        let bit = Bit::zero() & Bit::one();
+        assert_eq!(bit, Bit::Zero);
+        let bit = Bit::one() & Bit::zero();
+        assert_eq!(bit, Bit::Zero);
+        let bit = Bit::one() & Bit::one();
+        assert_eq!(bit, Bit::One);
+    }
+
+    #[test]
+    fn test_bit_xor() {
+        let bit = Bit::zero() ^ Bit::zero();
+        assert_eq!(bit, Bit::Zero);
+        let bit = Bit::zero() ^ Bit::one();
+        assert_eq!(bit, Bit::One);
+        let bit = Bit::one() ^ Bit::zero();
+        assert_eq!(bit, Bit::One);
+        let bit = Bit::one() ^ Bit::one();
+        assert_eq!(bit, Bit::Zero);
+    }
+
+    #[test]
+    fn test_bit_or_assign() {
+        let mut bit = Bit::zero();
+        bit |= Bit::zero();
+        assert_eq!(bit, Bit::Zero);
+        let mut bit = Bit::zero();
+        bit |= Bit::one();
+        assert_eq!(bit, Bit::One);
+        let mut bit = Bit::one();
+        bit |= Bit::zero();
+        assert_eq!(bit, Bit::One);
+        let mut bit = Bit::one();
+        bit |= Bit::one();
+        assert_eq!(bit, Bit::One);
+    }
+
+    #[test]
+    fn test_bit_and_assign() {
+        let mut bit = Bit::zero();
+        bit &= Bit::zero();
+        assert_eq!(bit, Bit::Zero);
+        let mut bit = Bit::zero();
+        bit &= Bit::one();
+        assert_eq!(bit, Bit::Zero);
+        let mut bit = Bit::one();
+        bit &= Bit::zero();
+        assert_eq!(bit, Bit::Zero);
+        let mut bit = Bit::one();
+        bit &= Bit::one();
+        assert_eq!(bit, Bit::One);
+    }
+
+    #[test]
+    fn test_bit_xor_assign() {
+        let mut bit = Bit::zero();
+        bit ^= Bit::zero();
+        assert_eq!(bit, Bit::Zero);
+        let mut bit = Bit::zero();
+        bit ^= Bit::one();
+        assert_eq!(bit, Bit::One);
+        let mut bit = Bit::one();
+        bit ^= Bit::zero();
+        assert_eq!(bit, Bit::One);
+        let mut bit = Bit::one();
+        bit ^= Bit::one();
+        assert_eq!(bit, Bit::Zero);
     }
 }

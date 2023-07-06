@@ -50,7 +50,7 @@ fn main() {
     siv.add_layer(
         Dialog::text("This is a placeholder for the final interface.")
             .title("BrainFoamKit")
-            .button("Exit", |s| s.quit()),
+            .button("Exit", cursive::Cursive::quit),
     );
 
     siv.run();
