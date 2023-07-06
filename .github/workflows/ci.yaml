@@ -112,7 +112,15 @@ jobs:
         id: result
         run: echo "result=${{job.status}}" >> "$GITHUB_OUTPUT"
 
-  semantic-release:
+  get-next-version:
+    uses: semantic-release-action/next-release-version/.github/workflows/next-release-version.yml@v4
     needs: [ci]
+    secrets: inherit # pragma: allowlist secret
+
+  semantic-release:
+    needs: [ci, get-next-version]
     uses: ./.github/workflows/release.yaml
     secrets: inherit # pragma: allowlist secret
+    with:
+      new-release-published: ${{needs.get-next-version.outputs.new-release-published}}
+      new-release-version: ${{needs.get-next-version.outputs.new-release-version}}
