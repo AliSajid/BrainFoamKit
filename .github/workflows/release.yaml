@@ -17,6 +17,8 @@ jobs:
       # Invoke the action
       - id: get-next-version
         uses: semantic-release-action/next-release-version/internal@v4
+        env:
+          GITHUB_TOKEN: ${{secrets.ACTIONS_PAT_GITHUB}}
 
   build_application:
     name: Build CLI ${{ matrix.build.target }}
