@@ -184,6 +184,115 @@ impl Bit {
             Self::One => 1,
         }
     }
+
+    /// Set the bit
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Bit;
+    ///
+    /// let mut bit = Bit::zero();
+    /// bit.set();
+    /// assert_eq!(bit, Bit::One);
+    /// ```
+    ///
+    /// # Side Effects
+    ///
+    /// The value of the Bit is set to 1.
+    ///
+    /// # Notes
+    ///
+    /// This is equivalent to calling `bit.flip()` on a `Bit::Zero`.
+    ///
+    /// # See Also
+    ///
+    /// * [`Bit::flip()`](#method.flip)
+    /// * [`Bit::unset()`](#method.unset)
+    /// * [`Bit::is_set()`](#method.is_set)
+    /// * [`Bit::is_unset()`](#method.is_unset)
+    pub fn set(&mut self) {
+        *self = Self::One;
+    }
+
+    /// Unset the bit
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Bit;
+    ///
+    /// let mut bit = Bit::one();
+    /// bit.unset();
+    /// assert_eq!(bit, Bit::Zero);
+    /// ```
+    ///
+    /// # Side Effects
+    ///
+    /// The value of the Bit is set to 0.
+    ///
+    /// # Notes
+    ///
+    /// This is equivalent to calling `bit.flip()` on a `Bit::One`.
+    ///
+    /// # See Also
+    ///
+    /// * [`Bit::flip()`](#method.flip)
+    /// * [`Bit::set()`](#method.set)
+    /// * [`Bit::is_set()`](#method.is_set)
+    /// * [`Bit::is_unset()`](#method.is_unset)
+    ///
+    pub fn unset(&mut self) {
+        *self = Self::Zero;
+    }
+
+    /// Check if the bit is set
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Bit;
+    ///
+    /// let bit = Bit::one();
+    /// assert!(bit.is_set());
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// A boolean indicating if the bit is set.
+    ///
+    /// # See Also
+    ///
+    /// * [`Bit::is_unset()`](#method.is_unset)
+    /// * [`Bit::set()`](#method.set)
+    /// * [`Bit::unset()`](#method.unset)
+    pub fn is_set(&self) -> bool {
+        *self == Self::One
+    }
+
+    /// Check if the bit is unset
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Bit;
+    ///
+    /// let bit = Bit::zero();
+    /// assert!(bit.is_unset());
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// A boolean indicating if the bit is unset.
+    ///
+    /// # See Also
+    ///
+    /// * [`Bit::is_set()`](#method.is_set)
+    /// * [`Bit::set()`](#method.set)
+    /// * [`Bit::unset()`](#method.unset)
+    pub fn is_unset(&self) -> bool {
+        *self == Self::Zero
+    }
 }
 
 impl Display for Bit {
@@ -269,138 +378,308 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_bit_zero() {
+    fn test_zero() {
         let bit = Bit::zero();
         assert_eq!(bit, Bit::Zero);
+        assert_eq!(bit.to_string(), "0");
     }
 
     #[test]
-    fn test_bit_one() {
+    fn test_one() {
         let bit = Bit::one();
         assert_eq!(bit, Bit::One);
+        assert_eq!(bit.to_string(), "1");
     }
 
     #[test]
-    fn test_bit_flip() {
+    fn test_flip_zero() {
         let mut bit = Bit::zero();
         bit.flip();
         assert_eq!(bit, Bit::One);
+    }
+
+    #[test]
+    fn test_flip_one() {
         let mut bit = Bit::one();
         bit.flip();
         assert_eq!(bit, Bit::Zero);
     }
 
     #[test]
-    fn test_bit_display() {
-        let bit = Bit::zero();
-        assert_eq!(format!("{}", bit), "0");
-        let bit = Bit::one();
-        assert_eq!(format!("{}", bit), "1");
+    fn test_set_zero() {
+        let mut bit = Bit::zero();
+        bit.set();
+        assert_eq!(bit, Bit::One);
     }
 
     #[test]
-    fn test_bit_default() {
-        let bit = Bit::default();
+    fn test_set_one() {
+        let mut bit = Bit::one();
+        bit.set();
+        assert_eq!(bit, Bit::One);
+    }
+
+    #[test]
+    fn test_unset_zero() {
+        let mut bit = Bit::zero();
+        bit.unset();
         assert_eq!(bit, Bit::Zero);
     }
 
     #[test]
-    fn test_bit_to_u8() {
+    fn test_unset_one() {
+        let mut bit = Bit::one();
+        bit.unset();
+        assert_eq!(bit, Bit::Zero);
+    }
+
+    #[test]
+    fn test_to_u8_zero() {
         let bit = Bit::zero();
         assert_eq!(bit.to_u8(), 0);
+    }
+
+    #[test]
+    fn test_to_u8_one() {
         let bit = Bit::one();
         assert_eq!(bit.to_u8(), 1);
     }
 
     #[test]
-    fn test_bit_not() {
+    fn test_display_zero() {
+        let bit = Bit::zero();
+        assert_eq!(format!("{}", bit), "0");
+    }
+
+    #[test]
+    fn test_display_one() {
+        let bit = Bit::one();
+        assert_eq!(format!("{}", bit), "1");
+    }
+
+    #[test]
+    fn test_default() {
+        let bit = Bit::default();
+        assert_eq!(bit, Bit::Zero);
+    }
+
+    #[test]
+    fn test_not_zero() {
         let bit = !Bit::zero();
         assert_eq!(bit, Bit::One);
+    }
+
+    #[test]
+    fn test_not_one() {
         let bit = !Bit::one();
         assert_eq!(bit, Bit::Zero);
     }
 
     #[test]
-    fn test_bit_or() {
+    fn test_bitor_zero_zero() {
         let bit = Bit::zero() | Bit::zero();
         assert_eq!(bit, Bit::Zero);
+    }
+
+    #[test]
+    fn test_bitor_zero_one() {
         let bit = Bit::zero() | Bit::one();
         assert_eq!(bit, Bit::One);
+    }
+
+    #[test]
+    fn test_bitor_one_zero() {
         let bit = Bit::one() | Bit::zero();
         assert_eq!(bit, Bit::One);
+    }
+
+    #[test]
+    fn test_bitor_one_one() {
         let bit = Bit::one() | Bit::one();
         assert_eq!(bit, Bit::One);
     }
 
     #[test]
-    fn test_bit_and() {
+    fn test_bitorassign_zero_zero() {
+        let mut bit = Bit::zero();
+        bit |= Bit::zero();
+        assert_eq!(bit, Bit::Zero);
+    }
+
+    #[test]
+    fn test_bitorassign_zero_one() {
+        let mut bit = Bit::zero();
+        bit |= Bit::one();
+        assert_eq!(bit, Bit::One);
+    }
+
+    #[test]
+    fn test_bitorassign_one_zero() {
+        let mut bit = Bit::one();
+        bit |= Bit::zero();
+        assert_eq!(bit, Bit::One);
+    }
+
+    #[test]
+    fn test_bitorassign_one_one() {
+        let mut bit = Bit::one();
+        bit |= Bit::one();
+        assert_eq!(bit, Bit::One);
+    }
+
+    #[test]
+    fn test_bitand_zero_zero() {
         let bit = Bit::zero() & Bit::zero();
         assert_eq!(bit, Bit::Zero);
+    }
+
+    #[test]
+    fn test_bitand_zero_one() {
         let bit = Bit::zero() & Bit::one();
         assert_eq!(bit, Bit::Zero);
+    }
+
+    #[test]
+    fn test_bitand_one_zero() {
         let bit = Bit::one() & Bit::zero();
         assert_eq!(bit, Bit::Zero);
+    }
+
+    #[test]
+    fn test_bitand_one_one() {
         let bit = Bit::one() & Bit::one();
         assert_eq!(bit, Bit::One);
     }
 
     #[test]
-    fn test_bit_xor() {
+    fn test_bitandassign_zero_zero() {
+        let mut bit = Bit::zero();
+        bit &= Bit::zero();
+        assert_eq!(bit, Bit::Zero);
+    }
+
+    #[test]
+    fn test_bitandassign_zero_one() {
+        let mut bit = Bit::zero();
+        bit &= Bit::one();
+        assert_eq!(bit, Bit::Zero);
+    }
+
+    #[test]
+    fn test_bitandassign_one_zero() {
+        let mut bit = Bit::one();
+        bit &= Bit::zero();
+        assert_eq!(bit, Bit::Zero);
+    }
+
+    #[test]
+    fn test_bitandassign_one_one() {
+        let mut bit = Bit::one();
+        bit &= Bit::one();
+        assert_eq!(bit, Bit::One);
+    }
+
+    #[test]
+    fn test_bitxor_zero_zero() {
         let bit = Bit::zero() ^ Bit::zero();
         assert_eq!(bit, Bit::Zero);
+    }
+
+    #[test]
+    fn test_bitxor_zero_one() {
         let bit = Bit::zero() ^ Bit::one();
         assert_eq!(bit, Bit::One);
+    }
+
+    #[test]
+    fn test_bitxor_one_zero() {
         let bit = Bit::one() ^ Bit::zero();
         assert_eq!(bit, Bit::One);
+    }
+
+    #[test]
+    fn test_bitxor_one_one() {
         let bit = Bit::one() ^ Bit::one();
         assert_eq!(bit, Bit::Zero);
     }
 
     #[test]
-    fn test_bit_or_assign() {
+    fn test_bitxorassign_zero_zero() {
         let mut bit = Bit::zero();
-        bit |= Bit::zero();
+        bit ^= Bit::zero();
         assert_eq!(bit, Bit::Zero);
+    }
+
+    #[test]
+    fn test_bitxorassign_zero_one() {
         let mut bit = Bit::zero();
-        bit |= Bit::one();
-        assert_eq!(bit, Bit::One);
-        let mut bit = Bit::one();
-        bit |= Bit::zero();
-        assert_eq!(bit, Bit::One);
-        let mut bit = Bit::one();
-        bit |= Bit::one();
+        bit ^= Bit::one();
         assert_eq!(bit, Bit::One);
     }
 
     #[test]
-    fn test_bit_and_assign() {
-        let mut bit = Bit::zero();
-        bit &= Bit::zero();
-        assert_eq!(bit, Bit::Zero);
-        let mut bit = Bit::zero();
-        bit &= Bit::one();
-        assert_eq!(bit, Bit::Zero);
+    fn test_bitxorassign_one_zero() {
         let mut bit = Bit::one();
-        bit &= Bit::zero();
-        assert_eq!(bit, Bit::Zero);
-        let mut bit = Bit::one();
-        bit &= Bit::one();
+        bit ^= Bit::zero();
         assert_eq!(bit, Bit::One);
     }
 
     #[test]
-    fn test_bit_xor_assign() {
-        let mut bit = Bit::zero();
-        bit ^= Bit::zero();
-        assert_eq!(bit, Bit::Zero);
-        let mut bit = Bit::zero();
-        bit ^= Bit::one();
-        assert_eq!(bit, Bit::One);
-        let mut bit = Bit::one();
-        bit ^= Bit::zero();
-        assert_eq!(bit, Bit::One);
+    fn test_bitxorassign_one_one() {
         let mut bit = Bit::one();
         bit ^= Bit::one();
         assert_eq!(bit, Bit::Zero);
+    }
+
+    #[test]
+    fn test_is_set_zero() {
+        let bit = Bit::zero();
+        assert!(!bit.is_set());
+    }
+
+    #[test]
+    fn test_is_set_one() {
+        let bit = Bit::one();
+        assert!(bit.is_set());
+    }
+
+    #[test]
+    fn test_is_unset_zero() {
+        let bit = Bit::zero();
+        assert!(bit.is_unset());
+    }
+
+    #[test]
+    fn test_is_unset_one() {
+        let bit = Bit::one();
+        assert!(!bit.is_unset());
+    }
+
+    #[test]
+    fn test_is_set_after_set() {
+        let mut bit = Bit::zero();
+        bit.set();
+        assert!(bit.is_set());
+    }
+
+    #[test]
+    fn test_is_unset_after_set() {
+        let mut bit = Bit::zero();
+        bit.set();
+        assert!(!bit.is_unset());
+    }
+
+    #[test]
+    fn test_is_set_after_unset() {
+        let mut bit = Bit::one();
+        bit.unset();
+        assert!(!bit.is_set());
+    }
+
+    #[test]
+    fn test_is_unset_after_unset() {
+        let mut bit = Bit::one();
+        bit.unset();
+        assert!(bit.is_unset());
     }
 }
