@@ -125,7 +125,7 @@ impl Nybble {
     /// use brainfoamkit_lib::Nybble;
     /// use brainfoamkit_lib::Bit;
     ///
-    /// let nybble = Nybble::from_u8(5).unwrap();
+    /// let nybble = Nybble::from_u8(5);
     /// assert_eq!(nybble.to_u8(), 5);
     /// assert_eq!(nybble.to_string(), "0x05");
     /// ```
