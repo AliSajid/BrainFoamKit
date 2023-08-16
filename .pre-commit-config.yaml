@@ -57,11 +57,9 @@ repos:
       repo: https://github.com/Lucas-C/pre-commit-hooks
       rev: v1.3.1
     - hooks:
-          - args:
-                - --config=$(pwd)/.yamllint.yml
-            id: yamllint
-            stages:
-                - commit-msg
+          # - args:
+          #       - --config=$(pwd)/.yamllint.yml
+          - id: yamllint
       repo: https://github.com/adrienverge/yamllint
       rev: v1.27.1
     - hooks:
