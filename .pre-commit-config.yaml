@@ -94,3 +94,4 @@ repos:
       rev: 0.2.3
       hooks:
           - id: yamlfmt
+#    args: [--mapping, '2', --sequence, '2', --offset, '2', --colons, --width, '150']

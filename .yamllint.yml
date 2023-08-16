@@ -8,3 +8,6 @@ rules:
         level: warning
     truthy:
         check-keys: false
+    indentation:
+        spaces: 4
+        indent-sequences: true
