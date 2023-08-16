@@ -43,6 +43,8 @@ jobs:
 
             - name: Get next release version
               id: get-next-version
+              env:
+                GITHUB_TOKEN: ${{secrets.ACTIONS_PAT_GITHUB}}
               run: |
                 : calculate next semantic-release version
                 semantic-release \
