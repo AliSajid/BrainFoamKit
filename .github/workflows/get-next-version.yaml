@@ -1,3 +1,4 @@
+---
 name: Next semantic-release version
 
 on:
@@ -21,41 +22,41 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v3
               with:
-                fetch-depth: 0
-                persist-credentials: false
+                  fetch-depth: 0
+                  persist-credentials: false
 
             - name: Configure Node.js
               uses: actions/setup-node@v3
               with:
-                node-version: lts/*
+                  node-version: lts/*
 
             - name: Cache action npm dependencies
               uses: actions/cache@v3
               id: cache-node-modules
               with:
-                path: ${{ runner.temp }}/.semantic-release-action_next-release-version/node_modules
-                key: semantic-release-action/next-release-version-${{ runner.os }}-node-${{ hashFiles('${{ github.action_path }}/package-lock.json') }}
+                  path: ${{ runner.temp }}/.semantic-release-action_next-release-version/node_modules
+                  key: semantic-release-action/next-release-version-${{ runner.os }}-node-${{ hashFiles('${{ github.action_path }}/package-lock.json') }}
 
             - name: Install dependencies on cache miss
               if: steps.cache-node-modules.outputs.cache-hit != 'true'
               run: |
-                npm install -g semantic-release semantic-release-export-data
+                  npm install -g semantic-release semantic-release-export-data
               shell: bash
 
             - name: Get next release version
               id: get-next-version
               env:
-                GITHUB_TOKEN: ${{secrets.ACTIONS_PAT_GITHUB}}
+                  GITHUB_TOKEN: ${{secrets.ACTIONS_PAT_GITHUB}}
               run: |
-                : calculate next semantic-release version
-                semantic-release \
-                --dry-run \
-                --plugins semantic-release-export-data \
-                --verify-conditions semantic-release-export-data \
-                --verify-release '' \
-                --generate-notes semantic-release-export-data \
-                --prepare '' \
-                --publish '' \
-                --success '' \
-                --fail ''
+                  : calculate next semantic-release version
+                  semantic-release \
+                  --dry-run \
+                  --plugins semantic-release-export-data \
+                  --verify-conditions semantic-release-export-data \
+                  --verify-release '' \
+                  --generate-notes semantic-release-export-data \
+                  --prepare '' \
+                  --publish '' \
+                  --success '' \
+                  --fail ''
               shell: bash
