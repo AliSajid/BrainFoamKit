@@ -10,6 +10,7 @@ branches:
 plugins:
     - '@semantic-release/commit-analyzer'
     - '@semantic-release/release-notes-generator'
+    - '@semantic-release/changelog'
     -     - '@semantic-release/github'
           - assets:
                 - path: dist/aarch64-apple-darwin/bfkview-aarch64-apple-darwin
