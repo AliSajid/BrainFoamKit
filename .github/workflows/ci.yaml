@@ -113,7 +113,8 @@ jobs:
         run: echo "result=${{job.status}}" >> "$GITHUB_OUTPUT"
 
   get-next-version:
-    uses: semantic-release-action/next-release-version/.github/workflows/next-release-version.yml@v4
+    uses: ./.github/workflows/get-next-version.yaml
+    needs: [ci]
     secrets: inherit # pragma: allowlist secret
 
   semantic-release:
