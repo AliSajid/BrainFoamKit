@@ -60,6 +60,9 @@ repos:
       rev: v1.32.0
       hooks:
           - id: yamllint
+            args:
+                - --strict
+                - --config-file=.yamllint.yml
     - repo: https://github.com/igorshubovych/markdownlint-cli
       rev: v0.35.0
       hooks:

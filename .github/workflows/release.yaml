@@ -36,7 +36,7 @@ jobs:
                     - bfkview
                     - bfkrun
                 build:
-              # alphabatized by target
+                    # alphabatized by target
                     - os: macOS-latest
                       target: aarch64-apple-darwin
                       cross: true
@@ -70,7 +70,7 @@ jobs:
 
         steps:
             - name: Checkout
-              uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+              uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c    # v3.3.0
 
             - name: Install tree
               if: runner.os == 'Linux'
@@ -88,7 +88,7 @@ jobs:
                   target: ${{ matrix.build.target }}
 
             - name: Cache dependencies
-              uses: Swatinem/rust-cache@6fd3edff6979b79f87531400ad694fb7f2c84b1f # v2.2.1
+              uses: Swatinem/rust-cache@6fd3edff6979b79f87531400ad694fb7f2c84b1f    # v2.2.1
 
             - name: Install cross
               uses: taiki-e/install-action@v2
@@ -106,13 +106,22 @@ jobs:
               if: runner.os == 'Linux'
               run: tree target/
 
-            - name: Create release archive
+            - name: Create release archive - windows
+              if: matrix.build.target == 'x86_64-pc-windows-gnu' || matrix.build.target == 'i686-pc-windows-gnu'
+              run: |
+                  mkdir dist
+                  cp target/${{ matrix.build.target }}/release/${{ matrix.bin }}.exe dist/${{ matrix.bin }}-${{ matrix.build.target }}
+
+            - name: Create release archive - non-windows
+              if: matrix.build.target != 'x86_64-pc-windows-gnu' && matrix.build.target != 'i686-pc-windows-gnu'
               run: |
                   mkdir dist
                   cp target/${{ matrix.build.target }}/release/${{ matrix.bin }} dist/${{ matrix.bin }}-${{ matrix.build.target }}
 
             - name: Create binary checksum
-              run: shasum --algorithm 256 --binary ${{ matrix.bin }}-${{ matrix.build.target }} | tee ${{ matrix.bin }}-${{ matrix.build.target }}-SHA256SUM.txt
+              run: |
+                  shasum --algorithm 256 \
+                  --binary ${{ matrix.bin }}-${{ matrix.build.target }} | tee ${{ matrix.bin }}-${{ matrix.build.target }}-SHA256SUM.txt
               working-directory: ./dist
 
             - name: Upload release artifacts
@@ -136,7 +145,7 @@ jobs:
             new_release_channel: ${{steps.semantic.outputs.new_release_channel}}
         steps:
             - name: Checkout
-              uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+              uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c    # v3.3.0
               with:
                   fetch-depth: 0
                   persist-credentials: false
@@ -150,7 +159,7 @@ jobs:
               run: npm install conventional-changelog-conventionalcommits
 
             - name: Semantic Release
-              uses: cycjimmy/semantic-release-action@91ab76a4a393a8d0c4739e9aea1818b56bc953ea # v3.4.0
+              uses: cycjimmy/semantic-release-action@91ab76a4a393a8d0c4739e9aea1818b56bc953ea    # v3.4.0
               id: semantic
               with:
                   semantic_version: 19
