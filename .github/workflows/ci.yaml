@@ -112,6 +112,11 @@ jobs:
         id: result
         run: echo "result=${{job.status}}" >> "$GITHUB_OUTPUT"
 
+  generate_code_coverage:
+    uses: ./.github/workflows/code_coverage.yaml
+    needs: [ci]
+    secrets: inherit # pragma: allowlist secret
+
   get-next-version:
     uses: ./.github/workflows/get-next-version.yaml
     needs: [ci]
