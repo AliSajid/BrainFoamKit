@@ -1,71 +1,71 @@
 ---
 branches:
-    - v[0-9]+.[0-9]+.[0-9]+
-    - main
-    - name: beta
-      prerelease: true
-    - name: alpha
-      prerelease: true
+-   v[0-9]+.[0-9]+.[0-9]+
+-   main
+-   name: beta
+    prerelease: true
+-   name: alpha
+    prerelease: true
 
 plugins:
-    - '@semantic-release/commit-analyzer'
-    - '@semantic-release/release-notes-generator'
-    - '@semantic-release/changelog'
-    -     - '@semantic-release/github'
-          - assets:
-                - path: dist/aarch64-apple-darwin/bfkview-aarch64-apple-darwin
-                  label: bfkview-aarch64-apple-darwin
-                - path: dist/aarch64-apple-darwin/bfkrun-aarch64-apple-darwin
-                  label: bfkrun-aarch64-apple-darwin
-                - path: dist/aarch64-unknown-linux-gnu/bfkview-aarch64-unknown-linux-gnu
-                  label: bfkview-aarch64-unknown-linux-gnu
-                - path: dist/aarch64-unknown-linux-gnu/bfkrun-aarch64-unknown-linux-gnu
-                  label: bfkrun-aarch64-unknown-linux-gnu
-                - path: dist/aarch64-unknown-linux-musl/bfkview-aarch64-unknown-linux-musl
-                  label: bfkview-aarch64-unknown-linux-musl
-                - path: dist/aarch64-unknown-linux-musl/bfkrun-aarch64-unknown-linux-musl
-                  label: bfkrun-aarch64-unknown-linux-musl
-                - path: dist/i686-unknown-linux-gnu/bfkview-i686-unknown-linux-gnu
-                  label: bfkview-i686-unknown-linux-gnu
-                - path: dist/i686-unknown-linux-gnu/bfkrun-i686-unknown-linux-gnu
-                  label: bfkrun-i686-unknown-linux-gnu
-                - path: dist/i686-unknown-linux-musl/bfkview-i686-unknown-linux-musl
-                  label: bfkview-i686-unknown-linux-musl
-                - path: dist/i686-unknown-linux-musl/bfkrun-i686-unknown-linux-musl
-                  label: bfkrun-i686-unknown-linux-musl
-                - path: dist/x86_64-apple-darwin/bfkview-x86_64-apple-darwin
-                  label: bfkview-x86_64-apple-darwin
-                - path: dist/x86_64-apple-darwin/bfkrun-x86_64-apple-darwin
-                  label: bfkrun-x86_64-apple-darwin
-                - path: dist/x86_64-unknown-linux-gnu/bfkview-x86_64-unknown-linux-gnu
-                  label: bfkview-x86_64-unknown-linux-gnu
-                - path: dist/x86_64-unknown-linux-gnu/bfkrun-x86_64-unknown-linux-gnu
-                  label: bfkrun-x86_64-unknown-linux-gnu
-                - path: dist/x86_64-unknown-linux-musl/bfkview-x86_64-unknown-linux-musl
-                  label: bfkview-x86_64-unknown-linux-musl
-                - path: dist/x86_64-unknown-linux-musl/bfkrun-x86_64-unknown-linux-musl
-                  label: bfkrun-x86_64-unknown-linux-musl
-                - path: dist/x86_64-pc-windows-gnu/bfkview-x86_64-pc-windows-gnu
-                  label: bfkview-x86_64-pc-windows-gnu
-                - path: dist/x86_64-pc-windows-gnu/bfkrun-x86_64-pc-windows-gnu
-                  label: bfkrun-x86_64-pc-windows-gnu
-                - path: dist/i686-pc-windows-gnu/bfkview-i686-pc-windows-gnu
-                  label: bfkview-i686-pc-windows-gnu
-                - path: dist/i686-pc-windows-gnu/bfkrun-i686-pc-windows-gnu
-                  label: bfkrun-i686-pc-windows-gnu
-                - path: dist/SHA256SUMS
-                  label: SHA256SUMS
-    -     - '@semantic-release/exec'
-          - verifyConditionsCmd: ~/.cargo/bin/semantic-release-cargo verify-conditions
-            prepareCmd: ~/.cargo/bin/semantic-release-cargo prepare ${nextRelease.version}
-            publishCmd: ~/.cargo/bin/semantic-release-cargo publish
-    -     - '@semantic-release/git'
-          - assets:
-                - Cargo.toml
-                - Cargo.lock
-                - CHANGELOG.md
-            message: 'chore(release): ${nextRelease.version} [skip ci]'
+-   '@semantic-release/commit-analyzer'
+-   '@semantic-release/release-notes-generator'
+-   '@semantic-release/changelog'
+-   -   '@semantic-release/github'
+    -   assets:
+        -   path: dist/aarch64-apple-darwin/bfkview-aarch64-apple-darwin
+            label: bfkview-aarch64-apple-darwin
+        -   path: dist/aarch64-apple-darwin/bfkrun-aarch64-apple-darwin
+            label: bfkrun-aarch64-apple-darwin
+        -   path: dist/aarch64-unknown-linux-gnu/bfkview-aarch64-unknown-linux-gnu
+            label: bfkview-aarch64-unknown-linux-gnu
+        -   path: dist/aarch64-unknown-linux-gnu/bfkrun-aarch64-unknown-linux-gnu
+            label: bfkrun-aarch64-unknown-linux-gnu
+        -   path: dist/aarch64-unknown-linux-musl/bfkview-aarch64-unknown-linux-musl
+            label: bfkview-aarch64-unknown-linux-musl
+        -   path: dist/aarch64-unknown-linux-musl/bfkrun-aarch64-unknown-linux-musl
+            label: bfkrun-aarch64-unknown-linux-musl
+        -   path: dist/i686-unknown-linux-gnu/bfkview-i686-unknown-linux-gnu
+            label: bfkview-i686-unknown-linux-gnu
+        -   path: dist/i686-unknown-linux-gnu/bfkrun-i686-unknown-linux-gnu
+            label: bfkrun-i686-unknown-linux-gnu
+        -   path: dist/i686-unknown-linux-musl/bfkview-i686-unknown-linux-musl
+            label: bfkview-i686-unknown-linux-musl
+        -   path: dist/i686-unknown-linux-musl/bfkrun-i686-unknown-linux-musl
+            label: bfkrun-i686-unknown-linux-musl
+        -   path: dist/x86_64-apple-darwin/bfkview-x86_64-apple-darwin
+            label: bfkview-x86_64-apple-darwin
+        -   path: dist/x86_64-apple-darwin/bfkrun-x86_64-apple-darwin
+            label: bfkrun-x86_64-apple-darwin
+        -   path: dist/x86_64-unknown-linux-gnu/bfkview-x86_64-unknown-linux-gnu
+            label: bfkview-x86_64-unknown-linux-gnu
+        -   path: dist/x86_64-unknown-linux-gnu/bfkrun-x86_64-unknown-linux-gnu
+            label: bfkrun-x86_64-unknown-linux-gnu
+        -   path: dist/x86_64-unknown-linux-musl/bfkview-x86_64-unknown-linux-musl
+            label: bfkview-x86_64-unknown-linux-musl
+        -   path: dist/x86_64-unknown-linux-musl/bfkrun-x86_64-unknown-linux-musl
+            label: bfkrun-x86_64-unknown-linux-musl
+        -   path: dist/x86_64-pc-windows-gnu/bfkview-x86_64-pc-windows-gnu
+            label: bfkview-x86_64-pc-windows-gnu
+        -   path: dist/x86_64-pc-windows-gnu/bfkrun-x86_64-pc-windows-gnu
+            label: bfkrun-x86_64-pc-windows-gnu
+        -   path: dist/i686-pc-windows-gnu/bfkview-i686-pc-windows-gnu
+            label: bfkview-i686-pc-windows-gnu
+        -   path: dist/i686-pc-windows-gnu/bfkrun-i686-pc-windows-gnu
+            label: bfkrun-i686-pc-windows-gnu
+        -   path: dist/SHA256SUMS
+            label: SHA256SUMS
+-   -   '@semantic-release/exec'
+    -   verifyConditionsCmd: ~/.cargo/bin/semantic-release-cargo verify-conditions
+        prepareCmd: ~/.cargo/bin/semantic-release-cargo prepare ${nextRelease.version}
+        publishCmd: ~/.cargo/bin/semantic-release-cargo publish
+-   -   '@semantic-release/git'
+    -   assets:
+        -   Cargo.toml
+        -   Cargo.lock
+        -   CHANGELOG.md
+        message: 'chore(release): ${nextRelease.version} [skip ci]'
 
 generateNotes:
-    - path: '@semantic-release/release-notes-generator'
-      preset: conventionalcommits
+-   path: '@semantic-release/release-notes-generator'
+    preset: conventionalcommits
