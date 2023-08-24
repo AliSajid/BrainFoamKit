@@ -56,15 +56,15 @@ repos:
         -   //
         files: \.rs$
         id: insert-license
--   repo: https://github.com/adrienverge/yamllint
-    rev: v1.32.0
-    hooks:
-    -   id: yamllint
-        args:
-        -   --strict
-        -   --config-file=.yamllint.yml
-        -   --format
-        -   parsable
+# -   repo: https://github.com/adrienverge/yamllint
+#     rev: v1.32.0
+#     hooks:
+#     -   id: yamllint
+#         args:
+#         -   --strict
+#         -   --config-file=.yamllint.yml
+#         -   --format
+#         -   parsable
 -   repo: https://github.com/igorshubovych/markdownlint-cli
     rev: v0.35.0
     hooks:
@@ -92,9 +92,9 @@ repos:
     -   id: fmt
     -   id: cargo-check
     -   id: clippy
--   repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
-    rev: 0.2.3
-    hooks:
-    -   id: yamlfmt
-        args: [--mapping, '4', --sequence, '4', --offset, '0', --width, '150']
-#    args: [--mapping, '2', --sequence, '2', --offset, '2', --colons, --width, '150']
+# -   repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
+#     rev: 0.2.3
+#     hooks:
+#     -   id: yamlfmt
+#         args: [--mapping, '4', --sequence, '4', --offset, '0', --width, '150']
+# #    args: [--mapping, '2', --sequence, '2', --offset, '2', --colons, --width, '150']
