@@ -167,7 +167,7 @@ impl Nybble {
     ///
     /// let mut nybble = Nybble::default();
     /// nybble.set_bit(0);
-    /// nybble.set_bit(2,);
+    /// nybble.set_bit(2);
     /// assert_eq!(nybble.to_u8(), 5);
     /// assert_eq!(nybble.to_string(), "0x05");
     /// ```
@@ -175,7 +175,7 @@ impl Nybble {
     /// # Panics
     ///
     /// This method will panic if the index is out of bounds.
-    pub fn set_bit(&mut self, index: usize) {
+    pub fn set_bit(&mut self, index: u8) {
         match index {
             0 => self.bit_0.set(),
             1 => self.bit_1.set(),
@@ -187,7 +187,7 @@ impl Nybble {
 
     /// Unsets the Bit value at the specified index.
     ///
-    /// This method is used "Uns" the bit value at a given index. This means that that bit value is set to 0.
+    /// This method is used "Unset" the bit value at a given index. This means that that bit value is set to 0.
     ///
     /// # Examples
     ///
@@ -197,7 +197,7 @@ impl Nybble {
     ///
     /// let mut nybble = Nybble::default();
     /// nybble.set_bit(0);
-    /// nybble.set_bit(2,);
+    /// nybble.set_bit(2);
     /// assert_eq!(nybble.to_u8(), 5);
     /// assert_eq!(nybble.to_string(), "0x05");
     /// nybble.unset_bit(0);
@@ -208,7 +208,7 @@ impl Nybble {
     /// # Panics
     ///
     /// This method will panic if the index is out of bounds.
-    pub fn unset_bit(&mut self, index: usize) {
+    pub fn unset_bit(&mut self, index: u8) {
         match index {
             0 => self.bit_0.unset(),
             1 => self.bit_1.unset(),
@@ -261,7 +261,7 @@ impl Nybble {
     ///
     /// This method will panic if the index is out of bounds.
     #[must_use]
-    pub fn get_bit(&self, index: usize) -> Bit {
+    pub fn get_bit(&self, index: u8) -> Bit {
         match index {
             0 => self.bit_0,
             1 => self.bit_1,
