@@ -224,6 +224,7 @@ impl Byte {
     /// assert_eq!(high_nybble.to_string(), "0xA");
     /// ```
     ///
+    #[must_use]
     pub fn get_high_nybble(&self) -> Nybble {
         let mut nybble = Nybble::default();
 
@@ -252,6 +253,7 @@ impl Byte {
     /// assert_eq!(low_nybble.to_string(), "0x5");
     /// ```
     ///
+    #[must_use]
     pub fn get_low_nybble(&self) -> Nybble {
         let mut nybble = Nybble::default();
 
