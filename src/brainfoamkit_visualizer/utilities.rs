@@ -53,7 +53,7 @@ use crossterm::{
     execute,
     terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
 };
-use ratatui::{prelude::*, widgets::*};
+use ratatui::{prelude::*, widgets::Paragraph};
 
 /// Setup the terminal. This is where you would enable raw mode, enter the alternate screen, and
 /// hide the cursor. This example does not handle errors. A more robust application would probably
