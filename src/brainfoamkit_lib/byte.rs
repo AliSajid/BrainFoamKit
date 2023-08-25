@@ -660,6 +660,284 @@ mod tests {
     }
 
     #[test]
+    fn test_from_nybbles_ones() {
+        let high_nybble = Nybble::from_u8(15);
+        let low_nybble = Nybble::from_u8(15);
+        let byte = Byte::from_nybbles(high_nybble, low_nybble);
+        assert_eq!(byte.to_u8(), 255);
+    }
+
+    #[test]
+    fn test_from_nybbles_zeros() {
+        let high_nybble = Nybble::default();
+        let low_nybble = Nybble::default();
+        let byte = Byte::from_nybbles(high_nybble, low_nybble);
+        assert_eq!(byte.to_u8(), 0);
+    }
+
+    #[test]
+    fn test_from_nybbles_alternating() {
+        let high_nybble = Nybble::from_u8(0b1010);
+        let low_nybble = Nybble::from_u8(0b0101);
+        let byte = Byte::from_nybbles(high_nybble, low_nybble);
+        assert_eq!(byte.to_u8(), 0b10100101);
+
+        let high_nybble = Nybble::from_u8(0b0101);
+        let low_nybble = Nybble::from_u8(0b1010);
+        let byte = Byte::from_nybbles(high_nybble, low_nybble);
+        assert_eq!(byte.to_u8(), 0b01011010);
+    }
+
+    #[test]
+    fn test_to_u8_all_zeros() {
+        let byte = Byte::default();
+        assert_eq!(byte.to_u8(), 0);
+    }
+
+    #[test]
+    fn test_to_u8_all_ones() {
+        let byte = Byte::from_u8(255);
+        assert_eq!(byte.to_u8(), 255);
+    }
+
+    #[test]
+    fn test_to_u8_alternating() {
+        let byte = Byte::from_u8(0b10101010);
+        assert_eq!(byte.to_u8(), 0b10101010);
+    }
+
+    #[test]
+    fn test_to_u8_random() {
+        let byte = Byte::from_u8(0b11001100);
+        assert_eq!(byte.to_u8(), 0b11001100);
+    }
+
+    #[test]
+    fn test_get_high_nybble_all_zeros() {
+        let byte = Byte::default();
+        let nybble = byte.get_high_nybble();
+        assert_eq!(nybble.to_u8(), 0b0000);
+    }
+
+    #[test]
+    fn test_get_high_nybble_all_ones() {
+        let byte = Byte::from_u8(255);
+        let nybble = byte.get_high_nybble();
+        assert_eq!(nybble.to_u8(), 15);
+    }
+
+    #[test]
+    fn test_get_high_nybble_alternating() {
+        let byte = Byte::from_u8(0b10101010);
+        let nybble = byte.get_high_nybble();
+        assert_eq!(nybble.to_u8(), 0b1010);
+    }
+
+    #[test]
+    fn test_get_high_nybble_random() {
+        let byte = Byte::from_u8(0b11001100);
+        let nybble = byte.get_high_nybble();
+        assert_eq!(nybble.to_u8(), 0b1100);
+    }
+
+    #[test]
+    fn test_get_low_nybble_all_zeros() {
+        let byte = Byte::default();
+        let nybble = byte.get_low_nybble();
+        assert_eq!(nybble.to_u8(), 0b0000);
+    }
+
+    #[test]
+    fn test_get_low_nybble_all_ones() {
+        let byte = Byte::from_u8(255);
+        let nybble = byte.get_low_nybble();
+        assert_eq!(nybble.to_u8(), 15);
+    }
+
+    #[test]
+    fn test_get_low_nybble_alternating() {
+        let byte = Byte::from_u8(0b10101010);
+        let nybble = byte.get_low_nybble();
+        assert_eq!(nybble.to_u8(), 0b1010);
+    }
+
+    #[test]
+    fn test_get_low_nybble_random() {
+        let byte = Byte::from_u8(0b11001100);
+        let nybble = byte.get_low_nybble();
+        assert_eq!(nybble.to_u8(), 0b1100);
+    }
+
+    #[test]
+    fn test_set_bit_valid() {
+        let mut byte = Byte::default();
+        byte.set_bit(0);
+        assert_eq!(byte.to_u8(), 1);
+
+        let mut byte = Byte::default();
+        byte.set_bit(1);
+        assert_eq!(byte.to_u8(), 2);
+
+        let mut byte = Byte::default();
+        byte.set_bit(2);
+        assert_eq!(byte.to_u8(), 4);
+
+        let mut byte = Byte::default();
+        byte.set_bit(3);
+        assert_eq!(byte.to_u8(), 0b00001000);
+
+        let mut byte = Byte::default();
+        byte.set_bit(4);
+        assert_eq!(byte.to_u8(), 0b00010000);
+
+        let mut byte = Byte::default();
+        byte.set_bit(5);
+        assert_eq!(byte.to_u8(), 0b00100000);
+
+        let mut byte = Byte::default();
+        byte.set_bit(6);
+        assert_eq!(byte.to_u8(), 0b01000000);
+
+        let mut byte = Byte::default();
+        byte.set_bit(7);
+        assert_eq!(byte.to_u8(), 0b10000000);
+    }
+
+    #[test]
+    #[should_panic(expected = "Index out of bounds")]
+    fn test_set_bit_out_of_bounds() {
+        let mut byte = Byte::default();
+        byte.set_bit(8);
+    }
+
+    #[test]
+    fn test_unset_bit_valid() {
+        let mut byte = Byte::from_u8(0b11111111);
+        byte.unset_bit(0);
+        assert_eq!(byte.to_u8(), 0b11111110);
+
+        let mut byte = Byte::from_u8(0b11111111);
+        byte.unset_bit(1);
+        assert_eq!(byte.to_u8(), 0b11111101);
+
+        let mut byte = Byte::from_u8(0b11111111);
+        byte.unset_bit(2);
+        assert_eq!(byte.to_u8(), 0b11111011);
+
+        let mut byte = Byte::from_u8(0b11111111);
+        byte.unset_bit(3);
+        assert_eq!(byte.to_u8(), 0b11110111);
+
+        let mut byte = Byte::from_u8(0b11111111);
+        byte.unset_bit(4);
+        assert_eq!(byte.to_u8(), 0b11101111);
+
+        let mut byte = Byte::from_u8(0b11111111);
+        byte.unset_bit(5);
+        assert_eq!(byte.to_u8(), 0b11011111);
+
+        let mut byte = Byte::from_u8(0b11111111);
+        byte.unset_bit(6);
+        assert_eq!(byte.to_u8(), 0b10111111);
+
+        let mut byte = Byte::from_u8(0b11111111);
+        byte.unset_bit(7);
+        assert_eq!(byte.to_u8(), 0b01111111);
+    }
+
+    #[test]
+    #[should_panic(expected = "Index out of bounds")]
+    fn test_unset_bit_out_of_bounds() {
+        let mut byte = Byte::from_u8(0b00000000);
+        byte.unset_bit(8);
+    }
+
+    #[test]
+    fn test_get_bit_valid() {
+        let byte = Byte::from_u8(0b01010101);
+        assert_eq!(byte.get_bit(0), Bit::One);
+        assert_eq!(byte.get_bit(1), Bit::Zero);
+        assert_eq!(byte.get_bit(2), Bit::One);
+        assert_eq!(byte.get_bit(3), Bit::Zero);
+        assert_eq!(byte.get_bit(4), Bit::One);
+        assert_eq!(byte.get_bit(5), Bit::Zero);
+        assert_eq!(byte.get_bit(6), Bit::One);
+        assert_eq!(byte.get_bit(7), Bit::Zero);
+    }
+
+    #[test]
+    #[should_panic(expected = "Index out of bounds")]
+    fn test_get_bit_out_of_bounds() {
+        let byte = Byte::from_u8(0b00000000);
+        let _ = byte.get_bit(8);
+    }
+
+    #[test]
+    fn test_flip_bit_valid() {
+        let mut byte = Byte::from_u8(0b01010101);
+        byte.flip_bit(0);
+        assert_eq!(byte.to_u8(), 0b01010100);
+        byte.flip_bit(1);
+        assert_eq!(byte.to_u8(), 0b01010110);
+        byte.flip_bit(2);
+        assert_eq!(byte.to_u8(), 0b01010010);
+        byte.flip_bit(3);
+        assert_eq!(byte.to_u8(), 0b01011010);
+        byte.flip_bit(4);
+        assert_eq!(byte.to_u8(), 0b01001010);
+        byte.flip_bit(5);
+        assert_eq!(byte.to_u8(), 0b01101010);
+        byte.flip_bit(6);
+        assert_eq!(byte.to_u8(), 0b00101010);
+        byte.flip_bit(7);
+        assert_eq!(byte.to_u8(), 0b10101010);
+    }
+
+    #[test]
+    #[should_panic(expected = "Index out of bounds")]
+    fn test_flip_bit_out_of_bounds() {
+        let mut byte = Byte::from_u8(0b00000000);
+        byte.flip_bit(8);
+    }
+
+    #[test]
+    fn test_flip_all_bits() {
+        let mut byte = Byte::from_u8(0b11111111);
+        byte.flip();
+        assert_eq!(byte.to_u8(), 0b00000000);
+    }
+
+    #[test]
+    fn test_flip_no_bits() {
+        let mut byte = Byte::from_u8(0b00000000);
+        byte.flip();
+        assert_eq!(byte.to_u8(), 0b11111111);
+    }
+
+    #[test]
+    fn test_flip_odd_bits() {
+        let mut byte = Byte::from_u8(0b01010101);
+        byte.flip();
+        assert_eq!(byte.to_u8(), 0b10101010);
+    }
+
+    #[test]
+    fn test_flip_even_bits() {
+        let mut byte = Byte::from_u8(0b10101010);
+        byte.flip();
+        assert_eq!(byte.to_u8(), 0b01010101);
+    }
+
+    #[test]
+    fn test_flip_alternating_bits() {
+        let mut byte = Byte::from_u8(0b01010101);
+        byte.flip();
+        assert_eq!(byte.to_u8(), 0b10101010);
+        byte.flip();
+        assert_eq!(byte.to_u8(), 0b01010101);
+    }
+
+    #[test]
     fn test_bitnot() {
         let byte = Byte::from_u8(0b10101010);
         let result = !byte;
