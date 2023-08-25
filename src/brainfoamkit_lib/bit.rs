@@ -266,6 +266,7 @@ impl Bit {
     /// * [`Bit::is_unset()`](#method.is_unset)
     /// * [`Bit::set()`](#method.set)
     /// * [`Bit::unset()`](#method.unset)
+    #[must_use]
     pub fn is_set(&self) -> bool {
         *self == Self::One
     }
@@ -290,6 +291,7 @@ impl Bit {
     /// * [`Bit::is_set()`](#method.is_set)
     /// * [`Bit::set()`](#method.set)
     /// * [`Bit::unset()`](#method.unset)
+    #[must_use]
     pub fn is_unset(&self) -> bool {
         *self == Self::Zero
     }
@@ -360,8 +362,7 @@ impl BitXor for Bit {
 
     fn bitxor(self, rhs: Self) -> Self::Output {
         match (self, rhs) {
-            (Self::Zero, Self::One) => Self::One,
-            (Self::One, Self::Zero) => Self::One,
+            (Self::Zero, Self::One) | (Self::One, Self::Zero) => Self::One,
             _ => Self::Zero,
         }
     }
