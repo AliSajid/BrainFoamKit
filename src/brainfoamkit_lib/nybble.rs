@@ -61,7 +61,7 @@ use std::{
 ///
 /// let nybble = Nybble::new(Bit::One, Bit::Zero, Bit::One, Bit::Zero);
 /// assert_eq!(nybble.to_u8(), 5);
-/// assert_eq!(nybble.to_string(), "0x05");
+/// assert_eq!(nybble.to_string(), "0x5");
 /// ```
 ///
 /// ```
@@ -74,7 +74,7 @@ use std::{
 /// nybble.set_bit(2);
 /// nybble.set_bit(3);
 /// assert_eq!(nybble.to_u8(), 15);
-/// assert_eq!(nybble.to_string(), "0x0F");
+/// assert_eq!(nybble.to_string(), "0xF");
 /// ```
 ///
 /// # Panics
@@ -103,7 +103,7 @@ impl Nybble {
     ///
     /// let nybble = Nybble::new(Bit::One, Bit::Zero, Bit::One, Bit::Zero);
     /// assert_eq!(nybble.to_u8(), 5);
-    /// assert_eq!(nybble.to_string(), "0x05");
+    /// assert_eq!(nybble.to_string(), "0x5");
     /// ```
     #[must_use]
     pub const fn new(bit_0: Bit, bit_1: Bit, bit_2: Bit, bit_3: Bit) -> Self {
@@ -127,7 +127,7 @@ impl Nybble {
     ///
     /// let nybble = Nybble::from_u8(5);
     /// assert_eq!(nybble.to_u8(), 5);
-    /// assert_eq!(nybble.to_string(), "0x05");
+    /// assert_eq!(nybble.to_string(), "0x5");
     /// ```
     ///
     #[must_use]
@@ -169,7 +169,7 @@ impl Nybble {
     /// nybble.set_bit(0);
     /// nybble.set_bit(2);
     /// assert_eq!(nybble.to_u8(), 5);
-    /// assert_eq!(nybble.to_string(), "0x05");
+    /// assert_eq!(nybble.to_string(), "0x5");
     /// ```
     ///
     /// # Panics
@@ -199,10 +199,10 @@ impl Nybble {
     /// nybble.set_bit(0);
     /// nybble.set_bit(2);
     /// assert_eq!(nybble.to_u8(), 5);
-    /// assert_eq!(nybble.to_string(), "0x05");
+    /// assert_eq!(nybble.to_string(), "0x5");
     /// nybble.unset_bit(0);
     /// assert_eq!(nybble.to_u8(), 4);
-    /// assert_eq!(nybble.to_string(), "0x04");
+    /// assert_eq!(nybble.to_string(), "0x4");
     /// ```
     ///
     /// # Panics
@@ -286,7 +286,7 @@ impl Nybble {
     /// nybble.set_bit(2);
     ///
     /// assert_eq!(nybble.to_u8(), 5);
-    /// assert_eq!(nybble.to_string(), "0x05");
+    /// assert_eq!(nybble.to_string(), "0x5");
     ///
     /// nybble.flip_bit(0);
     /// nybble.flip_bit(1);
@@ -294,7 +294,7 @@ impl Nybble {
     /// nybble.flip_bit(3);
     ///
     /// assert_eq!(nybble.to_u8(), 10);
-    /// assert_eq!(nybble.to_string(), "0x0A");
+    /// assert_eq!(nybble.to_string(), "0xA");
     /// ```
     ///
     /// # Panics
@@ -329,12 +329,12 @@ impl Nybble {
     /// nybble.set_bit(2);
     ///
     /// assert_eq!(nybble.to_u8(), 5);
-    /// assert_eq!(nybble.to_string(), "0x05");
+    /// assert_eq!(nybble.to_string(), "0x5");
     ///
     /// nybble.flip();
     ///
     /// assert_eq!(nybble.to_u8(), 10);
-    /// assert_eq!(nybble.to_string(), "0x0A");
+    /// assert_eq!(nybble.to_string(), "0xA");
     /// ```
     pub fn flip(&mut self) {
         self.bit_0.flip();
@@ -346,7 +346,7 @@ impl Nybble {
 
 impl Display for Nybble {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        write!(f, "{:#04X}", self.to_u8())
+        write!(f, "{:#03X}", self.to_u8())
     }
 }
 
@@ -485,7 +485,7 @@ mod tests {
         nybble.set_bit(2);
         nybble.set_bit(3);
         assert_eq!(nybble.to_u8(), 15);
-        assert_eq!(nybble.to_string(), "0x0F");
+        assert_eq!(nybble.to_string(), "0xF");
     }
 
     #[test]
@@ -503,7 +503,7 @@ mod tests {
         nybble.unset_bit(2);
         nybble.unset_bit(3);
         assert_eq!(nybble.to_u8(), 0);
-        assert_eq!(nybble.to_string(), "0x00");
+        assert_eq!(nybble.to_string(), "0x0");
     }
 
     #[test]
@@ -521,7 +521,7 @@ mod tests {
         nybble.flip_bit(2);
         nybble.flip_bit(3);
         assert_eq!(nybble.to_u8(), 0);
-        assert_eq!(nybble.to_string(), "0x00");
+        assert_eq!(nybble.to_string(), "0x0");
     }
 
     #[test]
@@ -536,7 +536,7 @@ mod tests {
         let mut nybble = Nybble::from_u8(15);
         nybble.flip();
         assert_eq!(nybble.to_u8(), 0);
-        assert_eq!(nybble.to_string(), "0x00");
+        assert_eq!(nybble.to_string(), "0x0");
     }
 
     #[test]
@@ -544,7 +544,7 @@ mod tests {
         let nybble = Nybble::from_u8(15);
         let nybble_not = !nybble;
         assert_eq!(nybble_not.to_u8(), 0);
-        assert_eq!(nybble_not.to_string(), "0x00");
+        assert_eq!(nybble_not.to_string(), "0x0");
     }
 
     #[test]
@@ -553,7 +553,7 @@ mod tests {
         let nybble_2 = Nybble::from_u8(0b1100);
         let nybble_3 = nybble_1 & nybble_2;
         assert_eq!(nybble_3.to_u8(), 0b1000);
-        assert_eq!(nybble_3.to_string(), "0x08");
+        assert_eq!(nybble_3.to_string(), "0x8");
     }
 
     #[test]
@@ -562,7 +562,7 @@ mod tests {
         let nybble_2 = Nybble::from_u8(0b1100);
         nybble_1 &= nybble_2;
         assert_eq!(nybble_1.to_u8(), 0b1000);
-        assert_eq!(nybble_1.to_string(), "0x08");
+        assert_eq!(nybble_1.to_string(), "0x8");
     }
 
     #[test]
@@ -571,7 +571,7 @@ mod tests {
         let nybble_2 = Nybble::from_u8(0b1100);
         let nybble_3 = nybble_1 | nybble_2;
         assert_eq!(nybble_3.to_u8(), 0b1110);
-        assert_eq!(nybble_3.to_string(), "0x0E");
+        assert_eq!(nybble_3.to_string(), "0xE");
     }
 
     #[test]
@@ -580,7 +580,7 @@ mod tests {
         let nybble_2 = Nybble::from_u8(0b1100);
         nybble_1 |= nybble_2;
         assert_eq!(nybble_1.to_u8(), 0b1110);
-        assert_eq!(nybble_1.to_string(), "0x0E");
+        assert_eq!(nybble_1.to_string(), "0xE");
     }
 
     #[test]
@@ -589,7 +589,7 @@ mod tests {
         let nybble_2 = Nybble::from_u8(0b1100);
         let nybble_3 = nybble_1 ^ nybble_2;
         assert_eq!(nybble_3.to_u8(), 0b0110);
-        assert_eq!(nybble_3.to_string(), "0x06");
+        assert_eq!(nybble_3.to_string(), "0x6");
     }
 
     #[test]
@@ -598,12 +598,12 @@ mod tests {
         let nybble_2 = Nybble::from_u8(0b1100);
         nybble_1 ^= nybble_2;
         assert_eq!(nybble_1.to_u8(), 0b0110);
-        assert_eq!(nybble_1.to_string(), "0x06");
+        assert_eq!(nybble_1.to_string(), "0x6");
     }
 
     #[test]
     fn test_display() {
         let nybble = Nybble::from_u8(10);
-        assert_eq!(format!("{}", nybble), "0x0A");
+        assert_eq!(format!("{}", nybble), "0xA");
     }
 }
