@@ -81,7 +81,6 @@ use std::{
 ///
 /// The methods `set_bit()`, `unset_bit()` and `get_bit()` will panic if the index is out of bounds.
 ///
-
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Nybble {
     bit_0: Bit,
@@ -230,6 +229,7 @@ impl Nybble {
     /// let result = nybble.to_u8();
     /// assert_eq!(result, 5);
     /// ```
+    #[must_use]
     pub fn to_u8(&self) -> u8 {
         let mut n = 0;
 
