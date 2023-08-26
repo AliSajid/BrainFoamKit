@@ -52,9 +52,11 @@ use std::{
 /// This Enum is the most basic building block of the `BrainfoamKit` library.
 /// This encodes a single bit, which can be either a 0 or a 1.
 /// I have implemented this as an Enum to ensure that the only possible values are 0 and 1.
-/// Additionally, the the variants are not public and can only be accessed through the `Bit::zero()` and `Bit::one()` constructor functions.
+/// Additionally, the variants are not public and can only be accessed through the `Bit::zero()` and `Bit::one()` constructor functions.
 ///
 /// # Examples
+///
+/// ## Create with helper functions
 ///
 /// ```
 /// use brainfoamkit_lib::Bit;
@@ -64,6 +66,7 @@ use std::{
 /// let bit = Bit::one();
 /// assert_eq!(bit, Bit::One);
 /// ```
+/// ## Perform basic operations
 ///
 /// ```
 /// use brainfoamkit_lib::Bit;
@@ -75,6 +78,8 @@ use std::{
 /// bit.flip();
 /// assert_eq!(bit, Bit::Zero);
 /// ```
+///
+/// ## Display the value
 ///
 /// ```
 /// use brainfoamkit_lib::Bit;
@@ -99,6 +104,8 @@ pub enum Bit {
 impl Bit {
     /// Constructs a new Bit with the value 0.
     ///
+    /// This function returns a value of the `Bit` Enum with the `Bit::Zero` variant.
+    ///
     /// # Examples
     ///
     /// ```
@@ -112,12 +119,19 @@ impl Bit {
     /// # Returns
     ///
     /// A new Bit with the `Bit::Zero` variant.
+    ///
+    /// # See Also
+    ///
+    /// * [`Bit::one()`](#method.one)
+    ///
     #[must_use]
     pub const fn zero() -> Self {
         Self::Zero
     }
 
     /// Constructs a new Bit with the value 1.
+    ///
+    /// This function returns a value of the `Bit` Enum with the `Bit::One` variant.
     ///
     /// # Examples
     ///
@@ -131,12 +145,19 @@ impl Bit {
     /// # Returns
     ///
     /// A new Bit with the `Bit::One` variant.
+    ///
+    /// # See Also
+    ///
+    /// * [`Bit::zero()`](#method.zero)
     #[must_use]
     pub const fn one() -> Self {
         Self::One
     }
 
     /// Flips the value of the Bit.
+    ///
+    /// This function flips the value of the Bit.
+    /// This means that if the Bit is `Bit::Zero` it will become `Bit::One` and vice versa.
     ///
     /// # Examples
     ///
@@ -154,6 +175,14 @@ impl Bit {
     /// # Side Effects
     ///
     /// The value of the Bit is flipped.
+    ///
+    /// # See Also
+    ///
+    /// * [`Bit::set()`](#method.set)
+    /// * [`Bit::unset()`](#method.unset)
+    /// * [`Bit::is_set()`](#method.is_set)
+    /// * [`Bit::is_unset()`](#method.is_unset)
+    ///
     pub fn flip(&mut self) {
         *self = match self {
             Self::Zero => Self::One,
@@ -187,6 +216,10 @@ impl Bit {
 
     /// Set the bit
     ///
+    /// This function *sets* the bit.
+    /// This means that the value of the bit is set to 1.
+    /// This function ignores the current value of the bit.
+    ///
     /// # Examples
     ///
     /// ```
@@ -211,11 +244,16 @@ impl Bit {
     /// * [`Bit::unset()`](#method.unset)
     /// * [`Bit::is_set()`](#method.is_set)
     /// * [`Bit::is_unset()`](#method.is_unset)
+    ///
     pub fn set(&mut self) {
         *self = Self::One;
     }
 
     /// Unset the bit
+    ///
+    /// This function unsets the bit.
+    /// This means that the value of the bit is set to 0.
+    /// This function ignores the current value of the bit.
     ///
     /// # Examples
     ///
@@ -248,6 +286,8 @@ impl Bit {
 
     /// Check if the bit is set
     ///
+    /// This function checks if the bit is set (i.e. has the value of Bit::One).
+    ///
     /// # Examples
     ///
     /// ```
@@ -266,12 +306,15 @@ impl Bit {
     /// * [`Bit::is_unset()`](#method.is_unset)
     /// * [`Bit::set()`](#method.set)
     /// * [`Bit::unset()`](#method.unset)
+    ///
     #[must_use]
     pub fn is_set(&self) -> bool {
         *self == Self::One
     }
 
     /// Check if the bit is unset
+    ///
+    /// This function checks if the bit is unset (i.e. has the value of Bit::Zero).
     ///
     /// # Examples
     ///
@@ -291,6 +334,7 @@ impl Bit {
     /// * [`Bit::is_set()`](#method.is_set)
     /// * [`Bit::set()`](#method.set)
     /// * [`Bit::unset()`](#method.unset)
+    ///
     #[must_use]
     pub fn is_unset(&self) -> bool {
         *self == Self::Zero
@@ -298,6 +342,31 @@ impl Bit {
 }
 
 impl Display for Bit {
+    /// Display the value of the Bit.
+    ///
+    /// This function displays the value of the Bit.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Bit;
+    ///
+    /// let bit = Bit::zero();
+    /// assert_eq!(format!("{}", bit), "0");
+    ///
+    /// let bit = Bit::one();
+    /// assert_eq!(format!("{}", bit), "1");
+    ///
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// A string containing the value of the Bit.
+    ///
+    /// # See Also
+    ///
+    /// * [`Bit::to_string()`](#method.to_string)
+    ///
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         match self {
             Self::Zero => write!(f, "0"),
@@ -313,8 +382,44 @@ impl Default for Bit {
 }
 
 impl Not for Bit {
+    // The return type of the `not` function is Bit since the only possible values are 0 and 1.
     type Output = Self;
 
+    /// Perform a logical NOT on the Bit.
+    ///
+    /// This function performs a logical NOT on the Bit.
+    /// This means that if the Bit is `Bit::Zero` it will become `Bit::One` and vice versa.
+    /// This function also allows you to use the `!` operator on the Bit.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Bit;
+    ///
+    /// let bit = !Bit::zero();
+    /// assert_eq!(bit, Bit::One);
+    ///
+    /// let bit = !Bit::one();
+    /// assert_eq!(bit, Bit::Zero);
+    ///
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// A new Bit with the value of the logical NOT of the Bit.
+    ///
+    /// # See Also
+    ///
+    /// * [`Bit::flip()`](#method.flip)
+    /// * [`Bit::set()`](#method.set)
+    /// * [`Bit::unset()`](#method.unset)
+    /// * [`Bit::bitand()`](#method.bitand)
+    /// * [`Bit::bitor()`](#method.bitor)
+    /// * [`Bit::bitxor()`](#method.bitxor)
+    /// * ['Bit::bitandassign()`](#method.bitandassign)
+    /// * ['Bit::bitorassign()`](#method.bitorassign)
+    /// * ['Bit::bitxorassign()`](#method.bitxorassign)
+    ///
     fn not(self) -> Self::Output {
         match self {
             Self::Zero => Self::One,
@@ -324,8 +429,51 @@ impl Not for Bit {
 }
 
 impl BitOr for Bit {
+    // The return type of the `bitor` function is a Bit since the `Or` operation is symmetric.
     type Output = Self;
 
+    /// Perform a logical OR on the Bit.
+    ///
+    /// This function performs a logical OR on the Bit.
+    /// This means that if either of the Bits is `Bit::One` the result will be `Bit::One`, otherwise the result will be `Bit::Zero`.
+    /// This function also allows you to use the `|` operator on the Bit.
+    ///
+    /// # Arguments
+    ///
+    /// * `rhs` - The other Bit to perform the logical OR with.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Bit;
+    ///
+    /// let bit = Bit::zero() | Bit::zero();
+    /// assert_eq!(bit, Bit::Zero);
+    ///
+    /// let bit = Bit::zero() | Bit::one();
+    /// assert_eq!(bit, Bit::One);
+    ///
+    /// let bit = Bit::one() | Bit::zero();
+    /// assert_eq!(bit, Bit::One);
+    ///
+    /// let bit = Bit::one() | Bit::one();
+    /// assert_eq!(bit, Bit::One);
+    ///
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// A new Bit with the value of the logical OR of the two Bits.
+    ///
+    /// # See Also
+    ///
+    /// * [`Bit::not()`](#method.not)
+    /// * [`Bit::bitand()`](#method.bitand)
+    /// * [`Bit::bitxor()`](#method.bitxor)
+    /// * ['Bit::bitandassign()`](#method.bitandassign)
+    /// * ['Bit::bitorassign()`](#method.bitorassign)
+    /// * ['Bit::bitxorassign()`](#method.bitxorassign)
+    ///
     fn bitor(self, rhs: Self) -> Self::Output {
         match (self, rhs) {
             (Self::Zero, Self::Zero) => Self::Zero,
@@ -335,14 +483,102 @@ impl BitOr for Bit {
 }
 
 impl BitOrAssign for Bit {
+    /// Perform a logical OR on the Bit and assign the result to the Bit.
+    ///
+    /// This function performs a logical OR on the Bit and assigns the result to the Bit.
+    /// This also allows you to use the `|=` operator on the Bit.
+    ///
+    /// # Arguments
+    ///
+    /// * `rhs` - The other Bit to perform the logical OR with.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Bit;
+    ///
+    /// let mut bit = Bit::zero();
+    ///
+    /// bit |= Bit::zero();
+    /// assert_eq!(bit, Bit::Zero);
+    ///
+    /// bit |= Bit::one();
+    /// assert_eq!(bit, Bit::One);
+    ///
+    /// bit |= Bit::zero();
+    ///
+    /// assert_eq!(bit, Bit::One);
+    ///
+    /// ```
+    ///
+    /// # Side Effects
+    ///
+    /// The value of the Bit is updated to the result of the logical OR.
+    ///
+    /// # See Also
+    ///
+    /// * [`Bit::not()`](#method.not)
+    /// * [`Bit::bitand()`](#method.bitand)
+    /// * [`Bit::bitxor()`](#method.bitxor)
+    /// * ['Bit::bitandassign()`](#method.bitandassign)
+    /// * ['Bit::bitorassign()`](#method.bitorassign)
+    /// * ['Bit::bitxorassign()`](#method.bitxorassign)
+    ///
     fn bitor_assign(&mut self, rhs: Self) {
         *self = *self | rhs;
     }
 }
 
 impl BitAnd for Bit {
+    // The return type of the `bitand` function is a Bit since the `And` operation is symmetric.
     type Output = Self;
 
+    /// Perform a logical AND on the Bit.
+    ///
+    /// This function performs a logical AND on the Bit.
+    /// This means that if both of the Bits are `Bit::One` the result will be `Bit::One`, otherwise the result will be `Bit::Zero`.
+    /// This function also allows you to use the `&` operator on the Bit.
+    ///
+    /// # Arguments
+    ///
+    /// * `rhs` - The other Bit to perform the logical AND with.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Bit;
+    ///
+    /// let bit = Bit::zero() & Bit::zero();
+    ///
+    /// assert_eq!(bit, Bit::Zero);
+    ///
+    /// let bit = Bit::zero() & Bit::one();
+    ///
+    /// assert_eq!(bit, Bit::Zero);
+    ///
+    /// let bit = Bit::one() & Bit::zero();
+    ///
+    /// assert_eq!(bit, Bit::Zero);
+    ///
+    /// let bit = Bit::one() & Bit::one();
+    ///
+    /// assert_eq!(bit, Bit::One);
+    ///
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// A new Bit with the value of the logical AND of the two Bits.
+    ///
+    /// # See Also
+    ///
+    /// * [`Bit::not()`](#method.not)
+    /// * [`Bit::bitor()`](#method.bitor)
+    /// * [`Bit::bitxor()`](#method.bitxor)
+    /// * ['Bit::bitandassign()`](#method.bitandassign)
+    /// * ['Bit::bitorassign()`](#method.bitorassign)
+    /// * ['Bit::bitxorassign()`](#method.bitxorassign)
+    ///
     fn bitand(self, rhs: Self) -> Self::Output {
         match (self, rhs) {
             (Self::One, Self::One) => Self::One,
@@ -352,14 +588,86 @@ impl BitAnd for Bit {
 }
 
 impl BitAndAssign for Bit {
+    /// Perform a logical AND on the Bit and assign the result to the Bit.
+    ///
+    /// This function performs a logical AND on the Bit and assigns the result to the Bit.
+    /// This also allows you to use the `&=` operator on the Bit.
+    ///
+    /// # Arguments
+    ///
+    /// * `rhs` - The other Bit to perform the logical AND with.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Bit;
+    ///
+    /// let mut bit = Bit::zero();
+    ///
+    /// bit &= Bit::zero();
+    /// assert_eq!(bit, Bit::Zero);
+    ///
+    /// ```
+    ///
+    /// # Side Effects
+    ///
+    /// The value of the Bit is updated to the result of the logical AND.
+    ///
+    /// # See Also
+    ///
+    /// * [`Bit::not()`](#method.not)
+    /// * [`Bit::bitor()`](#method.bitor)
+    /// * [`Bit::bitxor()`](#method.bitxor)
+    /// * ['Bit::bitandassign()`](#method.bitandassign)
+    /// * ['Bit::bitorassign()`](#method.bitorassign)
+    /// * ['Bit::bitxorassign()`](#method.bitxorassign)
+    ///
     fn bitand_assign(&mut self, rhs: Self) {
         *self = *self & rhs;
     }
 }
 
 impl BitXor for Bit {
+    // The return type of the `bitxor` function is a Bit since the `Xor` operation is symmetric.
     type Output = Self;
 
+    /// Perform a logical XOR on the Bit.
+    ///
+    /// This function performs a logical XOR on the Bit.
+    /// This means that if the Bits are different the result will be `Bit::One`, otherwise the result will be `Bit::Zero`.
+    /// This function also allows you to use the `^` operator on the Bit.
+    ///
+    /// # Arguments
+    ///
+    /// * `rhs` - The other Bit to perform the logical XOR with.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Bit;
+    ///
+    /// let bit = Bit::zero() ^ Bit::zero();
+    ///
+    /// assert_eq!(bit, Bit::Zero);
+    ///
+    /// let bit = Bit::zero() ^ Bit::one();
+    ///
+    /// assert_eq!(bit, Bit::One);
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// A new Bit with the value of the logical XOR of the two Bits.
+    ///
+    /// # See Also
+    ///
+    /// * [`Bit::not()`](#method.not)
+    /// * [`Bit::bitor()`](#method.bitor)
+    /// * [`Bit::bitand()`](#method.bitand)
+    /// * ['Bit::bitandassign()`](#method.bitandassign)
+    /// * ['Bit::bitorassign()`](#method.bitorassign)
+    /// * ['Bit::bitxorassign()`](#method.bitxorassign)
+    ///
     fn bitxor(self, rhs: Self) -> Self::Output {
         match (self, rhs) {
             (Self::Zero, Self::One) | (Self::One, Self::Zero) => Self::One,
@@ -369,6 +677,44 @@ impl BitXor for Bit {
 }
 
 impl BitXorAssign for Bit {
+    /// Perform a logical XOR on the Bit and assign the result to the Bit.
+    ///
+    /// This function performs a logical XOR on the Bit and assigns the result to the Bit.
+    /// This also allows you to use the `^=` operator on the Bit.
+    ///
+    /// # Arguments
+    ///
+    /// * `rhs` - The other Bit to perform the logical XOR with.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Bit;
+    ///
+    /// let mut bit = Bit::zero();
+    ///
+    /// bit ^= Bit::zero();
+    ///
+    /// assert_eq!(bit, Bit::Zero);
+    ///
+    /// bit ^= Bit::one();
+    ///
+    /// assert_eq!(bit, Bit::One);
+    /// ```
+    ///
+    /// # Side Effects
+    ///
+    /// The value of the Bit is updated to the result of the logical XOR.
+    ///
+    /// # See Also
+    ///
+    /// * [`Bit::not()`](#method.not)
+    /// * [`Bit::bitor()`](#method.bitor)
+    /// * [`Bit::bitand()`](#method.bitand)
+    /// * [`Bit::bitxor()`](#method.bitxor)
+    /// * ['Bit::bitandassign()`](#method.bitandassign)
+    /// * ['Bit::bitorassign()`](#method.bitorassign)
+    ///
     fn bitxor_assign(&mut self, rhs: Self) {
         *self = *self ^ rhs;
     }
