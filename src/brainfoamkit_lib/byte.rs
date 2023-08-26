@@ -50,19 +50,39 @@ use std::{
 
 /// A Byte is an 8-bit unsigned integer (u8).
 ///
-/// This is a wrapper around four Bit instances. The least significant bit is `bit_0` and the most significant bit is `bit_7`.
+/// This is a wrapper around eight Bit instances. The least significant bit is `bit_0` and the most significant bit is `bit_7`.
 /// This struct is used to conveniently manipulate 8-bit values.
 ///
+/// Note that the Bit instances are stored in reverse (LSB to MSB) order,
+/// but the constructor takes them in the correct order (MSB to LSB) to provide a predictable and intuitive interface.
+///
 /// # Examples
+///
+/// ## Create a byte from primitive Bit values
+///
+/// An easy way create a byte is to use the [`Byte::new()`](#method.new) method.
+/// This method takes eight [Bit](crate::Bit) instances as arguments. The least significant bit is `bit_0` and the most significant bit is `bit_7`.
+/// The order of the arguments is the same as the order of the bits in the byte.
 ///
 /// ```
 /// use brainfoamkit_lib::Byte;
 /// use brainfoamkit_lib::Bit;
 ///
-/// let Byte = Byte::new(Bit::One, Bit::Zero, Bit::One, Bit::Zero, Bit::One, Bit::Zero, Bit::One, Bit::Zero);
-/// assert_eq!(Byte.to_u8(), 170);
-/// assert_eq!(Byte.to_string(), "0xAA");
+/// let byte = Byte::new(Bit::one(), Bit::zero(), Bit::one(), Bit::zero(), Bit::one(), Bit::zero(), Bit::one(), Bit::zero());
+/// assert_eq!(byte.to_u8(), 170);
+/// assert_eq!(byte.to_string(), "0xAA");
 /// ```
+/// ## Create a byte from a primitive u8 value
+///
+/// ```
+/// use brainfoamkit_lib::Byte;
+///
+/// let byte = Byte::from_u8(170);
+/// assert_eq!(byte.to_u8(), 170);
+/// assert_eq!(byte.to_string(), "0xAA");
+/// ```
+///
+/// ## Set and Unset bits to generate desired byte
 ///
 /// ```
 /// use brainfoamkit_lib::Byte;
@@ -72,18 +92,54 @@ use std::{
 /// byte.set_bit(0);
 /// byte.set_bit(1);
 /// byte.set_bit(2);
-/// byte.set_bit(3);
+/// assert_eq!(byte.to_u8(), 7);
+/// assert_eq!(byte.to_string(), "0x07");
+/// byte.unset_bit(1);
+/// assert_eq!(byte.to_u8(), 5);
+/// assert_eq!(byte.to_string(), "0x05");
+/// ```
+///
+/// ## Get the Bit value at a given index
+///
+/// ```
+/// use brainfoamkit_lib::Byte;
+/// use brainfoamkit_lib::Bit;
+///
+/// let byte = Byte::from_u8(170);
+/// assert_eq!(byte.get_bit(0), Bit::Zero);
+/// assert_eq!(byte.get_bit(1), Bit::One);
+/// assert_eq!(byte.get_bit(2), Bit::Zero);
+/// assert_eq!(byte.get_bit(3), Bit::One);
+/// assert_eq!(byte.get_bit(4), Bit::Zero);
+/// assert_eq!(byte.get_bit(5), Bit::One);
+/// assert_eq!(byte.get_bit(6), Bit::Zero);
+/// assert_eq!(byte.get_bit(7), Bit::One);
+/// ```
+///
+/// ## Flip the Bit value at a given index
+///
+/// ```
+/// use brainfoamkit_lib::Byte;
+/// use brainfoamkit_lib::Bit;
+///
+/// let mut byte = Byte::default();
+/// byte.set_bit(0);
+/// byte.set_bit(2);
 /// byte.set_bit(4);
-/// byte.set_bit(5);
-/// byte.set_bit(6);
-/// byte.set_bit(7);
-/// assert_eq!(byte.to_u8(), 255);
-/// assert_eq!(byte.to_string(), "0xFF");
+/// assert_eq!(byte.to_u8(), 0b00010101); // 21
+/// assert_eq!(byte.to_string(), "0x15");
+/// byte.flip_bit(2);
+/// assert_eq!(byte.to_u8(), 0b00010001); // 17
+/// assert_eq!(byte.to_string(), "0x11");
+/// byte.flip_bit(7);
+/// assert_eq!(byte.to_u8(), 0b10010001); // 145
+/// assert_eq!(byte.to_string(), "0x91");
 /// ```
 ///
 /// # Panics
 ///
-/// The methods `set_bit()`, `unset_bit()` and `get_bit()` will panic if the index is out of bounds.
+/// The methods [`set_bit()`](#method.set_bit), [`unset_bit()`](#method.unset_bit) and
+/// [`get_bit()`](#method.get_bit) will panic if the index is out of bounds.
 ///
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Byte {
@@ -100,39 +156,74 @@ pub struct Byte {
 impl Byte {
     /// Creates a new Byte instance with the specified Bit values.
     ///
-    /// This method takes four Bit instances as arguments. The least significant bit is `bit_0` and the most significant bit is `bit_3`.
+    /// This method takes eight Bit instances as arguments. The least significant bit is `bit_0`
+    /// and the most significant bit is `bit_7`.
+    ///
+    /// Note that the Bit instances are stored in reverse (LSB to MSB) order,
+    /// but the constructor takes them in the correct order (MSB to LSB) to provide a predictable and intuitive interface.
+    ///
+    /// # Arguments
+    ///
+    /// * `zeroth` - The value of the most significant bit.
+    /// * `first` - The value of the second most significant bit.
+    /// * `second` - The value of the third most significant bit.
+    /// * `third` - The value of the fourth most significant bit.
+    /// * `fourth` - The value of the fifth most significant bit.
+    /// * `fifth` - The value of the sixth most significant bit.
+    /// * `sixth` - The value of the seventh most significant bit.
+    /// * `seventh` - The value of the least significant bit.
     ///
     /// # Examples
     ///
+    /// ## Single Digit
     /// ```
     /// use brainfoamkit_lib::Byte;
     /// use brainfoamkit_lib::Bit;
     ///
-    /// let byte = Byte::new(Bit::Zero, Bit::Zero, Bit::Zero, Bit::Zero, Bit::One, Bit::Zero, Bit::One, Bit::Zero);
-    /// assert_eq!(byte.to_u8(), 5);
-    /// assert_eq!(byte.to_string(), "0x05");
+    /// let byte_single = Byte::new(Bit::zero(), Bit::zero(), Bit::zero(), Bit::zero(), Bit::one(), Bit::zero(), Bit::one(), Bit::zero());
+    /// assert_eq!(byte_single.to_u8(), 0b00001010);
+    /// assert_eq!(byte_single.to_string(), "0x0A");
     /// ```
+    /// ## Double Digit
+    /// ```
+    /// use brainfoamkit_lib::Byte;
+    /// use brainfoamkit_lib::Bit;
+    ///
+    /// let byte_double = Byte::new(Bit::one(), Bit::zero(), Bit::one(), Bit::zero(), Bit::one(), Bit::zero(), Bit::one(), Bit::zero());
+    /// assert_eq!(byte_double.to_u8(), 0b10101010);
+    /// assert_eq!(byte_double.to_string(), "0xAA");
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// A Byte containing the specified Bit values.
+    ///
+    /// # See Also
+    ///
+    /// [`from_u8()`](#method.from_u8)
+    /// [`from_nybbles()`](#method.from_nybbles)
+    ///
     #[must_use]
     #[allow(clippy::too_many_arguments)]
     pub const fn new(
-        bit_0: Bit,
-        bit_1: Bit,
-        bit_2: Bit,
-        bit_3: Bit,
-        bit_4: Bit,
-        bit_5: Bit,
-        bit_6: Bit,
-        bit_7: Bit,
+        zeroth: Bit,
+        first: Bit,
+        second: Bit,
+        third: Bit,
+        fourth: Bit,
+        fifth: Bit,
+        sixth: Bit,
+        seventh: Bit,
     ) -> Self {
         Self {
-            bit_0, // Least significant bit
-            bit_1,
-            bit_2,
-            bit_3, // Low Nybble from here on Up
-            bit_4, // High Nybble from here on Down
-            bit_5,
-            bit_6,
-            bit_7, // Most Significant Bit
+            bit_0: seventh, // Least significant bit
+            bit_1: sixth,
+            bit_2: fifth,
+            bit_3: fourth, // Low Nybble from here on Up
+            bit_4: third,  // High Nybble from here on Down
+            bit_5: second,
+            bit_6: first,
+            bit_7: zeroth, // Most Significant Bit
         }
     }
 
@@ -146,21 +237,19 @@ impl Byte {
     ///
     /// ```
     /// use brainfoamkit_lib::Byte;
-    /// use brainfoamkit_lib::Bit;
     ///
-    /// let byte_single = Byte::from_u8(5).unwrap();
-    /// assert_eq!(byte.to_u8(), 5);
-    /// assert_eq!(byte.to_string(), "0x05");
+    /// let byte_single = Byte::from_u8(5);
+    /// assert_eq!(byte_single.to_u8(), 0b00000101); // 5
+    /// assert_eq!(byte_single.to_string(), "0x05");
     /// ```
     /// ## Double Digits
     ///
     /// ```
     /// use brainfoamkit_lib::Byte;
-    /// use brainfoamkit_lib::Bit;
     ///
-    /// let byte_double = Byte::from_u8(85).unwrap();
-    /// assert_eq!(byte.to_u8(), 85);
-    /// assert_eq!(byte.to_string(), "0x55");
+    /// let byte_double = Byte::from_u8(85);
+    /// assert_eq!(byte_double.to_u8(), 0b01010101); // 85
+    /// assert_eq!(byte_double.to_string(), "0x55");
     /// ```
     ///
     #[must_use]
@@ -178,8 +267,9 @@ impl Byte {
 
     /// Creates a new Byte from two Nybbles.
     ///
-    /// This method takes two Nybbles as arguments.
-    /// The first Nybble is the most significant nybble and the second Nybble is the least significant nybble.
+    /// This method takes two [Nybbles](crate::Nybble) as arguments.
+    /// The first Nybble (`bit_7` to `bit_4`) is the High Nybble and
+    /// the second Nybble (`bit_3` to `bit_0`) is the Low Nybble.
     ///
     /// # Examples
     ///
@@ -187,10 +277,18 @@ impl Byte {
     /// use brainfoamkit_lib::Byte;
     /// use brainfoamkit_lib::Nybble;
     ///
-    /// let byte = Byte::from_nybbles(Nybble::new(0b1010), Nybble::new(0b0101));
-    /// assert_eq!(byte.to_u8(), 85);
-    /// assert_eq!(byte.to_string(), "0x55");
+    /// let byte = Byte::from_nybbles(Nybble::from_u8(0b1011), Nybble::from_u8(0b0101));
+    /// assert_eq!(byte.to_u8(), 181);
+    /// assert_eq!(byte.to_string(), "0xB5");
     /// ```
+    ///
+    /// # Returns
+    /// A Byte containing the value of the two Nybbles.
+    ///
+    /// # See Also
+    ///
+    /// [`get_high_nybble()`](#method.get_high_nybble)
+    /// [`get_low_nybble()`](#method.get_low_nybble)
     ///
     #[must_use]
     pub fn from_nybbles(high_nybble: Nybble, low_nybble: Nybble) -> Self {
@@ -208,21 +306,29 @@ impl Byte {
         byte
     }
 
-    /// Gets the most significant nybble from the Byte.
-    /// This method returns a Nybble.
-    /// The most significant nybble is the first nybble.
+    /// Gets the High or First Nybble from the Byte.
+    /// This method returns a [Nybble](crate::Nybble).
+    /// The High Nybble is the first nybble (`bit_7` to `bit_4`).
     ///
     /// # Examples
     ///
     /// ```
     /// use brainfoamkit_lib::Byte;
-    /// use brainfoamkit_lib::Nybble;
     ///
-    /// let byte = Byte::from_u8(85).unwrap();
+    /// let byte = Byte::from_u8(0b01010101);
     /// let high_nybble = byte.get_high_nybble();
-    /// assert_eq!(high_nybble.to_u8(), 10);
-    /// assert_eq!(high_nybble.to_string(), "0xA");
+    /// assert_eq!(high_nybble.to_u8(), 5);
+    /// assert_eq!(high_nybble.to_string(), "0x5");
     /// ```
+    ///
+    /// # Returns
+    ///
+    /// A Nybble representing the High Nybble of the Byte.
+    ///
+    /// # See Also
+    ///
+    /// [`get_low_nybble()`](#method.get_low_nybble)
+    /// [`from_nybbles()`](#method.from_nybbles)
     ///
     #[must_use]
     pub fn get_high_nybble(&self) -> Nybble {
@@ -237,21 +343,29 @@ impl Byte {
         nybble
     }
 
-    /// Gets the least significant nybble from the Byte.
+    /// Gets the Low or Second Nybble from the Byte.
     /// This method returns a Nybble.
-    /// The least significant nybble is the second nybble.
+    /// The Low Nybble is the second nybble (`bit_3` to `bit_0`).
     ///
     /// # Examples
     ///
     /// ```
     /// use brainfoamkit_lib::Byte;
-    /// use brainfoamkit_lib::Nybble;
     ///
-    /// let byte = Byte::from_u8(85).unwrap();
+    /// let byte = Byte::from_u8(0b01010101);
     /// let low_nybble = byte.get_low_nybble();
     /// assert_eq!(low_nybble.to_u8(), 5);
     /// assert_eq!(low_nybble.to_string(), "0x5");
     /// ```
+    ///
+    /// # Returns
+    ///
+    /// A Nybble containing the least significant nybble of the Byte.
+    ///
+    /// # See Also
+    ///
+    /// [`get_high_nybble()`](#method.get_high_nybble)
+    /// [`from_nybbles()`](#method.from_nybbles)
     ///
     #[must_use]
     pub fn get_low_nybble(&self) -> Nybble {
@@ -268,13 +382,19 @@ impl Byte {
 
     /// Sets the Bit value at the specified index.
     ///
-    /// This method is used "Set" the bit value at a given index. This means that that bit value is set to 1.
+    /// This method is used "Set" the bit value at a given index.
+    /// This means that that bit value is set to 1.
+    ///
+    /// The index is zero-based, so the least significant bit is at index 0 and the most significant bit is at index 7.
+    ///
+    /// # Arguments
+    ///
+    /// * `index` - The index of the Bit to set.
     ///
     /// # Examples
     ///
     /// ```
     /// use brainfoamkit_lib::Byte;
-    /// use brainfoamkit_lib::Bit;
     ///
     /// let mut byte = Byte::default();
     /// byte.set_bit(0);
@@ -290,6 +410,17 @@ impl Byte {
     /// # Panics
     ///
     /// This method will panic if the index is out of bounds.
+    ///
+    /// # Side Effects
+    ///
+    /// This method will flip the Bit value at the specified index.
+    ///
+    /// # See Also
+    ///
+    /// [`unset_bit()`](#method.unset_bit)
+    /// [`flip_bit()`](#method.flip_bit)
+    /// [`get_bit()`](#method.get_bit)
+    ///
     pub fn set_bit(&mut self, index: u8) {
         match index {
             0 => self.bit_0.set(),
@@ -306,7 +437,14 @@ impl Byte {
 
     /// Unsets the Bit value at the specified index.
     ///
-    /// This method is used "Unset" the bit value at a given index. This means that that bit value is set to 0.
+    /// This method is used "Unset" the bit value at a given index.
+    /// This means that that bit value is set to 0.
+    ///
+    /// The index is zero-based, so the least significant bit is at index 0 and the most significant bit is at index 7.
+    ///
+    /// # Arguments
+    ///
+    /// * `index` - The index of the Bit to unset.
     ///
     /// # Examples
     ///
@@ -327,6 +465,17 @@ impl Byte {
     /// # Panics
     ///
     /// This method will panic if the index is out of bounds.
+    ///
+    /// # Side Effects
+    ///
+    /// This method will [unset](crate::Bit#method.unset) the Bit value at the specified index.
+    ///
+    /// # See Also
+    ///
+    /// [`set_bit()`](#method.set_bit)
+    /// [`flip_bit()`](#method.flip_bit)
+    /// [`get_bit()`](#method.get_bit)
+    ///
     pub fn unset_bit(&mut self, index: u8) {
         match index {
             0 => self.bit_0.unset(),
@@ -343,16 +492,28 @@ impl Byte {
 
     /// Converts the Byte to an 8-bit unsigned integer (u8).
     ///
+    /// This method returns the value of the Byte as an 8-bit unsigned integer (u8).
+    ///
     /// # Examples
     ///
     /// ```
     /// use brainfoamkit_lib::Byte;
     /// use brainfoamkit_lib::Bit;
     ///
-    /// let byte = Byte::new(Bit::One, Bit::Zero, Bit::One, Bit::Zero, Bit::One, Bit::Zero, Bit::One, Bit::Zero);
-    /// let result = byte.to_u8();
-    /// assert_eq!(result, 170);
+    /// let byte = Byte::new(Bit::one(), Bit::zero(), Bit::one(), Bit::zero(), Bit::one(), Bit::zero(), Bit::one(), Bit::zero());
+    /// assert_eq!(byte.to_u8(), 170);
+    /// assert_eq!(byte.to_string(), "0xAA");
     /// ```
+    ///
+    /// # Returns
+    ///
+    /// An 8-bit unsigned integer (u8) containing the value of the Byte.
+    ///
+    /// # See Also
+    ///
+    /// [`to_string()`](#method.to_string)
+    /// [`from_u8()`](#method.from_u8)
+    ///
     #[must_use]
     pub fn to_u8(&self) -> u8 {
         let mut n = 0;
@@ -368,26 +529,43 @@ impl Byte {
 
     /// Get the Bit value at the specified index.
     ///
+    /// The index is zero-based, so the least significant bit is at index 0 and the most significant bit is at index 7.
+    ///
+    /// # Arguments
+    ///
+    /// * `index` - The index of the Bit to get.
+    ///
     /// # Examples
     ///
     /// ```
     /// use brainfoamkit_lib::Byte;
     /// use brainfoamkit_lib::Bit;
     ///
-    /// let byte = Byte::new(Bit::One, Bit::Zero, Bit::One, Bit::Zero, Bit::One, Bit::Zero, Bit::One, Bit::Zero);
-    /// assert_eq!(byte.get_bit(0), Bit::One);
-    /// assert_eq!(byte.get_bit(1), Bit::Zero);
-    /// assert_eq!(byte.get_bit(2), Bit::One);
-    /// assert_eq!(byte.get_bit(3), Bit::Zero);
-    /// assert_eq!(byte.get_bit(4), Bit::One);
-    /// assert_eq!(byte.get_bit(5), Bit::Zero);
-    /// assert_eq!(byte.get_bit(6), Bit::One);
-    /// assert_eq!(byte.get_bit(7), Bit::Zero);
+    /// let byte = Byte::new(Bit::one(), Bit::zero(), Bit::one(), Bit::zero(), Bit::one(), Bit::zero(), Bit::one(), Bit::zero());
+    /// assert_eq!(byte.get_bit(0), Bit::Zero);
+    /// assert_eq!(byte.get_bit(1), Bit::One);
+    /// assert_eq!(byte.get_bit(2), Bit::Zero);
+    /// assert_eq!(byte.get_bit(3), Bit::One);
+    /// assert_eq!(byte.get_bit(4), Bit::Zero);
+    /// assert_eq!(byte.get_bit(5), Bit::One);
+    /// assert_eq!(byte.get_bit(6), Bit::Zero);
+    /// assert_eq!(byte.get_bit(7), Bit::One);
     /// ```
     ///
     /// # Panics
     ///
     /// This method will panic if the index is out of bounds.
+    ///
+    /// # Returns
+    ///
+    /// A [Bit](crate::Bit) containing the value of the Bit at the specified index.
+    ///
+    /// # See Also
+    ///
+    /// [`set_bit()`](#method.set_bit)
+    /// [`unset_bit()`](#method.unset_bit)
+    /// [`flip_bit()`](#method.flip_bit)
+    ///
     #[must_use]
     pub fn get_bit(&self, index: u8) -> Bit {
         match index {
@@ -405,13 +583,19 @@ impl Byte {
 
     /// Flips the Bit value at the specified index.
     ///
-    /// This method is used to flip the bit value at a given index. This means that that bit value is set to the opposite of its current value.
+    /// This method is used to flip the bit value at a given index.
+    /// This means that that bit value is set to the opposite of its current value.
+    ///
+    /// The index is zero-based, so the least significant bit is at index 0 and the most significant bit is at index 7.
+    ///
+    /// # Arguments
+    ///
+    /// * `index` - The index of the Bit to flip.
     ///
     /// # Examples
     ///
     /// ```
     /// use brainfoamkit_lib::Byte;
-    /// use brainfoamkit_lib::Bit;
     ///
     /// let mut byte = Byte::default();
     /// byte.set_bit(0);
@@ -438,6 +622,16 @@ impl Byte {
     /// # Panics
     ///
     /// This method will panic if the index is out of bounds.
+    ///
+    /// # Side Effects
+    ///
+    /// This method will [flip](crate::Bit#method.flip) the Bit value at the specified index.
+    ///
+    /// # See Also
+    ///
+    /// [`set_bit()`](#method.set_bit)
+    /// [`unset_bit()`](#method.unset_bit)
+    /// [`get_bit()`](#method.get_bit)
     ///
     pub fn flip_bit(&mut self, index: u8) {
         match index {
@@ -469,7 +663,6 @@ impl Byte {
     ///
     /// ```
     /// use brainfoamkit_lib::Byte;
-    /// use brainfoamkit_lib::Bit;
     ///
     /// let mut byte = Byte::default();
     ///
@@ -486,6 +679,15 @@ impl Byte {
     /// assert_eq!(byte.to_u8(), 170);
     /// assert_eq!(byte.to_string(), "0xAA");
     /// ```
+    ///
+    /// # Side Effects
+    ///
+    /// This method will [flip](crate::Bit#method.flip) all of the Bit values in the Byte.
+    ///
+    /// # See Also
+    ///
+    /// [`flip_bit()`](#method.flip_bit)
+    ///
     pub fn flip(&mut self) {
         self.bit_0.flip();
         self.bit_1.flip();
@@ -499,6 +701,25 @@ impl Byte {
 }
 
 impl Display for Byte {
+    /// Converts the Byte to a String.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Byte;
+    ///
+    /// let byte = Byte::from_u8(170);
+    /// assert_eq!(byte.to_string(), "0xAA");
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// A String containing the value of the Byte.
+    ///
+    /// # See Also
+    ///
+    /// [`to_u8()`](#method.to_u8)
+    /// [`from_u8()`](#method.from_u8)
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         write!(f, "{:#04X}", self.to_u8())
     }
@@ -520,8 +741,38 @@ impl Default for Byte {
 }
 
 impl Not for Byte {
+    // The return type is Byte because the Not operation is in-place.
     type Output = Self;
 
+    /// Performs the Not operation on the Byte.
+    ///
+    /// This method is used to perform the Not operation on the Byte.
+    /// This also allows the use of the `!` operator on the Byte.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Byte;
+    ///
+    /// let mut byte = Byte::from_u8(170);
+    ///
+    /// assert_eq!(byte.to_u8(), 170);
+    /// assert_eq!(byte.to_string(), "0xAA");
+    ///
+    /// byte = !byte;
+    ///
+    /// assert_eq!(byte.to_u8(), 85);
+    /// assert_eq!(byte.to_string(), "0x55");
+    /// ```
+    ///
+    /// # Side Effects
+    ///
+    /// This method inverts the Bit values in the Byte.
+    ///
+    /// # See Also
+    ///
+    /// [`flip()`](#method.flip)
+    ///
     fn not(self) -> Self::Output {
         let mut byte = self;
         byte.flip();
@@ -530,8 +781,46 @@ impl Not for Byte {
 }
 
 impl BitAnd for Byte {
+    // The return type is Byte because the BitAnd operation is symmetric.
     type Output = Self;
 
+    /// Performs the Bitwise And operation on the Byte.
+    ///
+    /// This method is used to perform the Bitwise And operation on the Byte.
+    /// This also allows the use of the `&` operator on the Byte.
+    ///
+    /// # Arguments
+    ///
+    /// * `rhs` - The right hand side of the BitAnd operation.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Byte;
+    ///
+    /// let mut byte = Byte::from_u8(170);
+    ///
+    /// assert_eq!(byte.to_u8(), 170);
+    /// assert_eq!(byte.to_string(), "0xAA");
+    ///
+    /// byte = byte & Byte::from_u8(85);
+    ///
+    /// assert_eq!(byte.to_u8(), 0);
+    /// assert_eq!(byte.to_string(), "0x00");
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// A Byte containing the result of a bitwise AND operation on the two Bytes.
+    ///
+    /// # See Also
+    ///
+    /// [`bitor()`](#method.bitor)
+    /// [`bitxor()`](#method.bitxor)
+    /// [`bitand_assign()`](#method.bitand_assign)
+    /// [`bitor_assign()`](#method.bitor_assign)
+    /// [`bitxor_assign()`](#method.bitxor_assign)
+    ///
     fn bitand(self, rhs: Self) -> Self::Output {
         let mut byte = self;
         byte.bit_0 &= rhs.bit_0;
@@ -547,6 +836,41 @@ impl BitAnd for Byte {
 }
 
 impl BitAndAssign for Byte {
+    /// Performs the Bitwise And Assignment operation on the Byte.
+    ///
+    /// This method is used to perform the Bitwise And Assignment operation on the Byte.
+    /// This also allows the use of the `&=` operator on the Byte.
+    ///
+    /// # Arguments
+    ///
+    /// * `rhs` - The right hand side of the BitAnd Assignment operation.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Byte;
+    ///
+    /// let mut byte = Byte::from_u8(170);
+    ///
+    /// assert_eq!(byte.to_u8(), 170);
+    ///
+    /// byte &= Byte::from_u8(85);
+    ///
+    /// assert_eq!(byte.to_u8(), 0);
+    /// ```
+    ///
+    /// # Side Effects
+    ///
+    /// This method performs a bitwise AND operation on the two Bytes, storing the result in the first Byte.
+    ///
+    /// # See Also
+    ///
+    /// [`bitand()`](#method.bitand)
+    /// [`bitor()`](#method.bitor)
+    /// [`bitxor()`](#method.bitxor)
+    /// [`bitor_assign()`](#method.bitor_assign)
+    /// [`bitxor_assign()`](#method.bitxor_assign)
+    ///
     fn bitand_assign(&mut self, rhs: Self) {
         self.bit_0 &= rhs.bit_0;
         self.bit_1 &= rhs.bit_1;
@@ -560,8 +884,46 @@ impl BitAndAssign for Byte {
 }
 
 impl BitOr for Byte {
+    // The return type is Byte because the BitOr operation is symmetric.
     type Output = Self;
 
+    /// Performs the Bitwise Or operation on the Byte.
+    ///
+    /// This method is used to perform the Bitwise Or operation on the Byte.
+    /// This also allows the use of the `|` operator on the Byte.
+    ///
+    /// # Arguments
+    ///
+    /// * `rhs` - The right hand side of the Bitwise Or operation.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Byte;
+    ///
+    /// let mut byte = Byte::from_u8(170);
+    ///
+    /// assert_eq!(byte.to_u8(), 170);
+    /// assert_eq!(byte.to_string(), "0xAA");
+    ///
+    /// byte = byte | Byte::from_u8(85);
+    ///
+    /// assert_eq!(byte.to_u8(), 255);
+    /// assert_eq!(byte.to_string(), "0xFF");
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// A Byte containing the result of a Bitwise Or operation on the two Bytes.
+    ///
+    /// # See Also
+    ///
+    /// [`bitand()`](#method.bitand)
+    /// [`bitxor()`](#method.bitxor)
+    /// [`bitand_assign()`](#method.bitand_assign)
+    /// [`bitor_assign()`](#method.bitor_assign)
+    /// [`bitxor_assign()`](#method.bitxor_assign)
+    ///
     fn bitor(self, rhs: Self) -> Self::Output {
         let mut byte = self;
         byte.bit_0 |= rhs.bit_0;
@@ -577,6 +939,42 @@ impl BitOr for Byte {
 }
 
 impl BitOrAssign for Byte {
+    /// Performs the Bitwise Or Assignment operation on the Byte.
+    ///
+    /// This method is used to perform the Bitwise Or Assignment operation on the Byte.
+    /// This also allows the use of the `|=` operator on the Byte.
+    ///
+    /// # Arguments
+    ///
+    /// * `rhs` - The right hand side of the Bitwise Or Assignment operation.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Byte;
+    ///
+    /// let mut byte = Byte::from_u8(170);
+    ///
+    /// assert_eq!(byte.to_u8(), 170);
+    ///
+    /// byte |= Byte::from_u8(85);
+    ///
+    /// assert_eq!(byte.to_u8(), 255);
+    ///
+    /// ```
+    ///
+    /// # Side Effects
+    ///
+    /// This method performs a Bitwise Or operation on the two Bytes, storing the result in the first Byte.
+    ///
+    /// # See Also
+    ///
+    /// [`bitand()`](#method.bitand)
+    /// [`bitor()`](#method.bitor)
+    /// [`bitxor()`](#method.bitxor)
+    /// [`bitand_assign()`](#method.bitand_assign)
+    /// [`bitxor_assign()`](#method.bitxor_assign)
+    ///
     fn bitor_assign(&mut self, rhs: Self) {
         self.bit_0 |= rhs.bit_0;
         self.bit_1 |= rhs.bit_1;
@@ -590,8 +988,44 @@ impl BitOrAssign for Byte {
 }
 
 impl BitXor for Byte {
+    // The return type is Byte because the BitXor operation is symmetric.
     type Output = Self;
 
+    /// Performs the Bitwise Xor operation on the Byte.
+    ///
+    /// This method is used to perform the Bitwise Xor operation on the Byte.
+    /// This also allows the use of the `^` operator on the Byte.
+    ///
+    /// # Arguments
+    ///
+    /// * `rhs` - The right hand side of the Bitwise Xor operation.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Byte;
+    ///
+    /// let mut byte = Byte::from_u8(0b10101010);
+    ///
+    /// assert_eq!(byte.to_u8(), 170);
+    ///
+    /// byte = byte ^ Byte::from_u8(85);
+    ///
+    /// assert_eq!(byte.to_u8(), 255);
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// A Byte containing the result of a Bitwise Xor operation on the two Bytes.
+    ///
+    /// # See Also
+    ///
+    /// [`bitand()`](#method.bitand)
+    /// [`bitor()`](#method.bitor)
+    /// [`bitand_assign()`](#method.bitand_assign)
+    /// [`bitor_assign()`](#method.bitor_assign)
+    /// [`bitxor_assign()`](#method.bitxor_assign)
+    ///
     fn bitxor(self, rhs: Self) -> Self::Output {
         let mut byte = self;
         byte.bit_0 ^= rhs.bit_0;
@@ -607,6 +1041,42 @@ impl BitXor for Byte {
 }
 
 impl BitXorAssign for Byte {
+    /// Performs the Bitwise Xor Assignment operation on the Byte.
+    ///
+    /// This method is used to perform the Bitwise Xor Assignment operation on the Byte.
+    /// This also allows the use of the `^=` operator on the Byte.
+    ///
+    /// # Arguments
+    ///
+    /// * `rhs` - The right hand side of the Bitwise Xor Assignment operation.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Byte;
+    ///
+    /// let mut byte = Byte::from_u8(0b10101010);
+    ///
+    /// assert_eq!(byte.to_u8(), 170);
+    ///
+    /// byte ^= Byte::from_u8(0b01010101);
+    ///
+    /// assert_eq!(byte.to_u8(), 255);
+    ///
+    /// ```
+    ///
+    /// # Side Effects
+    ///
+    /// This method performs a Bitwise Xor operation on the two Bytes, storing the result in the first Byte.
+    ///
+    /// # See Also
+    ///
+    /// [`bitand()`](#method.bitand)
+    /// [`bitor()`](#method.bitor)
+    /// [`bitxor()`](#method.bitxor)
+    /// [`bitand_assign()`](#method.bitand_assign)
+    /// [`bitor_assign()`](#method.bitor_assign)
+    ///
     fn bitxor_assign(&mut self, rhs: Self) {
         self.bit_0 ^= rhs.bit_0;
         self.bit_1 ^= rhs.bit_1;
@@ -691,13 +1161,28 @@ mod tests {
     #[test]
     fn test_to_u8_all_zeros() {
         let byte = Byte::default();
-        assert_eq!(byte.to_u8(), 0);
+        assert_eq!(byte.to_u8(), 0b00000000);
     }
 
     #[test]
     fn test_to_u8_all_ones() {
-        let byte = Byte::from_u8(255);
-        assert_eq!(byte.to_u8(), 255);
+        let byte = Byte::from_u8(0b11111111);
+        assert_eq!(byte.to_u8(), 0b11111111);
+    }
+
+    #[test]
+    fn test_to_u8_alternating_raw() {
+        let byte = Byte::new(
+            Bit::one(),
+            Bit::zero(),
+            Bit::one(),
+            Bit::zero(),
+            Bit::one(),
+            Bit::zero(),
+            Bit::one(),
+            Bit::zero(),
+        );
+        assert_eq!(byte.to_u8(), 0b10101010);
     }
 
     #[test]
