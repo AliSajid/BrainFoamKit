@@ -69,7 +69,7 @@ use std::{
 /// use brainfoamkit_lib::Bit;
 ///
 /// let byte = Byte::new(Bit::one(), Bit::zero(), Bit::one(), Bit::zero(), Bit::one(), Bit::zero(), Bit::one(), Bit::zero());
-/// assert_eq!(byte.to_u8(), 170);
+/// assert_eq!(byte.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
 /// assert_eq!(byte.to_string(), "0xAA");
 /// ```
 /// ## Create a byte from a primitive u8 value
@@ -77,9 +77,21 @@ use std::{
 /// ```
 /// use brainfoamkit_lib::Byte;
 ///
-/// let byte = Byte::from_u8(170);
-/// assert_eq!(byte.to_u8(), 170);
+/// let byte = Byte::from_u8(0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
+/// assert_eq!(byte.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
 /// assert_eq!(byte.to_string(), "0xAA");
+/// ```
+///
+/// ## Create a byte from two Nybbles
+///
+/// ```
+/// use brainfoamkit_lib::Byte;
+///
+/// let high_nybble = Byte::from_u8(0b1011); // Dec: 11; Hex: 0x0B; Oct: 0o13
+/// let low_nybble = Byte::from_u8(0b0101); // Dec: 5; Hex: 0x05; Oct: 0o5
+/// let byte = Byte::from_nybbles(high_nybble, low_nybble);
+/// assert_eq!(byte.to_u8(), 0b10110101); // Dec: 181; Hex: 0xB5; Oct: 0o265
+/// assert_eq!(byte.to_string(), "0xB5");
 /// ```
 ///
 /// ## Set and Unset bits to generate desired byte
@@ -88,14 +100,14 @@ use std::{
 /// use brainfoamkit_lib::Byte;
 /// use brainfoamkit_lib::Bit;
 ///
-/// let mut byte = Byte::default();
-/// byte.set_bit(0);
-/// byte.set_bit(1);
-/// byte.set_bit(2);
-/// assert_eq!(byte.to_u8(), 7);
+/// let mut byte = Byte::default(); // Byte: 0b00000000; Dec: 0; Hex: 0x00; Oct: 0o0
+/// byte.set_bit(0); // Byte: 0b00000001; Dec: 1; Hex: 0x01; Oct: 0o1
+/// byte.set_bit(1); // Byte: 0b00000011; Dec: 3; Hex: 0x03; Oct: 0o3
+/// byte.set_bit(2); // Byte: 0b00000111; Dec: 7; Hex: 0x07; Oct: 0o7
+/// assert_eq!(byte.to_u8(), 0b00000111); // Dec: 7; Hex: 0x07; Oct: 0o7
 /// assert_eq!(byte.to_string(), "0x07");
-/// byte.unset_bit(1);
-/// assert_eq!(byte.to_u8(), 5);
+/// byte.unset_bit(1); // Byte: 0b00000101; Dec: 5; Hex: 0x05; Oct: 0o5
+/// assert_eq!(byte.to_u8(), 0b00000101); // Dec: 5; Hex: 0x05; Oct: 0o5
 /// assert_eq!(byte.to_string(), "0x05");
 /// ```
 ///
@@ -105,15 +117,15 @@ use std::{
 /// use brainfoamkit_lib::Byte;
 /// use brainfoamkit_lib::Bit;
 ///
-/// let byte = Byte::from_u8(170);
-/// assert_eq!(byte.get_bit(0), Bit::Zero);
+/// let byte = Byte::from_u8(0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
+/// assert_eq!(byte.get_bit(0), Bit::Zero); // Least significant bit
 /// assert_eq!(byte.get_bit(1), Bit::One);
 /// assert_eq!(byte.get_bit(2), Bit::Zero);
 /// assert_eq!(byte.get_bit(3), Bit::One);
 /// assert_eq!(byte.get_bit(4), Bit::Zero);
 /// assert_eq!(byte.get_bit(5), Bit::One);
 /// assert_eq!(byte.get_bit(6), Bit::Zero);
-/// assert_eq!(byte.get_bit(7), Bit::One);
+/// assert_eq!(byte.get_bit(7), Bit::One); // Most significant bit
 /// ```
 ///
 /// ## Flip the Bit value at a given index
@@ -122,17 +134,17 @@ use std::{
 /// use brainfoamkit_lib::Byte;
 /// use brainfoamkit_lib::Bit;
 ///
-/// let mut byte = Byte::default();
-/// byte.set_bit(0);
-/// byte.set_bit(2);
-/// byte.set_bit(4);
-/// assert_eq!(byte.to_u8(), 0b00010101); // 21
+/// let mut byte = Byte::default(); // Byte: 0b00000000; Dec: 0; Hex: 0x00; Oct: 0o0
+/// byte.set_bit(0); // Byte: 0b00000001; Dec: 1; Hex: 0x01; Oct: 0o1
+/// byte.set_bit(2); // Byte: 0b00000101; Dec: 5; Hex: 0x05; Oct: 0o5
+/// byte.set_bit(4); // Byte: 0b00010101; Dec: 21; Hex: 0x15; Oct: 0o25
+/// assert_eq!(byte.to_u8(), 0b00010101); // Dec: 21; Hex: 0x15; Oct: 0o25
 /// assert_eq!(byte.to_string(), "0x15");
-/// byte.flip_bit(2);
-/// assert_eq!(byte.to_u8(), 0b00010001); // 17
+/// byte.flip_bit(2); // Byte: 0b00010001; Dec: 17; Hex: 0x11; Oct: 0o21
+/// assert_eq!(byte.to_u8(), 0b00010001); // Dec: 17; Hex: 0x11; Oct: 0o21
 /// assert_eq!(byte.to_string(), "0x11");
-/// byte.flip_bit(7);
-/// assert_eq!(byte.to_u8(), 0b10010001); // 145
+/// byte.flip_bit(7); // Byte: 0b10010001; Dec: 145; Hex: 0x91; Oct: 0o221
+/// assert_eq!(byte.to_u8(), 0b10010001); // Dec: 145; Hex: 0x91; Oct: 0o221
 /// assert_eq!(byte.to_string(), "0x91");
 /// ```
 ///
@@ -140,6 +152,11 @@ use std::{
 ///
 /// The methods [`set_bit()`](#method.set_bit), [`unset_bit()`](#method.unset_bit) and
 /// [`get_bit()`](#method.get_bit) will panic if the index is out of bounds.
+///
+/// # See Also
+///
+/// * [`Bit`](crate::Bit): A single bit.
+/// * [`Nybble`](crate::Nybble): A 4-bit unsigned integer (u4).
 ///
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Byte {
@@ -181,7 +198,7 @@ impl Byte {
     /// use brainfoamkit_lib::Bit;
     ///
     /// let byte_single = Byte::new(Bit::zero(), Bit::zero(), Bit::zero(), Bit::zero(), Bit::one(), Bit::zero(), Bit::one(), Bit::zero());
-    /// assert_eq!(byte_single.to_u8(), 0b00001010);
+    /// assert_eq!(byte_single.to_u8(), 0b00001010); // Dec: 10; Hex: 0x0A; Oct: 0o12
     /// assert_eq!(byte_single.to_string(), "0x0A");
     /// ```
     /// ## Double Digit
@@ -190,7 +207,7 @@ impl Byte {
     /// use brainfoamkit_lib::Bit;
     ///
     /// let byte_double = Byte::new(Bit::one(), Bit::zero(), Bit::one(), Bit::zero(), Bit::one(), Bit::zero(), Bit::one(), Bit::zero());
-    /// assert_eq!(byte_double.to_u8(), 0b10101010);
+    /// assert_eq!(byte_double.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     /// assert_eq!(byte_double.to_string(), "0xAA");
     /// ```
     ///
@@ -200,8 +217,8 @@ impl Byte {
     ///
     /// # See Also
     ///
-    /// [`from_u8()`](#method.from_u8)
-    /// [`from_nybbles()`](#method.from_nybbles)
+    /// * [`from_u8()`](#method.from_u8): Create a new Byte from a u8.
+    /// * [`from_nybbles()`](#method.from_nybbles): Create a new Byte from two [Nybbles](crate::Nybble).
     ///
     #[must_use]
     #[allow(clippy::too_many_arguments)]
@@ -231,6 +248,10 @@ impl Byte {
     ///
     /// This method returns an Option. If the input value is out of range, None is returned.
     ///
+    /// # Arguments
+    ///
+    /// * `n` - The value to convert to a Byte.
+    ///
     /// # Examples
     ///
     /// ## Single Digit
@@ -238,8 +259,8 @@ impl Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let byte_single = Byte::from_u8(5);
-    /// assert_eq!(byte_single.to_u8(), 0b00000101); // 5
+    /// let byte_single = Byte::from_u8(0b00000101); // Dec: 5; Hex: 0x05; Oct: 0o5
+    /// assert_eq!(byte_single.to_u8(), 0b00000101); // Dec: 5; Hex: 0x05; Oct: 0o5
     /// assert_eq!(byte_single.to_string(), "0x05");
     /// ```
     /// ## Double Digits
@@ -247,10 +268,21 @@ impl Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let byte_double = Byte::from_u8(85);
-    /// assert_eq!(byte_double.to_u8(), 0b01010101); // 85
+    /// let byte_double = Byte::from_u8(0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
+    /// assert_eq!(byte_double.to_u8(), 0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
     /// assert_eq!(byte_double.to_string(), "0x55");
     /// ```
+    ///
+    /// # Returns
+    ///
+    /// A byte containing the value of the input.
+    ///
+    /// # See Also
+    ///
+    /// * [`new()`](#method.new): Create a new Byte from individual Bit values.
+    /// * [`from_nybbles()`](#method.from_nybbles): Create a new Byte from two Nybbles.
+    /// * [`default()`](#method.default): Create a new Byte with all bits set to zero.
+    /// * [`to_u8()`](#method.to_u8): Convert the Byte to a u8.
     ///
     #[must_use]
     pub fn from_u8(n: u8) -> Self {
@@ -271,14 +303,21 @@ impl Byte {
     /// The first Nybble (`bit_7` to `bit_4`) is the High Nybble and
     /// the second Nybble (`bit_3` to `bit_0`) is the Low Nybble.
     ///
+    /// # Arguments
+    ///
+    /// * `high_nybble` - The High Nybble of the Byte.
+    /// * `low_nybble` - The Low Nybble of the Byte.
+    ///
     /// # Examples
     ///
     /// ```
     /// use brainfoamkit_lib::Byte;
     /// use brainfoamkit_lib::Nybble;
     ///
-    /// let byte = Byte::from_nybbles(Nybble::from_u8(0b1011), Nybble::from_u8(0b0101));
-    /// assert_eq!(byte.to_u8(), 181);
+    /// let high_nybble = Nybble::from_u8(0b1011); // Dec: 11; Hex: 0x0B; Oct: 0o13
+    /// let low_nybble = Nybble::from_u8(0b0101); // Dec: 5; Hex: 0x05; Oct: 0o5
+    /// let byte = Byte::from_nybbles(high_nybble, low_nybble);
+    /// assert_eq!(byte.to_u8(), 0b10110101); // Dec: 181; Hex: 0xB5; Oct: 0o265
     /// assert_eq!(byte.to_string(), "0xB5");
     /// ```
     ///
@@ -287,8 +326,12 @@ impl Byte {
     ///
     /// # See Also
     ///
-    /// [`get_high_nybble()`](#method.get_high_nybble)
-    /// [`get_low_nybble()`](#method.get_low_nybble)
+    /// * [`get_high_nybble()`](#method.get_high_nybble): Get the High Nybble of the Byte.
+    /// * [`get_low_nybble()`](#method.get_low_nybble): Get the Low Nybble of the Byte.
+    /// * [`from_u8()`](#method.from_u8): Create a new Byte from a u8.
+    /// * [`default()`](#method.default): Create a new Byte with all bits set to zero.
+    /// * [`to_u8()`](#method.to_u8): Convert the Byte to a u8.
+    /// * [`new()`](#method.new): Create a new Byte from individual Bit values.
     ///
     #[must_use]
     pub fn from_nybbles(high_nybble: Nybble, low_nybble: Nybble) -> Self {
@@ -315,9 +358,9 @@ impl Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let byte = Byte::from_u8(0b01010101);
-    /// let high_nybble = byte.get_high_nybble();
-    /// assert_eq!(high_nybble.to_u8(), 5);
+    /// let byte = Byte::from_u8(0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
+    /// let high_nybble = byte.get_high_nybble(); // Nybble: 0b0101; Dec: 5; Hex: 0x05; Oct: 0o5
+    /// assert_eq!(high_nybble.to_u8(), 0b0101); // Dec: 5; Hex: 0x05; Oct: 0o5
     /// assert_eq!(high_nybble.to_string(), "0x5");
     /// ```
     ///
@@ -327,8 +370,8 @@ impl Byte {
     ///
     /// # See Also
     ///
-    /// [`get_low_nybble()`](#method.get_low_nybble)
-    /// [`from_nybbles()`](#method.from_nybbles)
+    /// * [`get_low_nybble()`](#method.get_low_nybble): Get the Low Nybble of the Byte.
+    /// * [`from_nybbles()`](#method.from_nybbles): Create a new Byte from two Nybbles.
     ///
     #[must_use]
     pub fn get_high_nybble(&self) -> Nybble {
@@ -352,9 +395,9 @@ impl Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let byte = Byte::from_u8(0b01010101);
-    /// let low_nybble = byte.get_low_nybble();
-    /// assert_eq!(low_nybble.to_u8(), 5);
+    /// let byte = Byte::from_u8(0b01010101); // Byte: 0b01010101; Dec: 85; Hex: 0x55; Oct: 0o125
+    /// let low_nybble = byte.get_low_nybble(); // Nybble: 0b0101; Dec: 5; Hex: 0x05; Oct: 0o5
+    /// assert_eq!(low_nybble.to_u8(), 0b0101); // Dec: 5; Hex: 0x05; Oct: 0o5
     /// assert_eq!(low_nybble.to_string(), "0x5");
     /// ```
     ///
@@ -364,8 +407,8 @@ impl Byte {
     ///
     /// # See Also
     ///
-    /// [`get_high_nybble()`](#method.get_high_nybble)
-    /// [`from_nybbles()`](#method.from_nybbles)
+    /// * [`get_high_nybble()`](#method.get_high_nybble): Get the High Nybble of the Byte.
+    /// * [`from_nybbles()`](#method.from_nybbles): Create a new Byte from two Nybbles.
     ///
     #[must_use]
     pub fn get_low_nybble(&self) -> Nybble {
@@ -396,14 +439,14 @@ impl Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let mut byte = Byte::default();
-    /// byte.set_bit(0);
-    /// byte.set_bit(2);
-    /// assert_eq!(byte.to_u8(), 5);
+    /// let mut byte = Byte::default(); // Byte: 0b00000000; Dec: 0; Hex: 0x00; Oct: 0o0
+    /// byte.set_bit(0); // Byte: 0b00000001; Dec: 1; Hex: 0x01; Oct: 0o1
+    /// byte.set_bit(2); // Byte: 0b00000101; Dec: 5; Hex: 0x05; Oct: 0o5
+    /// assert_eq!(byte.to_u8(), 0b00000101); // Dec: 5; Hex: 0x05; Oct: 0o5
     /// assert_eq!(byte.to_string(), "0x05");
-    /// byte.set_bit(4);
-    /// byte.set_bit(6);
-    /// assert_eq!(byte.to_u8(), 85);
+    /// byte.set_bit(4); // Byte: 0b00010101; Dec: 21; Hex: 0x15; Oct: 0o25
+    /// byte.set_bit(6); // Byte: 0b01010101; Dec: 85; Hex: 0x55; Oct: 0o125
+    /// assert_eq!(byte.to_u8(), 0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
     /// assert_eq!(byte.to_string(), "0x55");
     /// ```
     ///
@@ -417,9 +460,9 @@ impl Byte {
     ///
     /// # See Also
     ///
-    /// [`unset_bit()`](#method.unset_bit)
-    /// [`flip_bit()`](#method.flip_bit)
-    /// [`get_bit()`](#method.get_bit)
+    /// * [`unset_bit()`](#method.unset_bit): Unset the Bit value at the specified index.
+    /// * [`flip_bit()`](#method.flip_bit): Flip the Bit value at the specified index.
+    /// * [`get_bit()`](#method.get_bit): Get the Bit value at the specified index.
     ///
     pub fn set_bit(&mut self, index: u8) {
         match index {
@@ -452,13 +495,13 @@ impl Byte {
     /// use brainfoamkit_lib::Byte;
     /// use brainfoamkit_lib::Bit;
     ///
-    /// let mut byte = Byte::default();
-    /// byte.set_bit(0);
-    /// byte.set_bit(2,);
-    /// assert_eq!(byte.to_u8(), 5);
+    /// let mut byte = Byte::default(); // Byte: 0b00000000; Dec: 0; Hex: 0x00; Oct: 0o0
+    /// byte.set_bit(0); // Byte: 0b00000001; Dec: 1; Hex: 0x01; Oct: 0o1
+    /// byte.set_bit(2); // Byte: 0b00000101; Dec: 5; Hex: 0x05; Oct: 0o5
+    /// assert_eq!(byte.to_u8(), 0b00000101); // Dec: 5; Hex: 0x05; Oct: 0o5
     /// assert_eq!(byte.to_string(), "0x05");
-    /// byte.unset_bit(0);
-    /// assert_eq!(byte.to_u8(), 4);
+    /// byte.unset_bit(0); // Byte: 0b00000100; Dec: 4; Hex: 0x04; Oct: 0o4
+    /// assert_eq!(byte.to_u8(), 0b00000100); // Dec: 4; Hex: 0x04; Oct: 0o4
     /// assert_eq!(byte.to_string(), "0x04");
     /// ```
     ///
@@ -472,9 +515,9 @@ impl Byte {
     ///
     /// # See Also
     ///
-    /// [`set_bit()`](#method.set_bit)
-    /// [`flip_bit()`](#method.flip_bit)
-    /// [`get_bit()`](#method.get_bit)
+    /// * [`set_bit()`](#method.set_bit): Set the Bit value at the specified index.
+    /// * [`flip_bit()`](#method.flip_bit): Flip the Bit value at the specified index.
+    /// * [`get_bit()`](#method.get_bit): Get the Bit value at the specified index.
     ///
     pub fn unset_bit(&mut self, index: u8) {
         match index {
@@ -501,7 +544,7 @@ impl Byte {
     /// use brainfoamkit_lib::Bit;
     ///
     /// let byte = Byte::new(Bit::one(), Bit::zero(), Bit::one(), Bit::zero(), Bit::one(), Bit::zero(), Bit::one(), Bit::zero());
-    /// assert_eq!(byte.to_u8(), 170);
+    /// assert_eq!(byte.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     /// assert_eq!(byte.to_string(), "0xAA");
     /// ```
     ///
@@ -511,8 +554,8 @@ impl Byte {
     ///
     /// # See Also
     ///
-    /// [`to_string()`](#method.to_string)
-    /// [`from_u8()`](#method.from_u8)
+    /// * [`to_string()`](#method.to_string): Convert the Byte to a String.
+    /// * [`from_u8()`](#method.from_u8): Create a new Byte from a u8.
     ///
     #[must_use]
     pub fn to_u8(&self) -> u8 {
@@ -542,14 +585,15 @@ impl Byte {
     /// use brainfoamkit_lib::Bit;
     ///
     /// let byte = Byte::new(Bit::one(), Bit::zero(), Bit::one(), Bit::zero(), Bit::one(), Bit::zero(), Bit::one(), Bit::zero());
-    /// assert_eq!(byte.get_bit(0), Bit::Zero);
+    /// assert_eq!(byte.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
+    /// assert_eq!(byte.get_bit(0), Bit::Zero); // Least significant bit
     /// assert_eq!(byte.get_bit(1), Bit::One);
     /// assert_eq!(byte.get_bit(2), Bit::Zero);
     /// assert_eq!(byte.get_bit(3), Bit::One);
     /// assert_eq!(byte.get_bit(4), Bit::Zero);
     /// assert_eq!(byte.get_bit(5), Bit::One);
     /// assert_eq!(byte.get_bit(6), Bit::Zero);
-    /// assert_eq!(byte.get_bit(7), Bit::One);
+    /// assert_eq!(byte.get_bit(7), Bit::One); // Most significant bit
     /// ```
     ///
     /// # Panics
@@ -562,9 +606,9 @@ impl Byte {
     ///
     /// # See Also
     ///
-    /// [`set_bit()`](#method.set_bit)
-    /// [`unset_bit()`](#method.unset_bit)
-    /// [`flip_bit()`](#method.flip_bit)
+    /// * [`set_bit()`](#method.set_bit): Set the Bit value at the specified index.
+    /// * [`unset_bit()`](#method.unset_bit): Unset the Bit value at the specified index.
+    /// * [`flip_bit()`](#method.flip_bit): Flip the Bit value at the specified index.
     ///
     #[must_use]
     pub fn get_bit(&self, index: u8) -> Bit {
@@ -597,25 +641,25 @@ impl Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let mut byte = Byte::default();
-    /// byte.set_bit(0);
-    /// byte.set_bit(2);
-    /// byte.set_bit(4);
-    /// byte.set_bit(6);
+    /// let mut byte = Byte::default(); // Byte: 0b00000000; Dec: 0; Hex: 0x00; Oct: 0o0
+    /// byte.set_bit(0); // Byte: 0b00000001; Dec: 1; Hex: 0x01; Oct: 0o1
+    /// byte.set_bit(2); // Byte: 0b00000101; Dec: 5; Hex: 0x05; Oct: 0o5
+    /// byte.set_bit(4); // Byte: 0b00010101; Dec: 21; Hex: 0x15; Oct: 0o25
+    /// byte.set_bit(6); // Byte: 0b01010101; Dec: 85; Hex: 0x55; Oct: 0o125
     ///
-    /// assert_eq!(byte.to_u8(), 85);
+    /// assert_eq!(byte.to_u8(), 0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
     /// assert_eq!(byte.to_string(), "0x55");
     ///
-    /// byte.flip_bit(0);
-    /// byte.flip_bit(1);
-    /// byte.flip_bit(2);
-    /// byte.flip_bit(3);
-    /// byte.flip_bit(4);
-    /// byte.flip_bit(5);
-    /// byte.flip_bit(6);
-    /// byte.flip_bit(7);
+    /// byte.flip_bit(0); // Byte: 0b01010100; Dec: 84; Hex: 0x54; Oct: 0o124
+    /// byte.flip_bit(1); // Byte: 0b01010110; Dec: 86; Hex: 0x56; Oct: 0o126
+    /// byte.flip_bit(2); // Byte: 0b01010010; Dec: 82; Hex: 0x52; Oct: 0o122
+    /// byte.flip_bit(3); // Byte: 0b01011010; Dec: 90; Hex: 0x5A; Oct: 0o132
+    /// byte.flip_bit(4); // Byte: 0b01111010; Dec: 122; Hex: 0x7A; Oct: 0o172
+    /// byte.flip_bit(5); // Byte: 0b00111010; Dec: 58; Hex: 0x3A; Oct: 0o72
+    /// byte.flip_bit(6); // Byte: 0b10111010; Dec: 186; Hex: 0xBA; Oct: 0o272
+    /// byte.flip_bit(7); // Byte: 0b00111010; Dec: 122; Hex: 0x7A; Oct: 0o172
     ///
-    /// assert_eq!(byte.to_u8(), 170);
+    /// assert_eq!(byte.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     /// assert_eq!(byte.to_string(), "0xAA");
     /// ```
     ///
@@ -625,13 +669,13 @@ impl Byte {
     ///
     /// # Side Effects
     ///
-    /// This method will [flip](crate::Bit#method.flip) the Bit value at the specified index.
+    /// This method will [`flip`](crate::Bit#method.flip) the Bit value at the specified index.
     ///
     /// # See Also
     ///
-    /// [`set_bit()`](#method.set_bit)
-    /// [`unset_bit()`](#method.unset_bit)
-    /// [`get_bit()`](#method.get_bit)
+    /// * [`set_bit()`](#method.set_bit): Set the Bit value at the specified index.
+    /// * [`unset_bit()`](#method.unset_bit): Unset the Bit value at the specified index.
+    /// * [`get_bit()`](#method.get_bit): Get the Bit value at the specified index.
     ///
     pub fn flip_bit(&mut self, index: u8) {
         match index {
@@ -664,29 +708,29 @@ impl Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let mut byte = Byte::default();
+    /// let mut byte = Byte::default(); // Byte: 0b00000000; Dec: 0; Hex: 0x00; Oct: 0o0
     ///
-    /// byte.set_bit(0);
-    /// byte.set_bit(2);
-    /// byte.set_bit(4);
-    /// byte.set_bit(6);
+    /// byte.set_bit(0); // Byte: 0b00000001; Dec: 1; Hex: 0x01; Oct: 0o1
+    /// byte.set_bit(2); // Byte: 0b00000101; Dec: 5; Hex: 0x05; Oct: 0o5
+    /// byte.set_bit(4); // Byte: 0b00010101; Dec: 21; Hex: 0x15; Oct: 0o25
+    /// byte.set_bit(6); // Byte: 0b01010101; Dec: 85; Hex: 0x55; Oct: 0o125
     ///
-    /// assert_eq!(byte.to_u8(), 85);
+    /// assert_eq!(byte.to_u8(), 0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
     /// assert_eq!(byte.to_string(), "0x55");
     ///
     /// byte.flip();
     ///
-    /// assert_eq!(byte.to_u8(), 170);
+    /// assert_eq!(byte.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     /// assert_eq!(byte.to_string(), "0xAA");
     /// ```
     ///
     /// # Side Effects
     ///
-    /// This method will [flip](crate::Bit#method.flip) all of the Bit values in the Byte.
+    /// This method will [`flip`](crate::Bit#method.flip) all of the Bit values in the Byte.
     ///
     /// # See Also
     ///
-    /// [`flip_bit()`](#method.flip_bit)
+    /// * [`flip_bit()`](#method.flip_bit): Flip the Bit value at the specified index.
     ///
     pub fn flip(&mut self) {
         self.bit_0.flip();
@@ -708,7 +752,7 @@ impl Display for Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let byte = Byte::from_u8(170);
+    /// let byte = Byte::from_u8(0xAA); // Byte: 0b10101010; Dec: 170; Hex: 0xAA; Oct: 0o252
     /// assert_eq!(byte.to_string(), "0xAA");
     /// ```
     ///
@@ -718,24 +762,48 @@ impl Display for Byte {
     ///
     /// # See Also
     ///
-    /// [`to_u8()`](#method.to_u8)
-    /// [`from_u8()`](#method.from_u8)
+    /// * [`to_u8()`](#method.to_u8)
+    /// * [`from_u8()`](#method.from_u8)
+    ///
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         write!(f, "{:#04X}", self.to_u8())
     }
 }
 
 impl Default for Byte {
+    /// Creates a new Byte with all bits set to zero.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Byte;
+    ///
+    /// let byte = Byte::default(); // Byte: 0b00000000; Dec: 0; Hex: 0x00; Oct: 0o0
+    /// assert_eq!(byte.to_u8(), 0b00000000); // Dec: 0; Hex: 0x00; Oct: 0o0
+    /// assert_eq!(byte.to_string(), "0x00");
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// A Byte with all bits set to zero.
+    ///
+    /// # See Also
+    ///
+    /// * [`new()`](#method.new): Create a new Byte from individual Bit values.
+    /// * [`from_nybbles()`](#method.from_nybbles): Create a new Byte from two Nybbles.
+    /// * [`from_u8()`](#method.from_u8): Create a new Byte from a u8.
+    /// * [`to_u8()`](#method.to_u8): Convert the Byte to a u8.
+    ///
     fn default() -> Self {
         Self::new(
+            Bit::zero(), // Most significant bit
             Bit::zero(),
             Bit::zero(),
             Bit::zero(),
             Bit::zero(),
             Bit::zero(),
             Bit::zero(),
-            Bit::zero(),
-            Bit::zero(),
+            Bit::zero(), // Least significant bit
         )
     }
 }
@@ -754,14 +822,14 @@ impl Not for Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let mut byte = Byte::from_u8(170);
+    /// let mut byte = Byte::from_u8(0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     ///
-    /// assert_eq!(byte.to_u8(), 170);
+    /// assert_eq!(byte.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     /// assert_eq!(byte.to_string(), "0xAA");
     ///
     /// byte = !byte;
     ///
-    /// assert_eq!(byte.to_u8(), 85);
+    /// assert_eq!(byte.to_u8(), 0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
     /// assert_eq!(byte.to_string(), "0x55");
     /// ```
     ///
@@ -771,7 +839,8 @@ impl Not for Byte {
     ///
     /// # See Also
     ///
-    /// [`flip()`](#method.flip)
+    /// * [`flip_bit()`](#method.flip_bit): Flip the Bit value at the specified index.
+    /// * [`flip()`](#method.flip): Flip all of the Bit values in the Byte.
     ///
     fn not(self) -> Self::Output {
         let mut byte = self;
@@ -798,14 +867,14 @@ impl BitAnd for Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let mut byte = Byte::from_u8(170);
+    /// let mut byte = Byte::from_u8(0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     ///
-    /// assert_eq!(byte.to_u8(), 170);
+    /// assert_eq!(byte.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     /// assert_eq!(byte.to_string(), "0xAA");
     ///
-    /// byte = byte & Byte::from_u8(85);
+    /// byte = byte & Byte::from_u8(0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
     ///
-    /// assert_eq!(byte.to_u8(), 0);
+    /// assert_eq!(byte.to_u8(), 0b00000000); // Dec: 0; Hex: 0x00; Oct: 0o0
     /// assert_eq!(byte.to_string(), "0x00");
     /// ```
     ///
@@ -815,11 +884,11 @@ impl BitAnd for Byte {
     ///
     /// # See Also
     ///
-    /// [`bitor()`](#method.bitor)
-    /// [`bitxor()`](#method.bitxor)
-    /// [`bitand_assign()`](#method.bitand_assign)
-    /// [`bitor_assign()`](#method.bitor_assign)
-    /// [`bitxor_assign()`](#method.bitxor_assign)
+    /// * [`bitor()`](#method.bitor): Perform a Bitwise Or operation on the Byte.
+    /// * [`bitxor()`](#method.bitxor): Perform a Bitwise Xor operation on the Byte.
+    /// * [`bitand_assign()`](#method.bitand_assign): Perform a Bitwise And Assignment operation on the Byte.
+    /// * [`bitor_assign()`](#method.bitor_assign): Perform a Bitwise Or Assignment operation on the Byte.
+    /// * [`bitxor_assign()`](#method.bitxor_assign): Perform a Bitwise Xor Assignment operation on the Byte.
     ///
     fn bitand(self, rhs: Self) -> Self::Output {
         let mut byte = self;
@@ -850,13 +919,13 @@ impl BitAndAssign for Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let mut byte = Byte::from_u8(170);
+    /// let mut byte = Byte::from_u8(0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     ///
-    /// assert_eq!(byte.to_u8(), 170);
+    /// assert_eq!(byte.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     ///
-    /// byte &= Byte::from_u8(85);
+    /// byte &= Byte::from_u8(0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
     ///
-    /// assert_eq!(byte.to_u8(), 0);
+    /// assert_eq!(byte.to_u8(), 0); // Dec: 0; Hex: 0x00; Oct: 0o0
     /// ```
     ///
     /// # Side Effects
@@ -865,11 +934,11 @@ impl BitAndAssign for Byte {
     ///
     /// # See Also
     ///
-    /// [`bitand()`](#method.bitand)
-    /// [`bitor()`](#method.bitor)
-    /// [`bitxor()`](#method.bitxor)
-    /// [`bitor_assign()`](#method.bitor_assign)
-    /// [`bitxor_assign()`](#method.bitxor_assign)
+    /// * [`bitand()`](#method.bitand): Perform a Bitwise And operation on the Byte.
+    /// * [`bitor()`](#method.bitor): Perform a Bitwise Or operation on the Byte.
+    /// * [`bitxor()`](#method.bitxor): Perform a Bitwise Xor operation on the Byte.
+    /// * [`bitor_assign()`](#method.bitor_assign): Perform a Bitwise Or Assignment operation on the Byte.
+    /// * [`bitxor_assign()`](#method.bitxor_assign): Perform a Bitwise Xor Assignment operation on the Byte.
     ///
     fn bitand_assign(&mut self, rhs: Self) {
         self.bit_0 &= rhs.bit_0;
@@ -901,14 +970,14 @@ impl BitOr for Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let mut byte = Byte::from_u8(170);
+    /// let mut byte = Byte::from_u8(0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     ///
-    /// assert_eq!(byte.to_u8(), 170);
+    /// assert_eq!(byte.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     /// assert_eq!(byte.to_string(), "0xAA");
     ///
-    /// byte = byte | Byte::from_u8(85);
+    /// byte = byte | Byte::from_u8(0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
     ///
-    /// assert_eq!(byte.to_u8(), 255);
+    /// assert_eq!(byte.to_u8(), 0b11111111); // Dec: 255; Hex: 0xFF; Oct: 0o377
     /// assert_eq!(byte.to_string(), "0xFF");
     /// ```
     ///
@@ -918,11 +987,11 @@ impl BitOr for Byte {
     ///
     /// # See Also
     ///
-    /// [`bitand()`](#method.bitand)
-    /// [`bitxor()`](#method.bitxor)
-    /// [`bitand_assign()`](#method.bitand_assign)
-    /// [`bitor_assign()`](#method.bitor_assign)
-    /// [`bitxor_assign()`](#method.bitxor_assign)
+    /// * [`bitand()`](#method.bitand): Perform a Bitwise And operation on the Byte.
+    /// * [`bitxor()`](#method.bitxor): Perform a Bitwise Xor operation on the Byte.
+    /// * [`bitand_assign()`](#method.bitand_assign): Perform a Bitwise And Assignment operation on the Byte.
+    /// * [`bitor_assign()`](#method.bitor_assign): Perform a Bitwise Or Assignment operation on the Byte.
+    /// * [`bitxor_assign()`](#method.bitxor_assign): Perform a Bitwise Xor Assignment operation on the Byte.
     ///
     fn bitor(self, rhs: Self) -> Self::Output {
         let mut byte = self;
@@ -953,13 +1022,13 @@ impl BitOrAssign for Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let mut byte = Byte::from_u8(170);
+    /// let mut byte = Byte::from_u8(0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     ///
-    /// assert_eq!(byte.to_u8(), 170);
+    /// assert_eq!(byte.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     ///
-    /// byte |= Byte::from_u8(85);
+    /// byte |= Byte::from_u8(0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
     ///
-    /// assert_eq!(byte.to_u8(), 255);
+    /// assert_eq!(byte.to_u8(), 0b11111111); // Dec: 255; Hex: 0xFF; Oct: 0o377
     ///
     /// ```
     ///
@@ -969,11 +1038,11 @@ impl BitOrAssign for Byte {
     ///
     /// # See Also
     ///
-    /// [`bitand()`](#method.bitand)
-    /// [`bitor()`](#method.bitor)
-    /// [`bitxor()`](#method.bitxor)
-    /// [`bitand_assign()`](#method.bitand_assign)
-    /// [`bitxor_assign()`](#method.bitxor_assign)
+    /// * [`bitand()`](#method.bitand): Perform a Bitwise And operation on the Byte.
+    /// * [`bitor()`](#method.bitor): Perform a Bitwise Or operation on the Byte.
+    /// * [`bitxor()`](#method.bitxor): Perform a Bitwise Xor operation on the Byte.
+    /// * [`bitand_assign()`](#method.bitand_assign): Perform a Bitwise And Assignment operation on the Byte.
+    /// * [`bitxor_assign()`](#method.bitxor_assign): Perform a Bitwise Xor Assignment operation on the Byte.
     ///
     fn bitor_assign(&mut self, rhs: Self) {
         self.bit_0 |= rhs.bit_0;
@@ -1005,13 +1074,13 @@ impl BitXor for Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let mut byte = Byte::from_u8(0b10101010);
+    /// let mut byte = Byte::from_u8(0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     ///
-    /// assert_eq!(byte.to_u8(), 170);
+    /// assert_eq!(byte.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     ///
-    /// byte = byte ^ Byte::from_u8(85);
+    /// byte = byte ^ Byte::from_u8(0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
     ///
-    /// assert_eq!(byte.to_u8(), 255);
+    /// assert_eq!(byte.to_u8(), 0b11111111); // Dec: 255; Hex: 0xFF; Oct: 0o377
     /// ```
     ///
     /// # Returns
@@ -1020,11 +1089,11 @@ impl BitXor for Byte {
     ///
     /// # See Also
     ///
-    /// [`bitand()`](#method.bitand)
-    /// [`bitor()`](#method.bitor)
-    /// [`bitand_assign()`](#method.bitand_assign)
-    /// [`bitor_assign()`](#method.bitor_assign)
-    /// [`bitxor_assign()`](#method.bitxor_assign)
+    /// * [`bitand()`](#method.bitand): Perform a Bitwise And operation on the Byte.
+    /// * [`bitor()`](#method.bitor): Perform a Bitwise Or operation on the Byte.
+    /// * [`bitand_assign()`](#method.bitand_assign): Perform a Bitwise And Assignment operation on the Byte.
+    /// * [`bitor_assign()`](#method.bitor_assign): Perform a Bitwise Or Assignment operation on the Byte.
+    /// * [`bitxor_assign()`](#method.bitxor_assign): Perform a Bitwise Xor Assignment operation on the Byte.
     ///
     fn bitxor(self, rhs: Self) -> Self::Output {
         let mut byte = self;
@@ -1055,13 +1124,13 @@ impl BitXorAssign for Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let mut byte = Byte::from_u8(0b10101010);
+    /// let mut byte = Byte::from_u8(0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     ///
-    /// assert_eq!(byte.to_u8(), 170);
+    /// assert_eq!(byte.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     ///
     /// byte ^= Byte::from_u8(0b01010101);
     ///
-    /// assert_eq!(byte.to_u8(), 255);
+    /// assert_eq!(byte.to_u8(), 0b11111111); // Dec: 255; Hex: 0xFF; Oct: 0o377
     ///
     /// ```
     ///
@@ -1071,11 +1140,11 @@ impl BitXorAssign for Byte {
     ///
     /// # See Also
     ///
-    /// [`bitand()`](#method.bitand)
-    /// [`bitor()`](#method.bitor)
-    /// [`bitxor()`](#method.bitxor)
-    /// [`bitand_assign()`](#method.bitand_assign)
-    /// [`bitor_assign()`](#method.bitor_assign)
+    /// * [`bitand()`](#method.bitand): Perform a Bitwise And operation on the Byte.
+    /// * [`bitor()`](#method.bitor): Perform a Bitwise Or operation on the Byte.
+    /// * [`bitxor()`](#method.bitxor): Perform a Bitwise Xor operation on the Byte.
+    /// * [`bitand_assign()`](#method.bitand_assign): Perform a Bitwise And Assignment operation on the Byte.
+    /// * [`bitor_assign()`](#method.bitor_assign): Perform a Bitwise Or Assignment operation on the Byte.
     ///
     fn bitxor_assign(&mut self, rhs: Self) {
         self.bit_0 ^= rhs.bit_0;
@@ -1134,7 +1203,7 @@ mod tests {
         let high_nybble = Nybble::from_u8(15);
         let low_nybble = Nybble::from_u8(15);
         let byte = Byte::from_nybbles(high_nybble, low_nybble);
-        assert_eq!(byte.to_u8(), 255);
+        assert_eq!(byte.to_u8(), 0b11111111);
     }
 
     #[test]
@@ -1206,7 +1275,7 @@ mod tests {
 
     #[test]
     fn test_get_high_nybble_all_ones() {
-        let byte = Byte::from_u8(255);
+        let byte = Byte::from_u8(0b11111111);
         let nybble = byte.get_high_nybble();
         assert_eq!(nybble.to_u8(), 15);
     }
@@ -1234,7 +1303,7 @@ mod tests {
 
     #[test]
     fn test_get_low_nybble_all_ones() {
-        let byte = Byte::from_u8(255);
+        let byte = Byte::from_u8(0b11111111);
         let nybble = byte.get_low_nybble();
         assert_eq!(nybble.to_u8(), 15);
     }
