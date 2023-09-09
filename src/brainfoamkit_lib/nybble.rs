@@ -53,32 +53,60 @@ use std::{
 /// This is a wrapper around four Bit instances. The least significant bit is `bit_0` and the most significant bit is `bit_3`.
 /// This struct is used to conveniently manipulate 4-bit values.
 ///
+/// Note that bit instances are stored in reverse (LSB is first, MSB is last) order,
+/// so the least significant bit is `bit_0` and the most significant bit is `bit_3`.
+/// However, the [`new`](#method.new) method takes the bits in the correct (MSB is first, LSB is last) order.
+///
+///
+///
 /// # Examples
 ///
-/// ## Single Digit
+/// ## Create a Nybble from primitive Bit values
 ///
 /// ```
 /// use brainfoamkit_lib::Nybble;
 /// use brainfoamkit_lib::Bit;
 ///
 /// let nybble = Nybble::new(Bit::One, Bit::Zero, Bit::One, Bit::Zero);
-/// assert_eq!(nybble.to_u8(), 10);
+/// assert_eq!(nybble.to_u8(), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
 /// assert_eq!(nybble.to_string(), "0xA");
 /// ```
 ///
-/// ## Double Digits
+/// ## Create a Nybble from a u8 value
 ///
 /// ```
 /// use brainfoamkit_lib::Nybble;
-/// use brainfoamkit_lib::Bit;
+///
+/// let nybble = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+/// assert_eq!(nybble.to_u8(), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+/// assert_eq!(nybble.to_string(), "0xA");
+/// ```
+///
+/// ## Set and Unset bits to generate the desired Nybble
+///
+/// ```
+/// use brainfoamkit_lib::Nybble;
 ///
 /// let mut nybble = Nybble::default();
-/// nybble.set_bit(0);
-/// nybble.set_bit(1);
-/// nybble.set_bit(2);
-/// nybble.set_bit(3);
-/// assert_eq!(nybble.to_u8(), 15);
-/// assert_eq!(nybble.to_string(), "0xF");
+/// nybble.set_bit(0); // Nybble: 0b0001; Dec: 1; Hex: 0x1; Oct: 0o1
+/// nybble.set_bit(2); // Nybble: 0b0101; Dec: 5; Hex: 0x5; Oct: 0o5
+///
+/// assert_eq!(nybble.to_u8(), 0b0101); // Dec: 5; Hex: 0x5; Oct: 0o5
+/// assert_eq!(nybble.to_string(), "0x5");
+/// ```
+///
+/// ## Flip the bits at a given index
+///
+/// ```
+/// use brainfoamkit_lib::Nybble;
+///
+/// let mut nybble = Nybble::from_u8(0b0101); // Dec: 5; Hex: 0x5; Oct: 0o5
+/// nybble.flip_bit(0); // Nybble: 0b0100; Dec: 4; Hex: 0x4; Oct: 0o4
+/// nybble.flip_bit(1); // Nybble: 0b0110; Dec: 6; Hex: 0x6; Oct: 0o6
+///
+/// assert_eq!(nybble.to_u8(), 0b0110); // Dec: 6; Hex: 0x6; Oct: 0o6
+/// assert_eq!(nybble.to_string(), "0x6");
+///
 /// ```
 ///
 /// # Panics
@@ -109,6 +137,13 @@ impl Nybble {
     /// This method takes four Bit instances as arguments.
     /// The least significant bit is `bit_0` and the most significant bit is `bit_3`.
     ///
+    /// # Arguments
+    ///
+    /// * `first` - The most significant bit.
+    /// * `second` - The second most significant bit.
+    /// * `third` - The second least significant bit.
+    /// * `fourth` - The least significant bit.
+    ///
     /// # Examples
     ///
     /// ```
@@ -126,8 +161,8 @@ impl Nybble {
     ///
     /// # See Also
     ///
-    /// * [`Nybble::from_u8()`](#method.from_u8): Creates a new Nybble from a u8 value.
-    /// * [`Nybble::default()`](#method.default): Creates a new Nybble with default (all [`Bit::Zero`](crate::Bit::Zero)) Bit values.
+    /// * [`from_u8()`](#method.from_u8): Creates a new Nybble from a u8 value.
+    /// * [`default()`](#method.default): Creates a new Nybble with default (all [`Bit::Zero`](crate::Bit::Zero)) Bit values.
     ///
     #[must_use]
     pub const fn new(first: Bit, second: Bit, third: Bit, fourth: Bit) -> Self {
@@ -149,18 +184,34 @@ impl Nybble {
     ///
     /// # Examples
     ///
+    /// ## A valid value for a Nybble
+    ///
     /// ```
     /// use brainfoamkit_lib::Nybble;
-    /// use brainfoamkit_lib::Bit;
     ///
     /// let nybble = Nybble::from_u8(5);
     /// assert_eq!(nybble.to_u8(), 5);
     /// assert_eq!(nybble.to_string(), "0x5");
     /// ```
     ///
+    /// ## A value too large for a Nybble
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Nybble;
+    ///
+    /// let nybble = Nybble::from_u8(16);
+    /// assert_eq!(nybble.to_u8(), 15);
+    /// assert_eq!(nybble.to_string(), "0xF");
+    /// ```
+    ///
     /// # Returns
     ///
     /// A new Nybble from the specified u8 value, or an all [`Bit::One`](crate::Bit::One) Nybble if the value is larger than 15.
+    ///
+    /// # See Also
+    ///
+    /// * [`new()`](#method.new): Creates a new Nybble with the specified Bit values.
+    /// * [`default()`](#method.default): Creates a new Nybble with default (all [`Bit::Zero`](crate::Bit::Zero)) Bit values.
     ///
     #[must_use]
     pub fn from_u8(n: u8) -> Self {
@@ -207,7 +258,7 @@ impl Nybble {
     /// let mut nybble = Nybble::default();
     /// nybble.set_bit(0);
     /// nybble.set_bit(2);
-    /// assert_eq!(nybble.to_u8(), 5);
+    /// assert_eq!(nybble.to_u8(), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
     /// assert_eq!(nybble.to_string(), "0x5");
     /// ```
     ///
@@ -248,13 +299,13 @@ impl Nybble {
     /// use brainfoamkit_lib::Nybble;
     /// use brainfoamkit_lib::Bit;
     ///
-    /// let mut nybble = Nybble::default();
-    /// nybble.set_bit(0);
-    /// nybble.set_bit(2);
-    /// assert_eq!(nybble.to_u8(), 5);
+    /// let mut nybble = Nybble::default(); // Nybble: 0b0000; Dec: 0; Hex: 0x0; Oct: 0o0
+    /// nybble.set_bit(0); // Nybble: 0b0001; Dec: 1; Hex: 0x1; Oct: 0o1
+    /// nybble.set_bit(2); // Nybble: 0b0101; Dec: 5; Hex: 0x5; Oct: 0o5
+    /// assert_eq!(nybble.to_u8(), 0b0101); // Dec: 5; Hex: 0x5; Oct: 0o5
     /// assert_eq!(nybble.to_string(), "0x5");
-    /// nybble.unset_bit(0);
-    /// assert_eq!(nybble.to_u8(), 4);
+    /// nybble.unset_bit(0); // Nybble: 0b0100; Dec: 4; Hex: 0x4; Oct: 0o4
+    /// assert_eq!(nybble.to_u8(), 4); // Dec: 4; Hex: 0x4; Oct: 0o4
     /// assert_eq!(nybble.to_string(), "0x4");
     /// ```
     ///
@@ -292,8 +343,8 @@ impl Nybble {
     /// use brainfoamkit_lib::Nybble;
     /// use brainfoamkit_lib::Bit;
     ///
-    /// let nybble = Nybble::new(Bit::One, Bit::Zero, Bit::One, Bit::Zero);
-    /// let result = nybble.to_u8();
+    /// let nybble = Nybble::new(Bit::One, Bit::Zero, Bit::One, Bit::Zero); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// let result = nybble.to_u8(); // Dec: 10; Hex: 0xA; Oct: 0o12
     /// assert_eq!(result, 0b1010);
     /// ```
     /// # Returns
@@ -334,7 +385,7 @@ impl Nybble {
     /// use brainfoamkit_lib::Nybble;
     /// use brainfoamkit_lib::Bit;
     ///
-    /// let nybble = Nybble::new(Bit::One, Bit::Zero, Bit::One, Bit::Zero);
+    /// let nybble = Nybble::new(Bit::One, Bit::Zero, Bit::One, Bit::Zero); // Dec: 10; Hex: 0xA; Oct: 0o12
     /// assert_eq!(nybble.get_bit(0), Bit::Zero);
     /// assert_eq!(nybble.get_bit(1), Bit::One);
     /// assert_eq!(nybble.get_bit(2), Bit::Zero);
@@ -383,17 +434,17 @@ impl Nybble {
     /// use brainfoamkit_lib::Nybble;
     /// use brainfoamkit_lib::Bit;
     ///
-    /// let mut nybble = Nybble::default();
-    /// nybble.set_bit(0);
-    /// nybble.set_bit(2);
+    /// let mut nybble = Nybble::default(); // Nybble: 0b0000; Dec: 0; Hex: 0x0; Oct: 0o0
+    /// nybble.set_bit(0); // Nybble: 0b0001; Dec: 1; Hex: 0x1; Oct: 0o1
+    /// nybble.set_bit(2); // Nybble: 0b0101; Dec: 5; Hex: 0x5; Oct: 0o5
     ///
-    /// assert_eq!(nybble.to_u8(), 5);
+    /// assert_eq!(nybble.to_u8(), 0b0101); // Dec: 5; Hex: 0x5; Oct: 0o5
     /// assert_eq!(nybble.to_string(), "0x5");
     ///
-    /// nybble.flip_bit(0);
-    /// nybble.flip_bit(1);
-    /// nybble.flip_bit(2);
-    /// nybble.flip_bit(3);
+    /// nybble.flip_bit(0); // Nybble: 0b0100; Dec: 4; Hex: 0x4; Oct: 0o4
+    /// nybble.flip_bit(1); // Nybble: 0b0110; Dec: 6; Hex: 0x6; Oct: 0o6
+    /// nybble.flip_bit(2); // Nybble: 0b0010; Dec: 2; Hex: 0x2; Oct: 0o2
+    /// nybble.flip_bit(3); // Nybble: 0b1010; Dec: 10; Hex: 0xA; Oct: 0o12
     ///
     /// assert_eq!(nybble.to_u8(), 10);
     /// assert_eq!(nybble.to_string(), "0xA");
@@ -435,17 +486,17 @@ impl Nybble {
     /// use brainfoamkit_lib::Nybble;
     /// use brainfoamkit_lib::Bit;
     ///
-    /// let mut nybble = Nybble::default();
+    /// let mut nybble = Nybble::default(); // Nybble: 0b0000; Dec: 0; Hex: 0x0; Oct: 0o0
     ///
-    /// nybble.set_bit(0);
-    /// nybble.set_bit(2);
+    /// nybble.set_bit(0); // Nybble: 0b0001; Dec: 1; Hex: 0x1; Oct: 0o1
+    /// nybble.set_bit(2); // Nybble: 0b0101; Dec: 5; Hex: 0x5; Oct: 0o5
     ///
-    /// assert_eq!(nybble.to_u8(), 5);
+    /// assert_eq!(nybble.to_u8(), 0b0101); // Dec: 5; Hex: 0x5; Oct: 0o5
     /// assert_eq!(nybble.to_string(), "0x5");
     ///
-    /// nybble.flip();
+    /// nybble.flip(); // Nybble: 0b1010; Dec: 10; Hex: 0xA; Oct: 0o12
     ///
-    /// assert_eq!(nybble.to_u8(), 10);
+    /// assert_eq!(nybble.to_u8(), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
     /// assert_eq!(nybble.to_string(), "0xA");
     /// ```
     ///
@@ -466,20 +517,107 @@ impl Nybble {
 }
 
 impl Display for Nybble {
+    /// Converts the Nybble to a string.
+    ///
+    /// This method converts the Nybble to a string.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Nybble;
+    ///
+    /// let nybble = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    ///
+    /// assert_eq!(nybble.to_string(), "0xA");
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// The Nybble as a string.
+    ///
+    /// # See Also
+    ///
+    /// * [`to_u8()`](#method.to_u8): Converts the Nybble to an 8-bit unsigned integer (u8).
+    /// * [`from_u8()`](#method.from_u8): Creates a new Nybble from a u8 value.
+    ///
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         write!(f, "{:#03X}", self.to_u8())
     }
 }
 
 impl Default for Nybble {
+    /// Create a _default_ (empty) Nybble.
+    ///
+    /// Creates a new Nybble with default (all [`Bit::Zero`](crate::Bit::Zero)) Bit values.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Nybble;
+    ///
+    /// let nybble = Nybble::default();
+    ///
+    /// assert_eq!(nybble.to_u8(), 0b0000); // Nybble: 0b0000; Dec: 0; Hex: 0x0; Oct: 0o0
+    ///
+    /// assert_eq!(nybble.to_string(), "0x0");
+    ///
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// A new Nybble with default (all [`Bit::Zero`](crate::Bit::Zero)) Bit values.
+    ///
+    /// # See Also
+    ///
+    /// * [`new()`](#method.new): Creates a new Nybble with the specified Bit values.
+    /// * [`from_u8()`](#method.from_u8): Creates a new Nybble from a u8 value.
+    /// * [`to_u8()`](#method.to_u8): Converts the Nybble to an 8-bit unsigned integer (u8).
+    ///
     fn default() -> Self {
         Self::new(Bit::zero(), Bit::zero(), Bit::zero(), Bit::zero())
     }
 }
 
 impl Not for Nybble {
+    // The output type of Not is Nybble as the operation is symmetric
     type Output = Self;
 
+    /// Perform the Not operation on the Nybble.
+    ///
+    /// This method performs the Not operation on the Nybble.
+    /// This also allows the use of the `!` operator on the Nybble.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Nybble;
+    ///
+    /// let nybble = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    ///
+    /// assert_eq!(nybble.to_u8(), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// assert_eq!(nybble.to_string(), "0xA");
+    ///
+    /// let nybble = !nybble;
+    ///
+    /// assert_eq!(nybble.to_u8(), 0b0101); // Dec: 5; Hex: 0x5; Oct: 0o5
+    /// assert_eq!(nybble.to_string(), "0x5");
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// A new Nybble with the Bit values flipped.
+    ///
+    /// # See Also
+    ///
+    /// * [`flip()`](#method.flip): Flips all of the Bit values in the Nybble.
+    /// * [`flip_bit()`](#method.flip_bit): Flips the Bit value at the specified index.
+    /// * [`bitand()`](#method.bitand): Performs the Bitwise And operation on two Nybbles.
+    /// * [`bitor()`](#method.bitor): Performs the Bitwise Or operation on two Nybbles.
+    /// * [`bitxor()`](#method.bitxor): Performs the Bitwise Xor operation on two Nybbles.
+    /// * [`bitand_assign()`](#method.bitand_assign): Performs the Bitwise And operation on two Nybbles and assigns the result to the first Nybble.
+    /// * [`bitor_assign()`](#method.bitor_assign): Performs the Bitwise Or operation on two Nybbles and assigns the result to the first Nybble.
+    /// * [`bitxor_assign()`](#method.bitxor_assign): Performs the Bitwise Xor operation on two Nybbles and assigns the result to the first Nybble.
+    ///
     fn not(self) -> Self::Output {
         let mut nybble = self;
         nybble.flip();
@@ -488,8 +626,51 @@ impl Not for Nybble {
 }
 
 impl BitAnd for Nybble {
+    // The output type of BitAnd is Nybble as the operation is symmetric
     type Output = Self;
 
+    /// Perform the Bitwise And operation on two Nybbles.
+    ///
+    /// This method performs the Bitwise And operation on two Nybbles.
+    /// This also allows the use of the `&` operator on two Nybbles.
+    ///
+    /// # Arguments
+    ///
+    /// * `rhs` - The right hand side of the Bitwise And operation.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Nybble;
+    ///
+    /// let nybble_1 = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// let nybble_2 = Nybble::from_u8(0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
+    ///
+    /// assert_eq!(nybble_1.to_u8(), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// assert_eq!(nybble_1.to_string(), "0xA");
+    ///
+    /// assert_eq!(nybble_2.to_u8(), 0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
+    /// assert_eq!(nybble_2.to_string(), "0xC");
+    ///
+    /// let nybble = nybble_1 & nybble_2;
+    ///
+    /// assert_eq!(nybble.to_u8(), 0b1000); // Dec: 8; Hex: 0x8; Oct: 0o10
+    /// assert_eq!(nybble.to_string(), "0x8");
+    ///
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// A new Nybble with the Bitwise And operation performed on the two Nybbles.
+    ///
+    /// # See Also
+    ///
+    /// * [`bitor()`](#method.bitor): Performs the Bitwise Or operation on two Nybbles.
+    /// * [`bitxor()`](#method.bitxor): Performs the Bitwise Xor operation on two Nybbles.
+    /// * [`bitand_assign()`](#method.bitand_assign): Performs the Bitwise And operation on two Nybbles and assigns the result to the first Nybble.
+    /// * [`bitor_assign()`](#method.bitor_assign): Performs the Bitwise Or operation on two Nybbles and assigns the result to the first Nybble.
+    /// * [`bitxor_assign()`](#method.bitxor_assign): Performs the Bitwise Xor operation on two Nybbles and assigns the result to the first Nybble.
+    ///
     fn bitand(self, rhs: Self) -> Self::Output {
         let mut nybble = self;
         nybble.bit_0 &= rhs.bit_0;
@@ -501,6 +682,47 @@ impl BitAnd for Nybble {
 }
 
 impl BitAndAssign for Nybble {
+    /// Perform the Bitwise And operation on two Nybbles and assigns the result to the first Nybble.
+    ///
+    /// This method performs the Bitwise And operation on two Nybbles and assigns the result to the first Nybble.
+    ///
+    /// # Arguments
+    ///
+    /// * `rhs` - The right hand side of the Bitwise And operation.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Nybble;
+    ///
+    /// let mut nybble_1 = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// let nybble_2 = Nybble::from_u8(0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
+    ///
+    /// assert_eq!(nybble_1.to_u8(), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// assert_eq!(nybble_1.to_string(), "0xA");
+    ///
+    /// assert_eq!(nybble_2.to_u8(), 0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
+    /// assert_eq!(nybble_2.to_string(), "0xC");
+    ///
+    /// nybble_1 &= nybble_2;
+    ///
+    /// assert_eq!(nybble_1.to_u8(), 0b1000); // Dec: 8; Hex: 0x8; Oct: 0o10
+    /// assert_eq!(nybble_1.to_string(), "0x8");
+    ///
+    /// ```
+    ///
+    /// # Side Effects
+    ///
+    /// This method will perform the Bitwise And operation on two Nybbles and assign the result to the first Nybble.
+    ///
+    /// # See Also
+    ///
+    /// * [`bitand()`](#method.bitand): Performs the Bitwise And operation on two Nybbles.
+    /// * [`bitor()`](#method.bitor): Performs the Bitwise Or operation on two Nybbles.
+    /// * [`bitxor()`](#method.bitxor): Performs the Bitwise Xor operation on two Nybbles.
+    /// * [`bitor_assign()`](#method.bitor_assign): Performs the Bitwise Or operation on two Nybbles and assigns the result to the first Nybble.
+    /// * [`bitxor_assign()`](#method.bitxor_assign): Performs the Bitwise Xor operation on two Nybbles and assigns the result to the first Nybble.
+    ///
     fn bitand_assign(&mut self, rhs: Self) {
         self.bit_0 &= rhs.bit_0;
         self.bit_1 &= rhs.bit_1;
@@ -510,8 +732,50 @@ impl BitAndAssign for Nybble {
 }
 
 impl BitOr for Nybble {
+    // The output type of BitOr is Nybble as the operation is symmetric
     type Output = Self;
 
+    /// Perform the Bitwise Or operation on two Nybbles.
+    ///
+    /// This method performs the Bitwise Or operation on two Nybbles.
+    /// This also allows the use of the `|` operator on two Nybbles.
+    ///
+    /// # Arguments
+    ///
+    /// * `rhs` - The right hand side of the Bitwise Or operation.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Nybble;
+    ///
+    /// let nybble_1 = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// let nybble_2 = Nybble::from_u8(0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
+    ///
+    /// assert_eq!(nybble_1.to_u8(), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// assert_eq!(nybble_1.to_string(), "0xA");
+    ///
+    /// assert_eq!(nybble_2.to_u8(), 0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
+    ///
+    /// let nybble = nybble_1 | nybble_2;
+    ///
+    /// assert_eq!(nybble.to_u8(), 0b1110); // Dec: 14; Hex: 0xE; Oct: 0o16
+    /// assert_eq!(nybble.to_string(), "0xE");
+    ///
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// A new Nybble with the Bitwise Or operation performed on the two Nybbles.
+    ///
+    /// # See Also
+    ///
+    /// * [`bitand()`](#method.bitand): Performs the Bitwise And operation on two Nybbles.
+    /// * [`bitxor()`](#method.bitxor): Performs the Bitwise Xor operation on two Nybbles.
+    /// * [`bitand_assign()`](#method.bitand_assign): Performs the Bitwise And operation on two Nybbles and assigns the result to the first Nybble.
+    /// * [`bitor_assign()`](#method.bitor_assign): Performs the Bitwise Or operation on two Nybbles and assigns the result to the first Nybble.
+    /// * [`bitxor_assign()`](#method.bitxor_assign): Performs the Bitwise Xor operation on two Nybbles and assigns the result to the first Nybble.
+    ///
     fn bitor(self, rhs: Self) -> Self::Output {
         let mut nybble = self;
         nybble.bit_0 |= rhs.bit_0;
@@ -523,6 +787,47 @@ impl BitOr for Nybble {
 }
 
 impl BitOrAssign for Nybble {
+    /// Perform the Bitwise Or operation on two Nybbles and assigns the result to the first Nybble.
+    ///
+    /// This method performs the Bitwise Or operation on two Nybbles and assigns the result to the first Nybble.
+    /// This also allows the use of the `|=` operator on two Nybbles.
+    ///
+    /// # Arguments
+    ///
+    /// * `rhs` - The right hand side of the Bitwise Or operation.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Nybble;
+    ///
+    /// let mut nybble_1 = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// let nybble_2 = Nybble::from_u8(0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
+    ///
+    /// assert_eq!(nybble_1.to_u8(), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// assert_eq!(nybble_1.to_string(), "0xA");
+    ///
+    /// assert_eq!(nybble_2.to_u8(), 0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
+    /// assert_eq!(nybble_2.to_string(), "0xC");
+    ///
+    /// nybble_1 |= nybble_2;
+    ///
+    /// assert_eq!(nybble_1.to_u8(), 0b1110); // Dec: 14; Hex: 0xE; Oct: 0o16
+    ///
+    /// ```
+    ///
+    /// # Side Effects
+    ///
+    /// This method will perform the Bitwise Or operation on two Nybbles and assign the result to the first Nybble.
+    ///
+    /// # See Also
+    ///
+    /// * [`bitand()`](#method.bitand): Performs the Bitwise And operation on two Nybbles.
+    /// * [`bitor()`](#method.bitor): Performs the Bitwise Or operation on two Nybbles.
+    /// * [`bitxor()`](#method.bitxor): Performs the Bitwise Xor operation on two Nybbles.
+    /// * [`bitand_assign()`](#method.bitand_assign): Performs the Bitwise And operation on two Nybbles and assigns the result to the first Nybble.
+    /// * [`bitxor_assign()`](#method.bitxor_assign): Performs the Bitwise Xor operation on two Nybbles and assigns the result to the first Nybble.
+    ///
     fn bitor_assign(&mut self, rhs: Self) {
         self.bit_0 |= rhs.bit_0;
         self.bit_1 |= rhs.bit_1;
@@ -532,8 +837,49 @@ impl BitOrAssign for Nybble {
 }
 
 impl BitXor for Nybble {
+    // The output type of BitXor is Nybble as the operation is symmetric
     type Output = Self;
 
+    /// Perform the Bitwise Xor operation on two Nybbles.
+    ///
+    /// This method performs the Bitwise Xor operation on two Nybbles.
+    /// This also allows the use of the `^` operator on two Nybbles.
+    ///
+    /// # Arguments
+    ///
+    /// * `rhs` - The right hand side of the Bitwise Xor operation.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Nybble;
+    ///
+    /// let nybble_1 = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// let nybble_2 = Nybble::from_u8(0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
+    ///
+    /// assert_eq!(nybble_1.to_u8(), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// assert_eq!(nybble_1.to_string(), "0xA");
+    ///
+    /// assert_eq!(nybble_2.to_u8(), 0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
+    ///
+    /// let nybble = nybble_1 ^ nybble_2;
+    ///
+    /// assert_eq!(nybble.to_u8(), 0b0110); // Dec: 6; Hex: 0x6; Oct: 0o6
+    ///
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// A new Nybble with the Bitwise Xor operation performed on the two Nybbles.
+    ///
+    /// # See Also
+    ///
+    /// * [`bitand()`](#method.bitand): Performs the Bitwise And operation on two Nybbles.
+    /// * [`bitor()`](#method.bitor): Performs the Bitwise Or operation on two Nybbles.
+    /// * [`bitand_assign()`](#method.bitand_assign): Performs the Bitwise And operation on two Nybbles and assigns the result to the first Nybble.
+    /// * [`bitor_assign()`](#method.bitor_assign): Performs the Bitwise Or operation on two Nybbles and assigns the result to the first Nybble.
+    /// * [`bitxor_assign()`](#method.bitxor_assign): Performs the Bitwise Xor operation on two Nybbles and assigns the result to the first Nybble.
+    ///
     fn bitxor(self, rhs: Self) -> Self::Output {
         let mut nybble = self;
         nybble.bit_0 ^= rhs.bit_0;
@@ -545,6 +891,47 @@ impl BitXor for Nybble {
 }
 
 impl BitXorAssign for Nybble {
+    /// Perform the Bitwise Xor operation on two Nybbles and assigns the result to the first Nybble.
+    ///
+    /// This method performs the Bitwise Xor operation on two Nybbles and assigns the result to the first Nybble.
+    /// This also allows the use of the `^=` operator on two Nybbles.
+    ///
+    /// # Arguments
+    ///
+    /// * `rhs` - The right hand side of the Bitwise Xor operation.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Nybble;
+    ///
+    /// let mut nybble_1 = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// let nybble_2 = Nybble::from_u8(0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
+    ///
+    /// assert_eq!(nybble_1.to_u8(), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// assert_eq!(nybble_1.to_string(), "0xA");
+    ///
+    /// assert_eq!(nybble_2.to_u8(), 0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
+    /// assert_eq!(nybble_2.to_string(), "0xC");
+    ///
+    /// nybble_1 ^= nybble_2;
+    ///
+    /// assert_eq!(nybble_1.to_u8(), 0b0110); // Dec: 6; Hex: 0x6; Oct: 0o6
+    ///
+    /// ```
+    ///
+    /// # Side Effects
+    ///
+    /// This method will perform the Bitwise Xor operation on two Nybbles and assign the result to the first Nybble.
+    ///
+    /// # See Also
+    ///
+    /// * [`bitand()`](#method.bitand): Performs the Bitwise And operation on two Nybbles.
+    /// * [`bitor()`](#method.bitor): Performs the Bitwise Or operation on two Nybbles.
+    /// * [`bitxor()`](#method.bitxor): Performs the Bitwise Xor operation on two Nybbles.
+    /// * [`bitand_assign()`](#method.bitand_assign): Performs the Bitwise And operation on two Nybbles and assigns the result to the first Nybble.
+    /// * [`bitor_assign()`](#method.bitor_assign): Performs the Bitwise Or operation on two Nybbles and assigns the result to the first Nybble.
+    ///
     fn bitxor_assign(&mut self, rhs: Self) {
         self.bit_0 ^= rhs.bit_0;
         self.bit_1 ^= rhs.bit_1;
