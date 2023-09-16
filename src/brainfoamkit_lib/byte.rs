@@ -219,6 +219,7 @@ impl Byte {
     ///
     /// * [`from_u8()`](#method.from_u8): Create a new Byte from a u8.
     /// * [`from_nybbles()`](#method.from_nybbles): Create a new Byte from two [Nybbles](crate::Nybble).
+    /// * [`default()`](#method.default): Create a new Byte with all bits set to zero.
     ///
     #[must_use]
     #[allow(clippy::too_many_arguments)]
@@ -833,7 +834,7 @@ impl Not for Byte {
     /// assert_eq!(byte.to_string(), "0x55");
     /// ```
     ///
-    /// # Side Effects
+    /// # Returns
     ///
     /// This method inverts the Bit values in the Byte.
     ///
