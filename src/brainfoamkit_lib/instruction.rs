@@ -42,8 +42,11 @@
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
+use std::fmt::{self, Display, Formatter};
+
 /// Define the states for the interpreter
-enum Instruction {
+#[derive(Debug, PartialEq, Clone, Copy)]
+pub enum Instruction {
     IncrementPointer,
     DecrementPointer,
     IncrementValue,
@@ -58,15 +61,15 @@ enum Instruction {
 impl Display for Instruction {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         match *self {
-            Instruction::IncrementPointer => write!(f, ">"),
-            Instruction::DecrementPointer => write!(f, "<"),
-            Instruction::IncrementValue => write!(f, "+"),
-            Instruction::DecrementValue => write!(f, "-"),
-            Instruction::OutputValue => write!(f, "."),
-            Instruction::InputValue => write!(f, ","),
-            Instruction::JumpForward => write!(f, "["),
-            Instruction::JumpBackward => write!(f, "]"),
-            Instruction::NoOp => write!(f, " "),
+            Instruction::IncrementPointer => write!(f, "INCPTR"),
+            Instruction::DecrementPointer => write!(f, "DECPTR"),
+            Instruction::IncrementValue => write!(f, "INCVAL"),
+            Instruction::DecrementValue => write!(f, "DECVAL"),
+            Instruction::OutputValue => write!(f, "OUTVAL"),
+            Instruction::InputValue => write!(f, "INPVAL"),
+            Instruction::JumpForward => write!(f, "JMPFWD"),
+            Instruction::JumpBackward => write!(f, "JMPBCK"),
+            Instruction::NoOp => write!(f, "NOOP"),
         }
     }
 }
@@ -107,14 +110,14 @@ mod tests {
 
     #[test]
     fn test_instruction_display() {
-        assert_eq!(format!("{}", Instruction::IncrementPointer), ">");
-        assert_eq!(format!("{}", Instruction::DecrementPointer), "<");
-        assert_eq!(format!("{}", Instruction::IncrementValue), "+");
-        assert_eq!(format!("{}", Instruction::DecrementValue), "-");
-        assert_eq!(format!("{}", Instruction::OutputValue), ".");
-        assert_eq!(format!("{}", Instruction::InputValue), ",");
-        assert_eq!(format!("{}", Instruction::JumpForward), "[");
-        assert_eq!(format!("{}", Instruction::JumpBackward), "]");
+        assert_eq!(format!("{}", Instruction::IncrementPointer), "INCPTR");
+        assert_eq!(format!("{}", Instruction::DecrementPointer), "DECPTR");
+        assert_eq!(format!("{}", Instruction::IncrementValue), "INCVAL");
+        assert_eq!(format!("{}", Instruction::DecrementValue), "DECVAL");
+        assert_eq!(format!("{}", Instruction::OutputValue), "OUTVAL");
+        assert_eq!(format!("{}", Instruction::InputValue), "INPVAL");
+        assert_eq!(format!("{}", Instruction::JumpForward), "JMPFWD");
+        assert_eq!(format!("{}", Instruction::JumpBackward), "JMPBCK");
         assert_eq!(format!("{}", Instruction::NoOp), " ");
     }
 }
