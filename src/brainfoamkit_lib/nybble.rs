@@ -260,6 +260,10 @@ impl Nybble {
     /// assert_eq!(nybble.to_string(), "0x5");
     /// ```
     ///
+    /// # Side Effects
+    ///
+    /// This method will [set](crate::Bit#method.set) the Bit value at the specified index.
+    ///
     /// # Panics
     ///
     /// This method will panic if the index is out of bounds.
@@ -307,13 +311,13 @@ impl Nybble {
     /// assert_eq!(nybble.to_string(), "0x4");
     /// ```
     ///
-    /// # Panics
-    ///
-    /// This method will panic if the index is out of bounds.
-    ///
     /// # Side Effects
     ///
     /// This method will [unset](crate::Bit#method.unset) the Bit value at the specified index.
+    ///
+    /// # Panics
+    ///
+    /// This method will panic if the index is out of bounds.
     ///
     /// # See Also
     ///
@@ -447,7 +451,7 @@ impl Nybble {
     ///
     /// # Returns
     ///
-    /// The Bit value at the specified index.
+    /// A reference to the Bit value at the specified index.
     ///
     /// # See Also
     ///
@@ -681,16 +685,6 @@ impl Nybble {
         IterableNybble::new(self)
     }
 }
-
-// impl IntoIterator for Nybble {
-//     type Item = Bit;
-
-//     type IntoIter<'a> = IterableNybble<'a>;
-
-//     fn into_iter(self) -> Self::IntoIter {
-//         IterableNybble::new(self)
-//     }
-// }
 
 impl Display for Nybble {
     /// Converts the Nybble to a string.
@@ -1295,10 +1289,10 @@ mod tests {
     fn test_iterator() {
         let nybble = Nybble::from_u8(10);
         let mut iter = nybble.iter();
-        assert_eq!(iter.next(), Some(&Bit::zero()));
-        assert_eq!(iter.next(), Some(&Bit::one()));
-        assert_eq!(iter.next(), Some(&Bit::zero()));
-        assert_eq!(iter.next(), Some(&Bit::one()));
+        assert_eq!(iter.next(), Some(Bit::zero()));
+        assert_eq!(iter.next(), Some(Bit::one()));
+        assert_eq!(iter.next(), Some(Bit::zero()));
+        assert_eq!(iter.next(), Some(Bit::one()));
         assert_eq!(iter.next(), None);
     }
 }

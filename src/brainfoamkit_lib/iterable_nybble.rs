@@ -60,7 +60,7 @@ impl<'a> IterableNybble<'a> {
 }
 
 impl<'a> Iterator for IterableNybble<'a> {
-    type Item = &'a Bit;
+    type Item = Bit;
 
     fn next(&mut self) -> Option<Self::Item> {
         let current_index = self.current_index;
@@ -71,7 +71,7 @@ impl<'a> Iterator for IterableNybble<'a> {
             None
         } else {
             self.current_index = next_index;
-            Some(self.nybble.get_bit_ref(current_index))
+            Some(self.nybble.get_bit(current_index))
         }
     }
 }
@@ -86,10 +86,10 @@ mod tests {
         let nybble = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
         let mut iter = nybble.iter();
 
-        assert_eq!(iter.next(), Some(&Bit::zero()));
-        assert_eq!(iter.next(), Some(&Bit::one()));
-        assert_eq!(iter.next(), Some(&Bit::zero()));
-        assert_eq!(iter.next(), Some(&Bit::one()));
+        assert_eq!(iter.next(), Some(Bit::zero()));
+        assert_eq!(iter.next(), Some(Bit::one()));
+        assert_eq!(iter.next(), Some(Bit::zero()));
+        assert_eq!(iter.next(), Some(Bit::one()));
         assert_eq!(iter.next(), None);
     }
 }
