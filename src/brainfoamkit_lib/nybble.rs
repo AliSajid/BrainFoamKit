@@ -42,7 +42,7 @@
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-use crate::Bit;
+use crate::{Bit, IterableNybble};
 use std::{
     fmt::{self, Display, Formatter},
     ops::{BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Not},
@@ -610,6 +610,16 @@ impl Nybble {
     pub fn decrement(&mut self) {
         // Find the first Bit::One bit from the right
         todo!("Implement decrement")
+    }
+}
+
+impl IntoIterator for Nybble {
+    type Item = Bit;
+
+    type IntoIter = IterableNybble;
+
+    fn into_iter(self) -> Self::IntoIter {
+        IterableNybble::new(self)
     }
 }
 
@@ -1210,5 +1220,15 @@ mod tests {
     fn test_display() {
         let nybble = Nybble::from_u8(10);
         assert_eq!(format!("{}", nybble), "0xA");
+    }
+
+    #[test]
+    fn test_iterator() {
+        let mut nybble = Nybble::from_u8(10).into_iter();
+        assert_eq!(nybble.next(), Some(Bit::zero()));
+        assert_eq!(nybble.next(), Some(Bit::one()));
+        assert_eq!(nybble.next(), Some(Bit::zero()));
+        assert_eq!(nybble.next(), Some(Bit::one()));
+        assert_eq!(nybble.next(), None);
     }
 }

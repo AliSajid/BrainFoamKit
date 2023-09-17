@@ -42,14 +42,54 @@
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-// Add the relevant modules
-mod bit;
-mod byte;
-mod iterable_nybble;
-mod nybble;
+use crate::Bit;
+use crate::Nybble;
 
-// Re-export the useful contents
-pub use bit::Bit;
-pub use byte::Byte;
-pub use iterable_nybble::IterableNybble;
-pub use nybble::Nybble;
+pub struct IterableNybble {
+    nybble: Nybble,
+    current_index: u8,
+}
+
+impl IterableNybble {
+    pub fn new(nybble: Nybble) -> Self {
+        Self {
+            nybble,
+            current_index: 0,
+        }
+    }
+}
+
+impl Iterator for IterableNybble {
+    type Item = Bit;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let current_index = self.current_index;
+        let next_index = current_index + 1;
+
+        if next_index > 4 {
+            self.current_index = 0;
+            None
+        } else {
+            self.current_index = next_index;
+            Some(self.nybble.get_bit(current_index))
+        }
+    }
+}
+
+#[cfg(test)]
+
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_iterable_nybble() {
+        let nybble = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+        let mut iter = nybble.into_iter();
+
+        assert_eq!(iter.next(), Some(Bit::Zero));
+        assert_eq!(iter.next(), Some(Bit::One));
+        assert_eq!(iter.next(), Some(Bit::Zero));
+        assert_eq!(iter.next(), Some(Bit::One));
+        assert_eq!(iter.next(), None);
+    }
+}
