@@ -45,11 +45,13 @@
 // Add the relevant modules
 mod bit;
 mod byte;
+mod instruction;
 mod iterable_nybble;
 mod nybble;
 
 // Re-export the useful contents
 pub use bit::Bit;
 pub use byte::Byte;
+pub use instruction::Instruction;
 pub use iterable_nybble::IterableNybble;
 pub use nybble::Nybble;
