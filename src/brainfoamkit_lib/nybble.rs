@@ -415,6 +415,57 @@ impl Nybble {
         }
     }
 
+    /// Get a reference to the Bit value at the specified index.
+    ///
+    /// This method is used to get a reference to the bit value at a given index.
+    ///
+    /// The index is zero-based, so the least significant bit is at index 0 and the most significant bit is at index 3.
+    ///
+    /// # Arguments
+    ///
+    /// * `index` - The index of the Bit value to get.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Nybble;
+    /// use brainfoamkit_lib::Bit;
+    ///
+    /// let one = Bit::one();
+    /// let zero = Bit::zero();
+    ///
+    /// let nybble = Nybble::new(Bit::One, Bit::Zero, Bit::One, Bit::Zero); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// assert_eq!(nybble.get_bit_ref(0), &zero);
+    /// assert_eq!(nybble.get_bit_ref(1), &one);
+    /// assert_eq!(nybble.get_bit_ref(2), &zero);
+    /// assert_eq!(nybble.get_bit_ref(3), &one);
+    /// ```
+    ///
+    /// # Panics
+    ///
+    /// This method will panic if the index is out of bounds.
+    ///
+    /// # Returns
+    ///
+    /// The Bit value at the specified index.
+    ///
+    /// # See Also
+    ///
+    /// * [`set_bit()`](#method.set_bit): Sets the Bit value at the specified index.
+    /// * [`unset_bit()`](#method.unset_bit): Unsets the Bit value at the specified index.
+    /// * [`flip_bit()`](#method.flip_bit): Flips the Bit value at the specified index.
+    ///
+    #[must_use]
+    pub fn get_bit_ref(&self, index: u8) -> &Bit {
+        match index {
+            0 => &self.bit_0,
+            1 => &self.bit_1,
+            2 => &self.bit_2,
+            3 => &self.bit_3,
+            _ => panic!("Index out of bounds"),
+        }
+    }
+
     /// Flips the Bit value at the specified index.
     ///
     /// This method is used to flip the bit value at a given index.
@@ -611,17 +662,35 @@ impl Nybble {
         // Find the first Bit::One bit from the right
         todo!("Implement decrement")
     }
-}
 
-impl IntoIterator for Nybble {
-    type Item = Bit;
-
-    type IntoIter = IterableNybble;
-
-    fn into_iter(self) -> Self::IntoIter {
+    /// Create an iterator over the Nybble.
+    /// This allows the use of the `for` loop on the Nybble.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Nybble;
+    ///
+    /// let nybble = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    ///
+    /// for bit in nybble.iter() {
+    ///    println!("{}", bit);
+    /// }
+    /// ```
+    pub fn iter(&self) -> IterableNybble {
         IterableNybble::new(self)
     }
 }
+
+// impl IntoIterator for Nybble {
+//     type Item = Bit;
+
+//     type IntoIter<'a> = IterableNybble<'a>;
+
+//     fn into_iter(self) -> Self::IntoIter {
+//         IterableNybble::new(self)
+//     }
+// }
 
 impl Display for Nybble {
     /// Converts the Nybble to a string.
@@ -1224,11 +1293,12 @@ mod tests {
 
     #[test]
     fn test_iterator() {
-        let mut nybble = Nybble::from_u8(10).into_iter();
-        assert_eq!(nybble.next(), Some(Bit::zero()));
-        assert_eq!(nybble.next(), Some(Bit::one()));
-        assert_eq!(nybble.next(), Some(Bit::zero()));
-        assert_eq!(nybble.next(), Some(Bit::one()));
-        assert_eq!(nybble.next(), None);
+        let nybble = Nybble::from_u8(10);
+        let mut iter = nybble.iter();
+        assert_eq!(iter.next(), Some(&Bit::zero()));
+        assert_eq!(iter.next(), Some(&Bit::one()));
+        assert_eq!(iter.next(), Some(&Bit::zero()));
+        assert_eq!(iter.next(), Some(&Bit::one()));
+        assert_eq!(iter.next(), None);
     }
 }
