@@ -8,6 +8,7 @@ repos:
     rev: v4.4.0
     hooks:
     -   id: check-json
+        exclude: ".vscode/launch.json"
     -   id: check-merge-conflict
     -   id: check-toml
     -   id: check-xml
@@ -20,6 +21,7 @@ repos:
         -   --indent=4
         -   --autofix
         id: pretty-format-json
+        exclude: ".vscode/launch.json"
     -   args:
         -   --markdown-linebreak-ext=md
         id: trailing-whitespace
@@ -92,9 +94,3 @@ repos:
     -   id: fmt
     -   id: cargo-check
     -   id: clippy
-# -   repo: https://github.com/jumanjihouse/pre-commit-hook-yamlfmt
-#     rev: 0.2.3
-#     hooks:
-#     -   id: yamlfmt
-#         args: [--mapping, '4', --sequence, '4', --offset, '0', --width, '150']
-# #    args: [--mapping, '2', --sequence, '2', --offset, '2', --colons, --width, '150']
