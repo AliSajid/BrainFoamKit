@@ -200,8 +200,8 @@ impl Nybble {
     /// use brainfoamkit_lib::Nybble;
     ///
     /// let nybble = Nybble::from_u8(16);
-    /// assert_eq!(nybble.to_u8(), 15);
-    /// assert_eq!(nybble.to_string(), "0xF");
+    /// assert_eq!(nybble.to_u8(), 0);
+    /// assert_eq!(nybble.to_string(), "0x0");
     /// ```
     ///
     /// # Returns
@@ -215,13 +215,11 @@ impl Nybble {
     ///
     #[must_use]
     pub fn from_u8(n: u8) -> Self {
-        // Use only the first four bits of the input value if it is larger than 15
-        let n = if n > 15 { n & 0b1111 } else { n };
+        let n = n & 0b00001111;
 
         // Create a new Nybble instance with default Bit values
         let mut nybble = Self::default();
 
-        // Test each bit in the u8 value and flip the corresponding bit in the Nybble if necessary
         if n & 0b0001 != 0 {
             nybble.bit_0.set();
         };
@@ -258,7 +256,7 @@ impl Nybble {
     /// let mut nybble = Nybble::default();
     /// nybble.set_bit(0);
     /// nybble.set_bit(2);
-    /// assert_eq!(nybble.to_u8(), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// assert_eq!(nybble.to_u8(), 0b0101); // Dec: 5; Hex: 0x5; Oct: 0o5
     /// assert_eq!(nybble.to_string(), "0x5");
     /// ```
     ///
@@ -513,6 +511,105 @@ impl Nybble {
         self.bit_1.flip();
         self.bit_2.flip();
         self.bit_3.flip();
+    }
+
+    /// Increment the Nybble with rollover overflow
+    ///
+    /// This method increments the value stored in the Nybble.
+    /// This has a rollover for overflow. This means that if we increment past the
+    /// maximum value (15), we will go back to 0.
+    ///
+    /// # Examples
+    ///
+    /// ## Regular Use
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Nybble;
+    ///
+    /// let mut nybble = Nybble::default(); // Nybble: 0b0000; Dec: 0; Hex: 0x0; Oct: 0o0
+    ///
+    /// nybble.increment();
+    /// assert_eq!(nybble.to_u8(), 1);
+    /// assert_eq!(nybble.to_string(), "0x1");
+    ///
+    /// nybble.increment();
+    /// assert_eq!(nybble.to_u8(), 2);
+    /// assert_eq!(nybble.to_string(), "0x2");
+    /// ```
+    ///
+    /// ## Overflow Use
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Nybble;
+    ///
+    /// let mut nybble = Nybble::from_u8(15); // Nybble: 0b1111; Dec: 15; Hex: 0xF; Oct: 0o17
+    ///
+    /// nybble.increment();
+    /// assert_eq!(nybble.to_u8(), 0);
+    /// assert_eq!(nybble.to_string(), "0x0");
+    /// ```
+    ///
+    /// # Side Effects
+    ///
+    /// This method increments the value stored in the Nybble.
+    ///
+    /// # See Also
+    ///
+    /// * [`decrement()`](#method.decrement): Decrements the value stored in the Nybble.
+    /// * [`flip()`](#method.flip): Flips all of the Bit values in the Nybble.
+    pub fn increment(&mut self) {
+        // Find the first Bit::Zero from the right
+        todo!("Implement increment")
+    }
+
+    /// Decrement the Nybble with no rollover
+    ///
+    /// This method decrements the value stored in the Nybble.
+    /// This has no rollover for underflow. This means that if we decrement past the
+    /// minimum value (0), we will stay at 0.
+    ///
+    /// # Examples
+    ///
+    /// ## Regular Use
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Nybble;
+    ///
+    /// let mut nybble = Nybble::from_u8(2); // Nybble: 0b0010; Dec: 2; Hex: 0x2; Oct: 0o2
+    ///
+    /// nybble.decrement();
+    /// assert_eq!(nybble.to_u8(), 1);
+    /// assert_eq!(nybble.to_string(), "0x1");
+    ///
+    /// nybble.decrement();
+    /// assert_eq!(nybble.to_u8(), 0);
+    /// assert_eq!(nybble.to_string(), "0x0");
+    /// ```
+    ///
+    /// ## Underflow Use
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Nybble;
+    ///
+    /// let mut nybble = Nybble::default(); // Nybble: 0b0000; Dec: 0; Hex: 0x0; Oct: 0o0
+    ///
+    /// nybble.decrement();
+    /// assert_eq!(nybble.to_u8(), 0);
+    /// assert_eq!(nybble.to_string(), "0x0");
+    /// ```
+    ///
+    /// # Side Effects
+    ///
+    /// This method decrements the value stored in the Nybble.
+    ///
+    /// # See Also
+    ///
+    /// * [`increment()`](#method.increment): Increments the value stored in the Nybble.
+    /// * [`flip()`](#method.flip): Flips all of the Bit values in the Nybble.
+    ///
+    pub fn decrement(&mut self) {
+        // Find the first Bit::One bit from the right
+        todo!("Implement decrement")
     }
 }
 
