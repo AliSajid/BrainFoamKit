@@ -55,8 +55,8 @@ use std::fmt::{self, Display, Formatter};
 /// ```
 /// use brainfoamkit_lib::Instruction;
 ///
-/// let incrptr = Instruction::from_char(">");
-/// let decrptr = Instruction::from_char("<");
+/// let incrptr = Instruction::from_char(">" as char);
+/// let decrptr = Instruction::from_char("<" as char);
 ///
 /// assert_eq!(incrptr, Instruction::IncrementPointer);
 /// assert_eq!(decrptr, Instruction::DecrementPointer);
@@ -120,11 +120,11 @@ impl Instruction {
     /// # Examples
     ///
     /// ```
-    /// brainfoamkit_lib::Instruction
+    /// use brainfoamkit_lib::Instruction;
     ///
-    /// let instruction = Instruction.from_char("+")
+    /// let instruction = Instruction::from_char('+');
     ///
-    /// assert_eq!(instruction, Instruction::IncrementValue
+    /// assert_eq!(instruction, Instruction::IncrementValue)
     /// ```
     ///
     /// # Returns
@@ -132,17 +132,17 @@ impl Instruction {
     /// A new Instruction
     ///
     #[must_use]
-    pub fn from_char(c: char) -> Instruction {
+    pub fn from_char(c: char) -> Self {
         match c {
-            '>' => Instruction::IncrementPointer,
-            '<' => Instruction::DecrementPointer,
-            '+' => Instruction::IncrementValue,
-            '-' => Instruction::DecrementValue,
-            '.' => Instruction::OutputValue,
-            ',' => Instruction::InputValue,
-            '[' => Instruction::JumpForward,
-            ']' => Instruction::JumpBackward,
-            _ => Instruction::NoOp,
+            '>' => Self::IncrementPointer,
+            '<' => Self::DecrementPointer,
+            '+' => Self::IncrementValue,
+            '-' => Self::DecrementValue,
+            '.' => Self::OutputValue,
+            ',' => Self::InputValue,
+            '[' => Self::JumpForward,
+            ']' => Self::JumpBackward,
+            _ => Self::NoOp,
         }
     }
 }
@@ -213,6 +213,6 @@ mod tests {
         assert_eq!(format!("{}", Instruction::InputValue), "INPVAL");
         assert_eq!(format!("{}", Instruction::JumpForward), "JMPFWD");
         assert_eq!(format!("{}", Instruction::JumpBackward), "JMPBCK");
-        assert_eq!(format!("{}", Instruction::NoOp), " ");
+        assert_eq!(format!("{}", Instruction::NoOp), "NOOP");
     }
 }
