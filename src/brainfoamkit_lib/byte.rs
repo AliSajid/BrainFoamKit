@@ -856,9 +856,9 @@ impl Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let nybble = Nybble::from_u8(0b11001010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// let byte = Byte::from_u8(0b11001010); // Dec: 10; Hex: 0xA; Oct: 0o12
     ///
-    /// for bit in nybble.iter() {
+    /// for bit in byte.iter() {
     ///    println!("{}", bit);
     /// }
     /// ```

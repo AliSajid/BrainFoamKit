@@ -45,12 +45,65 @@
 use crate::Bit;
 use crate::Nybble;
 
+/// An iterator over a nybble
+///
+/// This struct is a wrapper struct to generate an iterator
+/// for `Nybble`. This allows us to map and/or loop over all the `BIT`s
+/// in the `Nybble`.
+///
+/// # Examples
+///
+/// ```
+/// use brainfoamkit_lib::Nybble;
+/// use brainfoamkit_lib::IterableNybble;
+///
+/// let nybble = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+/// let mut iter = IterableNybble::new(&nybble);
+///
+/// assert_eq!(iter.next(), Some(Bit::zero()));
+/// assert_eq!(iter.next(), Some(Bit::one()));
+/// assert_eq!(iter.next(), Some(Bit::zero()));
+/// assert_eq!(iter.next(), Some(Bit::one()));
+/// assert_eq!(iter.next(), None);
+/// ```
+///
+/// # See Also
+///
+/// * [`Nybble`](crate::Nybble)
+/// * [`Bit`](crate::Bit)
+/// * [`Byte`](crate::Byte)
+/// * [`IterableByte`](crate::IterableByte)
+///
 pub struct IterableNybble<'a> {
     nybble: &'a Nybble,
     current_index: u8,
 }
 
 impl<'a> IterableNybble<'a> {
+    /// Create a new `IterableNybble` from a reference to a `Nybble`
+    ///
+    /// # Arguments
+    ///
+    /// * `nybble` - A reference to a `Nybble` to iterate over
+    ///
+    /// # Returns
+    ///
+    /// A new `IterableNybble` that can be used to iterate over the `Nybble`
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Nybble;
+    /// use brainfoamkit_lib::IterableNybble;
+    ///
+    /// let nybble = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// let mut iter = IterableNybble::new(&nybble);
+    ///
+    /// for bit in iter {
+    ///    println!("{}", bit);
+    /// }
+    /// ```
+    ///
     pub fn new(nybble: &'a Nybble) -> Self {
         Self {
             nybble,
@@ -60,8 +113,30 @@ impl<'a> IterableNybble<'a> {
 }
 
 impl<'a> Iterator for IterableNybble<'a> {
+    /// The type of the element the iterator returns
     type Item = Bit;
 
+    /// Advance the iterator and return the next element
+    ///
+    /// # Returns
+    ///
+    /// The next element in the iterator
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Nybble;
+    /// use brainfoamkit_lib::IterableNybble;
+    ///
+    /// let nybble = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    ///
+    /// assert_eq!(iter.next(), Some(Bit::zero()));
+    /// assert_eq!(iter.next(), Some(Bit::one()));
+    /// assert_eq!(iter.next(), Some(Bit::zero()));
+    /// assert_eq!(iter.next(), Some(Bit::one()));
+    /// assert_eq!(iter.next(), None);
+    /// ```
+    ///
     fn next(&mut self) -> Option<Self::Item> {
         let current_index = self.current_index;
         let next_index = current_index + 1;
