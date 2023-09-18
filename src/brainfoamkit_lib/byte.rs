@@ -862,7 +862,8 @@ impl Byte {
     ///    println!("{}", bit);
     /// }
     /// ```
-    pub fn iter(&self) -> IterableByte {
+    #[must_use]
+    pub const fn iter(&self) -> IterableByte {
         IterableByte::new(self)
     }
 }
@@ -983,7 +984,7 @@ impl BitAnd for Byte {
     ///
     /// # Arguments
     ///
-    /// * `rhs` - The right hand side of the BitAnd operation.
+    /// * `rhs` - The right hand side of the `BitAnd` operation.
     ///
     /// # Examples
     ///
@@ -1035,7 +1036,7 @@ impl BitAndAssign for Byte {
     ///
     /// # Arguments
     ///
-    /// * `rhs` - The right hand side of the BitAnd Assignment operation.
+    /// * `rhs` - The right hand side of the `BitAnd` Assignment operation.
     ///
     /// # Examples
     ///

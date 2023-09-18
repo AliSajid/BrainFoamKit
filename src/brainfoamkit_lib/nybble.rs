@@ -215,7 +215,7 @@ impl Nybble {
     ///
     #[must_use]
     pub fn from_u8(n: u8) -> Self {
-        let n = n & 0b00001111;
+        let n = n & 0b0000_1111;
 
         // Create a new Nybble instance with default Bit values
         let mut nybble = Self::default();
@@ -698,7 +698,7 @@ impl Nybble {
     /// }
     /// ```
     #[must_use]
-    pub fn iter(&self) -> IterableNybble {
+    pub const fn iter(&self) -> IterableNybble {
         IterableNybble::new(self)
     }
 }

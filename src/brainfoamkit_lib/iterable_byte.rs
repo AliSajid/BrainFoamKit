@@ -51,7 +51,8 @@ pub struct IterableByte<'a> {
 }
 
 impl<'a> IterableByte<'a> {
-    pub fn new(byte: &'a Byte) -> Self {
+    #[must_use]
+    pub const fn new(byte: &'a Byte) -> Self {
         Self {
             byte,
             current_index: 0,
@@ -77,7 +78,6 @@ impl<'a> Iterator for IterableByte<'a> {
 }
 
 #[cfg(test)]
-
 mod tests {
     use super::*;
 

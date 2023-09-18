@@ -55,8 +55,8 @@ use std::fmt::{self, Display, Formatter};
 /// ```
 /// use brainfoamkit_lib::Instruction;
 ///
-/// let incrptr = Instruction::from_char(">" as char);
-/// let decrptr = Instruction::from_char("<" as char);
+/// let incrptr = Instruction::from_char('>');
+/// let decrptr = Instruction::from_char('<');
 ///
 /// assert_eq!(incrptr, Instruction::IncrementPointer);
 /// assert_eq!(decrptr, Instruction::DecrementPointer);
@@ -100,7 +100,7 @@ impl Instruction {
     /// and converts that into the instruction.
     ///
     /// This ignores any instructions not in the standard alphabet
-    /// of BrainFuck and counts them as No-Ops
+    /// of `BrainFuck` and counts them as No-Ops
     ///
     /// The following table and [associated github repository](https://github.com/AliSajid/BrainFoamKit/tree/alpha/lang#brainfuck-syntax)
     /// show the entire syntax.
@@ -132,7 +132,7 @@ impl Instruction {
     /// A new Instruction
     ///
     #[must_use]
-    pub fn from_char(c: char) -> Self {
+    pub const fn from_char(c: char) -> Self {
         match c {
             '>' => Self::IncrementPointer,
             '<' => Self::DecrementPointer,
@@ -156,8 +156,9 @@ impl Instruction {
 ///
 /// ```
 /// use brainfoamkit_lib::Nybble;
+/// use brainfoamkit_lib::Instruction;
 ///
-/// let instruction = Instruction::from_char(">"); // Dec: 10; Hex: 0xA; Oct: 0o12
+/// let instruction = Instruction::from_char('>');
 ///
 /// assert_eq!(instruction.to_string(), "INCPTR");
 /// ```
@@ -173,15 +174,15 @@ impl Instruction {
 impl Display for Instruction {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         match *self {
-            Instruction::IncrementPointer => write!(f, "INCPTR"),
-            Instruction::DecrementPointer => write!(f, "DECPTR"),
-            Instruction::IncrementValue => write!(f, "INCVAL"),
-            Instruction::DecrementValue => write!(f, "DECVAL"),
-            Instruction::OutputValue => write!(f, "OUTVAL"),
-            Instruction::InputValue => write!(f, "INPVAL"),
-            Instruction::JumpForward => write!(f, "JMPFWD"),
-            Instruction::JumpBackward => write!(f, "JMPBCK"),
-            Instruction::NoOp => write!(f, "NOOP"),
+            Self::IncrementPointer => write!(f, "INCPTR"),
+            Self::DecrementPointer => write!(f, "DECPTR"),
+            Self::IncrementValue => write!(f, "INCVAL"),
+            Self::DecrementValue => write!(f, "DECVAL"),
+            Self::OutputValue => write!(f, "OUTVAL"),
+            Self::InputValue => write!(f, "INPVAL"),
+            Self::JumpForward => write!(f, "JMPFWD"),
+            Self::JumpBackward => write!(f, "JMPBCK"),
+            Self::NoOp => write!(f, "NOOP"),
         }
     }
 }

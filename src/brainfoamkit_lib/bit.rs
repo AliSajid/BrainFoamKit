@@ -320,7 +320,7 @@ impl Bit {
 
     /// Check if the bit is set
     ///
-    /// This function checks if the bit is set (i.e. has the value of Bit::One).
+    /// This function checks if the bit is set (i.e. has the value of `Bit::One`).
     ///
     /// # Examples
     ///
@@ -348,7 +348,7 @@ impl Bit {
 
     /// Check if the bit is unset
     ///
-    /// This function checks if the bit is unset (i.e. has the value of Bit::Zero).
+    /// This function checks if the bit is unset (i.e. has the value of `Bit::Zero`).
     ///
     /// # Examples
     ///

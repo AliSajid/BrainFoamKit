@@ -54,6 +54,7 @@ use crate::Nybble;
 /// # Examples
 ///
 /// ```
+/// use brainfoamkit_lib::Bit;
 /// use brainfoamkit_lib::Nybble;
 /// use brainfoamkit_lib::IterableNybble;
 ///
@@ -103,8 +104,8 @@ impl<'a> IterableNybble<'a> {
     ///    println!("{}", bit);
     /// }
     /// ```
-    ///
-    pub fn new(nybble: &'a Nybble) -> Self {
+    #[must_use]
+    pub const fn new(nybble: &'a Nybble) -> Self {
         Self {
             nybble,
             current_index: 0,
@@ -125,10 +126,13 @@ impl<'a> Iterator for IterableNybble<'a> {
     /// # Examples
     ///
     /// ```
+    /// use brainfoamkit_lib::Bit;
     /// use brainfoamkit_lib::Nybble;
     /// use brainfoamkit_lib::IterableNybble;
     ///
     /// let nybble = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    ///
+    /// let mut iter = IterableNybble::new(&nybble);
     ///
     /// assert_eq!(iter.next(), Some(Bit::zero()));
     /// assert_eq!(iter.next(), Some(Bit::one()));
@@ -136,7 +140,6 @@ impl<'a> Iterator for IterableNybble<'a> {
     /// assert_eq!(iter.next(), Some(Bit::one()));
     /// assert_eq!(iter.next(), None);
     /// ```
-    ///
     fn next(&mut self) -> Option<Self::Item> {
         let current_index = self.current_index;
         let next_index = current_index + 1;
@@ -152,9 +155,9 @@ impl<'a> Iterator for IterableNybble<'a> {
 }
 
 #[cfg(test)]
-
 mod tests {
     use super::*;
+    use crate::Bit;
 
     #[test]
     fn test_iterable_nybble() {
