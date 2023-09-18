@@ -612,9 +612,18 @@ impl Nybble {
     ///
     /// * [`decrement()`](#method.decrement): Decrements the value stored in the Nybble.
     /// * [`flip()`](#method.flip): Flips all of the Bit values in the Nybble.
+    #[allow(clippy::cast_possible_truncation)]
     pub fn increment(&mut self) {
         // Find the first Bit::Zero from the right
-        todo!("Implement increment")
+        let zero = self.iter().position(|bit| bit == Bit::Zero);
+
+        if let Some(index) = zero {
+            for i in 0..=index as u8 {
+                self.flip_bit(i);
+            }
+        } else {
+            self.flip();
+        }
     }
 
     /// Decrement the Nybble with no rollover
@@ -662,9 +671,16 @@ impl Nybble {
     /// * [`increment()`](#method.increment): Increments the value stored in the Nybble.
     /// * [`flip()`](#method.flip): Flips all of the Bit values in the Nybble.
     ///
+    #[allow(clippy::cast_possible_truncation)]
     pub fn decrement(&mut self) {
         // Find the first Bit::One bit from the right
-        todo!("Implement decrement")
+        let one = self.iter().position(|bit| bit == Bit::One);
+
+        if let Some(index) = one {
+            for i in 0..=index as u8 {
+                self.flip_bit(i);
+            }
+        }
     }
 
     /// Create an iterator over the Nybble.
@@ -681,6 +697,7 @@ impl Nybble {
     ///    println!("{}", bit);
     /// }
     /// ```
+    #[must_use]
     pub fn iter(&self) -> IterableNybble {
         IterableNybble::new(self)
     }
@@ -1294,5 +1311,37 @@ mod tests {
         assert_eq!(iter.next(), Some(Bit::zero()));
         assert_eq!(iter.next(), Some(Bit::one()));
         assert_eq!(iter.next(), None);
+    }
+
+    #[test]
+    fn test_increment() {
+        let mut nybble = Nybble::from_u8(10);
+        nybble.increment();
+        assert_eq!(nybble.to_u8(), 11);
+        assert_eq!(nybble.to_string(), "0xB");
+    }
+
+    #[test]
+    fn test_decrement() {
+        let mut nybble = Nybble::from_u8(10);
+        nybble.decrement();
+        assert_eq!(nybble.to_u8(), 9);
+        assert_eq!(nybble.to_string(), "0x9");
+    }
+
+    #[test]
+    fn test_increment_boundary() {
+        let mut nybble = Nybble::from_u8(15);
+        nybble.increment();
+        assert_eq!(nybble.to_u8(), 0);
+        assert_eq!(nybble.to_string(), "0x0");
+    }
+
+    #[test]
+    fn test_decrement_boundary() {
+        let mut nybble = Nybble::from_u8(0);
+        nybble.decrement();
+        assert_eq!(nybble.to_u8(), 0);
+        assert_eq!(nybble.to_string(), "0x0");
     }
 }
