@@ -85,10 +85,11 @@ use std::{
 /// ## Create a byte from two Nybbles
 ///
 /// ```
+/// use brainfoamkit_lib::Nybble;
 /// use brainfoamkit_lib::Byte;
 ///
-/// let high_nybble = Byte::from_u8(0b1011); // Dec: 11; Hex: 0x0B; Oct: 0o13
-/// let low_nybble = Byte::from_u8(0b0101); // Dec: 5; Hex: 0x05; Oct: 0o5
+/// let high_nybble = Nybble::from_u8(0b1011); // Dec: 11; Hex: 0x0B; Oct: 0o13
+/// let low_nybble = Nybble::from_u8(0b0101); // Dec: 5; Hex: 0x05; Oct: 0o5
 /// let byte = Byte::from_nybbles(high_nybble, low_nybble);
 /// assert_eq!(byte.to_u8(), 0b10110101); // Dec: 181; Hex: 0xB5; Oct: 0o265
 /// assert_eq!(byte.to_string(), "0xB5");
@@ -742,6 +743,109 @@ impl Byte {
         self.bit_5.flip();
         self.bit_6.flip();
         self.bit_7.flip();
+    }
+
+    /// Increments the Byte by one.
+    ///
+    /// This method is used to increment the Byte by one.
+    /// This means that the Byte is increased by one.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Byte;
+    ///
+    /// let mut byte = Byte::default(); // Byte: 0b00000000; Dec: 0; Hex: 0x00; Oct: 0o0
+    ///
+    /// byte.increment();
+    ///
+    /// assert_eq!(byte.to_u8(), 0b00000001); // Dec: 1; Hex: 0x01; Oct: 0o1
+    /// assert_eq!(byte.to_string(), "0x01");
+    ///
+    /// byte.increment();
+    ///
+    /// assert_eq!(byte.to_u8(), 0b00000010); // Dec: 2; Hex: 0x02; Oct: 0o2
+    /// assert_eq!(byte.to_string(), "0x02");
+    /// ```
+    ///
+    /// # Side Effects
+    ///
+    /// This method will increment the Byte by one.
+    ///
+    /// # See Also
+    ///
+    /// * [`decrement()`](#method.decrement): Decrement the Byte by one.
+    /// * [`flip()`](#method.flip): Flip all of the Bit values in the Byte.
+    ///
+    pub fn increment(&mut self) {
+        let mut carry = true;
+        let mut i = 0;
+
+        while carry {
+            if i == 8 {
+                break;
+            }
+            if self.get_bit(i) == Bit::One {
+                self.unset_bit(i);
+            } else {
+                self.set_bit(i);
+                carry = false;
+            }
+            i += 1;
+        }
+    }
+
+    /// Decrements the Byte by one.
+    ///
+    /// This method is used to decrement the Byte by one.
+    /// This means that the Byte is decreased by one.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    ///
+    /// use brainfoamkit_lib::Byte;
+    ///
+    ///
+    /// let mut byte = Byte::from_u8(0b00000010); // Byte: 0b00000010; Dec: 2; Hex: 0x02; Oct: 0o2
+    ///
+    /// byte.decrement();
+    ///
+    /// assert_eq!(byte.to_u8(), 0b00000001); // Dec: 1; Hex: 0x01; Oct: 0o1
+    /// assert_eq!(byte.to_string(), "0x01");
+    ///
+    /// byte.decrement();
+    ///
+    /// assert_eq!(byte.to_u8(), 0b00000000); // Dec: 0; Hex: 0x00; Oct: 0o0
+    ///
+    /// assert_eq!(byte.to_string(), "0x00");
+    /// ```
+    ///
+    /// # Side Effects
+    ///
+    /// This method will decrement the Byte by one.
+    ///
+    /// # See Also
+    ///
+    /// * [`increment()`](#method.increment): Increment the Byte by one.
+    /// * [`flip()`](#method.flip): Flip all of the Bit values in the Byte.
+    ///
+    pub fn decrement(&mut self) {
+        let mut borrow = true;
+        let mut i = 0;
+
+        while borrow {
+            if i == 8 {
+                break;
+            }
+            if self.get_bit(i) == Bit::Zero {
+                self.set_bit(i);
+            } else {
+                self.unset_bit(i);
+                borrow = false;
+            }
+            i += 1;
+        }
     }
 }
 
@@ -1613,5 +1717,43 @@ mod tests {
         let byte2 = Byte::from_u8(0b11111111);
         byte1 ^= byte2;
         assert_eq!(byte1.to_u8(), 0b11111111);
+    }
+
+    #[test]
+    fn test_increment() {
+        let mut byte = Byte::default();
+        byte.increment();
+        assert_eq!(byte.to_u8(), 1);
+
+        let mut byte = Byte::from_u8(0b11111111);
+        byte.increment();
+        assert_eq!(byte.to_u8(), 0);
+
+        let mut byte = Byte::from_u8(0b00001111);
+        byte.increment();
+        assert_eq!(byte.to_u8(), 0b00010000);
+
+        let mut byte = Byte::from_u8(0b11110000);
+        byte.increment();
+        assert_eq!(byte.to_u8(), 0b11110001);
+    }
+
+    #[test]
+    fn test_decrement() {
+        let mut byte = Byte::default();
+        byte.decrement();
+        assert_eq!(byte.to_u8(), 0b11111111);
+
+        let mut byte = Byte::from_u8(0b11111111);
+        byte.decrement();
+        assert_eq!(byte.to_u8(), 0b11111110);
+
+        let mut byte = Byte::from_u8(0b00001111);
+        byte.decrement();
+        assert_eq!(byte.to_u8(), 0b00001110);
+
+        let mut byte = Byte::from_u8(0b11110000);
+        byte.decrement();
+        assert_eq!(byte.to_u8(), 0b11101111);
     }
 }
