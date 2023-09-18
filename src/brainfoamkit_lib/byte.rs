@@ -42,7 +42,7 @@
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-use crate::{Bit, Nybble};
+use crate::{Bit, IterableByte, Nybble};
 use std::{
     fmt::{self, Display, Formatter},
     ops::{BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Not},
@@ -846,6 +846,24 @@ impl Byte {
             }
             i += 1;
         }
+    }
+
+    /// Create an iterator over the Byte.
+    /// This allows the use of the `for` loop on the Nybble.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Byte;
+    ///
+    /// let nybble = Nybble::from_u8(0b11001010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    ///
+    /// for bit in nybble.iter() {
+    ///    println!("{}", bit);
+    /// }
+    /// ```
+    pub fn iter(&self) -> IterableByte {
+        IterableByte::new(self)
     }
 }
 
@@ -1755,5 +1773,20 @@ mod tests {
         let mut byte = Byte::from_u8(0b11110000);
         byte.decrement();
         assert_eq!(byte.to_u8(), 0b11101111);
+    }
+
+    #[test]
+    fn test_iter() {
+        let byte = Byte::from_u8(0b10101010);
+        let mut iter = byte.iter();
+        assert_eq!(iter.next(), Some(Bit::Zero)); // zeroth Bit
+        assert_eq!(iter.next(), Some(Bit::One)); // first Bit
+        assert_eq!(iter.next(), Some(Bit::Zero)); // second Bit
+        assert_eq!(iter.next(), Some(Bit::One)); // third Bit
+        assert_eq!(iter.next(), Some(Bit::Zero)); // fourth Bit
+        assert_eq!(iter.next(), Some(Bit::One)); // fifth Bit
+        assert_eq!(iter.next(), Some(Bit::Zero)); // sixth Bit
+        assert_eq!(iter.next(), Some(Bit::One));
+        assert_eq!(iter.next(), None);
     }
 }

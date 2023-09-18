@@ -42,18 +42,58 @@
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-// Add the relevant modules
-mod bit;
-mod byte;
-mod instruction;
-mod iterable_byte;
-mod iterable_nybble;
-mod nybble;
+use crate::Bit;
+use crate::Byte;
 
-// Re-export the useful contents
-pub use bit::Bit;
-pub use byte::Byte;
-pub use instruction::Instruction;
-pub use iterable_byte::IterableByte;
-pub use iterable_nybble::IterableNybble;
-pub use nybble::Nybble;
+pub struct IterableByte<'a> {
+    byte: &'a Byte,
+    current_index: u8,
+}
+
+impl<'a> IterableByte<'a> {
+    pub fn new(byte: &'a Byte) -> Self {
+        Self {
+            byte,
+            current_index: 0,
+        }
+    }
+}
+
+impl<'a> Iterator for IterableByte<'a> {
+    type Item = Bit;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let current_index = self.current_index;
+        let next_index = current_index + 1;
+
+        if next_index > 8 {
+            self.current_index = 0;
+            None
+        } else {
+            self.current_index = next_index;
+            Some(self.byte.get_bit(current_index))
+        }
+    }
+}
+
+#[cfg(test)]
+
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_iterable_nybble() {
+        let byte = Byte::from_u8(0b11001010); // Dec: 10; Hex: 0xA; Oct: 0o12
+        let mut iter = byte.iter();
+
+        assert_eq!(iter.next(), Some(Bit::zero()));
+        assert_eq!(iter.next(), Some(Bit::one()));
+        assert_eq!(iter.next(), Some(Bit::zero()));
+        assert_eq!(iter.next(), Some(Bit::one()));
+        assert_eq!(iter.next(), Some(Bit::zero()));
+        assert_eq!(iter.next(), Some(Bit::zero()));
+        assert_eq!(iter.next(), Some(Bit::one()));
+        assert_eq!(iter.next(), Some(Bit::one()));
+        assert_eq!(iter.next(), None);
+    }
+}
