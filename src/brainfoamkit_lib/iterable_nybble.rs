@@ -48,7 +48,7 @@ use crate::Nybble;
 /// An iterator over a nybble
 ///
 /// This struct is a wrapper struct to generate an iterator
-/// for `Nybble`. This allows us to map and/or loop over all the `BIT`s
+/// for `Nybble`. This allows us to map and/or loop over all the `Bit`s
 /// in the `Nybble`.
 ///
 /// # Examples
