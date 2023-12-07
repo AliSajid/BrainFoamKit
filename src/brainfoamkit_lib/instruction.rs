@@ -65,30 +65,39 @@ use std::fmt::{self, Display, Formatter};
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum Instruction {
     /// Instruction to Increment the Pointer
+    ///
     /// Internal representation of the `>` instruction.
     IncrementPointer,
     /// Instruction to Decrement the Pointer
+    ///
     /// Internal representation of the `<` instruction.
     DecrementPointer,
     /// Instruction to Increment the Value stored in memory location
+    ///
     /// Internal representation of the `+` instruction.
     IncrementValue,
     /// Instruction to Increment the Value stored in memory location
+    ///
     /// Internal representation of the `-` instruction.
     DecrementValue,
     /// Instruction to Output the currently stored value to the external interface
+    ///
     /// Internal representation of the `.` instruction.
     OutputValue,
     /// Instruction to Input the currently available value at the external interface
+    ///
     /// Internal representation of the `,` instruction.
     InputValue,
     /// Instruction to Start a loop if the current value is non-zero
+    ///
     /// Internal representation of the `[` instruction.
     JumpForward,
     /// Instruction to Restart a loop if the current value is non-zero
+    ///
     /// Internal representation of the `]` instruction.
     JumpBackward,
     /// Instruction to do nothing
+    ///
     /// This does not have a corresponding instruction in BrainFuck
     NoOp,
 }
@@ -116,6 +125,10 @@ impl Instruction {
     /// | `.` | Output the ASCII value in the current memory cell|
     /// | `,` | Read a single ASCII character and store it in the current memory cell|
     /// | _ | Everything else is a No-Up|
+    ///
+    /// # Argument
+    ///
+    ///
     ///
     /// # Examples
     ///
