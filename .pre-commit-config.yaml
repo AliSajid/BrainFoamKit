@@ -1,11 +1,11 @@
 ---
 repos:
 -   repo: https://github.com/commitizen-tools/commitizen
-    rev: 3.6.0
+    rev: v3.13.0
     hooks:
     -   id: commitizen
 -   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.5.0
     hooks:
     -   id: check-json
         exclude: ".vscode/launch.json"
@@ -26,7 +26,7 @@ repos:
         -   --markdown-linebreak-ext=md
         id: trailing-whitespace
 -   repo: https://github.com/compilerla/conventional-pre-commit
-    rev: v2.3.0
+    rev: v3.0.0
     hooks:
     -   args:
         -   build
@@ -68,7 +68,7 @@ repos:
 #         -   --format
 #         -   parsable
 -   repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.35.0
+    rev: v0.37.0
     hooks:
     -   args:
         -   --ignore
@@ -79,13 +79,13 @@ repos:
     hooks:
     -   id: detect-secrets
 -   repo: https://github.com/sirosen/texthooks
-    rev: 0.5.0
+    rev: 0.6.3
     hooks:
     -   id: fix-smartquotes
     -   id: fix-ligatures
     -   id: forbid-bidi-controls
 -   repo: https://github.com/zricethezav/gitleaks
-    rev: v8.17.0
+    rev: v8.18.1
     hooks:
     -   id: gitleaks
 -   repo: https://github.com/doublify/pre-commit-rust
