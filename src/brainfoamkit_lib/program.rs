@@ -45,6 +45,7 @@
 use crate::Instruction;
 
 use std::fmt::{self, Display, Formatter};
+use std::ops::Index;
 
 /// Structure to hold the program.
 ///
@@ -550,6 +551,14 @@ impl Display for Program {
             writeln!(f, "{index}: {instruction}")?;
         }
         Ok(())
+    }
+}
+
+impl Index<usize> for Program {
+    type Output = Instruction;
+
+    fn index(&self, index: usize) -> &Self::Output {
+        &self.instructions[index]
     }
 }
 
