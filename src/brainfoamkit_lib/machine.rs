@@ -68,6 +68,7 @@ pub struct BrainfoamKitMachine {
 }
 
 #[allow(dead_code)]
+#[allow(clippy::len_without_is_empty)] //FIXME - Add an `is_empty` method
 impl BrainfoamKitMachine {
     /// Creates a new `BrainfoamKitMachine` with a specified length.
     ///

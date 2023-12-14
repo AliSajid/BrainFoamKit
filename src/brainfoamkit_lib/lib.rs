@@ -48,7 +48,9 @@ mod byte;
 mod instruction;
 mod iterable_byte;
 mod iterable_nybble;
+mod machine;
 mod nybble;
+mod program;
 
 // Re-export the useful contents
 pub use bit::Bit;
@@ -56,4 +58,6 @@ pub use byte::Byte;
 pub use instruction::Instruction;
 pub use iterable_byte::IterableByte;
 pub use iterable_nybble::IterableNybble;
+pub use machine::BrainfoamKitMachine;
 pub use nybble::Nybble;
+pub use program::Program;
