@@ -52,7 +52,8 @@ pub struct VirtualMachineBuilder {
 }
 
 impl VirtualMachineBuilder {
-    pub fn new() -> Self {
+    #[must_use]
+    pub const fn new() -> Self {
         Self {
             program: None,
             tape_size: None,
@@ -84,6 +85,7 @@ impl VirtualMachineBuilder {
     ///   Program::from_string("++++++[>++++++++++<-]>+++++.")
     /// );
     /// ```
+    #[must_use]
     pub fn program(mut self, program: Program) -> Self {
         self.program = Some(program);
         self
@@ -105,13 +107,14 @@ impl VirtualMachineBuilder {
     /// ```
     /// use brainfoamkit_lib::VirtualMachineBuilder;
     ///
-    /// let mut builder = VirtualMachineBuilder::new()
-    ///    .tape_size(100);
+    /// let vm = VirtualMachineBuilder::new()
+    ///     .tape_size(100)
+    ///     .build();
     ///
-    /// let vm = builder.build();
     /// assert_eq!(vm.length(), 100);
     /// ```
-    pub fn tape_size(mut self, tape_size: usize) -> Self {
+    #[must_use]
+    pub const fn tape_size(mut self, tape_size: usize) -> Self {
         self.tape_size = Some(tape_size);
         self
     }
@@ -128,11 +131,12 @@ impl VirtualMachineBuilder {
     /// use brainfoamkit_lib::{Program, VirtualMachineBuilder};
     ///
     /// let program = Program::from_string("++++++[>++++++++++<-]>+++++.");
-    /// let mut builder = VirtualMachineBuilder::new()
+    /// let vm = VirtualMachineBuilder::new()
     ///     .program(program)
-    ///     .tape_size(100);
-    /// let vm = builder.build();
+    ///     .tape_size(100)
+    ///     .build();
     /// ```
+    #[must_use]
     pub fn build(self) -> VirtualMachine {
         let program = self.program.unwrap_or_default();
         let tape_size = self.tape_size.unwrap_or(30000);

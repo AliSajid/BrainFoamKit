@@ -157,7 +157,7 @@ impl VirtualMachine {
     /// * [`VirtualMachineBuilder`](struct.VirtualMachineBuilder.html)
     ///
     #[must_use]
-    pub fn builder() -> VirtualMachineBuilder {
+    pub const fn builder() -> VirtualMachineBuilder {
         VirtualMachineBuilder::new()
     }
 
@@ -198,6 +198,7 @@ impl VirtualMachine {
     /// let machine = VirtualMachine::builder().build();
     /// assert_eq!(machine.memory_pointer(), 0);
     /// ```
+    #[must_use]
     pub const fn memory_pointer(&self) -> usize {
         self.memory_pointer
     }
@@ -219,6 +220,7 @@ impl VirtualMachine {
     /// assert_eq!(machine.program_counter(), 0);
     /// ```
     ///
+    #[must_use]
     pub const fn program_counter(&self) -> usize {
         self.program_counter
     }
