@@ -128,7 +128,7 @@ impl Instruction {
     ///
     /// # Argument
     ///
-    ///
+    /// * `c` - A single character from the `BrainFuck` list of command characters.
     ///
     /// # Examples
     ///
@@ -142,7 +142,12 @@ impl Instruction {
     ///
     /// # Returns
     ///
-    /// A new Instruction
+    /// The appropriate variant of the `Instruction` enum
+    ///
+    /// # Notes
+    ///
+    /// This version of `Instruction` treats every character other than the eight specific characters as
+    /// `NoOp`s
     ///
     #[must_use]
     pub const fn from_char(c: char) -> Self {
