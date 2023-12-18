@@ -44,7 +44,7 @@
 
 use crate::{Byte, Instruction, Program};
 
-/// `BrainfoamKitMachine` is a struct representing a Virtual Machine capable of interpreting
+/// `VirtualMachine` is a struct representing a Virtual Machine capable of interpreting
 /// a BrainFuck program and tracking its state.
 ///
 /// # Fields
@@ -52,69 +52,40 @@ use crate::{Byte, Instruction, Program};
 /// * `tape`: A vector of `Byte` values representing the memory of the machine. Each `Byte` in the vector is a cell in the memory tape.
 /// * `pointer`: A `usize` value representing the current position of the memory pointer. The memory pointer points to a given cell in the memory tape.
 /// * `program`: A `Program` instance representing the Brainfuck program that the machine is executing.
+/// * `program_counter`: A `usize` that represents which instruction of the `Program` is being executed right now.
 ///
 /// # Example
 ///
 /// ```
-/// use brainfoamkit_lib::BrainfoamKitMachine;
+/// use brainfoamkit_lib::VirtualMachine;
 ///
-/// let machine = BrainfoamKitMachine::default();
+/// let machine = VirtualMachine::default();
 /// ```
 #[allow(clippy::module_name_repetitions)]
-pub struct BrainfoamKitMachine {
+pub struct VirtualMachine {
     tape: Vec<Byte>,
-    pointer: usize,
+    memory_pointer: usize,
     program: Program,
+    program_counter: usize,
 }
 
 #[allow(dead_code)]
 #[allow(clippy::len_without_is_empty)] //FIXME - Add an `is_empty` method
-impl BrainfoamKitMachine {
-    /// Creates a new `BrainfoamKitMachine` with a specified length.
+impl VirtualMachine {
+    /// Loads a `Program` into the `VirtualMachine`.
     ///
-    /// This method initializes the `tape` and `program` fields with vectors of the specified length. The `tape` vector is initialized with default `Byte` values, and the `program` vector is initialized with `NoOp` instructions. The `pointer` field is initialized to `0`.
+    /// This method replaces the current `program` of the `VirtualMachine` with the specified `Program`.
     ///
     /// # Arguments
     ///
-    /// * `length`: The length of the `tape` and `program` vectors.
-    ///
-    /// # Returns
-    ///
-    /// A new `BrainfoamKitMachine` instance with the specified length.
+    /// * `program`: The `Program` to load into the `VirtualMachine`.
     ///
     /// # Example
     ///
     /// ```
-    /// use brainfoamkit_lib::{BrainfoamKitMachine, Instruction, Program};
+    /// use brainfoamkit_lib::{VirtualMachine, Instruction, Program};
     ///
-    /// let length = 10;
-    /// let machine = BrainfoamKitMachine::new(length);
-    /// assert_eq!(machine.len(), length);
-    /// assert_eq!(machine.pointer(), 0);
-    /// ```
-    pub fn new(length: usize) -> Self {
-        let program = Program::from(vec![Instruction::NoOp; length]);
-        Self {
-            tape: vec![Byte::default(); length],
-            pointer: 0,
-            program,
-        }
-    }
-
-    /// Loads a `Program` into the `BrainfoamKitMachine`.
-    ///
-    /// This method replaces the current `program` of the `BrainfoamKitMachine` with the specified `Program`.
-    ///
-    /// # Arguments
-    ///
-    /// * `program`: The `Program` to load into the `BrainfoamKitMachine`.
-    ///
-    /// # Example
-    ///
-    /// ```
-    /// use brainfoamkit_lib::{BrainfoamKitMachine, Instruction, Program};
-    ///
-    /// let mut machine = BrainfoamKitMachine::new(10);
+    /// let mut machine = VirtualMachine::new(10);
     /// let program = Program::from(vec![Instruction::IncrementPointer, Instruction::IncrementValue]);
     /// machine.load(program);
     /// assert_eq!(machine.get_instruction(), Some(Instruction::IncrementPointer));
@@ -127,29 +98,29 @@ impl BrainfoamKitMachine {
         self.program = program;
     }
 
-    /// Returns the length of the `BrainfoamKitMachine`.
+    /// Returns the length of the `tape` inside the `VirtualMachine`.
     ///
-    /// This method returns the length of the `tape` and `program` vectors of the `BrainfoamKitMachine`.
+    /// This method returns the length of the `tape` vector of the `VirtualMachine`.
     ///
     /// # Returns
     ///
-    /// A `usize` value representing the length of the `BrainfoamKitMachine`.
+    /// A `usize` value representing the length of the `VirtualMachine`.
     ///
     /// # Example
     ///
     /// ```
-    /// use brainfoamkit_lib::BrainfoamKitMachine;
+    /// use brainfoamkit_lib::VirtualMachine;
     ///
-    /// let machine = BrainfoamKitMachine::new(10);
+    /// let machine = VirtualMachine::new(10);
     /// assert_eq!(machine.len(), 10);
     /// ```
-    pub fn len(&self) -> usize {
+    pub fn length(&self) -> usize {
         self.tape.len()
     }
 
     /// Returns the current position of the memory pointer.
     ///
-    /// This method returns the current position of the memory pointer in the `BrainfoamKitMachine`.
+    /// This method returns the current position of the memory pointer in the `VirtualMachine`.
     ///
     /// # Returns
     ///
@@ -158,19 +129,41 @@ impl BrainfoamKitMachine {
     /// # Example
     ///
     /// ```
-    /// use brainfoamkit_lib::BrainfoamKitMachine;
+    /// use brainfoamkit_lib::VirtualMachine;
     ///
-    /// let machine = BrainfoamKitMachine::new(10);
+    /// let machine = VirtualMachine::new(10);
     /// assert_eq!(machine.pointer(), 0);
     /// ```
 
-    pub fn pointer(&self) -> usize {
-        self.pointer
+    pub fn memory_pointer(&self) -> usize {
+        self.memory_pointer
     }
 
-    /// Returns the current instruction of the `BrainfoamKitMachine`.
+    /// Returns the current position of the program counter.
     ///
-    /// This method returns the instruction at the current position of the memory pointer in the program. If the memory pointer is out of bounds of the program, this method returns `None`.
+    /// This method returns the current position of the program counter in the `VirtualMachine`.
+    ///
+    /// # Returns
+    ///
+    /// A `usize` value representing the current position of the program counter.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use brainfoamkit_lib::VirtualMachine;
+    ///
+    /// let machine = VirtualMachine::new(10);
+    /// assert_eq!(machine.program_counter(), 0);
+    /// ```
+    ///
+    pub fn program_counter(&self) -> usize {
+        self.program_counter
+    }
+
+    /// Returns the current instruction of the `VirtualMachine`.
+    ///
+    /// This method returns the instruction at the current position of the program counter in the program.
+    /// If the program counter is out of bounds of the program, this method returns `None`.
     ///
     /// # Returns
     ///
@@ -179,9 +172,9 @@ impl BrainfoamKitMachine {
     /// # Example
     ///
     /// ```
-    /// use brainfoamkit_lib::{BrainfoamKitMachine, Instruction, Program};
+    /// use brainfoamkit_lib::{VirtualMachine, Instruction, Program};
     ///
-    /// let mut machine = BrainfoamKitMachine::new(10);
+    /// let mut machine = VirtualMachine::new(10);
     /// let program = Program::from(vec![Instruction::IncrementPointer, Instruction::IncrementValue]);
     /// machine.load(program);
     /// assert_eq!(machine.get_instruction(), Some(Instruction::IncrementPointer));
@@ -189,22 +182,19 @@ impl BrainfoamKitMachine {
     /// assert_eq!(machine.get_instruction(), None);
     /// ```
     pub fn get_instruction(&self) -> Option<Instruction> {
-        match self.program.length() {
-            Some(length) if self.pointer < length => Some(self.program[self.pointer]),
-            _ => None,
-        }
+        self.program.get_instruction(self.program_counter)
     }
 
-    /// Executes the current instruction of the `BrainfoamKitMachine`.
+    /// Executes the current instruction of the `VirtualMachine`.
     ///
     /// This method executes the instruction at the current position of the memory pointer in the program. If the memory pointer is out of bounds of the program, this method does nothing.
     ///
     /// # Example
     ///
     /// ```
-    /// use brainfoamkit_lib::{BrainfoamKitMachine, Instruction, Program};
+    /// use brainfoamkit_lib::{VirtualMachine, Instruction, Program};
     ///
-    /// let mut machine = BrainfoamKitMachine::new(10);
+    /// let mut machine = VirtualMachine::new(10);
     /// let program = Program::from(vec![Instruction::IncrementPointer, Instruction::IncrementValue]);
     /// machine.load(program);
     /// assert_eq!(machine.pointer(), 0);
@@ -227,23 +217,24 @@ impl BrainfoamKitMachine {
             Instruction::JumpBackward => self.jump_backward(),
             Instruction::NoOp => {}
         }
+        self.program_counter += 1;
     }
 
     fn increment_pointer(&mut self) {
-        self.pointer += 1;
+        self.memory_pointer += 1;
     }
 
     fn decrement_pointer(&mut self) {
-        self.pointer -= 1;
+        self.memory_pointer -= 1;
     }
 
     fn increment_value(&mut self) {
-        let mut value = self.tape[self.pointer];
+        let mut value = self.tape[self.memory_pointer];
         value.increment();
     }
 
     fn decrement_value(&mut self) {
-        let mut value = self.tape[self.pointer];
+        let mut value = self.tape[self.memory_pointer];
         value.decrement();
     }
 
@@ -264,9 +255,14 @@ impl BrainfoamKitMachine {
     }
 }
 
-impl Default for BrainfoamKitMachine {
+impl Default for VirtualMachine {
     fn default() -> Self {
-        Self::new(30000)
+        Self {
+            tape: vec![Byte::default(); 30000],
+            memory_pointer: 0,
+            program: Program::default(),
+            program_counter: 0,
+        }
     }
 }
 
@@ -275,15 +271,8 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_machine_new() {
-        let machine: BrainfoamKitMachine = BrainfoamKitMachine::new(30000);
-        assert_eq!(machine.tape.len(), 30000);
-        assert_eq!(machine.pointer, 0);
-    }
-
-    #[test]
     fn test_machine_load() {
-        let mut machine = BrainfoamKitMachine::new(30000);
+        let mut machine = VirtualMachine::default();
         let instructions = vec![
             Instruction::IncrementPointer,
             Instruction::DecrementPointer,
@@ -302,7 +291,7 @@ mod tests {
 
     #[test]
     fn test_machine_get_instruction() {
-        let mut machine = BrainfoamKitMachine::new(30000);
+        let mut machine = VirtualMachine::default();
         let instructions = vec![
             Instruction::IncrementPointer,
             Instruction::DecrementPointer,
@@ -320,13 +309,13 @@ mod tests {
             machine.get_instruction(),
             Some(Instruction::IncrementPointer)
         );
-        machine.pointer = 9;
+        machine.memory_pointer = 9;
         assert_eq!(machine.get_instruction(), None);
     }
 
     #[test]
     fn test_machine_execute_instruction() {
-        let mut machine = BrainfoamKitMachine::new(30000);
+        let mut machine = VirtualMachine::default();
         let instructions = vec![
             Instruction::IncrementPointer,
             Instruction::DecrementPointer,
@@ -341,9 +330,9 @@ mod tests {
         let program = Program::from(instructions);
         machine.load(program);
         machine.execute_instruction();
-        assert_eq!(machine.pointer, 1);
+        assert_eq!(machine.memory_pointer, 1);
         machine.execute_instruction();
-        assert_eq!(machine.pointer, 0);
+        assert_eq!(machine.memory_pointer, 0);
         machine.execute_instruction();
         assert_eq!(machine.tape[0], Byte::default());
         machine.execute_instruction();
