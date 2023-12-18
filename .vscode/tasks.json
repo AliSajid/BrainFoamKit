@@ -1,0 +1,19 @@
+{
+    "onStartup": "Run Rust program",
+    "presentation": {
+        "panel": "new",
+        "reveal": "always"
+    },
+    "tasks": [
+        {
+            "command": "bacon",
+            "group": {
+                "isDefault": true,
+                "kind": "build"
+            },
+            "label": "Run bacon",
+            "type": "shell"
+        }
+    ],
+    "version": "2.0.0"
+}
