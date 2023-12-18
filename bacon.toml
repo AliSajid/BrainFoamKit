@@ -6,6 +6,8 @@
 #  as an example: https://github.com/Canop/bacon/blob/main/bacon.toml
 
 default_job = "clippy"
+summary = true
+wrap = true
 
 [jobs.check]
 command = ["cargo", "check", "--color", "always"]
