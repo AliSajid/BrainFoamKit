@@ -54,21 +54,10 @@ use std::ops::Index;
 ///
 /// # Examples
 ///
-/// ## Empty Program
-///
-/// ```
-/// use brainfoamkit_lib::Program;
-///
-/// let program = Program::new();
-///
-/// assert_eq!(program.program_length(), None);
-/// assert_eq!(program.instruction_counter(), None);
-/// ```
-///
 /// ## Loading a `Program` from a series of instructions
 ///
 /// ```
-/// //TODO: Verify this example
+///
 /// use brainfoamkit_lib::Program;
 /// use brainfoamkit_lib::Instruction;
 ///
@@ -89,11 +78,9 @@ use std::ops::Index;
 /// use brainfoamkit_lib::Program;
 ///
 /// let program_string = ">>++<<--";
-/// let mut program = Program::new();
+/// let program = Program::from_string(program_string);
 ///
-/// program.load_from_string(program_string);
-///
-/// assert_eq!(program.program_length(), Some(8));
+/// assert_eq!(program.length(), Some(8));
 /// ```
 ///
 /// ## Get an instruction from a `Program`
@@ -105,20 +92,15 @@ use std::ops::Index;
 ///
 /// let program_string = ">+<-";
 ///
-/// let mut program = Program::new();
+/// let mut program = Program::from_string(program_string);
 ///
-/// program.load_from_string(program_string);
-///
-/// assert_eq!(program.get_instruction(), Some(Instruction::IncrementPointer));
-/// program.next();
-/// assert_eq!(program.get_instruction(), Some(Instruction::IncrementValue));
-/// program.next();
-/// assert_eq!(program.get_instruction(), Some(Instruction::DecrementPointer));
-/// program.next();
-/// assert_eq!(program.get_instruction(), Some(Instruction::DecrementValue));
-/// program.next();
-/// assert_eq!(program.get_instruction(), None);
+/// assert_eq!(program.get_instruction(0), Some(Instruction::IncrementPointer));
+/// assert_eq!(program.get_instruction(1), Some(Instruction::IncrementValue));
+/// assert_eq!(program.get_instruction(2), Some(Instruction::DecrementPointer));
+/// assert_eq!(program.get_instruction(3), Some(Instruction::DecrementValue));
+/// assert_eq!(program.get_instruction(4), None);
 /// ```
+#[derive(PartialEq, Debug, Eq, Clone)]
 pub struct Program {
     /// The instructions for the program
     instructions: Vec<Instruction>,
@@ -146,13 +128,12 @@ impl Program {
     /// let program: Program = Program::from(instructions);
     ///
     /// assert_eq!(program.length(), Some(4));
-    /// //assert_eq!(program.instruction_counter(), Some(0));
     /// ```
     ///
     /// # See Also
     ///
-    /// * [`new()`](#method.new): Create a new empty `Program`
-    /// * [`load_from_string()`](#method.load_from_string): Load a `Program` from a string
+    /// * [`from_string()`](#method.from_string): Load a `Program` from a string
+    #[must_use]
     pub fn from(instructions: Vec<Instruction>) -> Self {
         Self { instructions }
     }
@@ -172,9 +153,7 @@ impl Program {
     /// use brainfoamkit_lib::Instruction;
     ///
     /// let instructions = ">>++<<--";
-    /// let mut program = Program::new();
-    ///
-    /// program.from_string(instructions);
+    /// let program = Program::from_string(instructions);
     ///
     /// assert_eq!(program.get_instruction_at(0), Some(Instruction::IncrementPointer));
     /// assert_eq!(program.get_instruction_at(1), Some(Instruction::IncrementPointer));
@@ -193,26 +172,24 @@ impl Program {
     ///
     /// # See Also
     ///
-    /// * [`get_instruction()`](#method.get_instruction): Get an instruction from a `Program`
-    /// * [`get_program_length()`](#method.get_program_length): Get the length of the program
-    /// * [`push()`](#method.push): Push an instruction onto the program
+    /// * [`length()`](#method.length): Get the length of the program
     #[must_use]
     pub fn get_instruction(&self, index: usize) -> Option<Instruction> {
-        match self.length() {
-            Some(length) => {
-                if index >= length {
-                    None
-                } else {
-                    Some(self.instructions[index])
-                }
+        self.length().and_then(|length| {
+            if index >= length {
+                None
+            } else {
+                Some(self.instructions[index])
             }
-            None => None,
-        }
+        })
     }
 
-    /// Find the matching bracket
+    /// Find the matching `JumpBackward` instruction for the given `JumpForward` instruction
     ///
-    /// This method finds the matching bracket for the current instruction.
+    /// This method allows us to identify the boundaries of a given loop.
+    /// It will return the index of the matching `JumpBackward` instruction for the given `JumpForward` instruction.
+    /// It returns `None` if no matching `JumpBackward` instruction is found or the instruction
+    /// at the given index is not a `JumpForward` instruction.
     ///
     /// # Examples
     ///
@@ -221,13 +198,10 @@ impl Program {
     /// use brainfoamkit_lib::Instruction;
     ///
     /// let instructions = "[[]]";
-    /// let mut program = Program::new();
+    /// let mut program = Program::from_string(instructions);
     ///
-    /// program.from_string(instructions);
-    ///
-    /// assert_eq!(program.find_matching_bracket(), Some(3));
-    /// program.next();
-    /// assert_eq!(program.find_matching_bracket(), Some(1));
+    /// assert_eq!(program.find_matching_bracket(0), Some(3));
+    /// assert_eq!(program.find_matching_bracket(1), Some(2));
     /// ```
     ///
     /// # Returns
@@ -236,9 +210,7 @@ impl Program {
     ///
     /// # See Also
     ///
-    /// * [`get_instruction_counter()`](#method.get_instruction_counter): Get the current instruction counter
-    /// * [`get_program_length()`](#method.get_program_length): Get the length of the program
-    /// * [`push()`](#method.push): Push an instruction onto the program
+    /// * [`length()`](#method.length): Get the length of the program
     /// * [`get_instruction()`](#method.get_instruction): Get an instruction from a `Program`
     #[must_use]
     pub fn find_matching_bracket(&self, index: usize) -> Option<usize> {
@@ -289,8 +261,8 @@ impl Program {
     ///
     /// # See Also
     ///
-    /// * [`new()`](#method.new): Create a new `Program`
     /// * [`from()`](#method.from): Create a new `Program` from a series of instructions
+    #[must_use]
     pub fn from_string(program: &str) -> Self {
         let mut instructions = Vec::new();
 
@@ -301,18 +273,37 @@ impl Program {
         Self { instructions }
     }
 
+    /// Get the length of the program
+    ///
+    /// This method returns the length of the program.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Program;
+    ///
+    /// let program_string = ">>++<<--";
+    /// let program = Program::from_string(program_string);
+    ///
+    /// assert_eq!(program.length(), Some(8));
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// The length of the program
     #[must_use]
     pub fn length(&self) -> Option<usize> {
-        match self.instructions.is_empty() {
-            true => None,
-            false => Some(self.instructions.len()),
+        if self.instructions.is_empty() {
+            None
+        } else {
+            Some(self.instructions.len())
         }
     }
 }
 
 impl Default for Program {
     fn default() -> Self {
-        Self::from(vec![Instruction::NoOp])
+        Self::from(vec![Instruction::NoOp; 10])
     }
 }
 
@@ -320,7 +311,7 @@ impl Display for Program {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         for (index, instruction) in self.instructions.iter().enumerate() {
             // Index should be zero padded to 4 digits
-            writeln!(f, "{index:04}: {instruction}\n")?;
+            writeln!(f, "{index:04}: {instruction}")?;
         }
         Ok(())
     }
@@ -358,9 +349,6 @@ mod tests {
 
     #[test]
     fn test_program_length() {
-        let program = Program::new();
-        assert_eq!(program.length(), None);
-
         let instructions = vec![Instruction::NoOp];
         let program = Program::from(instructions);
         assert_eq!(program.length(), Some(1));
@@ -370,8 +358,8 @@ mod tests {
     fn test_program_default() {
         let program = Program::default();
 
-        assert_eq!(program.instructions.len(), 1);
-        assert_eq!(program.length(), Some(1));
+        assert_eq!(program.instructions.len(), 10);
+        assert_eq!(program.length(), Some(10));
     }
 
     #[test]
@@ -379,11 +367,11 @@ mod tests {
         let instructions = vec![Instruction::NoOp];
         let program = Program::from(instructions);
 
-        assert_eq!(program.to_string(), "0: NOOP\n");
+        assert_eq!(program.to_string(), "0000: NOOP\n");
 
         let instructions = vec![Instruction::NoOp, Instruction::NoOp];
         let program = Program::from(instructions);
-        assert_eq!(program.to_string(), "0: NOOP\n1: NOOP\n");
+        assert_eq!(program.to_string(), "0000: NOOP\n0001: NOOP\n");
     }
 
     #[test]

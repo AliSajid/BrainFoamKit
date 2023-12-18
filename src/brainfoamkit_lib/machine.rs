@@ -42,16 +42,16 @@
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-use crate::{Byte, Instruction, Program};
+use crate::{Byte, Instruction, Program, VirtualMachineBuilder};
 
 /// `VirtualMachine` is a struct representing a Virtual Machine capable of interpreting
-/// a BrainFuck program and tracking its state.
+/// a `BrainFuck` program and tracking its state.
 ///
 /// # Fields
 ///
 /// * `tape`: A vector of `Byte` values representing the memory of the machine. Each `Byte` in the vector is a cell in the memory tape.
-/// * `pointer`: A `usize` value representing the current position of the memory pointer. The memory pointer points to a given cell in the memory tape.
 /// * `program`: A `Program` instance representing the Brainfuck program that the machine is executing.
+/// * `memory_pointer`: A `usize` value representing the current position of the memory pointer. The memory pointer points to a given cell in the memory tape.
 /// * `program_counter`: A `usize` that represents which instruction of the `Program` is being executed right now.
 ///
 /// # Example
@@ -64,38 +64,101 @@ use crate::{Byte, Instruction, Program};
 #[allow(clippy::module_name_repetitions)]
 pub struct VirtualMachine {
     tape: Vec<Byte>,
-    memory_pointer: usize,
     program: Program,
+    memory_pointer: usize,
     program_counter: usize,
 }
 
 #[allow(dead_code)]
 #[allow(clippy::len_without_is_empty)] //FIXME - Add an `is_empty` method
 impl VirtualMachine {
-    /// Loads a `Program` into the `VirtualMachine`.
+    pub(crate) fn new(
+        tape_size: usize,
+        program: Program,
+        memory_pointer: usize,
+        program_counter: usize,
+    ) -> Self {
+        Self {
+            tape: vec![Byte::default(); tape_size],
+            program,
+            memory_pointer,
+            program_counter,
+        }
+    }
+
+    /// Return the length of the "memory" or the `tap_size` of the `VirtualMachine`.
     ///
-    /// This method replaces the current `program` of the `VirtualMachine` with the specified `Program`.
+    /// This method is an alias for the [`length`](#method.length) method.
     ///
-    /// # Arguments
+    /// # Returns
     ///
-    /// * `program`: The `Program` to load into the `VirtualMachine`.
+    /// A `usize` value representing the length of the `VirtualMachine`.
     ///
     /// # Example
     ///
     /// ```
-    /// use brainfoamkit_lib::{VirtualMachine, Instruction, Program};
+    /// use brainfoamkit_lib::VirtualMachine;
     ///
-    /// let mut machine = VirtualMachine::new(10);
-    /// let program = Program::from(vec![Instruction::IncrementPointer, Instruction::IncrementValue]);
-    /// machine.load(program);
-    /// assert_eq!(machine.get_instruction(), Some(Instruction::IncrementPointer));
-    /// assert_eq!(machine.pointer(), 0);
-    /// machine.execute_instruction();
-    /// assert_eq!(machine.pointer(), 1);
-    /// assert_eq!(machine.get_instruction(), Some(Instruction::IncrementValue));
+    /// let machine = VirtualMachine::builder().tape_size(10).build();
+    /// assert_eq!(machine.length(), 10);
     /// ```
-    pub fn load(&mut self, program: Program) {
-        self.program = program;
+    ///
+    /// # See Also
+    ///
+    /// * [`length`](#method.length)
+    /// * [`memory_pointer`](#method.memory_pointer)
+    /// * [`program_counter`](#method.program_counter)
+    ///
+    #[must_use]
+    pub(crate) fn tape_size(&self) -> usize {
+        self.length()
+    }
+
+    /// Return the `Program` of the `VirtualMachine`.
+    ///
+    /// This method returns the `Program` of the `VirtualMachine`.
+    ///
+    /// # Returns
+    ///
+    /// A `Program` instance representing the `Program` of the `VirtualMachine`.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use brainfoamkit_lib::{Program, VirtualMachine};
+    ///
+    /// let machine = VirtualMachine::builder().build();
+    /// assert_eq!(machine.program(), Program::default());
+    /// ```
+    #[must_use]
+    pub fn program(&self) -> Program {
+        self.program.clone()
+    }
+
+    /// Create a new instance of `VirtualMachine` using `VirtualMachineBuilder`.
+    ///
+    /// This method provides a convenient way to create a new instance of `VirtualMachine` using `VirtualMachineBuilder`.
+    /// This method returns a `VirtualMachineBuilder` instance that can be used to configure the `VirtualMachine` before building it.
+    ///
+    /// # Returns
+    ///
+    /// A `VirtualMachineBuilder` instance that can be used to configure the `VirtualMachine` before building it.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use brainfoamkit_lib::VirtualMachine;
+    ///
+    /// let machine = VirtualMachine::builder().build();
+    /// ```
+    ///
+    /// # See Also
+    ///
+    /// * [`VirtualMachineBuilder`](struct.VirtualMachineBuilder.html)
+    ///
+    #[must_use]
+    pub fn builder() -> VirtualMachineBuilder {
+        VirtualMachineBuilder::new()
     }
 
     /// Returns the length of the `tape` inside the `VirtualMachine`.
@@ -111,9 +174,10 @@ impl VirtualMachine {
     /// ```
     /// use brainfoamkit_lib::VirtualMachine;
     ///
-    /// let machine = VirtualMachine::new(10);
+    /// let machine = VirtualMachine::builder().tape_size(10).build();
     /// assert_eq!(machine.len(), 10);
     /// ```
+    #[must_use]
     pub fn length(&self) -> usize {
         self.tape.len()
     }
@@ -131,11 +195,10 @@ impl VirtualMachine {
     /// ```
     /// use brainfoamkit_lib::VirtualMachine;
     ///
-    /// let machine = VirtualMachine::new(10);
+    /// let machine = VirtualMachine::builder().build();
     /// assert_eq!(machine.pointer(), 0);
     /// ```
-
-    pub fn memory_pointer(&self) -> usize {
+    pub const fn memory_pointer(&self) -> usize {
         self.memory_pointer
     }
 
@@ -152,11 +215,11 @@ impl VirtualMachine {
     /// ```
     /// use brainfoamkit_lib::VirtualMachine;
     ///
-    /// let machine = VirtualMachine::new(10);
+    /// let machine = VirtualMachine::builder().build();
     /// assert_eq!(machine.program_counter(), 0);
     /// ```
     ///
-    pub fn program_counter(&self) -> usize {
+    pub const fn program_counter(&self) -> usize {
         self.program_counter
     }
 
@@ -174,13 +237,13 @@ impl VirtualMachine {
     /// ```
     /// use brainfoamkit_lib::{VirtualMachine, Instruction, Program};
     ///
-    /// let mut machine = VirtualMachine::new(10);
     /// let program = Program::from(vec![Instruction::IncrementPointer, Instruction::IncrementValue]);
-    /// machine.load(program);
+    /// let mut machine = VirtualMachine::builder().program(program).build();
     /// assert_eq!(machine.get_instruction(), Some(Instruction::IncrementPointer));
     /// assert_eq!(machine.get_instruction(), Some(Instruction::IncrementValue));
     /// assert_eq!(machine.get_instruction(), None);
     /// ```
+    #[must_use]
     pub fn get_instruction(&self) -> Option<Instruction> {
         self.program.get_instruction(self.program_counter)
     }
@@ -194,9 +257,8 @@ impl VirtualMachine {
     /// ```
     /// use brainfoamkit_lib::{VirtualMachine, Instruction, Program};
     ///
-    /// let mut machine = VirtualMachine::new(10);
     /// let program = Program::from(vec![Instruction::IncrementPointer, Instruction::IncrementValue]);
-    /// machine.load(program);
+    /// let mut machine = VirtualMachine::builder().program(program).build();
     /// assert_eq!(machine.pointer(), 0);
     /// machine.execute_instruction();
     /// assert_eq!(machine.pointer(), 1);
@@ -257,12 +319,7 @@ impl VirtualMachine {
 
 impl Default for VirtualMachine {
     fn default() -> Self {
-        Self {
-            tape: vec![Byte::default(); 30000],
-            memory_pointer: 0,
-            program: Program::default(),
-            program_counter: 0,
-        }
+        Self::builder().build()
     }
 }
 
