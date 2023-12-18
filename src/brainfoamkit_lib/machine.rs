@@ -175,7 +175,7 @@ impl VirtualMachine {
     /// use brainfoamkit_lib::VirtualMachine;
     ///
     /// let machine = VirtualMachine::builder().tape_size(10).build();
-    /// assert_eq!(machine.len(), 10);
+    /// assert_eq!(machine.length(), 10);
     /// ```
     #[must_use]
     pub fn length(&self) -> usize {
@@ -196,7 +196,7 @@ impl VirtualMachine {
     /// use brainfoamkit_lib::VirtualMachine;
     ///
     /// let machine = VirtualMachine::builder().build();
-    /// assert_eq!(machine.pointer(), 0);
+    /// assert_eq!(machine.memory_pointer(), 0);
     /// ```
     pub const fn memory_pointer(&self) -> usize {
         self.memory_pointer
@@ -244,8 +244,10 @@ impl VirtualMachine {
     /// assert_eq!(machine.get_instruction(), None);
     /// ```
     #[must_use]
-    pub fn get_instruction(&self) -> Option<Instruction> {
-        self.program.get_instruction(self.program_counter)
+    pub fn get_instruction(&mut self) -> Option<Instruction> {
+        let current = self.program_counter;
+        self.program_counter += 1;
+        self.program.get_instruction(current)
     }
 
     /// Executes the current instruction of the `VirtualMachine`.
@@ -259,11 +261,11 @@ impl VirtualMachine {
     ///
     /// let program = Program::from(vec![Instruction::IncrementPointer, Instruction::IncrementValue]);
     /// let mut machine = VirtualMachine::builder().program(program).build();
-    /// assert_eq!(machine.pointer(), 0);
+    /// assert_eq!(machine.memory_pointer(), 0);
     /// machine.execute_instruction();
-    /// assert_eq!(machine.pointer(), 1);
+    /// assert_eq!(machine.memory_pointer(), 1);
     /// machine.execute_instruction();
-    /// assert_eq!(machine.pointer(), 1);
+    /// assert_eq!(machine.memory_pointer(), 1);
     /// ```
     ///
     pub fn execute_instruction(&mut self) {
@@ -328,27 +330,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_machine_load() {
-        let mut machine = VirtualMachine::default();
-        let instructions = vec![
-            Instruction::IncrementPointer,
-            Instruction::DecrementPointer,
-            Instruction::IncrementValue,
-            Instruction::DecrementValue,
-            Instruction::OutputValue,
-            Instruction::InputValue,
-            Instruction::JumpForward,
-            Instruction::JumpBackward,
-            Instruction::NoOp,
-        ];
-        let program = Program::from(instructions);
-        machine.load(program);
-        assert_eq!(machine.program.length(), Some(9));
-    }
-
-    #[test]
     fn test_machine_get_instruction() {
-        let mut machine = VirtualMachine::default();
         let instructions = vec![
             Instruction::IncrementPointer,
             Instruction::DecrementPointer,
@@ -361,18 +343,15 @@ mod tests {
             Instruction::NoOp,
         ];
         let program = Program::from(instructions);
-        machine.load(program);
+        let machine = VirtualMachine::builder().program(program).build();
         assert_eq!(
             machine.get_instruction(),
             Some(Instruction::IncrementPointer)
         );
-        machine.memory_pointer = 9;
-        assert_eq!(machine.get_instruction(), None);
     }
 
     #[test]
     fn test_machine_execute_instruction() {
-        let mut machine = VirtualMachine::default();
         let instructions = vec![
             Instruction::IncrementPointer,
             Instruction::DecrementPointer,
@@ -385,7 +364,7 @@ mod tests {
             Instruction::NoOp,
         ];
         let program = Program::from(instructions);
-        machine.load(program);
+        let mut machine = VirtualMachine::builder().program(program).build();
         machine.execute_instruction();
         assert_eq!(machine.memory_pointer, 1);
         machine.execute_instruction();

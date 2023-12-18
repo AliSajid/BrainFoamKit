@@ -75,11 +75,10 @@ impl VirtualMachineBuilder {
     /// use brainfoamkit_lib::{Program, VirtualMachineBuilder};
     ///
     /// let program = Program::from_string("++++++[>++++++++++<-]>+++++.");
-    /// let mut builder = VirtualMachineBuilder::new()
+    /// let vm = VirtualMachineBuilder::new()
     ///     .program(program)
     ///     .build();
     ///
-    /// let vm = builder.build();
     /// assert_eq!(
     ///    vm.program(),
     ///   Program::from_string("++++++[>++++++++++<-]>+++++.")

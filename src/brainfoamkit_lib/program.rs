@@ -68,7 +68,6 @@ use std::ops::Index;
 /// let mut program = Program::from(instructions);
 ///
 /// assert_eq!(program.length(), Some(4));
-/// assert_eq!(program.instruction_counter(), Some(0));
 /// ```
 ///
 /// ## Load a `Program` from a string
@@ -155,15 +154,15 @@ impl Program {
     /// let instructions = ">>++<<--";
     /// let program = Program::from_string(instructions);
     ///
-    /// assert_eq!(program.get_instruction_at(0), Some(Instruction::IncrementPointer));
-    /// assert_eq!(program.get_instruction_at(1), Some(Instruction::IncrementPointer));
-    /// assert_eq!(program.get_instruction_at(2), Some(Instruction::IncrementValue));
-    /// assert_eq!(program.get_instruction_at(3), Some(Instruction::IncrementValue));
-    /// assert_eq!(program.get_instruction_at(4), Some(Instruction::DecrementPointer));
-    /// assert_eq!(program.get_instruction_at(5), Some(Instruction::DecrementPointer));
-    /// assert_eq!(program.get_instruction_at(6), Some(Instruction::DecrementValue));
-    /// assert_eq!(program.get_instruction_at(7), Some(Instruction::DecrementValue));
-    /// assert_eq!(program.get_instruction_at(8), None);
+    /// assert_eq!(program.get_instruction(0), Some(Instruction::IncrementPointer));
+    /// assert_eq!(program.get_instruction(1), Some(Instruction::IncrementPointer));
+    /// assert_eq!(program.get_instruction(2), Some(Instruction::IncrementValue));
+    /// assert_eq!(program.get_instruction(3), Some(Instruction::IncrementValue));
+    /// assert_eq!(program.get_instruction(4), Some(Instruction::DecrementPointer));
+    /// assert_eq!(program.get_instruction(5), Some(Instruction::DecrementPointer));
+    /// assert_eq!(program.get_instruction(6), Some(Instruction::DecrementValue));
+    /// assert_eq!(program.get_instruction(7), Some(Instruction::DecrementValue));
+    /// assert_eq!(program.get_instruction(8), None);
     /// ```
     ///
     /// # Returns
@@ -256,7 +255,6 @@ impl Program {
     /// let program = Program::from_string(program_string);
     ///
     /// assert_eq!(program.length(), Some(8));
-    /// assert_eq!(program.instruction_counter(), Some(0));
     /// ```
     ///
     /// # See Also
