@@ -93,8 +93,7 @@ impl BrainfoamKitMachine {
     /// assert_eq!(machine.pointer(), 0);
     /// ```
     pub fn new(length: usize) -> Self {
-        let mut program = Program::new();
-        program.load(vec![Instruction::NoOp; length]);
+        let program = Program::from(vec![Instruction::NoOp; length]);
         Self {
             tape: vec![Byte::default(); length],
             pointer: 0,
@@ -116,8 +115,7 @@ impl BrainfoamKitMachine {
     /// use brainfoamkit_lib::{BrainfoamKitMachine, Instruction, Program};
     ///
     /// let mut machine = BrainfoamKitMachine::new(10);
-    /// let mut program = Program::new();
-    /// program.load(vec![Instruction::IncrementPointer, Instruction::IncrementValue]);
+    /// let program = Program::from(vec![Instruction::IncrementPointer, Instruction::IncrementValue]);
     /// machine.load(program);
     /// assert_eq!(machine.get_instruction(), Some(Instruction::IncrementPointer));
     /// assert_eq!(machine.pointer(), 0);
@@ -184,15 +182,14 @@ impl BrainfoamKitMachine {
     /// use brainfoamkit_lib::{BrainfoamKitMachine, Instruction, Program};
     ///
     /// let mut machine = BrainfoamKitMachine::new(10);
-    /// let mut program = Program::new();
-    /// program.load(vec![Instruction::IncrementPointer, Instruction::IncrementValue]);
+    /// let program = Program::from(vec![Instruction::IncrementPointer, Instruction::IncrementValue]);
     /// machine.load(program);
     /// assert_eq!(machine.get_instruction(), Some(Instruction::IncrementPointer));
     /// assert_eq!(machine.get_instruction(), Some(Instruction::IncrementValue));
     /// assert_eq!(machine.get_instruction(), None);
     /// ```
     pub fn get_instruction(&self) -> Option<Instruction> {
-        match self.program.get_program_length() {
+        match self.program.length() {
             Some(length) if self.pointer < length => Some(self.program[self.pointer]),
             _ => None,
         }
@@ -208,8 +205,7 @@ impl BrainfoamKitMachine {
     /// use brainfoamkit_lib::{BrainfoamKitMachine, Instruction, Program};
     ///
     /// let mut machine = BrainfoamKitMachine::new(10);
-    /// let mut program = Program::new();
-    /// program.load(vec![Instruction::IncrementPointer, Instruction::IncrementValue]);
+    /// let program = Program::from(vec![Instruction::IncrementPointer, Instruction::IncrementValue]);
     /// machine.load(program);
     /// assert_eq!(machine.pointer(), 0);
     /// machine.execute_instruction();
@@ -231,7 +227,6 @@ impl BrainfoamKitMachine {
             Instruction::JumpBackward => self.jump_backward(),
             Instruction::NoOp => {}
         }
-        self.program.increment_instruction_counter();
     }
 
     fn increment_pointer(&mut self) {
@@ -289,8 +284,7 @@ mod tests {
     #[test]
     fn test_machine_load() {
         let mut machine = BrainfoamKitMachine::new(30000);
-        let mut program = Program::new();
-        program.load(vec![
+        let instructions = vec![
             Instruction::IncrementPointer,
             Instruction::DecrementPointer,
             Instruction::IncrementValue,
@@ -300,16 +294,16 @@ mod tests {
             Instruction::JumpForward,
             Instruction::JumpBackward,
             Instruction::NoOp,
-        ]);
+        ];
+        let program = Program::from(instructions);
         machine.load(program);
-        assert_eq!(machine.program.get_program_length(), Some(9));
+        assert_eq!(machine.program.length(), Some(9));
     }
 
     #[test]
     fn test_machine_get_instruction() {
         let mut machine = BrainfoamKitMachine::new(30000);
-        let mut program = Program::new();
-        program.load(vec![
+        let instructions = vec![
             Instruction::IncrementPointer,
             Instruction::DecrementPointer,
             Instruction::IncrementValue,
@@ -319,7 +313,8 @@ mod tests {
             Instruction::JumpForward,
             Instruction::JumpBackward,
             Instruction::NoOp,
-        ]);
+        ];
+        let program = Program::from(instructions);
         machine.load(program);
         assert_eq!(
             machine.get_instruction(),
@@ -332,8 +327,7 @@ mod tests {
     #[test]
     fn test_machine_execute_instruction() {
         let mut machine = BrainfoamKitMachine::new(30000);
-        let mut program = Program::new();
-        program.load(vec![
+        let instructions = vec![
             Instruction::IncrementPointer,
             Instruction::DecrementPointer,
             Instruction::IncrementValue,
@@ -343,7 +337,8 @@ mod tests {
             Instruction::JumpForward,
             Instruction::JumpBackward,
             Instruction::NoOp,
-        ]);
+        ];
+        let program = Program::from(instructions);
         machine.load(program);
         machine.execute_instruction();
         assert_eq!(machine.pointer, 1);
