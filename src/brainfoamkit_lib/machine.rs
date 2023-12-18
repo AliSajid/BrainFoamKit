@@ -343,7 +343,7 @@ mod tests {
             Instruction::NoOp,
         ];
         let program = Program::from(instructions);
-        let machine = VirtualMachine::builder().program(program).build();
+        let mut machine = VirtualMachine::builder().program(program).build();
         assert_eq!(
             machine.get_instruction(),
             Some(Instruction::IncrementPointer)
