@@ -9,7 +9,6 @@ branches:
 
 plugins:
 -   '@semantic-release/commit-analyzer'
-#-   '@semantic-release/release-notes-generator'
 -   '@semantic-release/changelog'
 -   -   '@semantic-release/github'
     -   assets:
@@ -65,7 +64,3 @@ plugins:
         -   Cargo.lock
         -   CHANGELOG.md
         message: 'chore(release): ${nextRelease.version} [skip ci]'
-
-generateNotes:
--   path: '@semantic-release/release-notes-generator'
-    preset: conventionalcommits
