@@ -24,6 +24,7 @@ path = "src/brainfoamkit_interpreter/main.rs"
 [dependencies]
 anyhow = { version = "1.0.72", features = ["backtrace"] }
 crossterm = "0.27.0"
+prettytable-rs = "0.10.0"
 ratatui = { version = "0.23.0", features = ["all-widgets"] }
 
 

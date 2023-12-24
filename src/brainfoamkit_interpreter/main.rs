@@ -48,8 +48,29 @@
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
+use prettytable::{
+    format::{
+        self,
+    },
+    row,
+    Table,
+};
+
 fn main() {
-    for num in 0..=128 {
-        println!("Decimal: {num:#03}\t\tBinary: {num:#010b}\t\tHexadecimal: {num:#04X}");
+    let mut table = Table::new();
+
+    table.set_titles(row![bc => "Decimal", "Binary", "Hexadecimal", "Octal"]);
+    table.set_format(*format::consts::FORMAT_NO_LINESEP_WITH_TITLE);
+
+    for num in 0..128 {
+        table.add_row(row![c=>
+                    format!("{num:#03}", num = num),
+                    format!("{num:#010b}", num = num),
+                    format!("{num:#04X}", num = num),
+                    format!("{num:#04o}", num = num),
+        //            format!("{num:#04}", num = num as u8 as char)
+                ]);
     }
+
+    table.printstd();
 }
