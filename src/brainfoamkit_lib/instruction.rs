@@ -11,7 +11,7 @@
 // * you may not use this file except in compliance with the License.
 // * You may obtain a copy of the License at
 // *
-// *     http://www.apache.org/licenses/LICENSE-2.0
+// * http://www.apache.org/licenses/LICENSE-2.0
 // *
 // * Unless required by applicable law or agreed to in writing, software
 // * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,26 +23,36 @@
 // ** MIT LICENSE
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 // *
-// * Permission is hereby granted, free of charge, to any person obtaining a copy
-// * of this software and associated documentation files (the "Software"), to deal
-// * in the Software without restriction, including without limitation the rights
+// * Permission is hereby granted, free of charge, to any person obtaining a
+// * copy
+// * of this software and associated documentation files (the "Software"), to
+// * deal
+// * in the Software without restriction, including without limitation the
+// * rights
 // * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // * copies of the Software, and to permit persons to whom the Software is
 // * furnished to do so, subject to the following conditions:
 // *
-// * The above copyright notice and this permission notice shall be included in all
+// * The above copyright notice and this permission notice shall be included in
+// * all
 // * copies or substantial portions of the Software.
 // *
 // * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 // * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// * FROM,
+// * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// * THE
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-use std::fmt::{self, Display, Formatter};
+use std::fmt::{
+    self,
+    Display,
+    Formatter,
+};
 
 /// All possible instructions that can be understood by the interpreter
 ///
@@ -61,7 +71,6 @@ use std::fmt::{self, Display, Formatter};
 /// assert_eq!(incrptr, Instruction::IncrementPointer);
 /// assert_eq!(decrptr, Instruction::DecrementPointer);
 /// ```
-///
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 pub enum Instruction {
     /// Instruction to Increment the Pointer
@@ -80,11 +89,13 @@ pub enum Instruction {
     ///
     /// Internal representation of the `-` instruction.
     DecrementValue,
-    /// Instruction to Output the currently stored value to the external interface
+    /// Instruction to Output the currently stored value to the external
+    /// interface
     ///
     /// Internal representation of the `.` instruction.
     OutputValue,
-    /// Instruction to Input the currently available value at the external interface
+    /// Instruction to Input the currently available value at the external
+    /// interface
     ///
     /// Internal representation of the `,` instruction.
     InputValue,
@@ -128,7 +139,8 @@ impl Instruction {
     ///
     /// # Argument
     ///
-    /// * `c` - A single character from the `BrainFuck` list of command characters.
+    /// * `c` - A single character from the `BrainFuck` list of command
+    ///   characters.
     ///
     /// # Examples
     ///
@@ -146,9 +158,8 @@ impl Instruction {
     ///
     /// # Notes
     ///
-    /// This version of `Instruction` treats every character other than the eight specific characters as
-    /// `NoOp`s
-    ///
+    /// This version of `Instruction` treats every character other than the
+    /// eight specific characters as `NoOp`s
     #[must_use]
     pub const fn from_char(c: char) -> Self {
         match c {
@@ -173,8 +184,10 @@ impl Instruction {
 /// # Examples
 ///
 /// ```
-/// use brainfoamkit_lib::Nybble;
-/// use brainfoamkit_lib::Instruction;
+/// use brainfoamkit_lib::{
+///     Instruction,
+///     Nybble,
+/// };
 ///
 /// let instruction = Instruction::from_char('>');
 ///
@@ -187,8 +200,8 @@ impl Instruction {
 ///
 /// # See Also
 ///
-/// * [`from_char()`](#method.from_char): Creates a new Instruction from a string.
-///
+/// * [`from_char()`](#method.from_char): Creates a new Instruction from a
+///   string.
 impl Display for Instruction {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         match *self {

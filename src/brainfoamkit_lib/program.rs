@@ -11,7 +11,7 @@
 // * you may not use this file except in compliance with the License.
 // * You may obtain a copy of the License at
 // *
-// *     http://www.apache.org/licenses/LICENSE-2.0
+// * http://www.apache.org/licenses/LICENSE-2.0
 // *
 // * Unless required by applicable law or agreed to in writing, software
 // * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,48 +23,64 @@
 // ** MIT LICENSE
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 // *
-// * Permission is hereby granted, free of charge, to any person obtaining a copy
-// * of this software and associated documentation files (the "Software"), to deal
-// * in the Software without restriction, including without limitation the rights
+// * Permission is hereby granted, free of charge, to any person obtaining a
+// * copy
+// * of this software and associated documentation files (the "Software"), to
+// * deal
+// * in the Software without restriction, including without limitation the
+// * rights
 // * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // * copies of the Software, and to permit persons to whom the Software is
 // * furnished to do so, subject to the following conditions:
 // *
-// * The above copyright notice and this permission notice shall be included in all
+// * The above copyright notice and this permission notice shall be included in
+// * all
 // * copies or substantial portions of the Software.
 // *
 // * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 // * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// * FROM,
+// * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// * THE
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-use crate::Instruction;
+use std::{
+    fmt::{
+        self,
+        Display,
+        Formatter,
+    },
+    ops::Index,
+};
 
-use std::fmt::{self, Display, Formatter};
-use std::ops::Index;
+use crate::Instruction;
 
 /// Structure to hold the program.
 ///
 /// A `Program` is a series if instructions stored in the program stack.
-/// This struct allows us to conveniently read the program, modify it and save it back.
+/// This struct allows us to conveniently read the program, modify it and save
+/// it back.
 ///
 /// # Examples
 ///
 /// ## Loading a `Program` from a series of instructions
 ///
 /// ```
+/// use brainfoamkit_lib::{
+///     Instruction,
+///     Program,
+/// };
 ///
-/// use brainfoamkit_lib::Program;
-/// use brainfoamkit_lib::Instruction;
-///
-/// let instructions = vec![Instruction::IncrementPointer,
-///                         Instruction::IncrementValue,
-///                         Instruction::DecrementPointer,
-///                         Instruction::DecrementValue];
+/// let instructions = vec![
+///     Instruction::IncrementPointer,
+///     Instruction::IncrementValue,
+///     Instruction::DecrementPointer,
+///     Instruction::DecrementValue,
+/// ];
 /// let mut program = Program::from(instructions);
 ///
 /// assert_eq!(program.length(), Some(4));
@@ -73,7 +89,7 @@ use std::ops::Index;
 /// ## Load a `Program` from a string
 ///
 /// ```
-/// //TODO: Verify this example
+/// // TODO: Verify this example
 /// use brainfoamkit_lib::Program;
 ///
 /// let program_string = ">>++<<--";
@@ -85,18 +101,32 @@ use std::ops::Index;
 /// ## Get an instruction from a `Program`
 ///
 /// ```
-/// //TODO: Verify this example
-/// use brainfoamkit_lib::Program;
-/// use brainfoamkit_lib::Instruction;
+/// // TODO: Verify this example
+/// use brainfoamkit_lib::{
+///     Instruction,
+///     Program,
+/// };
 ///
 /// let program_string = ">+<-";
 ///
 /// let mut program = Program::from_string(program_string);
 ///
-/// assert_eq!(program.get_instruction(0), Some(Instruction::IncrementPointer));
-/// assert_eq!(program.get_instruction(1), Some(Instruction::IncrementValue));
-/// assert_eq!(program.get_instruction(2), Some(Instruction::DecrementPointer));
-/// assert_eq!(program.get_instruction(3), Some(Instruction::DecrementValue));
+/// assert_eq!(
+///     program.get_instruction(0),
+///     Some(Instruction::IncrementPointer)
+/// );
+/// assert_eq!(
+///     program.get_instruction(1),
+///     Some(Instruction::IncrementValue)
+/// );
+/// assert_eq!(
+///     program.get_instruction(2),
+///     Some(Instruction::DecrementPointer)
+/// );
+/// assert_eq!(
+///     program.get_instruction(3),
+///     Some(Instruction::DecrementValue)
+/// );
 /// assert_eq!(program.get_instruction(4), None);
 /// ```
 #[derive(PartialEq, Debug, Eq, Clone)]
@@ -117,13 +147,17 @@ impl Program {
     /// # Examples
     ///
     /// ```
-    /// use brainfoamkit_lib::Program;
-    /// use brainfoamkit_lib::Instruction;
+    /// use brainfoamkit_lib::{
+    ///     Instruction,
+    ///     Program,
+    /// };
     ///
-    /// let instructions = vec![Instruction::IncrementPointer,
-    ///                         Instruction::IncrementValue,
-    ///                         Instruction::DecrementPointer,
-    ///                         Instruction::DecrementValue];
+    /// let instructions = vec![
+    ///     Instruction::IncrementPointer,
+    ///     Instruction::IncrementValue,
+    ///     Instruction::DecrementPointer,
+    ///     Instruction::DecrementValue,
+    /// ];
     /// let program: Program = Program::from(instructions);
     ///
     /// assert_eq!(program.length(), Some(4));
@@ -148,20 +182,46 @@ impl Program {
     /// # Examples
     ///
     /// ```
-    /// use brainfoamkit_lib::Program;
-    /// use brainfoamkit_lib::Instruction;
+    /// use brainfoamkit_lib::{
+    ///     Instruction,
+    ///     Program,
+    /// };
     ///
     /// let instructions = ">>++<<--";
     /// let program = Program::from_string(instructions);
     ///
-    /// assert_eq!(program.get_instruction(0), Some(Instruction::IncrementPointer));
-    /// assert_eq!(program.get_instruction(1), Some(Instruction::IncrementPointer));
-    /// assert_eq!(program.get_instruction(2), Some(Instruction::IncrementValue));
-    /// assert_eq!(program.get_instruction(3), Some(Instruction::IncrementValue));
-    /// assert_eq!(program.get_instruction(4), Some(Instruction::DecrementPointer));
-    /// assert_eq!(program.get_instruction(5), Some(Instruction::DecrementPointer));
-    /// assert_eq!(program.get_instruction(6), Some(Instruction::DecrementValue));
-    /// assert_eq!(program.get_instruction(7), Some(Instruction::DecrementValue));
+    /// assert_eq!(
+    ///     program.get_instruction(0),
+    ///     Some(Instruction::IncrementPointer)
+    /// );
+    /// assert_eq!(
+    ///     program.get_instruction(1),
+    ///     Some(Instruction::IncrementPointer)
+    /// );
+    /// assert_eq!(
+    ///     program.get_instruction(2),
+    ///     Some(Instruction::IncrementValue)
+    /// );
+    /// assert_eq!(
+    ///     program.get_instruction(3),
+    ///     Some(Instruction::IncrementValue)
+    /// );
+    /// assert_eq!(
+    ///     program.get_instruction(4),
+    ///     Some(Instruction::DecrementPointer)
+    /// );
+    /// assert_eq!(
+    ///     program.get_instruction(5),
+    ///     Some(Instruction::DecrementPointer)
+    /// );
+    /// assert_eq!(
+    ///     program.get_instruction(6),
+    ///     Some(Instruction::DecrementValue)
+    /// );
+    /// assert_eq!(
+    ///     program.get_instruction(7),
+    ///     Some(Instruction::DecrementValue)
+    /// );
     /// assert_eq!(program.get_instruction(8), None);
     /// ```
     ///
@@ -183,18 +243,22 @@ impl Program {
         })
     }
 
-    /// Find the matching `JumpBackward` instruction for the given `JumpForward` instruction
+    /// Find the matching `JumpBackward` instruction for the given `JumpForward`
+    /// instruction
     ///
     /// This method allows us to identify the boundaries of a given loop.
-    /// It will return the index of the matching `JumpBackward` instruction for the given `JumpForward` instruction.
-    /// It returns `None` if no matching `JumpBackward` instruction is found or the instruction
+    /// It will return the index of the matching `JumpBackward` instruction for
+    /// the given `JumpForward` instruction. It returns `None` if no
+    /// matching `JumpBackward` instruction is found or the instruction
     /// at the given index is not a `JumpForward` instruction.
     ///
     /// # Examples
     ///
     /// ```
-    /// use brainfoamkit_lib::Program;
-    /// use brainfoamkit_lib::Instruction;
+    /// use brainfoamkit_lib::{
+    ///     Instruction,
+    ///     Program,
+    /// };
     ///
     /// let instructions = "[[]]";
     /// let mut program = Program::from_string(instructions);
@@ -210,7 +274,8 @@ impl Program {
     /// # See Also
     ///
     /// * [`length()`](#method.length): Get the length of the program
-    /// * [`get_instruction()`](#method.get_instruction): Get an instruction from a `Program`
+    /// * [`get_instruction()`](#method.get_instruction): Get an instruction
+    ///   from a `Program`
     #[must_use]
     pub fn find_matching_bracket(&self, index: usize) -> Option<usize> {
         match self.get_instruction(index) {
@@ -259,7 +324,8 @@ impl Program {
     ///
     /// # See Also
     ///
-    /// * [`from()`](#method.from): Create a new `Program` from a series of instructions
+    /// * [`from()`](#method.from): Create a new `Program` from a series of
+    ///   instructions
     #[must_use]
     pub fn from_string(program: &str) -> Self {
         let mut instructions = Vec::new();

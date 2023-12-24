@@ -11,7 +11,7 @@
 // * you may not use this file except in compliance with the License.
 // * You may obtain a copy of the License at
 // *
-// *     http://www.apache.org/licenses/LICENSE-2.0
+// * http://www.apache.org/licenses/LICENSE-2.0
 // *
 // * Unless required by applicable law or agreed to in writing, software
 // * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,52 +23,89 @@
 // ** MIT LICENSE
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 // *
-// * Permission is hereby granted, free of charge, to any person obtaining a copy
-// * of this software and associated documentation files (the "Software"), to deal
-// * in the Software without restriction, including without limitation the rights
+// * Permission is hereby granted, free of charge, to any person obtaining a
+// * copy
+// * of this software and associated documentation files (the "Software"), to
+// * deal
+// * in the Software without restriction, including without limitation the
+// * rights
 // * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // * copies of the Software, and to permit persons to whom the Software is
 // * furnished to do so, subject to the following conditions:
 // *
-// * The above copyright notice and this permission notice shall be included in all
+// * The above copyright notice and this permission notice shall be included in
+// * all
 // * copies or substantial portions of the Software.
 // *
 // * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 // * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// * FROM,
+// * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// * THE
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-use crate::{Bit, IterableByte, Nybble};
 use std::{
-    fmt::{self, Display, Formatter},
-    ops::{BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Not},
+    fmt::{
+        self,
+        Display,
+        Formatter,
+    },
+    ops::{
+        BitAnd,
+        BitAndAssign,
+        BitOr,
+        BitOrAssign,
+        BitXor,
+        BitXorAssign,
+        Not,
+    },
+};
+
+use crate::{
+    Bit,
+    IterableByte,
+    Nybble,
 };
 
 /// A Byte is an 8-bit unsigned integer (u8).
 ///
-/// This is a wrapper around eight Bit instances. The least significant bit is `bit_0` and the most significant bit is `bit_7`.
-/// This struct is used to conveniently manipulate 8-bit values.
+/// This is a wrapper around eight Bit instances. The least significant bit is
+/// `bit_0` and the most significant bit is `bit_7`. This struct is used to
+/// conveniently manipulate 8-bit values.
 ///
 /// Note that the Bit instances are stored in reverse (LSB to MSB) order,
-/// but the constructor takes them in the correct order (MSB to LSB) to provide a predictable and intuitive interface.
+/// but the constructor takes them in the correct order (MSB to LSB) to provide
+/// a predictable and intuitive interface.
 ///
 /// # Examples
 ///
 /// ## Create a byte from primitive Bit values
 ///
 /// An easy way create a byte is to use the [`Byte::new()`](#method.new) method.
-/// This method takes eight [Bit](crate::Bit) instances as arguments. The least significant bit is `bit_0` and the most significant bit is `bit_7`.
+/// This method takes eight [Bit](crate::Bit) instances as arguments. The least
+/// significant bit is `bit_0` and the most significant bit is `bit_7`.
 /// The order of the arguments is the same as the order of the bits in the byte.
 ///
 /// ```
-/// use brainfoamkit_lib::Byte;
-/// use brainfoamkit_lib::Bit;
+/// use brainfoamkit_lib::{
+///     Bit,
+///     Byte,
+/// };
 ///
-/// let byte = Byte::new(Bit::one(), Bit::zero(), Bit::one(), Bit::zero(), Bit::one(), Bit::zero(), Bit::one(), Bit::zero());
+/// let byte = Byte::new(
+///     Bit::one(),
+///     Bit::zero(),
+///     Bit::one(),
+///     Bit::zero(),
+///     Bit::one(),
+///     Bit::zero(),
+///     Bit::one(),
+///     Bit::zero(),
+/// );
 /// assert_eq!(byte.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
 /// assert_eq!(byte.to_string(), "0xAA");
 /// ```
@@ -85,8 +122,10 @@ use std::{
 /// ## Create a byte from two Nybbles
 ///
 /// ```
-/// use brainfoamkit_lib::Nybble;
-/// use brainfoamkit_lib::Byte;
+/// use brainfoamkit_lib::{
+///     Byte,
+///     Nybble,
+/// };
 ///
 /// let high_nybble = Nybble::from_u8(0b1011); // Dec: 11; Hex: 0x0B; Oct: 0o13
 /// let low_nybble = Nybble::from_u8(0b0101); // Dec: 5; Hex: 0x05; Oct: 0o5
@@ -115,8 +154,10 @@ use std::{
 /// ## Get the Bit value at a given index
 ///
 /// ```
-/// use brainfoamkit_lib::Byte;
-/// use brainfoamkit_lib::Bit;
+/// use brainfoamkit_lib::{
+///     Bit,
+///     Byte,
+/// };
 ///
 /// let byte = Byte::from_u8(0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
 /// assert_eq!(byte.get_bit(0), Bit::Zero); // Least significant bit
@@ -151,14 +192,14 @@ use std::{
 ///
 /// # Panics
 ///
-/// The methods [`set_bit()`](#method.set_bit), [`unset_bit()`](#method.unset_bit) and
-/// [`get_bit()`](#method.get_bit) will panic if the index is out of bounds.
+/// The methods [`set_bit()`](#method.set_bit),
+/// [`unset_bit()`](#method.unset_bit) and [`get_bit()`](#method.get_bit) will
+/// panic if the index is out of bounds.
 ///
 /// # See Also
 ///
 /// * [`Bit`](crate::Bit): A single bit.
 /// * [`Nybble`](crate::Nybble): A 4-bit unsigned integer (u4).
-///
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Byte {
     bit_0: Bit,
@@ -174,11 +215,12 @@ pub struct Byte {
 impl Byte {
     /// Creates a new Byte instance with the specified Bit values.
     ///
-    /// This method takes eight Bit instances as arguments. The least significant bit is `bit_0`
-    /// and the most significant bit is `bit_7`.
+    /// This method takes eight Bit instances as arguments. The least
+    /// significant bit is `bit_0` and the most significant bit is `bit_7`.
     ///
     /// Note that the Bit instances are stored in reverse (LSB to MSB) order,
-    /// but the constructor takes them in the correct order (MSB to LSB) to provide a predictable and intuitive interface.
+    /// but the constructor takes them in the correct order (MSB to LSB) to
+    /// provide a predictable and intuitive interface.
     ///
     /// # Arguments
     ///
@@ -219,9 +261,10 @@ impl Byte {
     /// # See Also
     ///
     /// * [`from_u8()`](#method.from_u8): Create a new Byte from a u8.
-    /// * [`from_nybbles()`](#method.from_nybbles): Create a new Byte from two [Nybbles](crate::Nybble).
-    /// * [`default()`](#method.default): Create a new Byte with all bits set to zero.
-    ///
+    /// * [`from_nybbles()`](#method.from_nybbles): Create a new Byte from two
+    ///   [Nybbles](crate::Nybble).
+    /// * [`default()`](#method.default): Create a new Byte with all bits set to
+    ///   zero.
     #[must_use]
     #[allow(clippy::too_many_arguments)]
     pub const fn new(
@@ -248,7 +291,8 @@ impl Byte {
 
     /// Creates a new Byte instance from a u8 value.
     ///
-    /// This method returns an Option. If the input value is out of range, None is returned.
+    /// This method returns an Option. If the input value is out of range, None
+    /// is returned.
     ///
     /// # Arguments
     ///
@@ -282,10 +326,11 @@ impl Byte {
     /// # See Also
     ///
     /// * [`new()`](#method.new): Create a new Byte from individual Bit values.
-    /// * [`from_nybbles()`](#method.from_nybbles): Create a new Byte from two Nybbles.
-    /// * [`default()`](#method.default): Create a new Byte with all bits set to zero.
+    /// * [`from_nybbles()`](#method.from_nybbles): Create a new Byte from two
+    ///   Nybbles.
+    /// * [`default()`](#method.default): Create a new Byte with all bits set to
+    ///   zero.
     /// * [`to_u8()`](#method.to_u8): Convert the Byte to a u8.
-    ///
     #[must_use]
     pub fn from_u8(n: u8) -> Self {
         let mut byte = Self::default();
@@ -313,8 +358,10 @@ impl Byte {
     /// # Examples
     ///
     /// ```
-    /// use brainfoamkit_lib::Byte;
-    /// use brainfoamkit_lib::Nybble;
+    /// use brainfoamkit_lib::{
+    ///     Byte,
+    ///     Nybble,
+    /// };
     ///
     /// let high_nybble = Nybble::from_u8(0b1011); // Dec: 11; Hex: 0x0B; Oct: 0o13
     /// let low_nybble = Nybble::from_u8(0b0101); // Dec: 5; Hex: 0x05; Oct: 0o5
@@ -328,13 +375,15 @@ impl Byte {
     ///
     /// # See Also
     ///
-    /// * [`get_high_nybble()`](#method.get_high_nybble): Get the High Nybble of the Byte.
-    /// * [`get_low_nybble()`](#method.get_low_nybble): Get the Low Nybble of the Byte.
+    /// * [`get_high_nybble()`](#method.get_high_nybble): Get the High Nybble of
+    ///   the Byte.
+    /// * [`get_low_nybble()`](#method.get_low_nybble): Get the Low Nybble of
+    ///   the Byte.
     /// * [`from_u8()`](#method.from_u8): Create a new Byte from a u8.
-    /// * [`default()`](#method.default): Create a new Byte with all bits set to zero.
+    /// * [`default()`](#method.default): Create a new Byte with all bits set to
+    ///   zero.
     /// * [`to_u8()`](#method.to_u8): Convert the Byte to a u8.
     /// * [`new()`](#method.new): Create a new Byte from individual Bit values.
-    ///
     #[must_use]
     pub fn from_nybbles(high_nybble: Nybble, low_nybble: Nybble) -> Self {
         let mut byte = Self::default();
@@ -372,9 +421,10 @@ impl Byte {
     ///
     /// # See Also
     ///
-    /// * [`get_low_nybble()`](#method.get_low_nybble): Get the Low Nybble of the Byte.
-    /// * [`from_nybbles()`](#method.from_nybbles): Create a new Byte from two Nybbles.
-    ///
+    /// * [`get_low_nybble()`](#method.get_low_nybble): Get the Low Nybble of
+    ///   the Byte.
+    /// * [`from_nybbles()`](#method.from_nybbles): Create a new Byte from two
+    ///   Nybbles.
     #[must_use]
     pub fn get_high_nybble(&self) -> Nybble {
         let mut nybble = Nybble::default();
@@ -409,9 +459,10 @@ impl Byte {
     ///
     /// # See Also
     ///
-    /// * [`get_high_nybble()`](#method.get_high_nybble): Get the High Nybble of the Byte.
-    /// * [`from_nybbles()`](#method.from_nybbles): Create a new Byte from two Nybbles.
-    ///
+    /// * [`get_high_nybble()`](#method.get_high_nybble): Get the High Nybble of
+    ///   the Byte.
+    /// * [`from_nybbles()`](#method.from_nybbles): Create a new Byte from two
+    ///   Nybbles.
     #[must_use]
     pub fn get_low_nybble(&self) -> Nybble {
         let mut nybble = Nybble::default();
@@ -430,7 +481,8 @@ impl Byte {
     /// This method is used "Set" the bit value at a given index.
     /// This means that that bit value is set to 1.
     ///
-    /// The index is zero-based, so the least significant bit is at index 0 and the most significant bit is at index 7.
+    /// The index is zero-based, so the least significant bit is at index 0 and
+    /// the most significant bit is at index 7.
     ///
     /// # Arguments
     ///
@@ -462,10 +514,12 @@ impl Byte {
     ///
     /// # See Also
     ///
-    /// * [`unset_bit()`](#method.unset_bit): Unset the Bit value at the specified index.
-    /// * [`flip_bit()`](#method.flip_bit): Flip the Bit value at the specified index.
-    /// * [`get_bit()`](#method.get_bit): Get the Bit value at the specified index.
-    ///
+    /// * [`unset_bit()`](#method.unset_bit): Unset the Bit value at the
+    ///   specified index.
+    /// * [`flip_bit()`](#method.flip_bit): Flip the Bit value at the specified
+    ///   index.
+    /// * [`get_bit()`](#method.get_bit): Get the Bit value at the specified
+    ///   index.
     pub fn set_bit(&mut self, index: u8) {
         match index {
             0 => self.bit_0.set(),
@@ -485,7 +539,8 @@ impl Byte {
     /// This method is used "Unset" the bit value at a given index.
     /// This means that that bit value is set to 0.
     ///
-    /// The index is zero-based, so the least significant bit is at index 0 and the most significant bit is at index 7.
+    /// The index is zero-based, so the least significant bit is at index 0 and
+    /// the most significant bit is at index 7.
     ///
     /// # Arguments
     ///
@@ -513,14 +568,17 @@ impl Byte {
     ///
     /// # Side Effects
     ///
-    /// This method will [unset](crate::Bit#method.unset) the Bit value at the specified index.
+    /// This method will [unset](crate::Bit#method.unset) the Bit value at the
+    /// specified index.
     ///
     /// # See Also
     ///
-    /// * [`set_bit()`](#method.set_bit): Set the Bit value at the specified index.
-    /// * [`flip_bit()`](#method.flip_bit): Flip the Bit value at the specified index.
-    /// * [`get_bit()`](#method.get_bit): Get the Bit value at the specified index.
-    ///
+    /// * [`set_bit()`](#method.set_bit): Set the Bit value at the specified
+    ///   index.
+    /// * [`flip_bit()`](#method.flip_bit): Flip the Bit value at the specified
+    ///   index.
+    /// * [`get_bit()`](#method.get_bit): Get the Bit value at the specified
+    ///   index.
     pub fn unset_bit(&mut self, index: u8) {
         match index {
             0 => self.bit_0.unset(),
@@ -537,15 +595,27 @@ impl Byte {
 
     /// Converts the Byte to an 8-bit unsigned integer (u8).
     ///
-    /// This method returns the value of the Byte as an 8-bit unsigned integer (u8).
+    /// This method returns the value of the Byte as an 8-bit unsigned integer
+    /// (u8).
     ///
     /// # Examples
     ///
     /// ```
-    /// use brainfoamkit_lib::Byte;
-    /// use brainfoamkit_lib::Bit;
+    /// use brainfoamkit_lib::{
+    ///     Bit,
+    ///     Byte,
+    /// };
     ///
-    /// let byte = Byte::new(Bit::one(), Bit::zero(), Bit::one(), Bit::zero(), Bit::one(), Bit::zero(), Bit::one(), Bit::zero());
+    /// let byte = Byte::new(
+    ///     Bit::one(),
+    ///     Bit::zero(),
+    ///     Bit::one(),
+    ///     Bit::zero(),
+    ///     Bit::one(),
+    ///     Bit::zero(),
+    ///     Bit::one(),
+    ///     Bit::zero(),
+    /// );
     /// assert_eq!(byte.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     /// assert_eq!(byte.to_string(), "0xAA");
     /// ```
@@ -558,7 +628,6 @@ impl Byte {
     ///
     /// * [`to_string()`](#method.to_string): Convert the Byte to a String.
     /// * [`from_u8()`](#method.from_u8): Create a new Byte from a u8.
-    ///
     #[must_use]
     pub fn to_u8(&self) -> u8 {
         let mut n = 0;
@@ -574,7 +643,8 @@ impl Byte {
 
     /// Get the Bit value at the specified index.
     ///
-    /// The index is zero-based, so the least significant bit is at index 0 and the most significant bit is at index 7.
+    /// The index is zero-based, so the least significant bit is at index 0 and
+    /// the most significant bit is at index 7.
     ///
     /// # Arguments
     ///
@@ -583,10 +653,21 @@ impl Byte {
     /// # Examples
     ///
     /// ```
-    /// use brainfoamkit_lib::Byte;
-    /// use brainfoamkit_lib::Bit;
+    /// use brainfoamkit_lib::{
+    ///     Bit,
+    ///     Byte,
+    /// };
     ///
-    /// let byte = Byte::new(Bit::one(), Bit::zero(), Bit::one(), Bit::zero(), Bit::one(), Bit::zero(), Bit::one(), Bit::zero());
+    /// let byte = Byte::new(
+    ///     Bit::one(),
+    ///     Bit::zero(),
+    ///     Bit::one(),
+    ///     Bit::zero(),
+    ///     Bit::one(),
+    ///     Bit::zero(),
+    ///     Bit::one(),
+    ///     Bit::zero(),
+    /// );
     /// assert_eq!(byte.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     /// assert_eq!(byte.get_bit(0), Bit::Zero); // Least significant bit
     /// assert_eq!(byte.get_bit(1), Bit::One);
@@ -604,14 +685,17 @@ impl Byte {
     ///
     /// # Returns
     ///
-    /// A [Bit](crate::Bit) containing the value of the Bit at the specified index.
+    /// A [Bit](crate::Bit) containing the value of the Bit at the specified
+    /// index.
     ///
     /// # See Also
     ///
-    /// * [`set_bit()`](#method.set_bit): Set the Bit value at the specified index.
-    /// * [`unset_bit()`](#method.unset_bit): Unset the Bit value at the specified index.
-    /// * [`flip_bit()`](#method.flip_bit): Flip the Bit value at the specified index.
-    ///
+    /// * [`set_bit()`](#method.set_bit): Set the Bit value at the specified
+    ///   index.
+    /// * [`unset_bit()`](#method.unset_bit): Unset the Bit value at the
+    ///   specified index.
+    /// * [`flip_bit()`](#method.flip_bit): Flip the Bit value at the specified
+    ///   index.
     #[must_use]
     pub fn get_bit(&self, index: u8) -> Bit {
         match index {
@@ -630,9 +714,11 @@ impl Byte {
     /// Flips the Bit value at the specified index.
     ///
     /// This method is used to flip the bit value at a given index.
-    /// This means that that bit value is set to the opposite of its current value.
+    /// This means that that bit value is set to the opposite of its current
+    /// value.
     ///
-    /// The index is zero-based, so the least significant bit is at index 0 and the most significant bit is at index 7.
+    /// The index is zero-based, so the least significant bit is at index 0 and
+    /// the most significant bit is at index 7.
     ///
     /// # Arguments
     ///
@@ -671,14 +757,17 @@ impl Byte {
     ///
     /// # Side Effects
     ///
-    /// This method will [`flip`](crate::Bit#method.flip) the Bit value at the specified index.
+    /// This method will [`flip`](crate::Bit#method.flip) the Bit value at the
+    /// specified index.
     ///
     /// # See Also
     ///
-    /// * [`set_bit()`](#method.set_bit): Set the Bit value at the specified index.
-    /// * [`unset_bit()`](#method.unset_bit): Unset the Bit value at the specified index.
-    /// * [`get_bit()`](#method.get_bit): Get the Bit value at the specified index.
-    ///
+    /// * [`set_bit()`](#method.set_bit): Set the Bit value at the specified
+    ///   index.
+    /// * [`unset_bit()`](#method.unset_bit): Unset the Bit value at the
+    ///   specified index.
+    /// * [`get_bit()`](#method.get_bit): Get the Bit value at the specified
+    ///   index.
     pub fn flip_bit(&mut self, index: u8) {
         match index {
             0..=7 => {
@@ -702,8 +791,9 @@ impl Byte {
     /// Flips all of the Bit values in the Byte.
     ///
     /// This method is used to flip all of the bit values in the Byte.
-    /// This means that all of the bit values are set to the opposite of their current values.
-    /// This can be used to find the two's complement of a Byte.
+    /// This means that all of the bit values are set to the opposite of their
+    /// current values. This can be used to find the two's complement of a
+    /// Byte.
     ///
     /// # Examples
     ///
@@ -728,12 +818,13 @@ impl Byte {
     ///
     /// # Side Effects
     ///
-    /// This method will [`flip`](crate::Bit#method.flip) all of the Bit values in the Byte.
+    /// This method will [`flip`](crate::Bit#method.flip) all of the Bit values
+    /// in the Byte.
     ///
     /// # See Also
     ///
-    /// * [`flip_bit()`](#method.flip_bit): Flip the Bit value at the specified index.
-    ///
+    /// * [`flip_bit()`](#method.flip_bit): Flip the Bit value at the specified
+    ///   index.
     pub fn flip(&mut self) {
         self.bit_0.flip();
         self.bit_1.flip();
@@ -776,7 +867,6 @@ impl Byte {
     ///
     /// * [`decrement()`](#method.decrement): Decrement the Byte by one.
     /// * [`flip()`](#method.flip): Flip all of the Bit values in the Byte.
-    ///
     pub fn increment(&mut self) {
         let mut carry = true;
         let mut i = 0;
@@ -803,7 +893,7 @@ impl Byte {
     /// # Examples
     ///
     /// ```
-    ///
+    /// 
     /// use brainfoamkit_lib::Byte;
     ///
     ///
@@ -829,7 +919,6 @@ impl Byte {
     ///
     /// * [`increment()`](#method.increment): Increment the Byte by one.
     /// * [`flip()`](#method.flip): Flip all of the Bit values in the Byte.
-    ///
     pub fn decrement(&mut self) {
         let mut borrow = true;
         let mut i = 0;
@@ -859,7 +948,7 @@ impl Byte {
     /// let byte = Byte::from_u8(0b11001010); // Dec: 10; Hex: 0xA; Oct: 0o12
     ///
     /// for bit in byte.iter() {
-    ///    println!("{}", bit);
+    ///     println!("{}", bit);
     /// }
     /// ```
     #[must_use]
@@ -888,7 +977,6 @@ impl Display for Byte {
     ///
     /// * [`to_u8()`](#method.to_u8)
     /// * [`from_u8()`](#method.from_u8)
-    ///
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         write!(f, "{:#04X}", self.to_u8())
     }
@@ -914,10 +1002,10 @@ impl Default for Byte {
     /// # See Also
     ///
     /// * [`new()`](#method.new): Create a new Byte from individual Bit values.
-    /// * [`from_nybbles()`](#method.from_nybbles): Create a new Byte from two Nybbles.
+    /// * [`from_nybbles()`](#method.from_nybbles): Create a new Byte from two
+    ///   Nybbles.
     /// * [`from_u8()`](#method.from_u8): Create a new Byte from a u8.
     /// * [`to_u8()`](#method.to_u8): Convert the Byte to a u8.
-    ///
     fn default() -> Self {
         Self::new(
             Bit::zero(), // Most significant bit
@@ -963,9 +1051,9 @@ impl Not for Byte {
     ///
     /// # See Also
     ///
-    /// * [`flip_bit()`](#method.flip_bit): Flip the Bit value at the specified index.
+    /// * [`flip_bit()`](#method.flip_bit): Flip the Bit value at the specified
+    ///   index.
     /// * [`flip()`](#method.flip): Flip all of the Bit values in the Byte.
-    ///
     fn not(self) -> Self::Output {
         let mut byte = self;
         byte.flip();
@@ -1004,16 +1092,21 @@ impl BitAnd for Byte {
     ///
     /// # Returns
     ///
-    /// A Byte containing the result of a bitwise AND operation on the two Bytes.
+    /// A Byte containing the result of a bitwise AND operation on the two
+    /// Bytes.
     ///
     /// # See Also
     ///
-    /// * [`bitor()`](#method.bitor): Perform a Bitwise Or operation on the Byte.
-    /// * [`bitxor()`](#method.bitxor): Perform a Bitwise Xor operation on the Byte.
-    /// * [`bitand_assign()`](#method.bitand_assign): Perform a Bitwise And Assignment operation on the Byte.
-    /// * [`bitor_assign()`](#method.bitor_assign): Perform a Bitwise Or Assignment operation on the Byte.
-    /// * [`bitxor_assign()`](#method.bitxor_assign): Perform a Bitwise Xor Assignment operation on the Byte.
-    ///
+    /// * [`bitor()`](#method.bitor): Perform a Bitwise Or operation on the
+    ///   Byte.
+    /// * [`bitxor()`](#method.bitxor): Perform a Bitwise Xor operation on the
+    ///   Byte.
+    /// * [`bitand_assign()`](#method.bitand_assign): Perform a Bitwise And
+    ///   Assignment operation on the Byte.
+    /// * [`bitor_assign()`](#method.bitor_assign): Perform a Bitwise Or
+    ///   Assignment operation on the Byte.
+    /// * [`bitxor_assign()`](#method.bitxor_assign): Perform a Bitwise Xor
+    ///   Assignment operation on the Byte.
     fn bitand(self, rhs: Self) -> Self::Output {
         let mut byte = self;
         byte.bit_0 &= rhs.bit_0;
@@ -1031,8 +1124,8 @@ impl BitAnd for Byte {
 impl BitAndAssign for Byte {
     /// Performs the Bitwise And Assignment operation on the Byte.
     ///
-    /// This method is used to perform the Bitwise And Assignment operation on the Byte.
-    /// This also allows the use of the `&=` operator on the Byte.
+    /// This method is used to perform the Bitwise And Assignment operation on
+    /// the Byte. This also allows the use of the `&=` operator on the Byte.
     ///
     /// # Arguments
     ///
@@ -1054,16 +1147,21 @@ impl BitAndAssign for Byte {
     ///
     /// # Side Effects
     ///
-    /// This method performs a bitwise AND operation on the two Bytes, storing the result in the first Byte.
+    /// This method performs a bitwise AND operation on the two Bytes, storing
+    /// the result in the first Byte.
     ///
     /// # See Also
     ///
-    /// * [`bitand()`](#method.bitand): Perform a Bitwise And operation on the Byte.
-    /// * [`bitor()`](#method.bitor): Perform a Bitwise Or operation on the Byte.
-    /// * [`bitxor()`](#method.bitxor): Perform a Bitwise Xor operation on the Byte.
-    /// * [`bitor_assign()`](#method.bitor_assign): Perform a Bitwise Or Assignment operation on the Byte.
-    /// * [`bitxor_assign()`](#method.bitxor_assign): Perform a Bitwise Xor Assignment operation on the Byte.
-    ///
+    /// * [`bitand()`](#method.bitand): Perform a Bitwise And operation on the
+    ///   Byte.
+    /// * [`bitor()`](#method.bitor): Perform a Bitwise Or operation on the
+    ///   Byte.
+    /// * [`bitxor()`](#method.bitxor): Perform a Bitwise Xor operation on the
+    ///   Byte.
+    /// * [`bitor_assign()`](#method.bitor_assign): Perform a Bitwise Or
+    ///   Assignment operation on the Byte.
+    /// * [`bitxor_assign()`](#method.bitxor_assign): Perform a Bitwise Xor
+    ///   Assignment operation on the Byte.
     fn bitand_assign(&mut self, rhs: Self) {
         self.bit_0 &= rhs.bit_0;
         self.bit_1 &= rhs.bit_1;
@@ -1111,12 +1209,16 @@ impl BitOr for Byte {
     ///
     /// # See Also
     ///
-    /// * [`bitand()`](#method.bitand): Perform a Bitwise And operation on the Byte.
-    /// * [`bitxor()`](#method.bitxor): Perform a Bitwise Xor operation on the Byte.
-    /// * [`bitand_assign()`](#method.bitand_assign): Perform a Bitwise And Assignment operation on the Byte.
-    /// * [`bitor_assign()`](#method.bitor_assign): Perform a Bitwise Or Assignment operation on the Byte.
-    /// * [`bitxor_assign()`](#method.bitxor_assign): Perform a Bitwise Xor Assignment operation on the Byte.
-    ///
+    /// * [`bitand()`](#method.bitand): Perform a Bitwise And operation on the
+    ///   Byte.
+    /// * [`bitxor()`](#method.bitxor): Perform a Bitwise Xor operation on the
+    ///   Byte.
+    /// * [`bitand_assign()`](#method.bitand_assign): Perform a Bitwise And
+    ///   Assignment operation on the Byte.
+    /// * [`bitor_assign()`](#method.bitor_assign): Perform a Bitwise Or
+    ///   Assignment operation on the Byte.
+    /// * [`bitxor_assign()`](#method.bitxor_assign): Perform a Bitwise Xor
+    ///   Assignment operation on the Byte.
     fn bitor(self, rhs: Self) -> Self::Output {
         let mut byte = self;
         byte.bit_0 |= rhs.bit_0;
@@ -1134,8 +1236,8 @@ impl BitOr for Byte {
 impl BitOrAssign for Byte {
     /// Performs the Bitwise Or Assignment operation on the Byte.
     ///
-    /// This method is used to perform the Bitwise Or Assignment operation on the Byte.
-    /// This also allows the use of the `|=` operator on the Byte.
+    /// This method is used to perform the Bitwise Or Assignment operation on
+    /// the Byte. This also allows the use of the `|=` operator on the Byte.
     ///
     /// # Arguments
     ///
@@ -1153,21 +1255,25 @@ impl BitOrAssign for Byte {
     /// byte |= Byte::from_u8(0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
     ///
     /// assert_eq!(byte.to_u8(), 0b11111111); // Dec: 255; Hex: 0xFF; Oct: 0o377
-    ///
     /// ```
     ///
     /// # Side Effects
     ///
-    /// This method performs a Bitwise Or operation on the two Bytes, storing the result in the first Byte.
+    /// This method performs a Bitwise Or operation on the two Bytes, storing
+    /// the result in the first Byte.
     ///
     /// # See Also
     ///
-    /// * [`bitand()`](#method.bitand): Perform a Bitwise And operation on the Byte.
-    /// * [`bitor()`](#method.bitor): Perform a Bitwise Or operation on the Byte.
-    /// * [`bitxor()`](#method.bitxor): Perform a Bitwise Xor operation on the Byte.
-    /// * [`bitand_assign()`](#method.bitand_assign): Perform a Bitwise And Assignment operation on the Byte.
-    /// * [`bitxor_assign()`](#method.bitxor_assign): Perform a Bitwise Xor Assignment operation on the Byte.
-    ///
+    /// * [`bitand()`](#method.bitand): Perform a Bitwise And operation on the
+    ///   Byte.
+    /// * [`bitor()`](#method.bitor): Perform a Bitwise Or operation on the
+    ///   Byte.
+    /// * [`bitxor()`](#method.bitxor): Perform a Bitwise Xor operation on the
+    ///   Byte.
+    /// * [`bitand_assign()`](#method.bitand_assign): Perform a Bitwise And
+    ///   Assignment operation on the Byte.
+    /// * [`bitxor_assign()`](#method.bitxor_assign): Perform a Bitwise Xor
+    ///   Assignment operation on the Byte.
     fn bitor_assign(&mut self, rhs: Self) {
         self.bit_0 |= rhs.bit_0;
         self.bit_1 |= rhs.bit_1;
@@ -1209,16 +1315,21 @@ impl BitXor for Byte {
     ///
     /// # Returns
     ///
-    /// A Byte containing the result of a Bitwise Xor operation on the two Bytes.
+    /// A Byte containing the result of a Bitwise Xor operation on the two
+    /// Bytes.
     ///
     /// # See Also
     ///
-    /// * [`bitand()`](#method.bitand): Perform a Bitwise And operation on the Byte.
-    /// * [`bitor()`](#method.bitor): Perform a Bitwise Or operation on the Byte.
-    /// * [`bitand_assign()`](#method.bitand_assign): Perform a Bitwise And Assignment operation on the Byte.
-    /// * [`bitor_assign()`](#method.bitor_assign): Perform a Bitwise Or Assignment operation on the Byte.
-    /// * [`bitxor_assign()`](#method.bitxor_assign): Perform a Bitwise Xor Assignment operation on the Byte.
-    ///
+    /// * [`bitand()`](#method.bitand): Perform a Bitwise And operation on the
+    ///   Byte.
+    /// * [`bitor()`](#method.bitor): Perform a Bitwise Or operation on the
+    ///   Byte.
+    /// * [`bitand_assign()`](#method.bitand_assign): Perform a Bitwise And
+    ///   Assignment operation on the Byte.
+    /// * [`bitor_assign()`](#method.bitor_assign): Perform a Bitwise Or
+    ///   Assignment operation on the Byte.
+    /// * [`bitxor_assign()`](#method.bitxor_assign): Perform a Bitwise Xor
+    ///   Assignment operation on the Byte.
     fn bitxor(self, rhs: Self) -> Self::Output {
         let mut byte = self;
         byte.bit_0 ^= rhs.bit_0;
@@ -1236,8 +1347,8 @@ impl BitXor for Byte {
 impl BitXorAssign for Byte {
     /// Performs the Bitwise Xor Assignment operation on the Byte.
     ///
-    /// This method is used to perform the Bitwise Xor Assignment operation on the Byte.
-    /// This also allows the use of the `^=` operator on the Byte.
+    /// This method is used to perform the Bitwise Xor Assignment operation on
+    /// the Byte. This also allows the use of the `^=` operator on the Byte.
     ///
     /// # Arguments
     ///
@@ -1255,21 +1366,25 @@ impl BitXorAssign for Byte {
     /// byte ^= Byte::from_u8(0b01010101);
     ///
     /// assert_eq!(byte.to_u8(), 0b11111111); // Dec: 255; Hex: 0xFF; Oct: 0o377
-    ///
     /// ```
     ///
     /// # Side Effects
     ///
-    /// This method performs a Bitwise Xor operation on the two Bytes, storing the result in the first Byte.
+    /// This method performs a Bitwise Xor operation on the two Bytes, storing
+    /// the result in the first Byte.
     ///
     /// # See Also
     ///
-    /// * [`bitand()`](#method.bitand): Perform a Bitwise And operation on the Byte.
-    /// * [`bitor()`](#method.bitor): Perform a Bitwise Or operation on the Byte.
-    /// * [`bitxor()`](#method.bitxor): Perform a Bitwise Xor operation on the Byte.
-    /// * [`bitand_assign()`](#method.bitand_assign): Perform a Bitwise And Assignment operation on the Byte.
-    /// * [`bitor_assign()`](#method.bitor_assign): Perform a Bitwise Or Assignment operation on the Byte.
-    ///
+    /// * [`bitand()`](#method.bitand): Perform a Bitwise And operation on the
+    ///   Byte.
+    /// * [`bitor()`](#method.bitor): Perform a Bitwise Or operation on the
+    ///   Byte.
+    /// * [`bitxor()`](#method.bitxor): Perform a Bitwise Xor operation on the
+    ///   Byte.
+    /// * [`bitand_assign()`](#method.bitand_assign): Perform a Bitwise And
+    ///   Assignment operation on the Byte.
+    /// * [`bitor_assign()`](#method.bitor_assign): Perform a Bitwise Or
+    ///   Assignment operation on the Byte.
     fn bitxor_assign(&mut self, rhs: Self) {
         self.bit_0 ^= rhs.bit_0;
         self.bit_1 ^= rhs.bit_1;
