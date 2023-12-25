@@ -49,6 +49,8 @@
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 // Add the relevant modules
+mod ascii_char;
+mod ascii_table;
 mod bit;
 mod byte;
 mod instruction;
@@ -60,6 +62,8 @@ mod nybble;
 mod program;
 
 // Re-export the useful contents
+pub use ascii_char::AsciiChar;
+pub use ascii_table::AsciiTable;
 pub use bit::Bit;
 pub use byte::Byte;
 pub use instruction::Instruction;

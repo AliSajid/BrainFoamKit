@@ -200,7 +200,7 @@ use crate::{
 ///
 /// * [`Bit`](crate::Bit): A single bit.
 /// * [`Nybble`](crate::Nybble): A 4-bit unsigned integer (u4).
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct Byte {
     bit_0: Bit,
     bit_1: Bit,

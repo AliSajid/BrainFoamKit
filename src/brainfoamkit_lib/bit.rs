@@ -137,7 +137,7 @@ use std::{
 ///
 /// * [`Nybble`](crate::Nybble): A 4-bit value composed of 4 Bits.
 /// * [`Byte`](crate::Byte): An 8-bit value composed of 8 Bits.
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum Bit {
     /// The zero variant of the Bit Enum.
     /// Represents the value 0 or the Off state.
