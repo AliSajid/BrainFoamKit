@@ -49,27 +49,11 @@
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 use std::{
-    fmt::{
-        self,
-        Display,
-        Formatter,
-    },
-    ops::{
-        BitAnd,
-        BitAndAssign,
-        BitOr,
-        BitOrAssign,
-        BitXor,
-        BitXorAssign,
-        Not,
-    },
+    fmt::{self, Display, Formatter},
+    ops::{BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Not},
 };
 
-use crate::{
-    Bit,
-    IterableByte,
-    Nybble,
-};
+use crate::{Bit, IterableByte, Nybble};
 
 /// A Byte is an 8-bit unsigned integer (u8).
 ///
@@ -893,7 +877,7 @@ impl Byte {
     /// # Examples
     ///
     /// ```
-    /// 
+    ///
     /// use brainfoamkit_lib::Byte;
     ///
     ///

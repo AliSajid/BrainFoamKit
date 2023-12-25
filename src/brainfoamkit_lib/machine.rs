@@ -48,12 +48,7 @@
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-use crate::{
-    Byte,
-    Instruction,
-    Program,
-    VirtualMachineBuilder,
-};
+use crate::{Byte, Instruction, Program, VirtualMachineBuilder};
 
 /// `VirtualMachine` is a struct representing a Virtual Machine capable of
 /// interpreting a `BrainFuck` program and tracking its state.
@@ -79,9 +74,9 @@ use crate::{
 /// ```
 #[allow(clippy::module_name_repetitions)]
 pub struct VirtualMachine {
-    tape:            Vec<Byte>,
-    program:         Program,
-    memory_pointer:  usize,
+    tape: Vec<Byte>,
+    program: Program,
+    memory_pointer: usize,
     program_counter: usize,
 }
 

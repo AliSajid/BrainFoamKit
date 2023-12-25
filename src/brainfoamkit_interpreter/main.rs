@@ -49,11 +49,8 @@
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 use prettytable::{
-    format::{
-        self,
-    },
-    row,
-    Table,
+    format::{self},
+    row, Table,
 };
 
 fn main() {

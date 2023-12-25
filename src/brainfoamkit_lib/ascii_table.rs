@@ -50,10 +50,7 @@
 
 use std::collections::HashMap;
 
-use crate::{
-    AsciiChar,
-    Byte,
-};
+use crate::{AsciiChar, Byte};
 
 /// Represents a table of ASCII characters.
 ///

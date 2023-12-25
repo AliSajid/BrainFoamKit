@@ -49,10 +49,7 @@
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 mod utilities;
-use anyhow::{
-    Context,
-    Result,
-};
+use anyhow::{Context, Result};
 
 /// This is a bare minimum example. There are many approaches to running an
 /// application loop, so this is not meant to be prescriptive. It is only meant

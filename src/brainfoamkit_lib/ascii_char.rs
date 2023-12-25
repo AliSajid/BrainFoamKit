@@ -202,10 +202,10 @@ use crate::Byte;
 /// * [ASCII Table and Description](https://www.cs.cmu.edu/~pattis/15-1XX/common/handouts/ascii.html)
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct AsciiChar {
-    binary_value:          Byte,
-    character_code:        String,
+    binary_value: Byte,
+    character_code: String,
     character_description: String,
-    character_value:       String,
+    character_value: String,
 }
 
 impl AsciiChar {
