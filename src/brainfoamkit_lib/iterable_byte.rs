@@ -48,7 +48,10 @@
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-use crate::{Bit, Byte};
+use crate::{
+    Bit,
+    Byte,
+};
 
 /// An iterator over a byte
 ///
@@ -86,7 +89,7 @@ use crate::{Bit, Byte};
 /// * [`Nybble`](crate::Nybble)
 /// * [`IterableNybble`](crate::IterableNybble)
 pub struct IterableByte<'a> {
-    byte: &'a Byte,
+    byte:          &'a Byte,
     current_index: u8,
 }
 

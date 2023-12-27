@@ -20,40 +20,40 @@ use_try_shorthand = true
 
 # Unstable options as of v1.6.0
 
-# ## Enforce colored output
-# color = "Always"
+## Enforce colored output
+color = "Always"
 
-# ## Configure comments
-# wrap_comments = true
-# comment_width = 80
-# normalize_comments = true
+## Configure comments
+wrap_comments = true
+comment_width = 80
+normalize_comments = true
 
-# ## Allow aligning of Enum Variants
-# enum_discrim_align_threshold = 20
+## Allow aligning of Enum Variants
+enum_discrim_align_threshold = 20
 
-# ## Format code in Doc Comments
-# doc_comment_code_block_width = 80
-# format_code_in_doc_comments = true
+## Format code in Doc Comments
+doc_comment_code_block_width = 80
+format_code_in_doc_comments = true
 
-# ## Enforce string length limits
-# format_strings = true
+## Enforce string length limits
+format_strings = true
 
-# ## Imports Formatting
-# imports_indent = "Block"
-# imports_layout = "Vertical"
-# imports_granularity = "Crate"
-# reorder_imports = true
-# group_imports = "StdExternalCrate"
+## Imports Formatting
+imports_indent = "Block"
+imports_layout = "Vertical"
+imports_granularity = "Crate"
+reorder_imports = true
+group_imports = "StdExternalCrate"
 
-# ## Styling
-# indent_style = "Block"
+## Styling
+indent_style = "Block"
 
-# ## Impl styles
-# reorder_impl_items = true
+## Impl styles
+reorder_impl_items = true
 
-# ## Module reordering
-# reorder_modules = true
+## Module reordering
+reorder_modules = true
 
-# ## Struct formating
-# struct_field_align_threshold = 20
-# struct_lit_single_line = true
+## Struct formating
+struct_field_align_threshold = 20
+struct_lit_single_line = true

@@ -49,11 +49,26 @@
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 use std::{
-    fmt::{self, Display, Formatter},
-    ops::{BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Not},
+    fmt::{
+        self,
+        Display,
+        Formatter,
+    },
+    ops::{
+        BitAnd,
+        BitAndAssign,
+        BitOr,
+        BitOrAssign,
+        BitXor,
+        BitXorAssign,
+        Not,
+    },
 };
 
-use crate::{Bit, IterableNybble};
+use crate::{
+    Bit,
+    IterableNybble,
+};
 
 /// A Nybble is a 4-bit unsigned integer (u4).
 ///

@@ -73,7 +73,7 @@ jobs:
               run: cargo test
 
             - name: Cargo Format
-              run: cargo fmt --all -- --check
+              run: cargo +nightly fmt --all -- --check
 
             - name: Cargo Lint
               run: cargo clippy -- -D warnings

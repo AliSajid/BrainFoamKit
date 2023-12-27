@@ -49,17 +49,35 @@
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 use std::{
-    io::{self, Stdout},
+    io::{
+        self,
+        Stdout,
+    },
     time::Duration,
 };
 
-use anyhow::{Context, Result};
-use crossterm::{
-    event::{self, Event, KeyCode},
-    execute,
-    terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
+use anyhow::{
+    Context,
+    Result,
 };
-use ratatui::{prelude::*, widgets::Paragraph};
+use crossterm::{
+    event::{
+        self,
+        Event,
+        KeyCode,
+    },
+    execute,
+    terminal::{
+        disable_raw_mode,
+        enable_raw_mode,
+        EnterAlternateScreen,
+        LeaveAlternateScreen,
+    },
+};
+use ratatui::{
+    prelude::*,
+    widgets::Paragraph,
+};
 
 /// Setup the terminal. This is where you would enable raw mode, enter the
 /// alternate screen, and hide the cursor. This example does not handle errors.

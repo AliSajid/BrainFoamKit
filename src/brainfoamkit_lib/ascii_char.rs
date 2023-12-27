@@ -202,10 +202,10 @@ use crate::Byte;
 /// * [ASCII Table and Description](https://www.cs.cmu.edu/~pattis/15-1XX/common/handouts/ascii.html)
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct AsciiChar {
-    binary_value: Byte,
-    character_code: String,
+    binary_value:          Byte,
+    character_code:        String,
     character_description: String,
-    character_value: String,
+    character_value:       String,
 }
 
 impl AsciiChar {
@@ -720,7 +720,7 @@ mod tests {
     fn test_ascii_char_is_control() {
         let ascii_char: AsciiChar = AsciiChar::new(Byte::from_u8(0), "NUL", "Null character", "\0");
 
-        assert_eq!(ascii_char.is_control(), true);
+        assert!(ascii_char.is_control());
     }
 
     #[test]
@@ -731,11 +731,11 @@ mod tests {
         let dig1: AsciiChar = AsciiChar::new(Byte::from_u8(49), "DIG1", "Digit one", "1");
         let sp: AsciiChar = AsciiChar::new(Byte::from_u8(32), "SP", "Space", " ");
 
-        assert_eq!(lca.is_printable(), true);
-        assert_eq!(uca.is_printable(), true);
-        assert_eq!(symat.is_printable(), true);
-        assert_eq!(dig1.is_printable(), true);
-        assert_eq!(sp.is_printable(), true);
+        assert!(lca.is_printable());
+        assert!(uca.is_printable());
+        assert!(symat.is_printable());
+        assert!(dig1.is_printable());
+        assert!(sp.is_printable());
     }
 
     #[test]
@@ -743,14 +743,14 @@ mod tests {
         let ascii_char: AsciiChar =
             AsciiChar::new(Byte::from_u8(9), "CTAB", "Horizontal tab", "\t");
 
-        assert_eq!(ascii_char.is_whitespace(), true);
+        assert!(ascii_char.is_whitespace());
     }
 
     #[test]
     fn test_ascii_char_is_digit() {
         let ascii_char: AsciiChar = AsciiChar::new(Byte::from_u8(49), "DIG1", "Digit one", "1");
 
-        assert_eq!(ascii_char.is_digit(), true);
+        assert!(ascii_char.is_digit());
     }
 
     #[test]
@@ -758,8 +758,8 @@ mod tests {
         let lca: AsciiChar = AsciiChar::new(Byte::from_u8(97), "LCA", "Lowercase letter a", "a");
         let uca: AsciiChar = AsciiChar::new(Byte::from_u8(65), "UCA", "Uppercase letter a", "A");
 
-        assert_eq!(lca.is_letter(), true);
-        assert_eq!(uca.is_letter(), true);
+        assert!(lca.is_letter());
+        assert!(uca.is_letter());
     }
 
     #[test]
@@ -767,9 +767,9 @@ mod tests {
         let ascii_char: AsciiChar =
             AsciiChar::new(Byte::from_u8(65), "UCA", "Uppercase letter a", "A");
 
-        assert_eq!(ascii_char.is_uppercase(), true);
-        assert_eq!(ascii_char.is_lowercase(), false);
-        assert_eq!(ascii_char.is_letter(), true);
+        assert!(ascii_char.is_uppercase());
+        assert!(!ascii_char.is_lowercase());
+        assert!(ascii_char.is_letter());
     }
 
     #[test]
@@ -777,15 +777,15 @@ mod tests {
         let ascii_char: AsciiChar =
             AsciiChar::new(Byte::from_u8(97), "LCA", "Lowercase letter a", "a");
 
-        assert_eq!(ascii_char.is_lowercase(), true);
-        assert_eq!(ascii_char.is_uppercase(), false);
-        assert_eq!(ascii_char.is_letter(), true);
+        assert!(ascii_char.is_lowercase());
+        assert!(!ascii_char.is_uppercase());
+        assert!(ascii_char.is_letter());
     }
 
     #[test]
     fn test_ascii_char_is_symbol() {
         let ascii_char: AsciiChar = AsciiChar::new(Byte::from_u8(64), "SYMAT", "Symbol At", "@");
 
-        assert_eq!(ascii_char.is_symbol(), true);
+        assert!(ascii_char.is_symbol());
     }
 }

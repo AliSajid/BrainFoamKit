@@ -48,12 +48,15 @@
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-use crate::{Program, VirtualMachine};
+use crate::{
+    Program,
+    VirtualMachine,
+};
 
 #[derive(Default)]
 #[allow(clippy::module_name_repetitions)]
 pub struct VirtualMachineBuilder {
-    program: Option<Program>,
+    program:   Option<Program>,
     tape_size: Option<usize>,
 }
 
@@ -61,7 +64,7 @@ impl VirtualMachineBuilder {
     #[must_use]
     pub const fn new() -> Self {
         Self {
-            program: None,
+            program:   None,
             tape_size: None,
         }
     }

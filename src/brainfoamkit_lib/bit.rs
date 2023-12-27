@@ -49,8 +49,20 @@
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 use std::{
-    fmt::{self, Display, Formatter},
-    ops::{BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Not},
+    fmt::{
+        self,
+        Display,
+        Formatter,
+    },
+    ops::{
+        BitAnd,
+        BitAndAssign,
+        BitOr,
+        BitOrAssign,
+        BitXor,
+        BitXorAssign,
+        Not,
+    },
 };
 
 /// Representation of a single bit.
