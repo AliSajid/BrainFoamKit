@@ -53,14 +53,56 @@ use crate::{
     VirtualMachine,
 };
 
+/// `VirtualMachineBuilder` is a builder for the `VirtualMachine` struct.
+///
+/// This builder allows you to set the `program` and `tape_size` for a
+/// `VirtualMachine` before building it. Both `program` and `tape_size` are
+/// optional. If they're not provided, the `VirtualMachine` will be initialized
+/// with default values.
+///
+/// # Examples
+///
+/// ```
+/// use brainfoamkit_lib::{
+///     Program,
+///     VirtualMachineBuilder,
+/// };
+/// let program = Program::default();
+/// let vm = VirtualMachineBuilder::default()
+///     .program(program)
+///     .tape_size(1024)
+///     .build();
+/// ```
 #[derive(Default)]
 #[allow(clippy::module_name_repetitions)]
 pub struct VirtualMachineBuilder {
-    program:   Option<Program>,
+    /// The program that the `VirtualMachine` will execute. If not provided,
+    /// the `VirtualMachine` will be initialized with a default program.
+    program: Option<Program>,
+
+    /// The size of the tape for the `VirtualMachine`. If not provided,
+    /// the `VirtualMachine` will be initialized with a default tape size.
     tape_size: Option<usize>,
 }
 
 impl VirtualMachineBuilder {
+    /// Creates a new `VirtualMachineBuilder` with default values.
+    ///
+    /// This function returns a new `VirtualMachineBuilder` with `program` and
+    /// `tape_size` set to `None`. These values can be set later using the
+    /// builder's methods.
+    ///
+    /// # Returns
+    ///
+    /// A new `VirtualMachineBuilder` with default values.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::VirtualMachineBuilder;
+    ///
+    /// let builder = VirtualMachineBuilder::new();
+    /// ```
     #[must_use]
     pub const fn new() -> Self {
         Self {
@@ -187,5 +229,12 @@ mod tests {
             Program::from_string("++++++[>++++++++++<-]>+++++.")
         );
         assert_eq!(vm.tape_size(), 100);
+    }
+
+    #[test]
+    fn test_default() {
+        let vm = VirtualMachine::builder().build();
+        assert_eq!(vm.program(), Program::default());
+        assert_eq!(vm.tape_size(), 30000);
     }
 }
