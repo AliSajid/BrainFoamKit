@@ -63,6 +63,9 @@ jobs:
                   toolchain: ${{matrix.rust}}
                   components: rustfmt, clippy
 
+            - name: Install nightly Rust
+              uses: dtolnay/rust-toolchain@nightly
+
             - name: Cache dependencies
               uses: Swatinem/rust-cache@6fd3edff6979b79f87531400ad694fb7f2c84b1f # v2.2.1
 
