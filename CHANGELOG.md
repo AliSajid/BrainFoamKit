@@ -1,3 +1,10 @@
+## [1.0.0-alpha.11](https://github.com/AliSajid/BrainFoamKit/compare/v1.0.0-alpha.10...v1.0.0-alpha.11) (2023-12-27)
+
+
+### Bug Fixes
+
+* update the pacakge list for the gitpod dockerfile ([cd9bd25](https://github.com/AliSajid/BrainFoamKit/commit/cd9bd255173b7cc2d44c60ab1b4a643d1dcb2694))
+
 ## [1.0.0-alpha.8](https://github.com/AliSajid/BrainFoamKit/compare/v1.0.0-alpha.7...v1.0.0-alpha.8) (2023-08-26)
 
 
