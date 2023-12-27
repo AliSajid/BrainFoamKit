@@ -936,7 +936,7 @@ impl Byte {
     }
 
     /// Create an iterator over the Byte.
-    /// This allows the use of the `for` loop on the Nybble.
+    /// This allows the use of the `for` loop on the `Byte`.
     ///
     /// # Examples
     ///
@@ -1392,6 +1392,29 @@ impl BitXorAssign for Byte {
         self.bit_5 ^= rhs.bit_5;
         self.bit_6 ^= rhs.bit_6;
         self.bit_7 ^= rhs.bit_7;
+    }
+}
+
+/// `IntoIterator` implementation for a reference to a `Byte`.
+///
+/// This implementation allows a `Byte` reference to be converted into an
+/// iterator. The iterator will yield `Bit` items.
+impl<'a> IntoIterator for &'a Byte {
+    /// The type of the iterator that will be returned. It's an `IterableByte`
+    /// with the same lifetime as the `Byte` reference.
+    type IntoIter = IterableByte<'a>;
+    /// The type of the items that will be returned when iterating over the
+    /// `Byte` reference. In this case, it's a `Bit`.
+    type Item = Bit;
+
+    /// Converts the `Byte` reference into an `IterableByte` iterator.
+    ///
+    /// # Returns
+    ///
+    /// An `IterableByte` iterator with the same lifetime as the `Byte`
+    /// reference.
+    fn into_iter(self) -> Self::IntoIter {
+        self.iter()
     }
 }
 
@@ -1902,5 +1925,39 @@ mod tests {
         assert_eq!(iter.next(), Some(Bit::Zero)); // sixth Bit
         assert_eq!(iter.next(), Some(Bit::One));
         assert_eq!(iter.next(), None);
+    }
+
+    #[test]
+    fn test_into_iter() {
+        let byte = Byte::from_u8(0b10101010); // Assuming Byte::from_u8 exists
+        let mut iter = (&byte).into_iter();
+
+        // Assuming Bit is an enum with variants Zero and One
+        assert_eq!(iter.next(), Some(Bit::Zero));
+        assert_eq!(iter.next(), Some(Bit::One));
+        assert_eq!(iter.next(), Some(Bit::Zero));
+        assert_eq!(iter.next(), Some(Bit::One));
+        assert_eq!(iter.next(), Some(Bit::Zero));
+        assert_eq!(iter.next(), Some(Bit::One));
+        assert_eq!(iter.next(), Some(Bit::Zero));
+        assert_eq!(iter.next(), Some(Bit::One));
+        assert_eq!(iter.next(), None); // Ensure the iterator is exhausted
+    }
+
+    #[test]
+    fn test_into_iter_empty_byte() {
+        let byte = Byte::from_u8(0b00000000); // Assuming Byte::from_u8 exists
+        let mut iter = (&byte).into_iter();
+
+        // Assuming Bit is an enum with variants Zero and One
+        assert_eq!(iter.next(), Some(Bit::Zero));
+        assert_eq!(iter.next(), Some(Bit::Zero));
+        assert_eq!(iter.next(), Some(Bit::Zero));
+        assert_eq!(iter.next(), Some(Bit::Zero));
+        assert_eq!(iter.next(), Some(Bit::Zero));
+        assert_eq!(iter.next(), Some(Bit::Zero));
+        assert_eq!(iter.next(), Some(Bit::Zero));
+        assert_eq!(iter.next(), Some(Bit::Zero));
+        assert_eq!(iter.next(), None); // Ensure the iterator is exhausted
     }
 }

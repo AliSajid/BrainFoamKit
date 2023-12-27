@@ -59,6 +59,11 @@ use crate::{
 /// for `Byte`. This allows us to map and/or loop over all the `Bit`s
 /// in the `Byte`.
 ///
+/// This iterator iterates from the Least Significant Bit (LSB) to the
+/// Most Significant Bit (MSB). This means that the first `Bit` returned
+/// is the last `Bit` in the `Byte` and the last `Bit` returned is the
+/// first `Bit` in the `Byte`.
+///
 /// # Examples
 ///
 /// ```
