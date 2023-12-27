@@ -1219,6 +1219,29 @@ impl BitXorAssign for Nybble {
     }
 }
 
+/// `IntoIterator` implementation for a reference to a `Nybble`.
+///
+/// This implementation allows a `Nybble` reference to be converted into an
+/// iterator. The iterator will yield `Bit` items.
+impl<'a> IntoIterator for &'a Nybble {
+    /// The type of the iterator that will be returned. It's an `IterableNybble`
+    /// with the same lifetime as the `Nybble` reference.
+    type IntoIter = IterableNybble<'a>;
+    /// The type of the items that will be returned when iterating over the
+    /// `Nybble` reference. In this case, it's a `Bit`.
+    type Item = Bit;
+
+    /// Converts the `Nybble` reference into an `IterableNybble` iterator.
+    ///
+    /// # Returns
+    ///
+    /// An `IterableNybble` iterator with the same lifetime as the `Nybble`
+    /// reference.
+    fn into_iter(self) -> Self::IntoIter {
+        self.iter()
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1435,5 +1458,31 @@ mod tests {
         nybble.decrement();
         assert_eq!(nybble.to_u8(), 0);
         assert_eq!(nybble.to_string(), "0x0");
+    }
+
+    #[test]
+    fn test_into_iter() {
+        let byte = Nybble::from_u8(0b1010); // Assuming Byte::from_u8 exists
+        let mut iter = (&byte).into_iter();
+
+        // Assuming Bit is an enum with variants Zero and One
+        assert_eq!(iter.next(), Some(Bit::Zero));
+        assert_eq!(iter.next(), Some(Bit::One));
+        assert_eq!(iter.next(), Some(Bit::Zero));
+        assert_eq!(iter.next(), Some(Bit::One));
+        assert_eq!(iter.next(), None); // Ensure the iterator is exhausted
+    }
+
+    #[test]
+    fn test_into_iter_empty_byte() {
+        let byte = Nybble::from_u8(0b0000); // Assuming Byte::from_u8 exists
+        let mut iter = (&byte).into_iter();
+
+        // Assuming Bit is an enum with variants Zero and One
+        assert_eq!(iter.next(), Some(Bit::Zero));
+        assert_eq!(iter.next(), Some(Bit::Zero));
+        assert_eq!(iter.next(), Some(Bit::Zero));
+        assert_eq!(iter.next(), Some(Bit::Zero));
+        assert_eq!(iter.next(), None); // Ensure the iterator is exhausted
     }
 }
