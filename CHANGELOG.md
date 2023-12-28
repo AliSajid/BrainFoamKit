@@ -1,3 +1,10 @@
+## [1.0.0-alpha.13](https://github.com/AliSajid/BrainFoamKit/compare/v1.0.0-alpha.12...v1.0.0-alpha.13) (2023-12-28)
+
+
+### Bug Fixes
+
+* **VirtualMachine:** update `increment_value()` and `decrement_value()` to do in-place mutation ([822b8cb](https://github.com/AliSajid/BrainFoamKit/commit/822b8cb89fcce0fab0ca0ce467ffd8da1fade07a))
+
 ## [1.0.0-alpha.12](https://github.com/AliSajid/BrainFoamKit/compare/v1.0.0-alpha.11...v1.0.0-alpha.12) (2023-12-28)
 
 
