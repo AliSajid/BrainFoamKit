@@ -727,17 +727,61 @@ mod test {
     fn test_ascii_table_get() {
         let ascii_table = AsciiTable::new();
 
+        // Test that the 'get' method returns the correct AsciiChar for a given Byte
+        // value
         assert_eq!(
-            ascii_table.get(Byte::from_u8(0)).unwrap().character_code(),
-            "CNUL"
+            ascii_table.get(Byte::from_u8(97)).unwrap().character_code(),
+            "LCLA",
+            "Character code for Byte value 97 should be 'LCLA'"
         );
         assert_eq!(
-            ascii_table.get(Byte::from_u8(1)).unwrap().character_code(),
-            "CSOH"
+            ascii_table.get(Byte::from_u8(98)).unwrap().character_code(),
+            "LCLB",
+            "Character code for Byte value 98 should be 'LCLB'"
         );
         assert_eq!(
-            ascii_table.get(Byte::from_u8(2)).unwrap().character_code(),
-            "CSTX"
+            ascii_table.get(Byte::from_u8(99)).unwrap().character_code(),
+            "LCLC",
+            "Character code for Byte value 99 should be 'LCLC'"
+        );
+
+        // Test that the 'get' method returns None for a Byte value that does not
+        // correspond to an AsciiChar
+        assert_eq!(
+            ascii_table.get(Byte::from_u8(128)),
+            None,
+            "There should be no AsciiChar for Byte value 128"
+        );
+    }
+
+    #[test]
+    fn test_ascii_table_default() {
+        let ascii_table = AsciiTable::default();
+
+        // Test that the 'default' method returns an AsciiTable with the correct
+        // AsciiChar values
+        assert_eq!(
+            ascii_table.get(Byte::from_u8(97)).unwrap().character_code(),
+            "LCLA",
+            "Character code for Byte value 97 should be 'LCLA'"
+        );
+        assert_eq!(
+            ascii_table.get(Byte::from_u8(98)).unwrap().character_code(),
+            "LCLB",
+            "Character code for Byte value 98 should be 'LCLB'"
+        );
+        assert_eq!(
+            ascii_table.get(Byte::from_u8(99)).unwrap().character_code(),
+            "LCLC",
+            "Character code for Byte value 99 should be 'LCLC'"
+        );
+
+        // Test that the 'get' method returns None for a Byte value that does not
+        // correspond to an AsciiChar
+        assert_eq!(
+            ascii_table.get(Byte::from_u8(128)),
+            None,
+            "There should be no AsciiChar for Byte value 128"
         );
     }
 }
