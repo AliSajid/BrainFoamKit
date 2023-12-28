@@ -86,7 +86,7 @@ pub struct VirtualMachine {
 }
 
 #[allow(dead_code)]
-#[allow(clippy::len_without_is_empty)] // FIXME - Add an `is_empty` method
+#[allow(clippy::len_without_is_empty)]
 impl VirtualMachine {
     pub(crate) fn new(
         tape_size: usize,
@@ -102,7 +102,7 @@ impl VirtualMachine {
         }
     }
 
-    /// Return the length of the "memory" or the `tap_size` of the
+    /// Return the length of the "memory" or the `tape_size` of the
     /// `VirtualMachine`.
     ///
     /// This method is an alias for the [`length`](#method.length) method.
