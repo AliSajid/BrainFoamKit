@@ -340,13 +340,11 @@ impl VirtualMachine {
     }
 
     fn increment_value(&mut self) {
-        let mut value = self.tape[self.memory_pointer];
-        value.increment();
+        self.tape[self.memory_pointer].increment();
     }
 
     fn decrement_value(&mut self) {
-        let mut value = self.tape[self.memory_pointer];
-        value.decrement();
+        self.tape[self.memory_pointer].decrement();
     }
 
     fn output_value(&mut self) {
@@ -399,34 +397,71 @@ mod tests {
 
     #[test]
     fn test_machine_execute_instruction() {
-        let instructions = vec![
+        let program = Program::from(vec![
             Instruction::IncrementPointer,
-            Instruction::DecrementPointer,
             Instruction::IncrementValue,
             Instruction::DecrementValue,
-            // Instruction::OutputValue,
-            // Instruction::InputValue,
-            // Instruction::JumpForward,
-            // Instruction::JumpBackward,
-            Instruction::NoOp,
-        ];
-        let program = Program::from(instructions);
+            Instruction::DecrementPointer,
+        ]);
         let mut machine = VirtualMachine::builder().program(program).build();
+
         machine.execute_instruction();
-        assert_eq!(machine.memory_pointer, 1);
+        assert_eq!(
+            machine.memory_pointer(),
+            1,
+            "Memory pointer should be incremented"
+        );
+        assert_eq!(
+            machine.program_counter(),
+            1,
+            "Program counter should be incremented"
+        );
+
         machine.execute_instruction();
-        assert_eq!(machine.memory_pointer, 0);
+        assert_eq!(
+            machine.tape[1],
+            Byte::from_u8(0b0000_0001),
+            "Value at memory pointer should be incremented"
+        );
+        assert_eq!(
+            machine.memory_pointer(),
+            1,
+            "Memory pointer should not be changed"
+        );
+        assert_eq!(
+            machine.program_counter(),
+            2,
+            "Program counter should be incremented"
+        );
+
         machine.execute_instruction();
-        assert_eq!(machine.tape[0], Byte::default());
+        assert_eq!(
+            machine.tape[1],
+            Byte::from_u8(0),
+            "Value at memory pointer should be decremented"
+        );
+        assert_eq!(
+            machine.memory_pointer(),
+            1,
+            "Memory pointer should not be decremented"
+        );
+        assert_eq!(
+            machine.program_counter(),
+            3,
+            "Program counter should be incremented"
+        );
+
         machine.execute_instruction();
-        assert_eq!(machine.tape[0], Byte::default());
-        machine.execute_instruction();
-        machine.execute_instruction();
-        machine.execute_instruction();
-        machine.execute_instruction();
-        machine.execute_instruction();
-        machine.execute_instruction();
-        machine.execute_instruction();
+        assert_eq!(
+            machine.memory_pointer(),
+            0,
+            "Memory pointer should be decremented"
+        );
+        assert_eq!(
+            machine.program_counter(),
+            4,
+            "Program counter should be incremented"
+        );
     }
 
     #[test]
@@ -446,6 +481,52 @@ mod tests {
             machine.program_counter(),
             0,
             "Program counter should be initialized to 0"
+        );
+    }
+
+    #[test]
+    fn test_increment_pointer() {
+        let mut machine = VirtualMachine::default();
+        machine.increment_pointer();
+        assert_eq!(
+            machine.memory_pointer(),
+            1,
+            "Memory pointer should be incremented"
+        );
+    }
+
+    #[test]
+    fn test_decrement_pointer() {
+        let mut machine = VirtualMachine::new(100, Program::default(), 1, 0);
+        machine.decrement_pointer();
+        assert_eq!(
+            machine.memory_pointer(),
+            0,
+            "Memory pointer should be decremented"
+        );
+    }
+
+    #[test]
+    fn test_increment_value() {
+        let mut machine = VirtualMachine::default();
+        let increment_result = Byte::from_u8(1);
+
+        machine.increment_value();
+        assert_eq!(
+            machine.tape[0], increment_result,
+            "Value at memory pointer should be incremented"
+        );
+    }
+
+    #[test]
+    fn test_decrement_value() {
+        let mut machine = VirtualMachine::default();
+        machine.tape[0] = Byte::from_u8(1);
+        machine.decrement_value();
+        assert_eq!(
+            machine.tape[0],
+            Byte::from_u8(0),
+            "Value at memory pointer should be decremented"
         );
     }
 
