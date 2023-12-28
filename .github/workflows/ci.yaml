@@ -63,6 +63,12 @@ jobs:
                   toolchain: ${{matrix.rust}}
                   components: rustfmt, clippy
 
+            - name: Install nightly Rust
+              uses: dtolnay/rust-toolchain@nightly
+              with:
+                  toolchain: nightly
+                  components: rustfmt, clippy
+
             - name: Cache dependencies
               uses: Swatinem/rust-cache@6fd3edff6979b79f87531400ad694fb7f2c84b1f # v2.2.1
 
@@ -73,7 +79,7 @@ jobs:
               run: cargo test
 
             - name: Cargo Format
-              run: cargo fmt --all -- --check
+              run: cargo +nightly fmt --all -- --check
 
             - name: Cargo Lint
               run: cargo clippy -- -D warnings

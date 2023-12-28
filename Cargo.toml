@@ -1,6 +1,6 @@
 [package]
 name = "brainfoamkit"
-version = "1.0.0-alpha.8"
+version = "1.0.0-alpha.13"
 edition = "2021"
 readme = "README.md"
 description = "An interpreter for the brainf*** language"
@@ -22,9 +22,10 @@ name = "bfkrun"
 path = "src/brainfoamkit_interpreter/main.rs"
 
 [dependencies]
-anyhow = { version = "1.0.72", features = ["backtrace"] }
+anyhow = { version = "1.0.77", features = ["backtrace"] }
 crossterm = "0.27.0"
-ratatui = { version = "0.23.0", features = ["all-widgets"] }
+prettytable-rs = "0.10.0"
+ratatui = { version = "0.25.0", features = ["all-widgets"] }
 
 
 [profile.dev]

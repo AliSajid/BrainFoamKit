@@ -9,8 +9,10 @@ branches:
 
 plugins:
 -   '@semantic-release/commit-analyzer'
--   '@semantic-release/release-notes-generator'
--   '@semantic-release/changelog'
+-   - '@semantic-release/changelog'
+    - changelogFile: CHANGELOG.md
+-   -   '@semantic-release/release-notes-generator'
+    -   preset: conventionalcommits
 -   -   '@semantic-release/github'
     -   assets:
         -   path: dist/aarch64-apple-darwin/bfkview-aarch64-apple-darwin
@@ -65,7 +67,3 @@ plugins:
         -   Cargo.lock
         -   CHANGELOG.md
         message: 'chore(release): ${nextRelease.version} [skip ci]'
-
-generateNotes:
--   path: '@semantic-release/release-notes-generator'
-    preset: conventionalcommits

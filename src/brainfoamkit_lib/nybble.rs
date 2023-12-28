@@ -11,7 +11,7 @@
 // * you may not use this file except in compliance with the License.
 // * You may obtain a copy of the License at
 // *
-// *     http://www.apache.org/licenses/LICENSE-2.0
+// * http://www.apache.org/licenses/LICENSE-2.0
 // *
 // * Unless required by applicable law or agreed to in writing, software
 // * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,39 +23,63 @@
 // ** MIT LICENSE
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 // *
-// * Permission is hereby granted, free of charge, to any person obtaining a copy
-// * of this software and associated documentation files (the "Software"), to deal
-// * in the Software without restriction, including without limitation the rights
+// * Permission is hereby granted, free of charge, to any person obtaining a
+// * copy
+// * of this software and associated documentation files (the "Software"), to
+// * deal
+// * in the Software without restriction, including without limitation the
+// * rights
 // * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // * copies of the Software, and to permit persons to whom the Software is
 // * furnished to do so, subject to the following conditions:
 // *
-// * The above copyright notice and this permission notice shall be included in all
+// * The above copyright notice and this permission notice shall be included in
+// * all
 // * copies or substantial portions of the Software.
 // *
 // * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 // * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// * FROM,
+// * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// * THE
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-use crate::{Bit, IterableNybble};
 use std::{
-    fmt::{self, Display, Formatter},
-    ops::{BitAnd, BitAndAssign, BitOr, BitOrAssign, BitXor, BitXorAssign, Not},
+    fmt::{
+        self,
+        Display,
+        Formatter,
+    },
+    ops::{
+        BitAnd,
+        BitAndAssign,
+        BitOr,
+        BitOrAssign,
+        BitXor,
+        BitXorAssign,
+        Not,
+    },
+};
+
+use crate::{
+    Bit,
+    IterableNybble,
 };
 
 /// A Nybble is a 4-bit unsigned integer (u4).
 ///
-/// This is a wrapper around four Bit instances. The least significant bit is `bit_0` and the most significant bit is `bit_3`.
-/// This struct is used to conveniently manipulate 4-bit values.
+/// This is a wrapper around four Bit instances. The least significant bit is
+/// `bit_0` and the most significant bit is `bit_3`. This struct is used to
+/// conveniently manipulate 4-bit values.
 ///
-/// Note that bit instances are stored in reverse (LSB is first, MSB is last) order,
-/// so the least significant bit is `bit_0` and the most significant bit is `bit_3`.
-/// However, the [`new`](#method.new) method takes the bits in the correct (MSB is first, LSB is last) order.
+/// Note that bit instances are stored in reverse (LSB is first, MSB is last)
+/// order, so the least significant bit is `bit_0` and the most significant bit
+/// is `bit_3`. However, the [`new`](#method.new) method takes the bits in the
+/// correct (MSB is first, LSB is last) order.
 ///
 ///
 ///
@@ -64,8 +88,10 @@ use std::{
 /// ## Create a Nybble from primitive Bit values
 ///
 /// ```
-/// use brainfoamkit_lib::Nybble;
-/// use brainfoamkit_lib::Bit;
+/// use brainfoamkit_lib::{
+///     Bit,
+///     Nybble,
+/// };
 ///
 /// let nybble = Nybble::new(Bit::One, Bit::Zero, Bit::One, Bit::Zero);
 /// assert_eq!(nybble.to_u8(), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
@@ -106,19 +132,18 @@ use std::{
 ///
 /// assert_eq!(nybble.to_u8(), 0b0110); // Dec: 6; Hex: 0x6; Oct: 0o6
 /// assert_eq!(nybble.to_string(), "0x6");
-///
 /// ```
 ///
 /// # Panics
 ///
-/// The methods [`set_bit()`](#method.set_bit), [`unset_bit()`](#method.unset_bit)
-/// and [`get_bit()`](#method.get_bit) will panic if the index is out of bounds.
+/// The methods [`set_bit()`](#method.set_bit),
+/// [`unset_bit()`](#method.unset_bit) and [`get_bit()`](#method.get_bit) will
+/// panic if the index is out of bounds.
 ///
 /// # See Also
 ///
 /// * [`Bit`](crate::Bit): The building block of a Nybble.
 /// * [`Byte`](crate::Byte): A Byte is a collection of eight Bits.
-///
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Nybble {
     /// The least significant bit.
@@ -135,7 +160,8 @@ impl Nybble {
     /// Creates a new Nybble instance with the specified Bit values.
     ///
     /// This method takes four Bit instances as arguments.
-    /// The least significant bit is `bit_0` and the most significant bit is `bit_3`.
+    /// The least significant bit is `bit_0` and the most significant bit is
+    /// `bit_3`.
     ///
     /// # Arguments
     ///
@@ -147,8 +173,10 @@ impl Nybble {
     /// # Examples
     ///
     /// ```
-    /// use brainfoamkit_lib::Nybble;
-    /// use brainfoamkit_lib::Bit;
+    /// use brainfoamkit_lib::{
+    ///     Bit,
+    ///     Nybble,
+    /// };
     ///
     /// let nybble = Nybble::new(Bit::One, Bit::Zero, Bit::One, Bit::Zero);
     /// assert_eq!(nybble.to_u8(), 10);
@@ -162,8 +190,8 @@ impl Nybble {
     /// # See Also
     ///
     /// * [`from_u8()`](#method.from_u8): Creates a new Nybble from a u8 value.
-    /// * [`default()`](#method.default): Creates a new Nybble with default (all [`Bit::Zero`](crate::Bit::Zero)) Bit values.
-    ///
+    /// * [`default()`](#method.default): Creates a new Nybble with default (all
+    ///   [`Bit::Zero`](crate::Bit::Zero)) Bit values.
     #[must_use]
     pub const fn new(first: Bit, second: Bit, third: Bit, fourth: Bit) -> Self {
         Self {
@@ -176,7 +204,8 @@ impl Nybble {
 
     /// Creates a new Nybble from a u8 value.
     ///
-    /// This method takes a u8 value as an argument and creates a new Nybble truncating to only the least significant four bits.
+    /// This method takes a u8 value as an argument and creates a new Nybble
+    /// truncating to only the least significant four bits.
     ///
     /// # Arguments
     ///
@@ -206,13 +235,15 @@ impl Nybble {
     ///
     /// # Returns
     ///
-    /// A new Nybble from the specified u8 value, or an all [`Bit::One`](crate::Bit::One) Nybble if the value is larger than 15.
+    /// A new Nybble from the specified u8 value, or an all
+    /// [`Bit::One`](crate::Bit::One) Nybble if the value is larger than 15.
     ///
     /// # See Also
     ///
-    /// * [`new()`](#method.new): Creates a new Nybble with the specified Bit values.
-    /// * [`default()`](#method.default): Creates a new Nybble with default (all [`Bit::Zero`](crate::Bit::Zero)) Bit values.
-    ///
+    /// * [`new()`](#method.new): Creates a new Nybble with the specified Bit
+    ///   values.
+    /// * [`default()`](#method.default): Creates a new Nybble with default (all
+    ///   [`Bit::Zero`](crate::Bit::Zero)) Bit values.
     #[must_use]
     pub fn from_u8(n: u8) -> Self {
         let n = n & 0b0000_1111;
@@ -241,7 +272,8 @@ impl Nybble {
     /// This method is used "Set" the bit value at a given index.
     /// This means that that bit value is set to 1.
     ///
-    /// The index is zero-based, so the least significant bit is at index 0 and the most significant bit is at index 3.
+    /// The index is zero-based, so the least significant bit is at index 0 and
+    /// the most significant bit is at index 3.
     ///
     /// # Arguments
     ///
@@ -250,8 +282,10 @@ impl Nybble {
     /// # Examples
     ///
     /// ```
-    /// use brainfoamkit_lib::Nybble;
-    /// use brainfoamkit_lib::Bit;
+    /// use brainfoamkit_lib::{
+    ///     Bit,
+    ///     Nybble,
+    /// };
     ///
     /// let mut nybble = Nybble::default();
     /// nybble.set_bit(0);
@@ -262,7 +296,8 @@ impl Nybble {
     ///
     /// # Side Effects
     ///
-    /// This method will [set](crate::Bit#method.set) the Bit value at the specified index.
+    /// This method will [set](crate::Bit#method.set) the Bit value at the
+    /// specified index.
     ///
     /// # Panics
     ///
@@ -270,10 +305,12 @@ impl Nybble {
     ///
     /// # See Also
     ///
-    /// * [`unset_bit()`](#method.unset_bit): Unsets the Bit value at the specified index.
-    /// * [`get_bit()`](#method.get_bit): Gets the Bit value at the specified index.
-    /// * [`flip_bit()`](#method.flip_bit): Flips the Bit value at the specified index.
-    ///
+    /// * [`unset_bit()`](#method.unset_bit): Unsets the Bit value at the
+    ///   specified index.
+    /// * [`get_bit()`](#method.get_bit): Gets the Bit value at the specified
+    ///   index.
+    /// * [`flip_bit()`](#method.flip_bit): Flips the Bit value at the specified
+    ///   index.
     pub fn set_bit(&mut self, index: u8) {
         match index {
             0 => self.bit_0.set(),
@@ -289,7 +326,8 @@ impl Nybble {
     /// This method is used "Unset" the bit value at a given index.
     /// This means that that bit value is set to 0.
     ///
-    /// The index is zero-based, so the least significant bit is at index 0 and the most significant bit is at index 3.
+    /// The index is zero-based, so the least significant bit is at index 0 and
+    /// the most significant bit is at index 3.
     ///
     /// # Arguments
     ///
@@ -313,7 +351,8 @@ impl Nybble {
     ///
     /// # Side Effects
     ///
-    /// This method will [unset](crate::Bit#method.unset) the Bit value at the specified index.
+    /// This method will [unset](crate::Bit#method.unset) the Bit value at the
+    /// specified index.
     ///
     /// # Panics
     ///
@@ -321,10 +360,12 @@ impl Nybble {
     ///
     /// # See Also
     ///
-    /// * [`set_bit()`](#method.set_bit): Sets the Bit value at the specified index.
-    /// * [`get_bit()`](#method.get_bit): Gets the Bit value at the specified index.
-    /// * [`flip_bit()`](#method.flip_bit): Flips the Bit value at the specified index.
-    ///
+    /// * [`set_bit()`](#method.set_bit): Sets the Bit value at the specified
+    ///   index.
+    /// * [`get_bit()`](#method.get_bit): Gets the Bit value at the specified
+    ///   index.
+    /// * [`flip_bit()`](#method.flip_bit): Flips the Bit value at the specified
+    ///   index.
     pub fn unset_bit(&mut self, index: u8) {
         match index {
             0 => self.bit_0.unset(),
@@ -357,7 +398,6 @@ impl Nybble {
     ///
     /// * [`from_u8()`](#method.from_u8): Creates a new Nybble from a u8 value.
     /// * [`to_string()`](#method.to_string): Converts the Nybble to a string.
-    ///
     #[must_use]
     pub fn to_u8(&self) -> u8 {
         let mut n = 0;
@@ -375,7 +415,8 @@ impl Nybble {
     ///
     /// This method is used to get the bit value at a given index.
     ///
-    /// The index is zero-based, so the least significant bit is at index 0 and the most significant bit is at index 3.
+    /// The index is zero-based, so the least significant bit is at index 0 and
+    /// the most significant bit is at index 3.
     ///
     /// # Arguments
     ///
@@ -404,10 +445,12 @@ impl Nybble {
     ///
     /// # See Also
     ///
-    /// * [`set_bit()`](#method.set_bit): Sets the Bit value at the specified index.
-    /// * [`unset_bit()`](#method.unset_bit): Unsets the Bit value at the specified index.
-    /// * [`flip_bit()`](#method.flip_bit): Flips the Bit value at the specified index.
-    ///
+    /// * [`set_bit()`](#method.set_bit): Sets the Bit value at the specified
+    ///   index.
+    /// * [`unset_bit()`](#method.unset_bit): Unsets the Bit value at the
+    ///   specified index.
+    /// * [`flip_bit()`](#method.flip_bit): Flips the Bit value at the specified
+    ///   index.
     #[must_use]
     pub fn get_bit(&self, index: u8) -> Bit {
         match index {
@@ -421,9 +464,11 @@ impl Nybble {
 
     /// Get a reference to the Bit value at the specified index.
     ///
-    /// This method is used to get a reference to the bit value at a given index.
+    /// This method is used to get a reference to the bit value at a given
+    /// index.
     ///
-    /// The index is zero-based, so the least significant bit is at index 0 and the most significant bit is at index 3.
+    /// The index is zero-based, so the least significant bit is at index 0 and
+    /// the most significant bit is at index 3.
     ///
     /// # Arguments
     ///
@@ -455,10 +500,12 @@ impl Nybble {
     ///
     /// # See Also
     ///
-    /// * [`set_bit()`](#method.set_bit): Sets the Bit value at the specified index.
-    /// * [`unset_bit()`](#method.unset_bit): Unsets the Bit value at the specified index.
-    /// * [`flip_bit()`](#method.flip_bit): Flips the Bit value at the specified index.
-    ///
+    /// * [`set_bit()`](#method.set_bit): Sets the Bit value at the specified
+    ///   index.
+    /// * [`unset_bit()`](#method.unset_bit): Unsets the Bit value at the
+    ///   specified index.
+    /// * [`flip_bit()`](#method.flip_bit): Flips the Bit value at the specified
+    ///   index.
     #[must_use]
     pub fn get_bit_ref(&self, index: u8) -> &Bit {
         match index {
@@ -473,9 +520,11 @@ impl Nybble {
     /// Flips the Bit value at the specified index.
     ///
     /// This method is used to flip the bit value at a given index.
-    /// This means that that bit value is set to the opposite of its current value.
+    /// This means that that bit value is set to the opposite of its current
+    /// value.
     ///
-    /// The index is zero-based, so the least significant bit is at index 0 and the most significant bit is at index 3.
+    /// The index is zero-based, so the least significant bit is at index 0 and
+    /// the most significant bit is at index 3.
     ///
     /// # Arguments
     ///
@@ -509,14 +558,17 @@ impl Nybble {
     ///
     /// # Side Effects
     ///
-    /// This method will [flip](crate::Bit#method.flip) the Bit value at the specified index.
+    /// This method will [flip](crate::Bit#method.flip) the Bit value at the
+    /// specified index.
     ///
     /// # See Also
     ///
-    /// * [`set_bit()`](#method.set_bit): Sets the Bit value at the specified index.
-    /// * [`unset_bit()`](#method.unset_bit): Unsets the Bit value at the specified index.
-    /// * [`get_bit()`](#method.get_bit): Gets the Bit value at the specified index.
-    ///
+    /// * [`set_bit()`](#method.set_bit): Sets the Bit value at the specified
+    ///   index.
+    /// * [`unset_bit()`](#method.unset_bit): Unsets the Bit value at the
+    ///   specified index.
+    /// * [`get_bit()`](#method.get_bit): Gets the Bit value at the specified
+    ///   index.
     pub fn flip_bit(&mut self, index: u8) {
         match index {
             0 => self.bit_0.flip(),
@@ -530,8 +582,9 @@ impl Nybble {
     /// Flips all of the Bit values in the Nybble.
     ///
     /// This method is used to flip all of the bit values in the Nybble.
-    /// This means that all of the bit values are set to the opposite of their current values.
-    /// This can be used to find the two's complement of a Nybble.
+    /// This means that all of the bit values are set to the opposite of their
+    /// current values. This can be used to find the two's complement of a
+    /// Nybble.
     ///
     /// # Examples
     ///
@@ -555,12 +608,13 @@ impl Nybble {
     ///
     /// # Side Effects
     ///
-    /// This method will [flip](crate::Bit#method.flip) all of the Bit values in the Nybble.
+    /// This method will [flip](crate::Bit#method.flip) all of the Bit values in
+    /// the Nybble.
     ///
     /// # See Also
     ///
-    /// * [`flip_bit()`](#method.flip_bit): Flips the Bit value at the specified index.
-    ///
+    /// * [`flip_bit()`](#method.flip_bit): Flips the Bit value at the specified
+    ///   index.
     pub fn flip(&mut self) {
         self.bit_0.flip();
         self.bit_1.flip();
@@ -571,8 +625,8 @@ impl Nybble {
     /// Increment the Nybble with rollover overflow
     ///
     /// This method increments the value stored in the Nybble.
-    /// This has a rollover for overflow. This means that if we increment past the
-    /// maximum value (15), we will go back to 0.
+    /// This has a rollover for overflow. This means that if we increment past
+    /// the maximum value (15), we will go back to 0.
     ///
     /// # Examples
     ///
@@ -610,7 +664,8 @@ impl Nybble {
     ///
     /// # See Also
     ///
-    /// * [`decrement()`](#method.decrement): Decrements the value stored in the Nybble.
+    /// * [`decrement()`](#method.decrement): Decrements the value stored in the
+    ///   Nybble.
     /// * [`flip()`](#method.flip): Flips all of the Bit values in the Nybble.
     #[allow(clippy::cast_possible_truncation)]
     pub fn increment(&mut self) {
@@ -629,8 +684,8 @@ impl Nybble {
     /// Decrement the Nybble with no rollover
     ///
     /// This method decrements the value stored in the Nybble.
-    /// This has no rollover for underflow. This means that if we decrement past the
-    /// minimum value (0), we will stay at 0.
+    /// This has no rollover for underflow. This means that if we decrement past
+    /// the minimum value (0), we will stay at 0.
     ///
     /// # Examples
     ///
@@ -668,9 +723,9 @@ impl Nybble {
     ///
     /// # See Also
     ///
-    /// * [`increment()`](#method.increment): Increments the value stored in the Nybble.
+    /// * [`increment()`](#method.increment): Increments the value stored in the
+    ///   Nybble.
     /// * [`flip()`](#method.flip): Flips all of the Bit values in the Nybble.
-    ///
     #[allow(clippy::cast_possible_truncation)]
     pub fn decrement(&mut self) {
         // Find the first Bit::One bit from the right
@@ -694,7 +749,7 @@ impl Nybble {
     /// let nybble = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
     ///
     /// for bit in nybble.iter() {
-    ///    println!("{}", bit);
+    ///     println!("{}", bit);
     /// }
     /// ```
     #[must_use]
@@ -724,9 +779,9 @@ impl Display for Nybble {
     ///
     /// # See Also
     ///
-    /// * [`to_u8()`](#method.to_u8): Converts the Nybble to an 8-bit unsigned integer (u8).
+    /// * [`to_u8()`](#method.to_u8): Converts the Nybble to an 8-bit unsigned
+    ///   integer (u8).
     /// * [`from_u8()`](#method.from_u8): Creates a new Nybble from a u8 value.
-    ///
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         write!(f, "{:#03X}", self.to_u8())
     }
@@ -735,7 +790,8 @@ impl Display for Nybble {
 impl Default for Nybble {
     /// Create a _default_ (empty) Nybble.
     ///
-    /// Creates a new Nybble with default (all [`Bit::Zero`](crate::Bit::Zero)) Bit values.
+    /// Creates a new Nybble with default (all [`Bit::Zero`](crate::Bit::Zero))
+    /// Bit values.
     ///
     /// # Examples
     ///
@@ -747,19 +803,20 @@ impl Default for Nybble {
     /// assert_eq!(nybble.to_u8(), 0b0000); // Nybble: 0b0000; Dec: 0; Hex: 0x0; Oct: 0o0
     ///
     /// assert_eq!(nybble.to_string(), "0x0");
-    ///
     /// ```
     ///
     /// # Returns
     ///
-    /// A new Nybble with default (all [`Bit::Zero`](crate::Bit::Zero)) Bit values.
+    /// A new Nybble with default (all [`Bit::Zero`](crate::Bit::Zero)) Bit
+    /// values.
     ///
     /// # See Also
     ///
-    /// * [`new()`](#method.new): Creates a new Nybble with the specified Bit values.
+    /// * [`new()`](#method.new): Creates a new Nybble with the specified Bit
+    ///   values.
     /// * [`from_u8()`](#method.from_u8): Creates a new Nybble from a u8 value.
-    /// * [`to_u8()`](#method.to_u8): Converts the Nybble to an 8-bit unsigned integer (u8).
-    ///
+    /// * [`to_u8()`](#method.to_u8): Converts the Nybble to an 8-bit unsigned
+    ///   integer (u8).
     fn default() -> Self {
         Self::new(Bit::zero(), Bit::zero(), Bit::zero(), Bit::zero())
     }
@@ -797,14 +854,20 @@ impl Not for Nybble {
     /// # See Also
     ///
     /// * [`flip()`](#method.flip): Flips all of the Bit values in the Nybble.
-    /// * [`flip_bit()`](#method.flip_bit): Flips the Bit value at the specified index.
-    /// * [`bitand()`](#method.bitand): Performs the Bitwise And operation on two Nybbles.
-    /// * [`bitor()`](#method.bitor): Performs the Bitwise Or operation on two Nybbles.
-    /// * [`bitxor()`](#method.bitxor): Performs the Bitwise Xor operation on two Nybbles.
-    /// * [`bitand_assign()`](#method.bitand_assign): Performs the Bitwise And operation on two Nybbles and assigns the result to the first Nybble.
-    /// * [`bitor_assign()`](#method.bitor_assign): Performs the Bitwise Or operation on two Nybbles and assigns the result to the first Nybble.
-    /// * [`bitxor_assign()`](#method.bitxor_assign): Performs the Bitwise Xor operation on two Nybbles and assigns the result to the first Nybble.
-    ///
+    /// * [`flip_bit()`](#method.flip_bit): Flips the Bit value at the specified
+    ///   index.
+    /// * [`bitand()`](#method.bitand): Performs the Bitwise And operation on
+    ///   two Nybbles.
+    /// * [`bitor()`](#method.bitor): Performs the Bitwise Or operation on two
+    ///   Nybbles.
+    /// * [`bitxor()`](#method.bitxor): Performs the Bitwise Xor operation on
+    ///   two Nybbles.
+    /// * [`bitand_assign()`](#method.bitand_assign): Performs the Bitwise And
+    ///   operation on two Nybbles and assigns the result to the first Nybble.
+    /// * [`bitor_assign()`](#method.bitor_assign): Performs the Bitwise Or
+    ///   operation on two Nybbles and assigns the result to the first Nybble.
+    /// * [`bitxor_assign()`](#method.bitxor_assign): Performs the Bitwise Xor
+    ///   operation on two Nybbles and assigns the result to the first Nybble.
     fn not(self) -> Self::Output {
         let mut nybble = self;
         nybble.flip();
@@ -843,21 +906,25 @@ impl BitAnd for Nybble {
     ///
     /// assert_eq!(nybble.to_u8(), 0b1000); // Dec: 8; Hex: 0x8; Oct: 0o10
     /// assert_eq!(nybble.to_string(), "0x8");
-    ///
     /// ```
     ///
     /// # Returns
     ///
-    /// A new Nybble with the Bitwise And operation performed on the two Nybbles.
+    /// A new Nybble with the Bitwise And operation performed on the two
+    /// Nybbles.
     ///
     /// # See Also
     ///
-    /// * [`bitor()`](#method.bitor): Performs the Bitwise Or operation on two Nybbles.
-    /// * [`bitxor()`](#method.bitxor): Performs the Bitwise Xor operation on two Nybbles.
-    /// * [`bitand_assign()`](#method.bitand_assign): Performs the Bitwise And operation on two Nybbles and assigns the result to the first Nybble.
-    /// * [`bitor_assign()`](#method.bitor_assign): Performs the Bitwise Or operation on two Nybbles and assigns the result to the first Nybble.
-    /// * [`bitxor_assign()`](#method.bitxor_assign): Performs the Bitwise Xor operation on two Nybbles and assigns the result to the first Nybble.
-    ///
+    /// * [`bitor()`](#method.bitor): Performs the Bitwise Or operation on two
+    ///   Nybbles.
+    /// * [`bitxor()`](#method.bitxor): Performs the Bitwise Xor operation on
+    ///   two Nybbles.
+    /// * [`bitand_assign()`](#method.bitand_assign): Performs the Bitwise And
+    ///   operation on two Nybbles and assigns the result to the first Nybble.
+    /// * [`bitor_assign()`](#method.bitor_assign): Performs the Bitwise Or
+    ///   operation on two Nybbles and assigns the result to the first Nybble.
+    /// * [`bitxor_assign()`](#method.bitxor_assign): Performs the Bitwise Xor
+    ///   operation on two Nybbles and assigns the result to the first Nybble.
     fn bitand(self, rhs: Self) -> Self::Output {
         let mut nybble = self;
         nybble.bit_0 &= rhs.bit_0;
@@ -869,9 +936,11 @@ impl BitAnd for Nybble {
 }
 
 impl BitAndAssign for Nybble {
-    /// Perform the Bitwise And operation on two Nybbles and assigns the result to the first Nybble.
+    /// Perform the Bitwise And operation on two Nybbles and assigns the result
+    /// to the first Nybble.
     ///
-    /// This method performs the Bitwise And operation on two Nybbles and assigns the result to the first Nybble.
+    /// This method performs the Bitwise And operation on two Nybbles and
+    /// assigns the result to the first Nybble.
     ///
     /// # Arguments
     ///
@@ -895,21 +964,25 @@ impl BitAndAssign for Nybble {
     ///
     /// assert_eq!(nybble_1.to_u8(), 0b1000); // Dec: 8; Hex: 0x8; Oct: 0o10
     /// assert_eq!(nybble_1.to_string(), "0x8");
-    ///
     /// ```
     ///
     /// # Side Effects
     ///
-    /// This method will perform the Bitwise And operation on two Nybbles and assign the result to the first Nybble.
+    /// This method will perform the Bitwise And operation on two Nybbles and
+    /// assign the result to the first Nybble.
     ///
     /// # See Also
     ///
-    /// * [`bitand()`](#method.bitand): Performs the Bitwise And operation on two Nybbles.
-    /// * [`bitor()`](#method.bitor): Performs the Bitwise Or operation on two Nybbles.
-    /// * [`bitxor()`](#method.bitxor): Performs the Bitwise Xor operation on two Nybbles.
-    /// * [`bitor_assign()`](#method.bitor_assign): Performs the Bitwise Or operation on two Nybbles and assigns the result to the first Nybble.
-    /// * [`bitxor_assign()`](#method.bitxor_assign): Performs the Bitwise Xor operation on two Nybbles and assigns the result to the first Nybble.
-    ///
+    /// * [`bitand()`](#method.bitand): Performs the Bitwise And operation on
+    ///   two Nybbles.
+    /// * [`bitor()`](#method.bitor): Performs the Bitwise Or operation on two
+    ///   Nybbles.
+    /// * [`bitxor()`](#method.bitxor): Performs the Bitwise Xor operation on
+    ///   two Nybbles.
+    /// * [`bitor_assign()`](#method.bitor_assign): Performs the Bitwise Or
+    ///   operation on two Nybbles and assigns the result to the first Nybble.
+    /// * [`bitxor_assign()`](#method.bitxor_assign): Performs the Bitwise Xor
+    ///   operation on two Nybbles and assigns the result to the first Nybble.
     fn bitand_assign(&mut self, rhs: Self) {
         self.bit_0 &= rhs.bit_0;
         self.bit_1 &= rhs.bit_1;
@@ -948,7 +1021,6 @@ impl BitOr for Nybble {
     ///
     /// assert_eq!(nybble.to_u8(), 0b1110); // Dec: 14; Hex: 0xE; Oct: 0o16
     /// assert_eq!(nybble.to_string(), "0xE");
-    ///
     /// ```
     ///
     /// # Returns
@@ -957,12 +1029,16 @@ impl BitOr for Nybble {
     ///
     /// # See Also
     ///
-    /// * [`bitand()`](#method.bitand): Performs the Bitwise And operation on two Nybbles.
-    /// * [`bitxor()`](#method.bitxor): Performs the Bitwise Xor operation on two Nybbles.
-    /// * [`bitand_assign()`](#method.bitand_assign): Performs the Bitwise And operation on two Nybbles and assigns the result to the first Nybble.
-    /// * [`bitor_assign()`](#method.bitor_assign): Performs the Bitwise Or operation on two Nybbles and assigns the result to the first Nybble.
-    /// * [`bitxor_assign()`](#method.bitxor_assign): Performs the Bitwise Xor operation on two Nybbles and assigns the result to the first Nybble.
-    ///
+    /// * [`bitand()`](#method.bitand): Performs the Bitwise And operation on
+    ///   two Nybbles.
+    /// * [`bitxor()`](#method.bitxor): Performs the Bitwise Xor operation on
+    ///   two Nybbles.
+    /// * [`bitand_assign()`](#method.bitand_assign): Performs the Bitwise And
+    ///   operation on two Nybbles and assigns the result to the first Nybble.
+    /// * [`bitor_assign()`](#method.bitor_assign): Performs the Bitwise Or
+    ///   operation on two Nybbles and assigns the result to the first Nybble.
+    /// * [`bitxor_assign()`](#method.bitxor_assign): Performs the Bitwise Xor
+    ///   operation on two Nybbles and assigns the result to the first Nybble.
     fn bitor(self, rhs: Self) -> Self::Output {
         let mut nybble = self;
         nybble.bit_0 |= rhs.bit_0;
@@ -974,10 +1050,12 @@ impl BitOr for Nybble {
 }
 
 impl BitOrAssign for Nybble {
-    /// Perform the Bitwise Or operation on two Nybbles and assigns the result to the first Nybble.
+    /// Perform the Bitwise Or operation on two Nybbles and assigns the result
+    /// to the first Nybble.
     ///
-    /// This method performs the Bitwise Or operation on two Nybbles and assigns the result to the first Nybble.
-    /// This also allows the use of the `|=` operator on two Nybbles.
+    /// This method performs the Bitwise Or operation on two Nybbles and assigns
+    /// the result to the first Nybble. This also allows the use of the `|=`
+    /// operator on two Nybbles.
     ///
     /// # Arguments
     ///
@@ -1000,21 +1078,25 @@ impl BitOrAssign for Nybble {
     /// nybble_1 |= nybble_2;
     ///
     /// assert_eq!(nybble_1.to_u8(), 0b1110); // Dec: 14; Hex: 0xE; Oct: 0o16
-    ///
     /// ```
     ///
     /// # Side Effects
     ///
-    /// This method will perform the Bitwise Or operation on two Nybbles and assign the result to the first Nybble.
+    /// This method will perform the Bitwise Or operation on two Nybbles and
+    /// assign the result to the first Nybble.
     ///
     /// # See Also
     ///
-    /// * [`bitand()`](#method.bitand): Performs the Bitwise And operation on two Nybbles.
-    /// * [`bitor()`](#method.bitor): Performs the Bitwise Or operation on two Nybbles.
-    /// * [`bitxor()`](#method.bitxor): Performs the Bitwise Xor operation on two Nybbles.
-    /// * [`bitand_assign()`](#method.bitand_assign): Performs the Bitwise And operation on two Nybbles and assigns the result to the first Nybble.
-    /// * [`bitxor_assign()`](#method.bitxor_assign): Performs the Bitwise Xor operation on two Nybbles and assigns the result to the first Nybble.
-    ///
+    /// * [`bitand()`](#method.bitand): Performs the Bitwise And operation on
+    ///   two Nybbles.
+    /// * [`bitor()`](#method.bitor): Performs the Bitwise Or operation on two
+    ///   Nybbles.
+    /// * [`bitxor()`](#method.bitxor): Performs the Bitwise Xor operation on
+    ///   two Nybbles.
+    /// * [`bitand_assign()`](#method.bitand_assign): Performs the Bitwise And
+    ///   operation on two Nybbles and assigns the result to the first Nybble.
+    /// * [`bitxor_assign()`](#method.bitxor_assign): Performs the Bitwise Xor
+    ///   operation on two Nybbles and assigns the result to the first Nybble.
     fn bitor_assign(&mut self, rhs: Self) {
         self.bit_0 |= rhs.bit_0;
         self.bit_1 |= rhs.bit_1;
@@ -1052,21 +1134,25 @@ impl BitXor for Nybble {
     /// let nybble = nybble_1 ^ nybble_2;
     ///
     /// assert_eq!(nybble.to_u8(), 0b0110); // Dec: 6; Hex: 0x6; Oct: 0o6
-    ///
     /// ```
     ///
     /// # Returns
     ///
-    /// A new Nybble with the Bitwise Xor operation performed on the two Nybbles.
+    /// A new Nybble with the Bitwise Xor operation performed on the two
+    /// Nybbles.
     ///
     /// # See Also
     ///
-    /// * [`bitand()`](#method.bitand): Performs the Bitwise And operation on two Nybbles.
-    /// * [`bitor()`](#method.bitor): Performs the Bitwise Or operation on two Nybbles.
-    /// * [`bitand_assign()`](#method.bitand_assign): Performs the Bitwise And operation on two Nybbles and assigns the result to the first Nybble.
-    /// * [`bitor_assign()`](#method.bitor_assign): Performs the Bitwise Or operation on two Nybbles and assigns the result to the first Nybble.
-    /// * [`bitxor_assign()`](#method.bitxor_assign): Performs the Bitwise Xor operation on two Nybbles and assigns the result to the first Nybble.
-    ///
+    /// * [`bitand()`](#method.bitand): Performs the Bitwise And operation on
+    ///   two Nybbles.
+    /// * [`bitor()`](#method.bitor): Performs the Bitwise Or operation on two
+    ///   Nybbles.
+    /// * [`bitand_assign()`](#method.bitand_assign): Performs the Bitwise And
+    ///   operation on two Nybbles and assigns the result to the first Nybble.
+    /// * [`bitor_assign()`](#method.bitor_assign): Performs the Bitwise Or
+    ///   operation on two Nybbles and assigns the result to the first Nybble.
+    /// * [`bitxor_assign()`](#method.bitxor_assign): Performs the Bitwise Xor
+    ///   operation on two Nybbles and assigns the result to the first Nybble.
     fn bitxor(self, rhs: Self) -> Self::Output {
         let mut nybble = self;
         nybble.bit_0 ^= rhs.bit_0;
@@ -1078,10 +1164,12 @@ impl BitXor for Nybble {
 }
 
 impl BitXorAssign for Nybble {
-    /// Perform the Bitwise Xor operation on two Nybbles and assigns the result to the first Nybble.
+    /// Perform the Bitwise Xor operation on two Nybbles and assigns the result
+    /// to the first Nybble.
     ///
-    /// This method performs the Bitwise Xor operation on two Nybbles and assigns the result to the first Nybble.
-    /// This also allows the use of the `^=` operator on two Nybbles.
+    /// This method performs the Bitwise Xor operation on two Nybbles and
+    /// assigns the result to the first Nybble. This also allows the use of
+    /// the `^=` operator on two Nybbles.
     ///
     /// # Arguments
     ///
@@ -1104,26 +1192,53 @@ impl BitXorAssign for Nybble {
     /// nybble_1 ^= nybble_2;
     ///
     /// assert_eq!(nybble_1.to_u8(), 0b0110); // Dec: 6; Hex: 0x6; Oct: 0o6
-    ///
     /// ```
     ///
     /// # Side Effects
     ///
-    /// This method will perform the Bitwise Xor operation on two Nybbles and assign the result to the first Nybble.
+    /// This method will perform the Bitwise Xor operation on two Nybbles and
+    /// assign the result to the first Nybble.
     ///
     /// # See Also
     ///
-    /// * [`bitand()`](#method.bitand): Performs the Bitwise And operation on two Nybbles.
-    /// * [`bitor()`](#method.bitor): Performs the Bitwise Or operation on two Nybbles.
-    /// * [`bitxor()`](#method.bitxor): Performs the Bitwise Xor operation on two Nybbles.
-    /// * [`bitand_assign()`](#method.bitand_assign): Performs the Bitwise And operation on two Nybbles and assigns the result to the first Nybble.
-    /// * [`bitor_assign()`](#method.bitor_assign): Performs the Bitwise Or operation on two Nybbles and assigns the result to the first Nybble.
-    ///
+    /// * [`bitand()`](#method.bitand): Performs the Bitwise And operation on
+    ///   two Nybbles.
+    /// * [`bitor()`](#method.bitor): Performs the Bitwise Or operation on two
+    ///   Nybbles.
+    /// * [`bitxor()`](#method.bitxor): Performs the Bitwise Xor operation on
+    ///   two Nybbles.
+    /// * [`bitand_assign()`](#method.bitand_assign): Performs the Bitwise And
+    ///   operation on two Nybbles and assigns the result to the first Nybble.
+    /// * [`bitor_assign()`](#method.bitor_assign): Performs the Bitwise Or
+    ///   operation on two Nybbles and assigns the result to the first Nybble.
     fn bitxor_assign(&mut self, rhs: Self) {
         self.bit_0 ^= rhs.bit_0;
         self.bit_1 ^= rhs.bit_1;
         self.bit_2 ^= rhs.bit_2;
         self.bit_3 ^= rhs.bit_3;
+    }
+}
+
+/// `IntoIterator` implementation for a reference to a `Nybble`.
+///
+/// This implementation allows a `Nybble` reference to be converted into an
+/// iterator. The iterator will yield `Bit` items.
+impl<'a> IntoIterator for &'a Nybble {
+    /// The type of the iterator that will be returned. It's an `IterableNybble`
+    /// with the same lifetime as the `Nybble` reference.
+    type IntoIter = IterableNybble<'a>;
+    /// The type of the items that will be returned when iterating over the
+    /// `Nybble` reference. In this case, it's a `Bit`.
+    type Item = Bit;
+
+    /// Converts the `Nybble` reference into an `IterableNybble` iterator.
+    ///
+    /// # Returns
+    ///
+    /// An `IterableNybble` iterator with the same lifetime as the `Nybble`
+    /// reference.
+    fn into_iter(self) -> Self::IntoIter {
+        self.iter()
     }
 }
 
@@ -1343,5 +1458,66 @@ mod tests {
         nybble.decrement();
         assert_eq!(nybble.to_u8(), 0);
         assert_eq!(nybble.to_string(), "0x0");
+    }
+
+    #[test]
+    fn test_into_iter() {
+        let byte = Nybble::from_u8(0b1010); // Assuming Byte::from_u8 exists
+        let mut iter = (&byte).into_iter();
+
+        // Assuming Bit is an enum with variants Zero and One
+        assert_eq!(iter.next(), Some(Bit::Zero));
+        assert_eq!(iter.next(), Some(Bit::One));
+        assert_eq!(iter.next(), Some(Bit::Zero));
+        assert_eq!(iter.next(), Some(Bit::One));
+        assert_eq!(iter.next(), None); // Ensure the iterator is exhausted
+    }
+
+    #[test]
+    fn test_into_iter_empty_byte() {
+        let byte = Nybble::from_u8(0b0000); // Assuming Byte::from_u8 exists
+        let mut iter = (&byte).into_iter();
+
+        // Assuming Bit is an enum with variants Zero and One
+        assert_eq!(iter.next(), Some(Bit::Zero));
+        assert_eq!(iter.next(), Some(Bit::Zero));
+        assert_eq!(iter.next(), Some(Bit::Zero));
+        assert_eq!(iter.next(), Some(Bit::Zero));
+        assert_eq!(iter.next(), None); // Ensure the iterator is exhausted
+    }
+
+    #[test]
+    fn test_get_bit_ref() {
+        let nybble = Nybble::new(Bit::One, Bit::Zero, Bit::One, Bit::Zero); // Dec: 10; Hex: 0xA; Oct: 0o12
+
+        // Test that the 'get_bit_ref' method returns the correct Bit reference for a
+        // given index
+        assert_eq!(
+            nybble.get_bit_ref(0),
+            &Bit::Zero,
+            "Bit at index 0 should be Zero"
+        );
+        assert_eq!(
+            nybble.get_bit_ref(1),
+            &Bit::One,
+            "Bit at index 1 should be One"
+        );
+        assert_eq!(
+            nybble.get_bit_ref(2),
+            &Bit::Zero,
+            "Bit at index 2 should be Zero"
+        );
+        assert_eq!(
+            nybble.get_bit_ref(3),
+            &Bit::One,
+            "Bit at index 3 should be One"
+        );
+    }
+
+    #[test]
+    #[should_panic(expected = "Index out of bounds")]
+    fn test_get_bit_ref_out_of_bounds() {
+        let nybble = Nybble::new(Bit::One, Bit::Zero, Bit::One, Bit::Zero); // Dec: 10; Hex: 0xA; Oct: 0o12
+        let _ = nybble.get_bit_ref(4); // This should panic
     }
 }

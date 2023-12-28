@@ -8,7 +8,7 @@ repos:
     rev: v4.5.0
     hooks:
     -   id: check-json
-        exclude: ".vscode/launch.json"
+        exclude: ".vscode/.*json"
     -   id: check-merge-conflict
     -   id: check-toml
     -   id: check-xml
@@ -88,9 +88,26 @@ repos:
     rev: v8.18.1
     hooks:
     -   id: gitleaks
--   repo: https://github.com/doublify/pre-commit-rust
-    rev: v1.0
+-   repo: local
     hooks:
     -   id: fmt
-    -   id: cargo-check
+        name: rustfmt
+        entry: cargo +nightly fmt --all
+        language: system
+        types: [rust]
+        files: \.rs$
+        pass_filenames: false
     -   id: clippy
+        name: clippy
+        entry: cargo +nightly clippy --all-targets --all-features -- -D warnings
+        language: system
+        types: [rust]
+        files: \.rs$
+        pass_filenames: false
+    -   id: cargo-check
+        name: cargo check
+        entry: cargo +nightly check --all-targets --all-features
+        language: system
+        types: [rust]
+        files: \.rs$
+        pass_filenames: false

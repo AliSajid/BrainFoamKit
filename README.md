@@ -2,10 +2,8 @@
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/AliSajid/brainfoamkit)
 ![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/AliSajid/brainfoamkit)
-[![Continuous integration](https://github.com/AliSajid/brainfoamkit/actions/workflows/ci.yaml/badge.svg?branch=main&event=push)](https://github.com/AliSajid/brainfoamkit/actions/workflows/ci.yaml)
+[![Continuous integration](https://github.com/AliSajid/BrainFoamKit/actions/workflows/ci.yaml/badge.svg)](https://github.com/AliSajid/BrainFoamKit/actions/workflows/ci.yaml)
 [![Contribute with Gitpod](https://img.shields.io/badge/Contribute%20with-Gitpod-908a85?logo=gitpod)](https://gitpod.io/#AliSajid/brainfoamkit)
-
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#AliSajid/brainfoamkit)
 
 This project aims to implement a [brainfuck](https://esolangs.org/wiki/Brainfuck) interpreter in Rust. In addition, this
 also aims to provide a terminal-based TUI for stepping through and understanding the brainfuck programs.
@@ -56,6 +54,9 @@ the [lang](lang/) directory.
 ## Contributing
 
 See the [Contributing](CONTRIBUTING.md) for details on how to contribute to the project.
+
+You can contribute to the project through [GitPod](https://gitpod.io).
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#AliSajid/brainfoamkit)
 
 ## Code of Conduct
 

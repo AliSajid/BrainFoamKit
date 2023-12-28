@@ -11,7 +11,7 @@
 // * you may not use this file except in compliance with the License.
 // * You may obtain a copy of the License at
 // *
-// *     http://www.apache.org/licenses/LICENSE-2.0
+// * http://www.apache.org/licenses/LICENSE-2.0
 // *
 // * Unless required by applicable law or agreed to in writing, software
 // * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,27 +23,35 @@
 // ** MIT LICENSE
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 // *
-// * Permission is hereby granted, free of charge, to any person obtaining a copy
-// * of this software and associated documentation files (the "Software"), to deal
-// * in the Software without restriction, including without limitation the rights
+// * Permission is hereby granted, free of charge, to any person obtaining a
+// * copy
+// * of this software and associated documentation files (the "Software"), to
+// * deal
+// * in the Software without restriction, including without limitation the
+// * rights
 // * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // * copies of the Software, and to permit persons to whom the Software is
 // * furnished to do so, subject to the following conditions:
 // *
-// * The above copyright notice and this permission notice shall be included in all
+// * The above copyright notice and this permission notice shall be included in
+// * all
 // * copies or substantial portions of the Software.
 // *
 // * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 // * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// * FROM,
+// * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// * THE
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
-use crate::Bit;
-use crate::Byte;
+use crate::{
+    Bit,
+    Byte,
+};
 
 /// An iterator over a byte
 ///
@@ -51,12 +59,19 @@ use crate::Byte;
 /// for `Byte`. This allows us to map and/or loop over all the `Bit`s
 /// in the `Byte`.
 ///
+/// This iterator iterates from the Least Significant Bit (LSB) to the
+/// Most Significant Bit (MSB). This means that the first `Bit` returned
+/// is the last `Bit` in the `Byte` and the last `Bit` returned is the
+/// first `Bit` in the `Byte`.
+///
 /// # Examples
 ///
 /// ```
-/// use brainfoamkit_lib::Bit;
-/// use brainfoamkit_lib::Byte;
-/// use brainfoamkit_lib::IterableByte;
+/// use brainfoamkit_lib::{
+///     Bit,
+///     Byte,
+///     IterableByte,
+/// };
 ///
 /// let byte = Byte::from_u8(0b1100_1010); // Dec: 10; Hex: 0xA; Oct: 0o12
 /// let mut iter = IterableByte::new(&byte);
@@ -78,9 +93,8 @@ use crate::Byte;
 /// * [`Bit`](crate::Bit)
 /// * [`Nybble`](crate::Nybble)
 /// * [`IterableNybble`](crate::IterableNybble)
-///
 pub struct IterableByte<'a> {
-    byte: &'a Byte,
+    byte:          &'a Byte,
     current_index: u8,
 }
 
@@ -98,14 +112,16 @@ impl<'a> IterableByte<'a> {
     /// # Examples
     ///
     /// ```
-    /// use brainfoamkit_lib::Byte;
-    /// use brainfoamkit_lib::IterableByte;
+    /// use brainfoamkit_lib::{
+    ///     Byte,
+    ///     IterableByte,
+    /// };
     ///
     /// let byte = Byte::from_u8(0b1100_1010); // Dec: 202; Hex: 0xCA; Oct: 0o312
     /// let mut iter = IterableByte::new(&byte);
     ///
     /// for bit in iter {
-    ///    println!("{}", bit);
+    ///     println!("{}", bit);
     /// }
     /// ```
     #[must_use]
@@ -130,9 +146,11 @@ impl<'a> Iterator for IterableByte<'a> {
     /// # Examples
     ///
     /// ```
-    /// use brainfoamkit_lib::Bit;
-    /// use brainfoamkit_lib::Byte;
-    /// use brainfoamkit_lib::IterableByte;
+    /// use brainfoamkit_lib::{
+    ///     Bit,
+    ///     Byte,
+    ///     IterableByte,
+    /// };
     ///
     /// let byte = Byte::from_u8(0b1100_1010); // Dec: 202; Hex: 0xCA; Oct: 0o312
     ///
