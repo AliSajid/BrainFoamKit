@@ -428,4 +428,52 @@ mod tests {
         machine.execute_instruction();
         machine.execute_instruction();
     }
+
+    #[test]
+    fn test_memory_pointer() {
+        let machine = VirtualMachine::builder().build();
+        assert_eq!(
+            machine.memory_pointer(),
+            0,
+            "Memory pointer should be initialized to 0"
+        );
+    }
+
+    #[test]
+    fn test_program_counter() {
+        let machine = VirtualMachine::builder().build();
+        assert_eq!(
+            machine.program_counter(),
+            0,
+            "Program counter should be initialized to 0"
+        );
+    }
+
+    #[test]
+    #[should_panic(expected = "not yet implemented")]
+    fn test_output_value() {
+        let mut machine = VirtualMachine::default();
+        machine.output_value();
+    }
+
+    #[test]
+    #[should_panic(expected = "not yet implemented")]
+    fn test_input_value() {
+        let mut machine = VirtualMachine::default();
+        machine.input_value();
+    }
+
+    #[test]
+    #[should_panic(expected = "not yet implemented")]
+    fn test_jump_forward() {
+        let mut machine = VirtualMachine::default();
+        machine.jump_forward();
+    }
+
+    #[test]
+    #[should_panic(expected = "not yet implemented")]
+    fn test_jump_backward() {
+        let mut machine = VirtualMachine::default();
+        machine.jump_backward();
+    }
 }
