@@ -1,3 +1,10 @@
+## [1.0.0-alpha.12](https://github.com/AliSajid/BrainFoamKit/compare/v1.0.0-alpha.11...v1.0.0-alpha.12) (2023-12-28)
+
+
+### Bug Fixes
+
+* remove generic type parameter ([5270bf2](https://github.com/AliSajid/BrainFoamKit/commit/5270bf2ac4a126b58a80ee9e829c06aa645f9385))
+
 ## [1.0.0-alpha.11](https://github.com/AliSajid/BrainFoamKit/compare/v1.0.0-alpha.10...v1.0.0-alpha.11) (2023-12-27)
 
 
