@@ -1485,4 +1485,39 @@ mod tests {
         assert_eq!(iter.next(), Some(Bit::Zero));
         assert_eq!(iter.next(), None); // Ensure the iterator is exhausted
     }
+
+    #[test]
+    fn test_get_bit_ref() {
+        let nybble = Nybble::new(Bit::One, Bit::Zero, Bit::One, Bit::Zero); // Dec: 10; Hex: 0xA; Oct: 0o12
+
+        // Test that the 'get_bit_ref' method returns the correct Bit reference for a
+        // given index
+        assert_eq!(
+            nybble.get_bit_ref(0),
+            &Bit::Zero,
+            "Bit at index 0 should be Zero"
+        );
+        assert_eq!(
+            nybble.get_bit_ref(1),
+            &Bit::One,
+            "Bit at index 1 should be One"
+        );
+        assert_eq!(
+            nybble.get_bit_ref(2),
+            &Bit::Zero,
+            "Bit at index 2 should be Zero"
+        );
+        assert_eq!(
+            nybble.get_bit_ref(3),
+            &Bit::One,
+            "Bit at index 3 should be One"
+        );
+    }
+
+    #[test]
+    #[should_panic(expected = "Index out of bounds")]
+    fn test_get_bit_ref_out_of_bounds() {
+        let nybble = Nybble::new(Bit::One, Bit::Zero, Bit::One, Bit::Zero); // Dec: 10; Hex: 0xA; Oct: 0o12
+        let _ = nybble.get_bit_ref(4); // This should panic
+    }
 }
