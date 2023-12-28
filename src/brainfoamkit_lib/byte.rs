@@ -390,10 +390,10 @@ impl Byte {
 
         for i in 0..4 {
             if high_nybble.get_bit(i) == Bit::One {
-                byte.set_bit(i + 4);
+                byte.set_bit((i + 4) as usize);
             }
             if low_nybble.get_bit(i) == Bit::One {
-                byte.set_bit(i);
+                byte.set_bit(i as usize);
             }
         }
 
@@ -520,7 +520,7 @@ impl Byte {
     ///   index.
     /// * [`get_bit()`](#method.get_bit): Get the Bit value at the specified
     ///   index.
-    pub fn set_bit(&mut self, index: u8) {
+    pub fn set_bit(&mut self, index: usize) {
         match index {
             0 => self.bit_0.set(),
             2 => self.bit_2.set(),
@@ -579,7 +579,7 @@ impl Byte {
     ///   index.
     /// * [`get_bit()`](#method.get_bit): Get the Bit value at the specified
     ///   index.
-    pub fn unset_bit(&mut self, index: u8) {
+    pub fn unset_bit(&mut self, index: usize) {
         match index {
             0 => self.bit_0.unset(),
             1 => self.bit_1.unset(),
@@ -838,11 +838,19 @@ impl Byte {
 
     /// Increments the Byte by one.
     ///
-    /// This method is used to increment the Byte by one.
-    /// This means that the Byte is increased by one.
+    /// This method is used to increment the Byte by one. This means that the
+    /// value of the byte will increase by 1.
+    ///
+    /// This is a wrapping operator with no overflow. What this translates into
+    /// in practice is that if you increment the byte when its value is 255,
+    /// instead of getting an overflow error or the operation having no
+    /// effect, the value wraps around to 0.
+    ///
     ///
     /// # Examples
     ///
+    ///
+    /// ## Simple Increment
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
@@ -859,6 +867,19 @@ impl Byte {
     /// assert_eq!(byte.to_string(), "0x02");
     /// ```
     ///
+    /// ## Increment at Boundary
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Byte;
+    ///
+    /// let mut byte = Byte::from_u8(255); // Byte: 0b11111111; Dec: 255; Hex: 0xFF; Oct: 0o377
+    ///
+    /// byte.increment();
+    ///
+    /// assert_eq!(byte.to_u8(), 0b00000000); // Byte: 0b00000000; Dec: 0; Hex: 0x00; Oct: 0o0
+    /// assert_eq!(byte.to_string(), "0x00");
+    /// ```
+    ///
     /// # Side Effects
     ///
     /// This method will increment the Byte by one.
@@ -867,30 +888,46 @@ impl Byte {
     ///
     /// * [`decrement()`](#method.decrement): Decrement the Byte by one.
     /// * [`flip()`](#method.flip): Flip all of the Bit values in the Byte.
+    /// * [Integer Overflow](https://en.wikipedia.org/wiki/Integer_overflow): An
+    ///   overview of the mathematics behind integer overflow
     pub fn increment(&mut self) {
         let mut carry = true;
-        let mut i = 0;
+        let mut changes = Vec::new();
 
-        while carry {
-            if i == 8 {
+        for (i, bit) in self.iter().enumerate() {
+            if !carry {
                 break;
             }
-            if self.get_bit(i) == Bit::One {
-                self.unset_bit(i);
+            if bit == Bit::One {
+                changes.push((i, false)); // Store the index and the new value
             } else {
-                self.set_bit(i);
+                changes.push((i, true)); // Store the index and the new value
                 carry = false;
             }
-            i += 1;
+        }
+
+        for (i, value) in changes {
+            if value {
+                self.set_bit(i);
+            } else {
+                self.unset_bit(i);
+            }
         }
     }
 
     /// Decrements the Byte by one.
     ///
-    /// This method is used to decrement the Byte by one.
-    /// This means that the Byte is decreased by one.
+    /// This method is used to decrement the Byte by one. This means that the
+    /// value of the byte will decrease by 1.
+    ///
+    /// This is a wrapping operator with no overflow. What this translates into
+    /// in practice is that if you decrement the byte when its value is 0,
+    /// instead of getting an overflow error or the operation having no
+    /// effect, the value wraps around to 255.
     ///
     /// # Examples
+    ///
+    /// ## Simple Decrement
     ///
     /// ```
     /// use brainfoamkit_lib::Byte;
@@ -909,6 +946,19 @@ impl Byte {
     /// assert_eq!(byte.to_string(), "0x00");
     /// ```
     ///
+    /// ## Decrement at Boundary
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Byte;
+    ///
+    /// let mut byte = Byte::from_u8(0);  // Byte: 0b00000000; Dec: 0; Hex: 0x00; Oct: 0o0
+    ///
+    /// byte.decrement();
+    ///
+    /// assert_eq!(byte.to_u8(), 0b11111111); // Byte: 0b11111111; Dec: 255; Hex: 0xFF; Oct: 0o377
+    /// assert_eq!(byte.to_string(), "0xFF");
+    /// ```
+    ///
     /// # Side Effects
     ///
     /// This method will decrement the Byte by one.
@@ -919,19 +969,26 @@ impl Byte {
     /// * [`flip()`](#method.flip): Flip all of the Bit values in the Byte.
     pub fn decrement(&mut self) {
         let mut borrow = true;
-        let mut i = 0;
+        let mut changes = Vec::new();
 
-        while borrow {
-            if i == 8 {
+        for (i, bit) in self.iter().enumerate() {
+            if !borrow {
                 break;
             }
-            if self.get_bit(i) == Bit::Zero {
+            if bit == Bit::Zero {
+                changes.push((i, true)); // Store the index and the new value
+            } else {
+                changes.push((i, false)); // Store the index and the new value
+                borrow = false;
+            }
+        }
+
+        for (i, value) in changes {
+            if value {
                 self.set_bit(i);
             } else {
                 self.unset_bit(i);
-                borrow = false;
             }
-            i += 1;
         }
     }
 
