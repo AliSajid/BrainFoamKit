@@ -739,21 +739,6 @@ mod tests {
     }
 
     #[test]
-    fn test_ascii_char_is_whitespace() {
-        let ascii_char: AsciiChar =
-            AsciiChar::new(Byte::from_u8(9), "CTAB", "Horizontal tab", "\t");
-
-        assert!(ascii_char.is_whitespace());
-    }
-
-    #[test]
-    fn test_ascii_char_is_digit() {
-        let ascii_char: AsciiChar = AsciiChar::new(Byte::from_u8(49), "DIG1", "Digit one", "1");
-
-        assert!(ascii_char.is_digit());
-    }
-
-    #[test]
     fn test_ascii_char_is_letter() {
         let lca: AsciiChar = AsciiChar::new(Byte::from_u8(97), "LCA", "Lowercase letter a", "a");
         let uca: AsciiChar = AsciiChar::new(Byte::from_u8(65), "UCA", "Uppercase letter a", "A");
@@ -783,9 +768,72 @@ mod tests {
     }
 
     #[test]
-    fn test_ascii_char_is_symbol() {
-        let ascii_char: AsciiChar = AsciiChar::new(Byte::from_u8(64), "SYMAT", "Symbol At", "@");
+    fn test_ascii_char_is_whitespace() {
+        let whitespace_chars = vec![9, 10, 11, 12, 13, 32];
+        for &val in &whitespace_chars {
+            let ascii_char = AsciiChar::new(Byte::from_u8(val), "", "", "");
+            assert!(
+                ascii_char.is_whitespace(),
+                "Character with decimal value {} should be identified as whitespace",
+                val
+            );
+        }
 
-        assert!(ascii_char.is_symbol());
+        let non_whitespace_char = AsciiChar::new(Byte::from_u8(65), "", "", "");
+        assert!(
+            !non_whitespace_char.is_whitespace(),
+            "Character with decimal value 65 should not be identified as whitespace"
+        );
+    }
+
+    #[test]
+    fn test_ascii_char_is_digit() {
+        let digit_chars = vec![48, 49, 50, 51, 52, 53, 54, 55, 56, 57];
+        for &val in &digit_chars {
+            let ascii_char = AsciiChar::new(Byte::from_u8(val), "", "", "");
+            assert!(
+                ascii_char.is_digit(),
+                "Character with decimal value {} should be identified as a digit",
+                val
+            );
+        }
+
+        let non_digit_char = AsciiChar::new(Byte::from_u8(65), "", "", "");
+        assert!(
+            !non_digit_char.is_digit(),
+            "Character with decimal value 65 should not be identified as a digit"
+        );
+    }
+
+    #[test]
+    fn test_ascii_char_is_symbol() {
+        let symbol_chars = vec![
+            33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 58, 59, 60, 61, 62, 63, 64,
+            91, 92, 93, 94, 95, 96, 123, 124, 125, 126,
+        ];
+        for &val in &symbol_chars {
+            let ascii_char = AsciiChar::new(Byte::from_u8(val), "", "", "");
+            assert!(
+                ascii_char.is_symbol(),
+                "Character with decimal value {} should be identified as a symbol",
+                val
+            );
+        }
+
+        let non_symbol_char = AsciiChar::new(Byte::from_u8(65), "", "", "");
+        assert!(
+            !non_symbol_char.is_symbol(),
+            "Character with decimal value 65 should not be identified as a symbol"
+        );
+    }
+
+    #[test]
+    fn test_ascii_char_binary_value() {
+        let ascii_char = AsciiChar::new(Byte::from_u8(97), "", "", "");
+        assert_eq!(
+            ascii_char.binary_value(),
+            Byte::from_u8(97),
+            "Binary value should be equal to the input value"
+        );
     }
 }
