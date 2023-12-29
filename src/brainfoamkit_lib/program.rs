@@ -413,9 +413,11 @@ mod tests {
 
     #[test]
     fn test_program_length() {
-        let instructions = vec![Instruction::NoOp];
-        let program = Program::from(instructions);
-        assert_eq!(program.length(), Some(1));
+        let program = Program::from_string(">>++<<--");
+        assert_eq!(program.length(), Some(8));
+
+        let program = Program::from_string("");
+        assert_eq!(program.length(), None);
     }
 
     #[test]
@@ -452,5 +454,115 @@ mod tests {
         let program = Program::from_string(instructions);
 
         assert_eq!(program.find_matching_bracket(0), Some(3));
+    }
+
+    // #[test]
+    // fn test_find_matching_bracket_no_match() {
+    //     let instructions = "[";
+    //     let program = Program::from_string(instructions);
+
+    //     assert_eq!(program.find_matching_bracket(0), None);
+    // }
+
+    #[test]
+    fn test_find_matching_bracket_not_jump_forward() {
+        let instructions = "]";
+        let program = Program::from_string(instructions);
+
+        assert_eq!(program.find_matching_bracket(0), None);
+    }
+
+    #[test]
+    fn test_get_instruction() {
+        let instructions = vec![
+            Instruction::IncrementPointer,
+            Instruction::IncrementPointer,
+            Instruction::IncrementValue,
+            Instruction::IncrementValue,
+            Instruction::DecrementPointer,
+            Instruction::DecrementPointer,
+            Instruction::DecrementValue,
+            Instruction::DecrementValue,
+        ];
+        let program = Program::from(instructions);
+
+        assert_eq!(
+            program.get_instruction(0),
+            Some(Instruction::IncrementPointer)
+        );
+        assert_eq!(
+            program.get_instruction(1),
+            Some(Instruction::IncrementPointer)
+        );
+        assert_eq!(
+            program.get_instruction(2),
+            Some(Instruction::IncrementValue)
+        );
+        assert_eq!(
+            program.get_instruction(3),
+            Some(Instruction::IncrementValue)
+        );
+        assert_eq!(
+            program.get_instruction(4),
+            Some(Instruction::DecrementPointer)
+        );
+        assert_eq!(
+            program.get_instruction(5),
+            Some(Instruction::DecrementPointer)
+        );
+        assert_eq!(
+            program.get_instruction(6),
+            Some(Instruction::DecrementValue)
+        );
+        assert_eq!(
+            program.get_instruction(7),
+            Some(Instruction::DecrementValue)
+        );
+        assert_eq!(program.get_instruction(8), None);
+    }
+
+    #[test]
+    fn test_find_matching_bracket() {
+        let instructions = vec![
+            Instruction::JumpForward,
+            Instruction::JumpForward,
+            Instruction::JumpBackward,
+            Instruction::JumpBackward,
+        ];
+        let program = Program::from(instructions);
+
+        assert_eq!(program.find_matching_bracket(0), Some(3));
+        assert_eq!(program.find_matching_bracket(1), Some(2));
+        assert_eq!(program.find_matching_bracket(2), None);
+        assert_eq!(program.find_matching_bracket(3), None);
+    }
+
+    #[test]
+    fn test_default() {
+        let program = Program::default();
+        assert_eq!(program.length(), Some(10));
+        assert_eq!(program.get_instruction(0), Some(Instruction::NoOp));
+        assert_eq!(program.get_instruction(9), Some(Instruction::NoOp));
+    }
+
+    #[test]
+    fn test_index() {
+        let program = Program::from_string(">>++<<--");
+
+        assert_eq!(program[0], Instruction::IncrementPointer);
+        assert_eq!(program[1], Instruction::IncrementPointer);
+        assert_eq!(program[2], Instruction::IncrementValue);
+        assert_eq!(program[3], Instruction::IncrementValue);
+        assert_eq!(program[4], Instruction::DecrementPointer);
+        assert_eq!(program[5], Instruction::DecrementPointer);
+        assert_eq!(program[6], Instruction::DecrementValue);
+        assert_eq!(program[7], Instruction::DecrementValue);
+    }
+
+    #[test]
+    #[should_panic(expected = "index out of bounds")]
+    fn test_index_out_of_bounds() {
+        let program = Program::from_string(">>++<<--");
+        let _ = program[8];
     }
 }
