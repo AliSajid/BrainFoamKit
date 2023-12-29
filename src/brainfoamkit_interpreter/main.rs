@@ -48,6 +48,10 @@
 // * SOFTWARE.
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
+use brainfoamkit_lib::{
+    AsciiTable,
+    Byte,
+};
 use prettytable::{
     format::{
         self,
@@ -58,18 +62,23 @@ use prettytable::{
 
 fn main() {
     let mut table = Table::new();
+    let ascii = AsciiTable::new();
 
-    table.set_titles(row![bc => "Decimal", "Binary", "Hexadecimal", "Octal"]);
+    table.set_titles(row![bc => "Byte", "Binary", "Hexadecimal", "String", "Representation"]);
     table.set_format(*format::consts::FORMAT_NO_LINESEP_WITH_TITLE);
 
     for num in 0..128 {
+        let byte = Byte::from_u8(num);
+        let char = ascii
+            .get(byte)
+            .map_or("NA".to_owned(), |val| val.character_value().to_owned());
         table.add_row(row![c=>
-                    format!("{num:#03}", num = num),
-                    format!("{num:#010b}", num = num),
-                    format!("{num:#04X}", num = num),
-                    format!("{num:#04o}", num = num),
-        //            format!("{num:#04}", num = num as u8 as char)
-                ]);
+            format!("{num}", num = byte),
+            format!("{num:#010b}", num = byte.to_u8()),
+            format!("{num:#04X}", num = byte.to_u8()),
+            format!("{num}", num = byte.to_string()),
+            format!("{char}", char = char)
+        ]);
     }
 
     table.printstd();
