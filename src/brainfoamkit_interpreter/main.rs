@@ -49,6 +49,7 @@
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 use brainfoamkit_lib::{
+    AsciiChar,
     AsciiTable,
     Byte,
 };
@@ -71,7 +72,7 @@ fn main() {
         let byte = Byte::from_u8(num);
         let char = ascii
             .get(byte)
-            .map_or("NA".to_owned(), |val| val.character_value().to_owned());
+            .map_or("NA".to_owned(), AsciiChar::character_value);
         table.add_row(row![c=>
             format!("{num}", num = byte),
             format!("{num:#010b}", num = byte.to_u8()),
