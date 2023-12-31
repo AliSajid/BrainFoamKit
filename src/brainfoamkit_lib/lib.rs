@@ -60,6 +60,7 @@ mod machine;
 mod machine_builder;
 mod nybble;
 mod program;
+mod vm_reader;
 
 // Re-export the useful contents
 pub use ascii_char::AsciiChar;
@@ -73,3 +74,4 @@ pub use machine::VirtualMachine;
 pub use machine_builder::VirtualMachineBuilder;
 pub use nybble::Nybble;
 pub use program::Program;
+pub use vm_reader::VMReader;
