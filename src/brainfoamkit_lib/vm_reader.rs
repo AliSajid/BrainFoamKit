@@ -77,17 +77,25 @@ use anyhow::{
 /// # Examples
 ///
 /// ```
-/// use brainfoamkit_lib::VMReaderType;
+/// use std::fs::File;
+///
+/// use brainfoamkit_lib::{
+///     VMReader,
+///     VMReaderType,
+/// };
+/// use tempdir::TempDir;
 ///
 /// let stdin = std::io::stdin();
-/// let file = std::fs::File::open("test.bf");
+/// let temp_dir = TempDir::new("test").unwrap();
+/// let file_path = temp_dir.path().join("test.bf");
+/// let file = File::create(file_path).unwrap();
 /// let mock = brainfoamkit_lib::MockReader {
 ///     data: std::io::Cursor::new("A".as_bytes().to_vec()),
 /// };
 ///
-/// assert_eq!(stdin.get_type(), VMReaderType::Stdin);
-/// assert_eq!(file.get_type(), VMReaderType::File);
-/// assert_eq!(mock.get_type(), VMReaderType::Mock);
+/// assert_eq!(stdin.get_vmreader_type(), VMReaderType::Stdin);
+/// assert_eq!(file.get_vmreader_type(), VMReaderType::File);
+/// assert_eq!(mock.get_vmreader_type(), VMReaderType::Mock);
 /// ```
 ///
 /// # See Also
@@ -124,17 +132,34 @@ pub enum VMReaderType {
 /// # Examples
 ///
 /// ```
-/// use brainfoamkit_lib::VMReader;
+/// use std::fs::File;
+///
+/// use brainfoamkit_lib::{
+///     VMReader,
+///     VMReaderType,
+/// };
+/// use tempdir::TempDir;
 ///
 /// let stdin = std::io::stdin();
-/// let file = std::fs::File::open("test.bf");
+/// let temp_dir = TempDir::new("test").unwrap();
+/// let file_path = temp_dir.path().join("test.bf");
+/// let file = File::create(file_path).unwrap();
 /// let mock = brainfoamkit_lib::MockReader {
 ///     data: std::io::Cursor::new("A".as_bytes().to_vec()),
 /// };
 ///
-/// assert_eq!(stdin.get_type(), brainfoamkit_lib::VMReaderType::Stdin);
-/// assert_eq!(file.get_type(), brainfoamkit_lib::VMReaderType::File);
-/// assert_eq!(mock.get_type(), brainfoamkit_lib::VMReaderType::Mock);
+/// assert_eq!(
+///     stdin.get_vmreader_type(),
+///     brainfoamkit_lib::VMReaderType::Stdin
+/// );
+/// assert_eq!(
+///     file.get_vmreader_type(),
+///     brainfoamkit_lib::VMReaderType::File
+/// );
+/// assert_eq!(
+///     mock.get_vmreader_type(),
+///     brainfoamkit_lib::VMReaderType::Mock
+/// );
 /// ```
 ///
 /// # See Also
@@ -190,7 +215,7 @@ pub trait VMReader {
 /// ```
 /// use brainfoamkit_lib::VMReader;
 ///
-/// let mock = brainfoamkit_lib::MockReader {
+/// let mut mock = brainfoamkit_lib::MockReader {
 ///     data: std::io::Cursor::new("A".as_bytes().to_vec()),
 /// };
 ///
@@ -227,12 +252,15 @@ impl VMReader for MockReader {
     /// ```
     /// use brainfoamkit_lib::VMReader;
     ///
-    /// let mock = brainfoamkit_lib::MockReader {
+    /// let mut mock = brainfoamkit_lib::MockReader {
     ///     data: std::io::Cursor::new("A".as_bytes().to_vec()),
     /// };
     ///
     /// assert_eq!(mock.read().unwrap(), 65);
-    /// assert_eq!(mock.get_type(), brainfoamkit_lib::VMReaderType::Mock);
+    /// assert_eq!(
+    ///     mock.get_vmreader_type(),
+    ///     brainfoamkit_lib::VMReaderType::Mock
+    /// );
     /// ```
     fn read(&mut self) -> Result<u8> {
         let mut buffer = [0u8; 1];
@@ -360,7 +388,7 @@ mod tests {
     }
 
     #[test]
-    fn test_get_type() {
+    fn test_get_vmreader_type() {
         let stdin = std::io::stdin();
         let temp_dir = TempDir::new("test").unwrap();
         let file_path = temp_dir.path().join("test.bf");

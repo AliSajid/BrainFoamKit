@@ -74,4 +74,8 @@ pub use machine::VirtualMachine;
 pub use machine_builder::VirtualMachineBuilder;
 pub use nybble::Nybble;
 pub use program::Program;
-pub use vm_reader::VMReader;
+pub use vm_reader::{
+    MockReader,
+    VMReader,
+    VMReaderType,
+};

@@ -49,6 +49,7 @@
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 use crate::{
+    vm_reader::VMReader,
     Byte,
     Instruction,
     Program,
@@ -73,32 +74,49 @@ use crate::{
 /// # Example
 ///
 /// ```
-/// use brainfoamkit_lib::VirtualMachine;
+/// use brainfoamkit_lib::{
+///     VMReader,
+///     VirtualMachine,
+/// };
 ///
-/// let machine = VirtualMachine::default();
+/// let input_device = std::io::stdin();
+/// let machine = VirtualMachine::builder().input_device(input_device).build();
 /// ```
 #[allow(clippy::module_name_repetitions)]
-pub struct VirtualMachine {
+pub struct VirtualMachine<R>
+where
+    R: VMReader,
+{
     tape:            Vec<Byte>,
     program:         Program,
     memory_pointer:  usize,
     program_counter: usize,
+    input:           R,
+    //    output: W,
 }
 
 #[allow(dead_code)]
 #[allow(clippy::len_without_is_empty)]
-impl VirtualMachine {
+impl<R> VirtualMachine<R>
+where
+    R: VMReader,
+{
     pub(crate) fn new(
         tape_size: usize,
         program: Program,
         memory_pointer: usize,
         program_counter: usize,
+        input: R,
     ) -> Self {
+        // FIXME - Remove `memory_pointer` and `program_counter` from the constructor
+        // since they should always be set to 0 on initialization.
+
         Self {
             tape: vec![Byte::default(); tape_size],
             program,
             memory_pointer,
             program_counter,
+            input,
         }
     }
 
@@ -114,9 +132,17 @@ impl VirtualMachine {
     /// # Example
     ///
     /// ```
-    /// use brainfoamkit_lib::VirtualMachine;
+    /// use brainfoamkit_lib::{
+    ///     VMReader,
+    ///     VirtualMachine,
+    /// };
     ///
-    /// let machine = VirtualMachine::builder().tape_size(10).build();
+    /// let input_device = std::io::stdin();
+    /// let machine = VirtualMachine::builder()
+    ///     .input_device(input_device)
+    ///     .tape_size(10)
+    ///     .build()
+    ///     .unwrap();
     /// assert_eq!(machine.length(), 10);
     /// ```
     ///
@@ -143,10 +169,15 @@ impl VirtualMachine {
     /// ```
     /// use brainfoamkit_lib::{
     ///     Program,
+    ///     VMReader,
     ///     VirtualMachine,
     /// };
     ///
-    /// let machine = VirtualMachine::builder().build();
+    /// let input_device = std::io::stdin();
+    /// let machine = VirtualMachine::builder()
+    ///     .input_device(input_device)
+    ///     .build()
+    ///     .unwrap();
     /// assert_eq!(machine.program(), Program::default());
     /// ```
     #[must_use]
@@ -169,17 +200,22 @@ impl VirtualMachine {
     /// # Example
     ///
     /// ```
-    /// use brainfoamkit_lib::VirtualMachine;
+    /// use brainfoamkit_lib::{
+    ///     VMReader,
+    ///     VirtualMachine,
+    /// };
     ///
-    /// let machine = VirtualMachine::builder().build();
+    /// let input_device = std::io::stdin();
+    ///
+    /// let machine = VirtualMachine::builder().input_device(input_device).build();
     /// ```
     ///
     /// # See Also
     ///
     /// * [`VirtualMachineBuilder`](struct.VirtualMachineBuilder.html)
     #[must_use]
-    pub const fn builder() -> VirtualMachineBuilder {
-        VirtualMachineBuilder::new()
+    pub const fn builder() -> VirtualMachineBuilder<R> {
+        VirtualMachineBuilder::<R>::new()
     }
 
     /// Returns the length of the `tape` inside the `VirtualMachine`.
@@ -194,9 +230,17 @@ impl VirtualMachine {
     /// # Example
     ///
     /// ```
-    /// use brainfoamkit_lib::VirtualMachine;
+    /// use brainfoamkit_lib::{
+    ///     VMReader,
+    ///     VirtualMachine,
+    /// };
     ///
-    /// let machine = VirtualMachine::builder().tape_size(10).build();
+    /// let input_device = std::io::stdin();
+    /// let machine = VirtualMachine::builder()
+    ///     .input_device(input_device)
+    ///     .tape_size(10)
+    ///     .build()
+    ///     .unwrap();
     /// assert_eq!(machine.length(), 10);
     /// ```
     #[must_use]
@@ -216,9 +260,16 @@ impl VirtualMachine {
     /// # Example
     ///
     /// ```
-    /// use brainfoamkit_lib::VirtualMachine;
+    /// use brainfoamkit_lib::{
+    ///     VMReader,
+    ///     VirtualMachine,
+    /// };
     ///
-    /// let machine = VirtualMachine::builder().build();
+    /// let input_device = std::io::stdin();
+    /// let machine = VirtualMachine::builder()
+    ///     .input_device(input_device)
+    ///     .build()
+    ///     .unwrap();
     /// assert_eq!(machine.memory_pointer(), 0);
     /// ```
     #[must_use]
@@ -239,14 +290,60 @@ impl VirtualMachine {
     /// # Example
     ///
     /// ```
-    /// use brainfoamkit_lib::VirtualMachine;
+    /// use brainfoamkit_lib::{
+    ///     VMReader,
+    ///     VirtualMachine,
+    /// };
     ///
-    /// let machine = VirtualMachine::builder().build();
+    /// let input_device = std::io::stdin();
+    /// let machine = VirtualMachine::builder()
+    ///     .input_device(input_device)
+    ///     .build()
+    ///     .unwrap();
     /// assert_eq!(machine.program_counter(), 0);
     /// ```
     #[must_use]
     pub const fn program_counter(&self) -> usize {
         self.program_counter
+    }
+
+    /// returns the current input device of the `VirtualMachine`.
+    ///
+    /// This method returns the current input device of the `VirtualMachine`.
+    /// This allows for testing and type checking of the input device.
+    ///
+    /// # Returns
+    ///
+    /// A reference to the current input device of the
+    /// `VirtualMachine`.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use brainfoamkit_lib::{
+    ///     MockReader,
+    ///     VMReader,
+    ///     VirtualMachine,
+    /// };
+    ///
+    /// let input_device = MockReader {
+    ///     data: std::io::Cursor::new("A".as_bytes().to_vec()),
+    /// };
+    /// let mut machine = VirtualMachine::builder()
+    ///     .input_device(input_device)
+    ///     .build()
+    ///     .unwrap();
+    ///
+    /// assert_eq!(machine.input_device().read().unwrap(), 65);
+    /// ```
+    ///
+    /// # See Also
+    ///
+    /// * [`VMReader`](trait.VMReader.html)
+    /// * [`VirtualMachineBuilder`](struct.VirtualMachineBuilder.html)
+    #[must_use]
+    pub fn input_device(&mut self) -> &mut R {
+        &mut self.input
     }
 
     /// Returns the current instruction of the `VirtualMachine`.
@@ -267,6 +364,7 @@ impl VirtualMachine {
     /// use brainfoamkit_lib::{
     ///     Instruction,
     ///     Program,
+    ///     VMReader,
     ///     VirtualMachine,
     /// };
     ///
@@ -274,7 +372,12 @@ impl VirtualMachine {
     ///     Instruction::IncrementPointer,
     ///     Instruction::IncrementValue,
     /// ]);
-    /// let mut machine = VirtualMachine::builder().program(program).build();
+    /// let input_device = std::io::stdin();
+    /// let mut machine = VirtualMachine::builder()
+    ///     .input_device(input_device)
+    ///     .program(program)
+    ///     .build()
+    ///     .unwrap();
     /// assert_eq!(
     ///     machine.get_instruction(),
     ///     Some(Instruction::IncrementPointer)
@@ -301,6 +404,7 @@ impl VirtualMachine {
     /// use brainfoamkit_lib::{
     ///     Instruction,
     ///     Program,
+    ///     VMReader,
     ///     VirtualMachine,
     /// };
     ///
@@ -308,7 +412,12 @@ impl VirtualMachine {
     ///     Instruction::IncrementPointer,
     ///     Instruction::IncrementValue,
     /// ]);
-    /// let mut machine = VirtualMachine::builder().program(program).build();
+    /// let input_device = std::io::stdin();
+    /// let mut machine = VirtualMachine::builder()
+    ///     .input_device(input_device)
+    ///     .program(program)
+    ///     .build()
+    ///     .unwrap();
     /// assert_eq!(machine.memory_pointer(), 0);
     /// machine.execute_instruction();
     /// assert_eq!(machine.memory_pointer(), 1);
@@ -332,11 +441,21 @@ impl VirtualMachine {
     }
 
     fn increment_pointer(&mut self) {
-        self.memory_pointer += 1;
+        let next = self.memory_pointer.checked_add(1);
+        if let Some(next) = next {
+            self.memory_pointer = next;
+        } else {
+            self.memory_pointer = 0;
+        }
     }
 
     fn decrement_pointer(&mut self) {
-        self.memory_pointer -= 1;
+        let next = self.memory_pointer.checked_sub(1);
+        if let Some(next) = next {
+            self.memory_pointer = next;
+        } else {
+            self.memory_pointer = self.tape.len() - 1;
+        }
     }
 
     fn increment_value(&mut self) {
@@ -352,7 +471,10 @@ impl VirtualMachine {
     }
 
     fn input_value(&mut self) {
-        todo!("Implement input_value")
+        let input = self.input.read();
+        if let Ok(input) = input {
+            self.tape[self.memory_pointer] = Byte::from_u8(input);
+        }
     }
 
     fn jump_forward(&mut self) {
@@ -364,15 +486,12 @@ impl VirtualMachine {
     }
 }
 
-impl Default for VirtualMachine {
-    fn default() -> Self {
-        Self::builder().build()
-    }
-}
-
 #[cfg(test)]
 mod tests {
+    use std::io::Cursor;
+
     use super::*;
+    use crate::vm_reader::MockReader;
 
     #[test]
     fn test_machine_get_instruction() {
@@ -388,7 +507,14 @@ mod tests {
             Instruction::NoOp,
         ];
         let program = Program::from(instructions);
-        let machine = VirtualMachine::builder().program(program).build();
+        let input_device = MockReader {
+            data: Cursor::new("A".as_bytes().to_vec()),
+        };
+        let machine = VirtualMachine::builder()
+            .input_device(input_device)
+            .program(program)
+            .build()
+            .unwrap();
         assert_eq!(
             machine.get_instruction(),
             Some(Instruction::IncrementPointer)
@@ -397,13 +523,20 @@ mod tests {
 
     #[test]
     fn test_machine_execute_instruction() {
+        let input_device = MockReader {
+            data: Cursor::new("A".as_bytes().to_vec()),
+        };
         let program = Program::from(vec![
             Instruction::IncrementPointer,
             Instruction::IncrementValue,
             Instruction::DecrementValue,
             Instruction::DecrementPointer,
         ]);
-        let mut machine = VirtualMachine::builder().program(program).build();
+        let mut machine = VirtualMachine::builder()
+            .input_device(input_device)
+            .program(program)
+            .build()
+            .unwrap();
 
         machine.execute_instruction();
         assert_eq!(
@@ -466,7 +599,13 @@ mod tests {
 
     #[test]
     fn test_memory_pointer() {
-        let machine = VirtualMachine::builder().build();
+        let input_device = MockReader {
+            data: Cursor::new("A".as_bytes().to_vec()),
+        };
+        let machine = VirtualMachine::builder()
+            .input_device(input_device)
+            .build()
+            .unwrap();
         assert_eq!(
             machine.memory_pointer(),
             0,
@@ -476,7 +615,13 @@ mod tests {
 
     #[test]
     fn test_program_counter() {
-        let machine = VirtualMachine::builder().build();
+        let input_device = MockReader {
+            data: Cursor::new("A".as_bytes().to_vec()),
+        };
+        let machine = VirtualMachine::builder()
+            .input_device(input_device)
+            .build()
+            .unwrap();
         assert_eq!(
             machine.program_counter(),
             0,
@@ -486,7 +631,13 @@ mod tests {
 
     #[test]
     fn test_increment_pointer() {
-        let mut machine = VirtualMachine::default();
+        let input_device = MockReader {
+            data: Cursor::new("A".as_bytes().to_vec()),
+        };
+        let mut machine = VirtualMachine::builder()
+            .input_device(input_device)
+            .build()
+            .unwrap();
         machine.increment_pointer();
         assert_eq!(
             machine.memory_pointer(),
@@ -497,18 +648,31 @@ mod tests {
 
     #[test]
     fn test_decrement_pointer() {
-        let mut machine = VirtualMachine::new(100, Program::default(), 1, 0);
+        let input_device = MockReader {
+            data: Cursor::new("A".as_bytes().to_vec()),
+        };
+        let mut machine = VirtualMachine::builder()
+            .input_device(input_device)
+            .tape_size(100)
+            .build()
+            .unwrap();
         machine.decrement_pointer();
         assert_eq!(
             machine.memory_pointer(),
-            0,
+            99,
             "Memory pointer should be decremented"
         );
     }
 
     #[test]
     fn test_increment_value() {
-        let mut machine = VirtualMachine::default();
+        let input_device = MockReader {
+            data: Cursor::new("A".as_bytes().to_vec()),
+        };
+        let mut machine = VirtualMachine::builder()
+            .input_device(input_device)
+            .build()
+            .unwrap();
         let increment_result = Byte::from_u8(1);
 
         machine.increment_value();
@@ -520,7 +684,13 @@ mod tests {
 
     #[test]
     fn test_decrement_value() {
-        let mut machine = VirtualMachine::default();
+        let input_device = MockReader {
+            data: Cursor::new("A".as_bytes().to_vec()),
+        };
+        let mut machine = VirtualMachine::builder()
+            .input_device(input_device)
+            .build()
+            .unwrap();
         machine.tape[0] = Byte::from_u8(1);
         machine.decrement_value();
         assert_eq!(
@@ -533,28 +703,79 @@ mod tests {
     #[test]
     #[should_panic(expected = "not yet implemented")]
     fn test_output_value() {
-        let mut machine = VirtualMachine::default();
+        let input_device = MockReader {
+            data: Cursor::new("A".as_bytes().to_vec()),
+        };
+        let mut machine = VirtualMachine::builder()
+            .input_device(input_device)
+            .build()
+            .unwrap();
         machine.output_value();
     }
 
     #[test]
-    #[should_panic(expected = "not yet implemented")]
-    fn test_input_value() {
-        let mut machine = VirtualMachine::default();
+    fn test_valid_input_value() {
+        let data = vec![65]; // A's ASCII value is 65
+        let input_device = MockReader {
+            data: Cursor::new(data),
+        };
+        let mut machine = VirtualMachine::builder()
+            .input_device(input_device)
+            .build()
+            .unwrap();
+
         machine.input_value();
+
+        assert_eq!(
+            machine.tape[0],
+            Byte::from_u8(65),
+            "Value at memory pointer should be set to the input value"
+        );
+    }
+
+    #[test]
+    fn test_invalid_input_value() {
+        let data = vec![129]; // 129 is not a valid ASCII value
+        let input_device = MockReader {
+            data: Cursor::new(data),
+        };
+        let mut machine = VirtualMachine::builder()
+            .input_device(input_device)
+            .build()
+            .unwrap();
+
+        machine.input_value();
+
+        assert_eq!(
+            machine.tape[0],
+            Byte::from_u8(0),
+            "Value at memory pointer should not be set to the input value"
+        );
     }
 
     #[test]
     #[should_panic(expected = "not yet implemented")]
     fn test_jump_forward() {
-        let mut machine = VirtualMachine::default();
+        let input_device = MockReader {
+            data: Cursor::new("A".as_bytes().to_vec()),
+        };
+        let mut machine = VirtualMachine::builder()
+            .input_device(input_device)
+            .build()
+            .unwrap();
         machine.jump_forward();
     }
 
     #[test]
     #[should_panic(expected = "not yet implemented")]
     fn test_jump_backward() {
-        let mut machine = VirtualMachine::default();
+        let input_device = MockReader {
+            data: Cursor::new("A".as_bytes().to_vec()),
+        };
+        let mut machine = VirtualMachine::builder()
+            .input_device(input_device)
+            .build()
+            .unwrap();
         machine.jump_backward();
     }
 }
