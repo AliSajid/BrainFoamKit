@@ -111,3 +111,10 @@ repos:
         types: [rust]
         files: \.rs$
         pass_filenames: false
+    -   id: cargo-about
+        name: cargo about
+        entry: cargo about generate --format json --output-file meta/licenses.json && cargo about generate --output-file meta/licenses.html meta/licenses.hbs
+        language: system
+        types: [rust]
+        files: Cargo.lock$
+        pass_filenames: false

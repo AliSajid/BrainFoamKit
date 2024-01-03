@@ -3,7 +3,7 @@
 
 ### ⚠ BREAKING CHANGES
 
-* **VM:** 
+* **VM:**
 
 ### Features
 
