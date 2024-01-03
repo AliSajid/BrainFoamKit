@@ -44,7 +44,7 @@ apply_gitignore = false
 [jobs.test]
 command = [
     "cargo",
-    "test",
+    "nextest",
     "--color",
     "always",
     "--",
