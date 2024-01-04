@@ -45,11 +45,18 @@ apply_gitignore = false
 command = [
     "cargo",
     "nextest",
+    "--config-file",
+    "nextest.toml",
     "--color",
     "always",
+    "run",
+    "--release",
+    "--jobs",
+    "num-cpus",
+    "--",
     "--",
     "--color",
-    "always",  # see https://github.com/Canop/bacon/issues/124
+    "always", # https://github.com/Canop/bacon/issues/124
 ]
 need_stdout = true
 
