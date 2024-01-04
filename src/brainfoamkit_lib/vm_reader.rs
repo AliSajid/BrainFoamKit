@@ -77,18 +77,15 @@ use anyhow::{
 /// # Examples
 ///
 /// ```
-/// use std::fs::File;
-///
 /// use brainfoamkit_lib::{
 ///     VMReader,
 ///     VMReaderType,
 /// };
-/// use tempdir::TempDir;
+/// use tempfile::NamedTempFile;
 ///
 /// let stdin = std::io::stdin();
-/// let temp_dir = TempDir::new("test").unwrap();
-/// let file_path = temp_dir.path().join("test.bf");
-/// let file = File::create(file_path).unwrap();
+/// let temp_file = NamedTempFile::new().unwrap();
+/// let file = temp_file.reopen().unwrap();
 /// let mock = brainfoamkit_lib::MockReader {
 ///     data: std::io::Cursor::new("A".as_bytes().to_vec()),
 /// };
@@ -132,18 +129,15 @@ pub enum VMReaderType {
 /// # Examples
 ///
 /// ```
-/// use std::fs::File;
-///
 /// use brainfoamkit_lib::{
 ///     VMReader,
 ///     VMReaderType,
 /// };
-/// use tempdir::TempDir;
+/// use tempfile::NamedTempFile;
 ///
 /// let stdin = std::io::stdin();
-/// let temp_dir = TempDir::new("test").unwrap();
-/// let file_path = temp_dir.path().join("test.bf");
-/// let file = File::create(file_path).unwrap();
+/// let temp_file = NamedTempFile::new().unwrap();
+/// let file = temp_file.reopen().unwrap();
 /// let mock = brainfoamkit_lib::MockReader {
 ///     data: std::io::Cursor::new("A".as_bytes().to_vec()),
 /// };
@@ -334,15 +328,12 @@ impl VMReader for File {
 
 #[cfg(test)]
 mod tests {
-    use std::{
-        fs::File,
-        io::{
-            Cursor,
-            Write,
-        },
+    use std::io::{
+        Cursor,
+        Write,
     };
 
-    use tempdir::TempDir;
+    use tempfile::NamedTempFile;
 
     use super::*;
 
@@ -368,14 +359,14 @@ mod tests {
 
     #[test]
     fn test_read_from_file() {
-        let temp_dir = TempDir::new("test").unwrap();
-        let file_path = temp_dir.path().join("test.bf");
-        let mut file = File::create(&file_path).unwrap();
-        file.write_all("A".as_bytes()).unwrap();
+        let mut temp_file = NamedTempFile::new().unwrap();
+        temp_file.write_all("A".as_bytes()).unwrap();
 
-        let mut file = File::open(file_path).unwrap();
+        let mut file = temp_file.reopen().unwrap();
         let read_value = VMReader::read(&mut file).unwrap();
         assert_eq!(read_value, 65);
+
+        temp_file.close().unwrap();
     }
 
     #[test]
@@ -390,9 +381,8 @@ mod tests {
     #[test]
     fn test_get_vmreader_type() {
         let stdin = std::io::stdin();
-        let temp_dir = TempDir::new("test").unwrap();
-        let file_path = temp_dir.path().join("test.bf");
-        let file = File::create(file_path).unwrap();
+        let temp_file = NamedTempFile::new().unwrap();
+        let file = temp_file.reopen().unwrap();
         let mock = MockReader {
             data: Cursor::new("A".as_bytes().to_vec()),
         };
@@ -402,5 +392,7 @@ mod tests {
         assert_eq!(file.get_vmreader_type(), VMReaderType::File);
         assert_eq!(mock.get_vmreader_type(), VMReaderType::Mock);
         assert_eq!(default.get_vmreader_type(), VMReaderType::Unknown);
+
+        temp_file.close().unwrap();
     }
 }
