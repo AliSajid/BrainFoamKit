@@ -41,7 +41,7 @@ fi
 
 if [ -z "$1" ]
 then
-    cargo about generate --format json | jq -r > licenses_report.json
+    cargo about generate --format json | jq --sort-keys --indent 4 -r > licenses_report.json
 else
-    cargo about generate --format json | jq -r > "$1"
+    cargo about generate --format json | jq --sort-keys --indent 4 -r > "$1"
 fi

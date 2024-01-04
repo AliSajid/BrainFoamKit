@@ -578,7 +578,7 @@
                         "path": null,
                         "registry": null,
                         "rename": null,
-                        "req": "^0.1.12",
+                        "req": "^0.1.17",
                         "source": "registry+https://github.com/rust-lang/crates.io-index",
                         "target": null,
                         "uses_default_features": true
@@ -619,7 +619,7 @@
                         "path": null,
                         "registry": null,
                         "rename": null,
-                        "req": "^0.7.14",
+                        "req": "^0.7.31",
                         "source": "registry+https://github.com/rust-lang/crates.io-index",
                         "target": null,
                         "uses_default_features": false
@@ -758,7 +758,6 @@
                     },
                     {
                         "features": [
-                            "unstable",
                             "alloc"
                         ],
                         "kind": "normal",
@@ -767,7 +766,7 @@
                         "path": null,
                         "registry": null,
                         "rename": null,
-                        "req": "^1.13.1",
+                        "req": "^1.18.0",
                         "source": "registry+https://github.com/rust-lang/crates.io-index",
                         "target": "cfg(not(all(target_arch = \"arm\", target_os = \"none\")))",
                         "uses_default_features": false
@@ -794,6 +793,7 @@
                     "getrandom": [
                         "dep:getrandom"
                     ],
+                    "nightly-arm-aes": [],
                     "no-rng": [],
                     "runtime-rng": [
                         "getrandom"
@@ -804,7 +804,7 @@
                     "std": []
                 },
                 "homepage": null,
-                "id": "ahash 0.8.6 (registry+https://github.com/rust-lang/crates.io-index)",
+                "id": "ahash 0.8.7 (registry+https://github.com/rust-lang/crates.io-index)",
                 "keywords": [
                     "hash",
                     "hasher",
@@ -815,7 +815,7 @@
                 "license": "MIT OR Apache-2.0",
                 "license_file": null,
                 "links": null,
-                "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.6/Cargo.toml",
+                "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.7/Cargo.toml",
                 "metadata": {
                     "docs": {
                         "rs": {
@@ -837,7 +837,7 @@
                 "publish": null,
                 "readme": "README.md",
                 "repository": "https://github.com/tkaitchuck/ahash",
-                "rust_version": null,
+                "rust_version": "1.60.0",
                 "source": "registry+https://github.com/rust-lang/crates.io-index",
                 "targets": [
                     {
@@ -852,7 +852,7 @@
                         ],
                         "name": "ahash",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.6/src/lib.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.7/src/lib.rs",
                         "test": true
                     },
                     {
@@ -867,7 +867,7 @@
                         ],
                         "name": "nopanic",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.6/tests/nopanic.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.7/tests/nopanic.rs",
                         "test": true
                     },
                     {
@@ -882,7 +882,7 @@
                         ],
                         "name": "map_tests",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.6/tests/map_tests.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.7/tests/map_tests.rs",
                         "test": true
                     },
                     {
@@ -897,7 +897,7 @@
                         ],
                         "name": "bench",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.6/tests/bench.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.7/tests/bench.rs",
                         "test": true
                     },
                     {
@@ -912,7 +912,7 @@
                         ],
                         "name": "ahash",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.6/tests/bench.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.7/tests/bench.rs",
                         "test": false
                     },
                     {
@@ -927,7 +927,7 @@
                         ],
                         "name": "map",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.6/tests/map_tests.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.7/tests/map_tests.rs",
                         "test": false
                     },
                     {
@@ -942,11 +942,11 @@
                         ],
                         "name": "build-script-build",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.6/./build.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.7/./build.rs",
                         "test": false
                     }
                 ],
-                "version": "0.8.6"
+                "version": "0.8.7"
             }
         },
         {
@@ -1129,7 +1129,7 @@
                     "std": []
                 },
                 "homepage": null,
-                "id": "anyhow 1.0.77 (registry+https://github.com/rust-lang/crates.io-index)",
+                "id": "anyhow 1.0.79 (registry+https://github.com/rust-lang/crates.io-index)",
                 "keywords": [
                     "error",
                     "error-handling"
@@ -1137,7 +1137,7 @@
                 "license": "MIT OR Apache-2.0",
                 "license_file": null,
                 "links": null,
-                "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/Cargo.toml",
+                "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/Cargo.toml",
                 "metadata": {
                     "docs": {
                         "rs": {
@@ -1171,7 +1171,7 @@
                         ],
                         "name": "anyhow",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/src/lib.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/src/lib.rs",
                         "test": true
                     },
                     {
@@ -1186,7 +1186,7 @@
                         ],
                         "name": "test_source",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/tests/test_source.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/tests/test_source.rs",
                         "test": true
                     },
                     {
@@ -1201,7 +1201,7 @@
                         ],
                         "name": "test_convert",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/tests/test_convert.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/tests/test_convert.rs",
                         "test": true
                     },
                     {
@@ -1216,7 +1216,7 @@
                         ],
                         "name": "test_backtrace",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/tests/test_backtrace.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/tests/test_backtrace.rs",
                         "test": true
                     },
                     {
@@ -1231,7 +1231,7 @@
                         ],
                         "name": "test_fmt",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/tests/test_fmt.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/tests/test_fmt.rs",
                         "test": true
                     },
                     {
@@ -1246,7 +1246,7 @@
                         ],
                         "name": "test_macros",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/tests/test_macros.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/tests/test_macros.rs",
                         "test": true
                     },
                     {
@@ -1261,7 +1261,7 @@
                         ],
                         "name": "compiletest",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/tests/compiletest.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/tests/compiletest.rs",
                         "test": true
                     },
                     {
@@ -1276,7 +1276,7 @@
                         ],
                         "name": "test_chain",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/tests/test_chain.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/tests/test_chain.rs",
                         "test": true
                     },
                     {
@@ -1291,7 +1291,7 @@
                         ],
                         "name": "test_autotrait",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/tests/test_autotrait.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/tests/test_autotrait.rs",
                         "test": true
                     },
                     {
@@ -1306,7 +1306,7 @@
                         ],
                         "name": "test_ensure",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/tests/test_ensure.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/tests/test_ensure.rs",
                         "test": true
                     },
                     {
@@ -1321,7 +1321,7 @@
                         ],
                         "name": "test_downcast",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/tests/test_downcast.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/tests/test_downcast.rs",
                         "test": true
                     },
                     {
@@ -1336,7 +1336,7 @@
                         ],
                         "name": "test_ffi",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/tests/test_ffi.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/tests/test_ffi.rs",
                         "test": true
                     },
                     {
@@ -1351,7 +1351,7 @@
                         ],
                         "name": "test_context",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/tests/test_context.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/tests/test_context.rs",
                         "test": true
                     },
                     {
@@ -1366,7 +1366,7 @@
                         ],
                         "name": "test_repr",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/tests/test_repr.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/tests/test_repr.rs",
                         "test": true
                     },
                     {
@@ -1381,7 +1381,7 @@
                         ],
                         "name": "test_boxed",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/tests/test_boxed.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/tests/test_boxed.rs",
                         "test": true
                     },
                     {
@@ -1396,11 +1396,11 @@
                         ],
                         "name": "build-script-build",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/build.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/build.rs",
                         "test": false
                     }
                 ],
-                "version": "1.0.77"
+                "version": "1.0.79"
             }
         },
         {
@@ -2318,7 +2318,7 @@
                         "path": null,
                         "registry": null,
                         "rename": null,
-                        "req": "^1.0.77",
+                        "req": "^1.0.79",
                         "source": "registry+https://github.com/rust-lang/crates.io-index",
                         "target": null,
                         "uses_default_features": true
@@ -4406,7 +4406,7 @@
                         "path": null,
                         "registry": null,
                         "rename": null,
-                        "req": "^0.2.3",
+                        "req": "^0.4.1",
                         "source": "registry+https://github.com/rust-lang/crates.io-index",
                         "target": null,
                         "uses_default_features": false
@@ -4420,7 +4420,7 @@
                     "self-test": []
                 },
                 "homepage": "https://slint-ui.com",
-                "id": "document-features 0.2.7 (registry+https://github.com/rust-lang/crates.io-index)",
+                "id": "document-features 0.2.8 (registry+https://github.com/rust-lang/crates.io-index)",
                 "keywords": [
                     "documentation",
                     "features",
@@ -4430,7 +4430,7 @@
                 "license": "MIT OR Apache-2.0",
                 "license_file": null,
                 "links": null,
-                "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/document-features-0.2.7/Cargo.toml",
+                "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/document-features-0.2.8/Cargo.toml",
                 "name": "document-features",
                 "publish": null,
                 "readme": "README.md",
@@ -4450,7 +4450,7 @@
                         ],
                         "name": "document-features",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/document-features-0.2.7/lib.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/document-features-0.2.8/lib.rs",
                         "test": true
                     },
                     {
@@ -4465,11 +4465,11 @@
                         ],
                         "name": "self-doc",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/document-features-0.2.7/tests/self-doc.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/document-features-0.2.8/tests/self-doc.rs",
                         "test": true
                     }
                 ],
-                "version": "0.2.7"
+                "version": "0.2.8"
             }
         },
         {
@@ -4578,7 +4578,7 @@
             "license": "Apache-2.0 OR MIT",
             "package": {
                 "authors": [
-                    "Torbj\u00f8rn Birch Moltu <t.b.moltu@lyse.net>"
+                    "Torbjørn Birch Moltu <t.b.moltu@lyse.net>"
                 ],
                 "categories": [
                     "encoding",
@@ -5808,7 +5808,7 @@
                         "path": null,
                         "registry": null,
                         "rename": null,
-                        "req": "^0.48.0",
+                        "req": "^0.52.0",
                         "source": "registry+https://github.com/rust-lang/crates.io-index",
                         "target": "cfg(windows)",
                         "uses_default_features": true
@@ -5832,7 +5832,7 @@
                 "edition": "2018",
                 "features": {},
                 "homepage": null,
-                "id": "is-terminal 0.4.9 (registry+https://github.com/rust-lang/crates.io-index)",
+                "id": "is-terminal 0.4.10 (registry+https://github.com/rust-lang/crates.io-index)",
                 "keywords": [
                     "terminal",
                     "tty",
@@ -5841,7 +5841,7 @@
                 "license": "MIT",
                 "license_file": null,
                 "links": null,
-                "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/is-terminal-0.4.9/Cargo.toml",
+                "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/is-terminal-0.4.10/Cargo.toml",
                 "name": "is-terminal",
                 "publish": null,
                 "readme": "README.md",
@@ -5861,11 +5861,11 @@
                         ],
                         "name": "is-terminal",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/is-terminal-0.4.9/src/lib.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/is-terminal-0.4.10/src/lib.rs",
                         "test": true
                     }
                 ],
-                "version": "0.4.9"
+                "version": "0.4.10"
             }
         },
         {
@@ -6442,7 +6442,7 @@
             "license": "MIT OR Apache-2.0",
             "package": {
                 "authors": [
-                    "Marvin L\u00f6bel <loebel.marvin@gmail.com>"
+                    "Marvin Löbel <loebel.marvin@gmail.com>"
                 ],
                 "categories": [
                     "no-std",
@@ -6978,21 +6978,40 @@
                         "source": "registry+https://github.com/rust-lang/crates.io-index",
                         "target": null,
                         "uses_default_features": true
+                    },
+                    {
+                        "features": [],
+                        "kind": "normal",
+                        "name": "unicode-xid",
+                        "optional": true,
+                        "path": null,
+                        "registry": null,
+                        "rename": null,
+                        "req": "^0.2.4",
+                        "source": "registry+https://github.com/rust-lang/crates.io-index",
+                        "target": null,
+                        "uses_default_features": true
                     }
                 ],
                 "description": "Parse and inspect Rust literals (i.e. tokens in the Rust programming language\nrepresenting fixed values). Particularly useful for proc macros, but can also\nbe used outside of a proc-macro context.\n",
                 "documentation": "https://docs.rs/litrs/",
                 "edition": "2018",
                 "features": {
+                    "check_suffix": [
+                        "unicode-xid"
+                    ],
                     "default": [
                         "proc-macro2"
                     ],
                     "proc-macro2": [
                         "dep:proc-macro2"
+                    ],
+                    "unicode-xid": [
+                        "dep:unicode-xid"
                     ]
                 },
                 "homepage": null,
-                "id": "litrs 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)",
+                "id": "litrs 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
                 "keywords": [
                     "literal",
                     "parsing",
@@ -7003,12 +7022,12 @@
                 "license": "MIT OR Apache-2.0",
                 "license_file": null,
                 "links": null,
-                "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/litrs-0.2.3/Cargo.toml",
+                "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/litrs-0.4.1/Cargo.toml",
                 "name": "litrs",
                 "publish": null,
                 "readme": "README.md",
                 "repository": "https://github.com/LukasKalbertodt/litrs/",
-                "rust_version": null,
+                "rust_version": "1.54.0",
                 "source": "registry+https://github.com/rust-lang/crates.io-index",
                 "targets": [
                     {
@@ -7023,11 +7042,11 @@
                         ],
                         "name": "litrs",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/litrs-0.2.3/src/lib.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/litrs-0.4.1/src/lib.rs",
                         "test": true
                     }
                 ],
-                "version": "0.2.3"
+                "version": "0.4.1"
             }
         },
         {
@@ -7661,7 +7680,7 @@
                     ]
                 },
                 "homepage": "https://github.com/BurntSushi/memchr",
-                "id": "memchr 2.6.4 (registry+https://github.com/rust-lang/crates.io-index)",
+                "id": "memchr 2.7.1 (registry+https://github.com/rust-lang/crates.io-index)",
                 "keywords": [
                     "memchr",
                     "memmem",
@@ -7672,7 +7691,7 @@
                 "license": "Unlicense OR MIT",
                 "license_file": null,
                 "links": null,
-                "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/memchr-2.6.4/Cargo.toml",
+                "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/memchr-2.7.1/Cargo.toml",
                 "metadata": {
                     "docs": {
                         "rs": {
@@ -7701,11 +7720,11 @@
                         ],
                         "name": "memchr",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/memchr-2.6.4/src/lib.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/memchr-2.7.1/src/lib.rs",
                         "test": true
                     }
                 ],
-                "version": "2.6.4"
+                "version": "2.7.1"
             }
         },
         {
@@ -9576,7 +9595,7 @@
                     "span-locations": []
                 },
                 "homepage": null,
-                "id": "proc-macro2 1.0.71 (registry+https://github.com/rust-lang/crates.io-index)",
+                "id": "proc-macro2 1.0.75 (registry+https://github.com/rust-lang/crates.io-index)",
                 "keywords": [
                     "macros",
                     "syn"
@@ -9584,7 +9603,7 @@
                 "license": "MIT OR Apache-2.0",
                 "license_file": null,
                 "links": null,
-                "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.71/Cargo.toml",
+                "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.75/Cargo.toml",
                 "metadata": {
                     "docs": {
                         "rs": {
@@ -9629,7 +9648,7 @@
                         ],
                         "name": "proc-macro2",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.71/src/lib.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.75/src/lib.rs",
                         "test": true
                     },
                     {
@@ -9644,7 +9663,7 @@
                         ],
                         "name": "features",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.71/tests/features.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.75/tests/features.rs",
                         "test": true
                     },
                     {
@@ -9659,7 +9678,7 @@
                         ],
                         "name": "test",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.71/tests/test.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.75/tests/test.rs",
                         "test": true
                     },
                     {
@@ -9674,7 +9693,7 @@
                         ],
                         "name": "test_size",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.71/tests/test_size.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.75/tests/test_size.rs",
                         "test": true
                     },
                     {
@@ -9689,7 +9708,7 @@
                         ],
                         "name": "test_fmt",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.71/tests/test_fmt.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.75/tests/test_fmt.rs",
                         "test": true
                     },
                     {
@@ -9704,7 +9723,7 @@
                         ],
                         "name": "comments",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.71/tests/comments.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.75/tests/comments.rs",
                         "test": true
                     },
                     {
@@ -9719,7 +9738,7 @@
                         ],
                         "name": "marker",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.71/tests/marker.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.75/tests/marker.rs",
                         "test": true
                     },
                     {
@@ -9734,11 +9753,11 @@
                         ],
                         "name": "build-script-build",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.71/build.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.75/build.rs",
                         "test": false
                     }
                 ],
-                "version": "1.0.71"
+                "version": "1.0.75"
             }
         },
         {
@@ -9760,7 +9779,7 @@
                         "path": null,
                         "registry": null,
                         "rename": null,
-                        "req": "^1.0.66",
+                        "req": "^1.0.74",
                         "source": "registry+https://github.com/rust-lang/crates.io-index",
                         "target": null,
                         "uses_default_features": false
@@ -9806,7 +9825,7 @@
                     ]
                 },
                 "homepage": null,
-                "id": "quote 1.0.33 (registry+https://github.com/rust-lang/crates.io-index)",
+                "id": "quote 1.0.35 (registry+https://github.com/rust-lang/crates.io-index)",
                 "keywords": [
                     "macros",
                     "syn"
@@ -9814,7 +9833,7 @@
                 "license": "MIT OR Apache-2.0",
                 "license_file": null,
                 "links": null,
-                "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/quote-1.0.33/Cargo.toml",
+                "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/quote-1.0.35/Cargo.toml",
                 "metadata": {
                     "docs": {
                         "rs": {
@@ -9846,7 +9865,7 @@
                         ],
                         "name": "quote",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/quote-1.0.33/src/lib.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/quote-1.0.35/src/lib.rs",
                         "test": true
                     },
                     {
@@ -9861,7 +9880,7 @@
                         ],
                         "name": "test",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/quote-1.0.33/tests/test.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/quote-1.0.35/tests/test.rs",
                         "test": true
                     },
                     {
@@ -9876,11 +9895,11 @@
                         ],
                         "name": "compiletest",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/quote-1.0.33/tests/compiletest.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/quote-1.0.35/tests/compiletest.rs",
                         "test": true
                     }
                 ],
-                "version": "1.0.33"
+                "version": "1.0.35"
             }
         },
         {
@@ -12526,7 +12545,7 @@
                         "path": null,
                         "registry": null,
                         "rename": null,
-                        "req": "=1.0.193",
+                        "req": "=1.0.194",
                         "source": "registry+https://github.com/rust-lang/crates.io-index",
                         "target": "cfg(any())",
                         "uses_default_features": true
@@ -12551,7 +12570,7 @@
                     "unstable": []
                 },
                 "homepage": "https://serde.rs",
-                "id": "serde 1.0.193 (registry+https://github.com/rust-lang/crates.io-index)",
+                "id": "serde 1.0.194 (registry+https://github.com/rust-lang/crates.io-index)",
                 "keywords": [
                     "serde",
                     "serialization",
@@ -12560,7 +12579,7 @@
                 "license": "MIT OR Apache-2.0",
                 "license_file": null,
                 "links": null,
-                "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde-1.0.193/Cargo.toml",
+                "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde-1.0.194/Cargo.toml",
                 "metadata": {
                     "docs": {
                         "rs": {
@@ -12605,7 +12624,7 @@
                         ],
                         "name": "serde",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde-1.0.193/src/lib.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde-1.0.194/src/lib.rs",
                         "test": true
                     },
                     {
@@ -12620,11 +12639,11 @@
                         ],
                         "name": "build-script-build",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde-1.0.193/build.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde-1.0.194/build.rs",
                         "test": false
                     }
                 ],
-                "version": "1.0.193"
+                "version": "1.0.194"
             }
         },
         {
@@ -12648,7 +12667,7 @@
                         "path": null,
                         "registry": null,
                         "rename": null,
-                        "req": "^1.0",
+                        "req": "^1.0.74",
                         "source": "registry+https://github.com/rust-lang/crates.io-index",
                         "target": null,
                         "uses_default_features": true
@@ -12661,7 +12680,7 @@
                         "path": null,
                         "registry": null,
                         "rename": null,
-                        "req": "^1.0",
+                        "req": "^1.0.35",
                         "source": "registry+https://github.com/rust-lang/crates.io-index",
                         "target": null,
                         "uses_default_features": true
@@ -12674,7 +12693,7 @@
                         "path": null,
                         "registry": null,
                         "rename": null,
-                        "req": "^2.0.28",
+                        "req": "^2.0.46",
                         "source": "registry+https://github.com/rust-lang/crates.io-index",
                         "target": null,
                         "uses_default_features": true
@@ -12701,7 +12720,7 @@
                     "deserialize_in_place": []
                 },
                 "homepage": "https://serde.rs",
-                "id": "serde_derive 1.0.193 (registry+https://github.com/rust-lang/crates.io-index)",
+                "id": "serde_derive 1.0.194 (registry+https://github.com/rust-lang/crates.io-index)",
                 "keywords": [
                     "serde",
                     "serialization",
@@ -12711,7 +12730,7 @@
                 "license": "MIT OR Apache-2.0",
                 "license_file": null,
                 "links": null,
-                "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde_derive-1.0.193/Cargo.toml",
+                "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde_derive-1.0.194/Cargo.toml",
                 "metadata": {
                     "docs": {
                         "rs": {
@@ -12743,11 +12762,11 @@
                         ],
                         "name": "serde_derive",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde_derive-1.0.193/src/lib.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde_derive-1.0.194/src/lib.rs",
                         "test": true
                     }
                 ],
-                "version": "1.0.193"
+                "version": "1.0.194"
             }
         },
         {
@@ -14610,7 +14629,7 @@
                         "path": null,
                         "registry": null,
                         "rename": null,
-                        "req": "^1.0.67",
+                        "req": "^1.0.75",
                         "source": "registry+https://github.com/rust-lang/crates.io-index",
                         "target": null,
                         "uses_default_features": false
@@ -14623,7 +14642,7 @@
                         "path": null,
                         "registry": null,
                         "rename": null,
-                        "req": "^1.0.28",
+                        "req": "^1.0.35",
                         "source": "registry+https://github.com/rust-lang/crates.io-index",
                         "target": null,
                         "uses_default_features": false
@@ -14834,7 +14853,7 @@
                     "visit-mut": []
                 },
                 "homepage": null,
-                "id": "syn 2.0.43 (registry+https://github.com/rust-lang/crates.io-index)",
+                "id": "syn 2.0.47 (registry+https://github.com/rust-lang/crates.io-index)",
                 "keywords": [
                     "macros",
                     "syn"
@@ -14842,7 +14861,7 @@
                 "license": "MIT OR Apache-2.0",
                 "license_file": null,
                 "links": null,
-                "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/Cargo.toml",
+                "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/Cargo.toml",
                 "metadata": {
                     "docs": {
                         "rs": {
@@ -14886,7 +14905,7 @@
                         ],
                         "name": "syn",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/src/lib.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/src/lib.rs",
                         "test": true
                     },
                     {
@@ -14901,7 +14920,7 @@
                         ],
                         "name": "test_should_parse",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_should_parse.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_should_parse.rs",
                         "test": true
                     },
                     {
@@ -14916,7 +14935,7 @@
                         ],
                         "name": "test_visibility",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_visibility.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_visibility.rs",
                         "test": true
                     },
                     {
@@ -14931,7 +14950,7 @@
                         ],
                         "name": "test_stmt",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_stmt.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_stmt.rs",
                         "test": true
                     },
                     {
@@ -14946,7 +14965,7 @@
                         ],
                         "name": "test_round_trip",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_round_trip.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_round_trip.rs",
                         "test": true
                     },
                     {
@@ -14961,7 +14980,7 @@
                         ],
                         "name": "test_size",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_size.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_size.rs",
                         "test": true
                     },
                     {
@@ -14976,7 +14995,7 @@
                         ],
                         "name": "test_shebang",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_shebang.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_shebang.rs",
                         "test": true
                     },
                     {
@@ -14991,7 +15010,7 @@
                         ],
                         "name": "test_pat",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_pat.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_pat.rs",
                         "test": true
                     },
                     {
@@ -15006,7 +15025,7 @@
                         ],
                         "name": "test_receiver",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_receiver.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_receiver.rs",
                         "test": true
                     },
                     {
@@ -15021,7 +15040,7 @@
                         ],
                         "name": "test_precedence",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_precedence.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_precedence.rs",
                         "test": true
                     },
                     {
@@ -15036,7 +15055,7 @@
                         ],
                         "name": "test_lit",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_lit.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_lit.rs",
                         "test": true
                     },
                     {
@@ -15051,7 +15070,7 @@
                         ],
                         "name": "regression",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/regression.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/regression.rs",
                         "test": true
                     },
                     {
@@ -15066,7 +15085,7 @@
                         ],
                         "name": "test_parse_stream",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_parse_stream.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_parse_stream.rs",
                         "test": true
                     },
                     {
@@ -15081,7 +15100,7 @@
                         ],
                         "name": "test_grouping",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_grouping.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_grouping.rs",
                         "test": true
                     },
                     {
@@ -15096,7 +15115,7 @@
                         ],
                         "name": "test_ident",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_ident.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_ident.rs",
                         "test": true
                     },
                     {
@@ -15111,7 +15130,7 @@
                         ],
                         "name": "test_iterators",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_iterators.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_iterators.rs",
                         "test": true
                     },
                     {
@@ -15126,7 +15145,7 @@
                         ],
                         "name": "test_parse_buffer",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_parse_buffer.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_parse_buffer.rs",
                         "test": true
                     },
                     {
@@ -15141,7 +15160,7 @@
                         ],
                         "name": "test_asyncness",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_asyncness.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_asyncness.rs",
                         "test": true
                     },
                     {
@@ -15156,7 +15175,7 @@
                         ],
                         "name": "test_token_trees",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_token_trees.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_token_trees.rs",
                         "test": true
                     },
                     {
@@ -15171,7 +15190,7 @@
                         ],
                         "name": "test_ty",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_ty.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_ty.rs",
                         "test": true
                     },
                     {
@@ -15186,7 +15205,7 @@
                         ],
                         "name": "zzz_stable",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/zzz_stable.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/zzz_stable.rs",
                         "test": true
                     },
                     {
@@ -15201,7 +15220,7 @@
                         ],
                         "name": "test_parse_quote",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_parse_quote.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_parse_quote.rs",
                         "test": true
                     },
                     {
@@ -15216,7 +15235,7 @@
                         ],
                         "name": "test_meta",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_meta.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_meta.rs",
                         "test": true
                     },
                     {
@@ -15231,7 +15250,7 @@
                         ],
                         "name": "test_expr",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_expr.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_expr.rs",
                         "test": true
                     },
                     {
@@ -15246,7 +15265,7 @@
                         ],
                         "name": "test_item",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_item.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_item.rs",
                         "test": true
                     },
                     {
@@ -15261,7 +15280,7 @@
                         ],
                         "name": "test_path",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_path.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_path.rs",
                         "test": true
                     },
                     {
@@ -15276,7 +15295,7 @@
                         ],
                         "name": "test_derive_input",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_derive_input.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_derive_input.rs",
                         "test": true
                     },
                     {
@@ -15291,7 +15310,7 @@
                         ],
                         "name": "test_generics",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_generics.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_generics.rs",
                         "test": true
                     },
                     {
@@ -15306,7 +15325,7 @@
                         ],
                         "name": "test_attribute",
                         "required-features": [],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_attribute.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_attribute.rs",
                         "test": true
                     },
                     {
@@ -15324,7 +15343,7 @@
                             "full",
                             "parsing"
                         ],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/benches/rust.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/benches/rust.rs",
                         "test": false
                     },
                     {
@@ -15342,11 +15361,11 @@
                             "full",
                             "parsing"
                         ],
-                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/benches/file.rs",
+                        "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/benches/file.rs",
                         "test": false
                     }
                 ],
-                "version": "2.0.43"
+                "version": "2.0.47"
             }
         },
         {
@@ -19309,7 +19328,7 @@
                 {
                     "crate": {
                         "authors": [
-                            "Torbj\u00f8rn Birch Moltu <t.b.moltu@lyse.net>"
+                            "Torbjørn Birch Moltu <t.b.moltu@lyse.net>"
                         ],
                         "categories": [
                             "encoding",
@@ -21772,7 +21791,7 @@
                                 "path": null,
                                 "registry": null,
                                 "rename": null,
-                                "req": "^1.0.77",
+                                "req": "^1.0.79",
                                 "source": "registry+https://github.com/rust-lang/crates.io-index",
                                 "target": null,
                                 "uses_default_features": true
@@ -23072,7 +23091,7 @@
                             "std": []
                         },
                         "homepage": null,
-                        "id": "anyhow 1.0.77 (registry+https://github.com/rust-lang/crates.io-index)",
+                        "id": "anyhow 1.0.79 (registry+https://github.com/rust-lang/crates.io-index)",
                         "keywords": [
                             "error",
                             "error-handling"
@@ -23080,7 +23099,7 @@
                         "license": "MIT OR Apache-2.0",
                         "license_file": null,
                         "links": null,
-                        "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/Cargo.toml",
+                        "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/Cargo.toml",
                         "metadata": {
                             "docs": {
                                 "rs": {
@@ -23114,7 +23133,7 @@
                                 ],
                                 "name": "anyhow",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/src/lib.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/src/lib.rs",
                                 "test": true
                             },
                             {
@@ -23129,7 +23148,7 @@
                                 ],
                                 "name": "test_source",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/tests/test_source.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/tests/test_source.rs",
                                 "test": true
                             },
                             {
@@ -23144,7 +23163,7 @@
                                 ],
                                 "name": "test_convert",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/tests/test_convert.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/tests/test_convert.rs",
                                 "test": true
                             },
                             {
@@ -23159,7 +23178,7 @@
                                 ],
                                 "name": "test_backtrace",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/tests/test_backtrace.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/tests/test_backtrace.rs",
                                 "test": true
                             },
                             {
@@ -23174,7 +23193,7 @@
                                 ],
                                 "name": "test_fmt",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/tests/test_fmt.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/tests/test_fmt.rs",
                                 "test": true
                             },
                             {
@@ -23189,7 +23208,7 @@
                                 ],
                                 "name": "test_macros",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/tests/test_macros.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/tests/test_macros.rs",
                                 "test": true
                             },
                             {
@@ -23204,7 +23223,7 @@
                                 ],
                                 "name": "compiletest",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/tests/compiletest.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/tests/compiletest.rs",
                                 "test": true
                             },
                             {
@@ -23219,7 +23238,7 @@
                                 ],
                                 "name": "test_chain",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/tests/test_chain.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/tests/test_chain.rs",
                                 "test": true
                             },
                             {
@@ -23234,7 +23253,7 @@
                                 ],
                                 "name": "test_autotrait",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/tests/test_autotrait.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/tests/test_autotrait.rs",
                                 "test": true
                             },
                             {
@@ -23249,7 +23268,7 @@
                                 ],
                                 "name": "test_ensure",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/tests/test_ensure.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/tests/test_ensure.rs",
                                 "test": true
                             },
                             {
@@ -23264,7 +23283,7 @@
                                 ],
                                 "name": "test_downcast",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/tests/test_downcast.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/tests/test_downcast.rs",
                                 "test": true
                             },
                             {
@@ -23279,7 +23298,7 @@
                                 ],
                                 "name": "test_ffi",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/tests/test_ffi.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/tests/test_ffi.rs",
                                 "test": true
                             },
                             {
@@ -23294,7 +23313,7 @@
                                 ],
                                 "name": "test_context",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/tests/test_context.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/tests/test_context.rs",
                                 "test": true
                             },
                             {
@@ -23309,7 +23328,7 @@
                                 ],
                                 "name": "test_repr",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/tests/test_repr.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/tests/test_repr.rs",
                                 "test": true
                             },
                             {
@@ -23324,7 +23343,7 @@
                                 ],
                                 "name": "test_boxed",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/tests/test_boxed.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/tests/test_boxed.rs",
                                 "test": true
                             },
                             {
@@ -23339,11 +23358,11 @@
                                 ],
                                 "name": "build-script-build",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.77/build.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/anyhow-1.0.79/build.rs",
                                 "test": false
                             }
                         ],
-                        "version": "1.0.77"
+                        "version": "1.0.79"
                     },
                     "path": null
                 },
@@ -23925,21 +23944,40 @@
                                 "source": "registry+https://github.com/rust-lang/crates.io-index",
                                 "target": null,
                                 "uses_default_features": true
+                            },
+                            {
+                                "features": [],
+                                "kind": "normal",
+                                "name": "unicode-xid",
+                                "optional": true,
+                                "path": null,
+                                "registry": null,
+                                "rename": null,
+                                "req": "^0.2.4",
+                                "source": "registry+https://github.com/rust-lang/crates.io-index",
+                                "target": null,
+                                "uses_default_features": true
                             }
                         ],
                         "description": "Parse and inspect Rust literals (i.e. tokens in the Rust programming language\nrepresenting fixed values). Particularly useful for proc macros, but can also\nbe used outside of a proc-macro context.\n",
                         "documentation": "https://docs.rs/litrs/",
                         "edition": "2018",
                         "features": {
+                            "check_suffix": [
+                                "unicode-xid"
+                            ],
                             "default": [
                                 "proc-macro2"
                             ],
                             "proc-macro2": [
                                 "dep:proc-macro2"
+                            ],
+                            "unicode-xid": [
+                                "dep:unicode-xid"
                             ]
                         },
                         "homepage": null,
-                        "id": "litrs 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)",
+                        "id": "litrs 0.4.1 (registry+https://github.com/rust-lang/crates.io-index)",
                         "keywords": [
                             "literal",
                             "parsing",
@@ -23950,12 +23988,12 @@
                         "license": "MIT OR Apache-2.0",
                         "license_file": null,
                         "links": null,
-                        "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/litrs-0.2.3/Cargo.toml",
+                        "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/litrs-0.4.1/Cargo.toml",
                         "name": "litrs",
                         "publish": null,
                         "readme": "README.md",
                         "repository": "https://github.com/LukasKalbertodt/litrs/",
-                        "rust_version": null,
+                        "rust_version": "1.54.0",
                         "source": "registry+https://github.com/rust-lang/crates.io-index",
                         "targets": [
                             {
@@ -23970,11 +24008,11 @@
                                 ],
                                 "name": "litrs",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/litrs-0.2.3/src/lib.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/litrs-0.4.1/src/lib.rs",
                                 "test": true
                             }
                         ],
-                        "version": "0.2.3"
+                        "version": "0.4.1"
                     },
                     "path": null
                 },
@@ -24237,7 +24275,7 @@
                             "span-locations": []
                         },
                         "homepage": null,
-                        "id": "proc-macro2 1.0.71 (registry+https://github.com/rust-lang/crates.io-index)",
+                        "id": "proc-macro2 1.0.75 (registry+https://github.com/rust-lang/crates.io-index)",
                         "keywords": [
                             "macros",
                             "syn"
@@ -24245,7 +24283,7 @@
                         "license": "MIT OR Apache-2.0",
                         "license_file": null,
                         "links": null,
-                        "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.71/Cargo.toml",
+                        "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.75/Cargo.toml",
                         "metadata": {
                             "docs": {
                                 "rs": {
@@ -24290,7 +24328,7 @@
                                 ],
                                 "name": "proc-macro2",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.71/src/lib.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.75/src/lib.rs",
                                 "test": true
                             },
                             {
@@ -24305,7 +24343,7 @@
                                 ],
                                 "name": "features",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.71/tests/features.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.75/tests/features.rs",
                                 "test": true
                             },
                             {
@@ -24320,7 +24358,7 @@
                                 ],
                                 "name": "test",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.71/tests/test.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.75/tests/test.rs",
                                 "test": true
                             },
                             {
@@ -24335,7 +24373,7 @@
                                 ],
                                 "name": "test_size",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.71/tests/test_size.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.75/tests/test_size.rs",
                                 "test": true
                             },
                             {
@@ -24350,7 +24388,7 @@
                                 ],
                                 "name": "test_fmt",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.71/tests/test_fmt.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.75/tests/test_fmt.rs",
                                 "test": true
                             },
                             {
@@ -24365,7 +24403,7 @@
                                 ],
                                 "name": "comments",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.71/tests/comments.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.75/tests/comments.rs",
                                 "test": true
                             },
                             {
@@ -24380,7 +24418,7 @@
                                 ],
                                 "name": "marker",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.71/tests/marker.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.75/tests/marker.rs",
                                 "test": true
                             },
                             {
@@ -24395,11 +24433,11 @@
                                 ],
                                 "name": "build-script-build",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.71/build.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/proc-macro2-1.0.75/build.rs",
                                 "test": false
                             }
                         ],
-                        "version": "1.0.71"
+                        "version": "1.0.75"
                     },
                     "path": null
                 },
@@ -24421,7 +24459,7 @@
                                 "path": null,
                                 "registry": null,
                                 "rename": null,
-                                "req": "^1.0.66",
+                                "req": "^1.0.74",
                                 "source": "registry+https://github.com/rust-lang/crates.io-index",
                                 "target": null,
                                 "uses_default_features": false
@@ -24467,7 +24505,7 @@
                             ]
                         },
                         "homepage": null,
-                        "id": "quote 1.0.33 (registry+https://github.com/rust-lang/crates.io-index)",
+                        "id": "quote 1.0.35 (registry+https://github.com/rust-lang/crates.io-index)",
                         "keywords": [
                             "macros",
                             "syn"
@@ -24475,7 +24513,7 @@
                         "license": "MIT OR Apache-2.0",
                         "license_file": null,
                         "links": null,
-                        "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/quote-1.0.33/Cargo.toml",
+                        "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/quote-1.0.35/Cargo.toml",
                         "metadata": {
                             "docs": {
                                 "rs": {
@@ -24507,7 +24545,7 @@
                                 ],
                                 "name": "quote",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/quote-1.0.33/src/lib.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/quote-1.0.35/src/lib.rs",
                                 "test": true
                             },
                             {
@@ -24522,7 +24560,7 @@
                                 ],
                                 "name": "test",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/quote-1.0.33/tests/test.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/quote-1.0.35/tests/test.rs",
                                 "test": true
                             },
                             {
@@ -24537,11 +24575,11 @@
                                 ],
                                 "name": "compiletest",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/quote-1.0.33/tests/compiletest.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/quote-1.0.35/tests/compiletest.rs",
                                 "test": true
                             }
                         ],
-                        "version": "1.0.33"
+                        "version": "1.0.35"
                     },
                     "path": null
                 },
@@ -25017,7 +25055,7 @@
                                 "path": null,
                                 "registry": null,
                                 "rename": null,
-                                "req": "=1.0.193",
+                                "req": "=1.0.194",
                                 "source": "registry+https://github.com/rust-lang/crates.io-index",
                                 "target": "cfg(any())",
                                 "uses_default_features": true
@@ -25042,7 +25080,7 @@
                             "unstable": []
                         },
                         "homepage": "https://serde.rs",
-                        "id": "serde 1.0.193 (registry+https://github.com/rust-lang/crates.io-index)",
+                        "id": "serde 1.0.194 (registry+https://github.com/rust-lang/crates.io-index)",
                         "keywords": [
                             "serde",
                             "serialization",
@@ -25051,7 +25089,7 @@
                         "license": "MIT OR Apache-2.0",
                         "license_file": null,
                         "links": null,
-                        "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde-1.0.193/Cargo.toml",
+                        "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde-1.0.194/Cargo.toml",
                         "metadata": {
                             "docs": {
                                 "rs": {
@@ -25096,7 +25134,7 @@
                                 ],
                                 "name": "serde",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde-1.0.193/src/lib.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde-1.0.194/src/lib.rs",
                                 "test": true
                             },
                             {
@@ -25111,11 +25149,11 @@
                                 ],
                                 "name": "build-script-build",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde-1.0.193/build.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde-1.0.194/build.rs",
                                 "test": false
                             }
                         ],
-                        "version": "1.0.193"
+                        "version": "1.0.194"
                     },
                     "path": null
                 },
@@ -25139,7 +25177,7 @@
                                 "path": null,
                                 "registry": null,
                                 "rename": null,
-                                "req": "^1.0",
+                                "req": "^1.0.74",
                                 "source": "registry+https://github.com/rust-lang/crates.io-index",
                                 "target": null,
                                 "uses_default_features": true
@@ -25152,7 +25190,7 @@
                                 "path": null,
                                 "registry": null,
                                 "rename": null,
-                                "req": "^1.0",
+                                "req": "^1.0.35",
                                 "source": "registry+https://github.com/rust-lang/crates.io-index",
                                 "target": null,
                                 "uses_default_features": true
@@ -25165,7 +25203,7 @@
                                 "path": null,
                                 "registry": null,
                                 "rename": null,
-                                "req": "^2.0.28",
+                                "req": "^2.0.46",
                                 "source": "registry+https://github.com/rust-lang/crates.io-index",
                                 "target": null,
                                 "uses_default_features": true
@@ -25192,7 +25230,7 @@
                             "deserialize_in_place": []
                         },
                         "homepage": "https://serde.rs",
-                        "id": "serde_derive 1.0.193 (registry+https://github.com/rust-lang/crates.io-index)",
+                        "id": "serde_derive 1.0.194 (registry+https://github.com/rust-lang/crates.io-index)",
                         "keywords": [
                             "serde",
                             "serialization",
@@ -25202,7 +25240,7 @@
                         "license": "MIT OR Apache-2.0",
                         "license_file": null,
                         "links": null,
-                        "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde_derive-1.0.193/Cargo.toml",
+                        "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde_derive-1.0.194/Cargo.toml",
                         "metadata": {
                             "docs": {
                                 "rs": {
@@ -25234,11 +25272,11 @@
                                 ],
                                 "name": "serde_derive",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde_derive-1.0.193/src/lib.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/serde_derive-1.0.194/src/lib.rs",
                                 "test": true
                             }
                         ],
-                        "version": "1.0.193"
+                        "version": "1.0.194"
                     },
                     "path": null
                 },
@@ -25261,7 +25299,7 @@
                                 "path": null,
                                 "registry": null,
                                 "rename": null,
-                                "req": "^1.0.67",
+                                "req": "^1.0.75",
                                 "source": "registry+https://github.com/rust-lang/crates.io-index",
                                 "target": null,
                                 "uses_default_features": false
@@ -25274,7 +25312,7 @@
                                 "path": null,
                                 "registry": null,
                                 "rename": null,
-                                "req": "^1.0.28",
+                                "req": "^1.0.35",
                                 "source": "registry+https://github.com/rust-lang/crates.io-index",
                                 "target": null,
                                 "uses_default_features": false
@@ -25485,7 +25523,7 @@
                             "visit-mut": []
                         },
                         "homepage": null,
-                        "id": "syn 2.0.43 (registry+https://github.com/rust-lang/crates.io-index)",
+                        "id": "syn 2.0.47 (registry+https://github.com/rust-lang/crates.io-index)",
                         "keywords": [
                             "macros",
                             "syn"
@@ -25493,7 +25531,7 @@
                         "license": "MIT OR Apache-2.0",
                         "license_file": null,
                         "links": null,
-                        "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/Cargo.toml",
+                        "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/Cargo.toml",
                         "metadata": {
                             "docs": {
                                 "rs": {
@@ -25537,7 +25575,7 @@
                                 ],
                                 "name": "syn",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/src/lib.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/src/lib.rs",
                                 "test": true
                             },
                             {
@@ -25552,7 +25590,7 @@
                                 ],
                                 "name": "test_should_parse",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_should_parse.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_should_parse.rs",
                                 "test": true
                             },
                             {
@@ -25567,7 +25605,7 @@
                                 ],
                                 "name": "test_visibility",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_visibility.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_visibility.rs",
                                 "test": true
                             },
                             {
@@ -25582,7 +25620,7 @@
                                 ],
                                 "name": "test_stmt",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_stmt.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_stmt.rs",
                                 "test": true
                             },
                             {
@@ -25597,7 +25635,7 @@
                                 ],
                                 "name": "test_round_trip",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_round_trip.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_round_trip.rs",
                                 "test": true
                             },
                             {
@@ -25612,7 +25650,7 @@
                                 ],
                                 "name": "test_size",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_size.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_size.rs",
                                 "test": true
                             },
                             {
@@ -25627,7 +25665,7 @@
                                 ],
                                 "name": "test_shebang",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_shebang.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_shebang.rs",
                                 "test": true
                             },
                             {
@@ -25642,7 +25680,7 @@
                                 ],
                                 "name": "test_pat",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_pat.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_pat.rs",
                                 "test": true
                             },
                             {
@@ -25657,7 +25695,7 @@
                                 ],
                                 "name": "test_receiver",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_receiver.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_receiver.rs",
                                 "test": true
                             },
                             {
@@ -25672,7 +25710,7 @@
                                 ],
                                 "name": "test_precedence",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_precedence.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_precedence.rs",
                                 "test": true
                             },
                             {
@@ -25687,7 +25725,7 @@
                                 ],
                                 "name": "test_lit",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_lit.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_lit.rs",
                                 "test": true
                             },
                             {
@@ -25702,7 +25740,7 @@
                                 ],
                                 "name": "regression",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/regression.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/regression.rs",
                                 "test": true
                             },
                             {
@@ -25717,7 +25755,7 @@
                                 ],
                                 "name": "test_parse_stream",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_parse_stream.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_parse_stream.rs",
                                 "test": true
                             },
                             {
@@ -25732,7 +25770,7 @@
                                 ],
                                 "name": "test_grouping",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_grouping.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_grouping.rs",
                                 "test": true
                             },
                             {
@@ -25747,7 +25785,7 @@
                                 ],
                                 "name": "test_ident",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_ident.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_ident.rs",
                                 "test": true
                             },
                             {
@@ -25762,7 +25800,7 @@
                                 ],
                                 "name": "test_iterators",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_iterators.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_iterators.rs",
                                 "test": true
                             },
                             {
@@ -25777,7 +25815,7 @@
                                 ],
                                 "name": "test_parse_buffer",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_parse_buffer.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_parse_buffer.rs",
                                 "test": true
                             },
                             {
@@ -25792,7 +25830,7 @@
                                 ],
                                 "name": "test_asyncness",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_asyncness.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_asyncness.rs",
                                 "test": true
                             },
                             {
@@ -25807,7 +25845,7 @@
                                 ],
                                 "name": "test_token_trees",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_token_trees.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_token_trees.rs",
                                 "test": true
                             },
                             {
@@ -25822,7 +25860,7 @@
                                 ],
                                 "name": "test_ty",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_ty.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_ty.rs",
                                 "test": true
                             },
                             {
@@ -25837,7 +25875,7 @@
                                 ],
                                 "name": "zzz_stable",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/zzz_stable.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/zzz_stable.rs",
                                 "test": true
                             },
                             {
@@ -25852,7 +25890,7 @@
                                 ],
                                 "name": "test_parse_quote",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_parse_quote.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_parse_quote.rs",
                                 "test": true
                             },
                             {
@@ -25867,7 +25905,7 @@
                                 ],
                                 "name": "test_meta",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_meta.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_meta.rs",
                                 "test": true
                             },
                             {
@@ -25882,7 +25920,7 @@
                                 ],
                                 "name": "test_expr",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_expr.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_expr.rs",
                                 "test": true
                             },
                             {
@@ -25897,7 +25935,7 @@
                                 ],
                                 "name": "test_item",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_item.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_item.rs",
                                 "test": true
                             },
                             {
@@ -25912,7 +25950,7 @@
                                 ],
                                 "name": "test_path",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_path.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_path.rs",
                                 "test": true
                             },
                             {
@@ -25927,7 +25965,7 @@
                                 ],
                                 "name": "test_derive_input",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_derive_input.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_derive_input.rs",
                                 "test": true
                             },
                             {
@@ -25942,7 +25980,7 @@
                                 ],
                                 "name": "test_generics",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_generics.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_generics.rs",
                                 "test": true
                             },
                             {
@@ -25957,7 +25995,7 @@
                                 ],
                                 "name": "test_attribute",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/tests/test_attribute.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/tests/test_attribute.rs",
                                 "test": true
                             },
                             {
@@ -25975,7 +26013,7 @@
                                     "full",
                                     "parsing"
                                 ],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/benches/rust.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/benches/rust.rs",
                                 "test": false
                             },
                             {
@@ -25993,11 +26031,11 @@
                                     "full",
                                     "parsing"
                                 ],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.43/benches/file.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/syn-2.0.47/benches/file.rs",
                                 "test": false
                             }
                         ],
-                        "version": "2.0.43"
+                        "version": "2.0.47"
                     },
                     "path": null
                 },
@@ -26875,7 +26913,7 @@
                                 "path": null,
                                 "registry": null,
                                 "rename": null,
-                                "req": "^0.1.12",
+                                "req": "^0.1.17",
                                 "source": "registry+https://github.com/rust-lang/crates.io-index",
                                 "target": null,
                                 "uses_default_features": true
@@ -26916,7 +26954,7 @@
                                 "path": null,
                                 "registry": null,
                                 "rename": null,
-                                "req": "^0.7.14",
+                                "req": "^0.7.31",
                                 "source": "registry+https://github.com/rust-lang/crates.io-index",
                                 "target": null,
                                 "uses_default_features": false
@@ -27055,7 +27093,6 @@
                             },
                             {
                                 "features": [
-                                    "unstable",
                                     "alloc"
                                 ],
                                 "kind": "normal",
@@ -27064,7 +27101,7 @@
                                 "path": null,
                                 "registry": null,
                                 "rename": null,
-                                "req": "^1.13.1",
+                                "req": "^1.18.0",
                                 "source": "registry+https://github.com/rust-lang/crates.io-index",
                                 "target": "cfg(not(all(target_arch = \"arm\", target_os = \"none\")))",
                                 "uses_default_features": false
@@ -27091,6 +27128,7 @@
                             "getrandom": [
                                 "dep:getrandom"
                             ],
+                            "nightly-arm-aes": [],
                             "no-rng": [],
                             "runtime-rng": [
                                 "getrandom"
@@ -27101,7 +27139,7 @@
                             "std": []
                         },
                         "homepage": null,
-                        "id": "ahash 0.8.6 (registry+https://github.com/rust-lang/crates.io-index)",
+                        "id": "ahash 0.8.7 (registry+https://github.com/rust-lang/crates.io-index)",
                         "keywords": [
                             "hash",
                             "hasher",
@@ -27112,7 +27150,7 @@
                         "license": "MIT OR Apache-2.0",
                         "license_file": null,
                         "links": null,
-                        "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.6/Cargo.toml",
+                        "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.7/Cargo.toml",
                         "metadata": {
                             "docs": {
                                 "rs": {
@@ -27134,7 +27172,7 @@
                         "publish": null,
                         "readme": "README.md",
                         "repository": "https://github.com/tkaitchuck/ahash",
-                        "rust_version": null,
+                        "rust_version": "1.60.0",
                         "source": "registry+https://github.com/rust-lang/crates.io-index",
                         "targets": [
                             {
@@ -27149,7 +27187,7 @@
                                 ],
                                 "name": "ahash",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.6/src/lib.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.7/src/lib.rs",
                                 "test": true
                             },
                             {
@@ -27164,7 +27202,7 @@
                                 ],
                                 "name": "nopanic",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.6/tests/nopanic.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.7/tests/nopanic.rs",
                                 "test": true
                             },
                             {
@@ -27179,7 +27217,7 @@
                                 ],
                                 "name": "map_tests",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.6/tests/map_tests.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.7/tests/map_tests.rs",
                                 "test": true
                             },
                             {
@@ -27194,7 +27232,7 @@
                                 ],
                                 "name": "bench",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.6/tests/bench.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.7/tests/bench.rs",
                                 "test": true
                             },
                             {
@@ -27209,7 +27247,7 @@
                                 ],
                                 "name": "ahash",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.6/tests/bench.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.7/tests/bench.rs",
                                 "test": false
                             },
                             {
@@ -27224,7 +27262,7 @@
                                 ],
                                 "name": "map",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.6/tests/map_tests.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.7/tests/map_tests.rs",
                                 "test": false
                             },
                             {
@@ -27239,11 +27277,11 @@
                                 ],
                                 "name": "build-script-build",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.6/./build.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/ahash-0.8.7/./build.rs",
                                 "test": false
                             }
                         ],
-                        "version": "0.8.6"
+                        "version": "0.8.7"
                     },
                     "path": null
                 },
@@ -29700,7 +29738,7 @@
                 {
                     "crate": {
                         "authors": [
-                            "Marvin L\u00f6bel <loebel.marvin@gmail.com>"
+                            "Marvin Löbel <loebel.marvin@gmail.com>"
                         ],
                         "categories": [
                             "no-std",
@@ -35047,7 +35085,7 @@
                                 "path": null,
                                 "registry": null,
                                 "rename": null,
-                                "req": "^0.2.3",
+                                "req": "^0.4.1",
                                 "source": "registry+https://github.com/rust-lang/crates.io-index",
                                 "target": null,
                                 "uses_default_features": false
@@ -35061,7 +35099,7 @@
                             "self-test": []
                         },
                         "homepage": "https://slint-ui.com",
-                        "id": "document-features 0.2.7 (registry+https://github.com/rust-lang/crates.io-index)",
+                        "id": "document-features 0.2.8 (registry+https://github.com/rust-lang/crates.io-index)",
                         "keywords": [
                             "documentation",
                             "features",
@@ -35071,7 +35109,7 @@
                         "license": "MIT OR Apache-2.0",
                         "license_file": null,
                         "links": null,
-                        "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/document-features-0.2.7/Cargo.toml",
+                        "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/document-features-0.2.8/Cargo.toml",
                         "name": "document-features",
                         "publish": null,
                         "readme": "README.md",
@@ -35091,7 +35129,7 @@
                                 ],
                                 "name": "document-features",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/document-features-0.2.7/lib.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/document-features-0.2.8/lib.rs",
                                 "test": true
                             },
                             {
@@ -35106,11 +35144,11 @@
                                 ],
                                 "name": "self-doc",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/document-features-0.2.7/tests/self-doc.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/document-features-0.2.8/tests/self-doc.rs",
                                 "test": true
                             }
                         ],
-                        "version": "0.2.7"
+                        "version": "0.2.8"
                     },
                     "path": null
                 },
@@ -37284,7 +37322,7 @@
                                 "path": null,
                                 "registry": null,
                                 "rename": null,
-                                "req": "^0.48.0",
+                                "req": "^0.52.0",
                                 "source": "registry+https://github.com/rust-lang/crates.io-index",
                                 "target": "cfg(windows)",
                                 "uses_default_features": true
@@ -37308,7 +37346,7 @@
                         "edition": "2018",
                         "features": {},
                         "homepage": null,
-                        "id": "is-terminal 0.4.9 (registry+https://github.com/rust-lang/crates.io-index)",
+                        "id": "is-terminal 0.4.10 (registry+https://github.com/rust-lang/crates.io-index)",
                         "keywords": [
                             "terminal",
                             "tty",
@@ -37317,7 +37355,7 @@
                         "license": "MIT",
                         "license_file": null,
                         "links": null,
-                        "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/is-terminal-0.4.9/Cargo.toml",
+                        "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/is-terminal-0.4.10/Cargo.toml",
                         "name": "is-terminal",
                         "publish": null,
                         "readme": "README.md",
@@ -37337,11 +37375,11 @@
                                 ],
                                 "name": "is-terminal",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/is-terminal-0.4.9/src/lib.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/is-terminal-0.4.10/src/lib.rs",
                                 "test": true
                             }
                         ],
-                        "version": "0.4.9"
+                        "version": "0.4.10"
                     },
                     "path": null
                 }
@@ -38257,7 +38295,7 @@
                             ]
                         },
                         "homepage": "https://github.com/BurntSushi/memchr",
-                        "id": "memchr 2.6.4 (registry+https://github.com/rust-lang/crates.io-index)",
+                        "id": "memchr 2.7.1 (registry+https://github.com/rust-lang/crates.io-index)",
                         "keywords": [
                             "memchr",
                             "memmem",
@@ -38268,7 +38306,7 @@
                         "license": "Unlicense OR MIT",
                         "license_file": null,
                         "links": null,
-                        "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/memchr-2.6.4/Cargo.toml",
+                        "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/memchr-2.7.1/Cargo.toml",
                         "metadata": {
                             "docs": {
                                 "rs": {
@@ -38297,11 +38335,11 @@
                                 ],
                                 "name": "memchr",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/memchr-2.6.4/src/lib.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/memchr-2.7.1/src/lib.rs",
                                 "test": true
                             }
                         ],
-                        "version": "2.6.4"
+                        "version": "2.7.1"
                     },
                     "path": null
                 }
@@ -40404,7 +40442,7 @@
                             ]
                         },
                         "homepage": "https://github.com/BurntSushi/memchr",
-                        "id": "memchr 2.6.4 (registry+https://github.com/rust-lang/crates.io-index)",
+                        "id": "memchr 2.7.1 (registry+https://github.com/rust-lang/crates.io-index)",
                         "keywords": [
                             "memchr",
                             "memmem",
@@ -40415,7 +40453,7 @@
                         "license": "Unlicense OR MIT",
                         "license_file": null,
                         "links": null,
-                        "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/memchr-2.6.4/Cargo.toml",
+                        "manifest_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/memchr-2.7.1/Cargo.toml",
                         "metadata": {
                             "docs": {
                                 "rs": {
@@ -40444,11 +40482,11 @@
                                 ],
                                 "name": "memchr",
                                 "required-features": [],
-                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/memchr-2.6.4/src/lib.rs",
+                                "src_path": "/Users/aimami/.cargo/registry/src/index.crates.io-6f17d22bba15001f/memchr-2.7.1/src/lib.rs",
                                 "test": true
                             }
                         ],
-                        "version": "2.6.4"
+                        "version": "2.7.1"
                     },
                     "path": null
                 }
@@ -40458,7 +40496,7 @@
             "id": "Unicode-DFS-2016",
             "name": "Unicode License Agreement - Data Files and Software (2016)",
             "source_path": null,
-            "text": "UNICODE, INC. LICENSE AGREEMENT - DATA FILES AND SOFTWARE\n\nUnicode Data Files include all data files under the directories http://www.unicode.org/Public/, http://www.unicode.org/reports/, http://www.unicode.org/cldr/data/, http://source.icu-project.org/repos/icu/, and http://www.unicode.org/utility/trac/browser/.\n\nUnicode Data Files do not include PDF online code charts under the directory http://www.unicode.org/Public/.\n\nSoftware includes any source code published in the Unicode Standard or under the directories http://www.unicode.org/Public/, http://www.unicode.org/reports/, http://www.unicode.org/cldr/data/, http://source.icu-project.org/repos/icu/, and http://www.unicode.org/utility/trac/browser/.\n\nNOTICE TO USER: Carefully read the following legal agreement. BY DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING UNICODE INC.'S DATA FILES (\"DATA FILES\"), AND/OR SOFTWARE (\"SOFTWARE\"), YOU UNEQUIVOCALLY ACCEPT, AND AGREE TO BE BOUND BY, ALL OF THE TERMS AND CONDITIONS OF THIS AGREEMENT. IF YOU DO NOT AGREE, DO NOT DOWNLOAD, INSTALL, COPY, DISTRIBUTE OR USE THE DATA FILES OR SOFTWARE.\n\nCOPYRIGHT AND PERMISSION NOTICE\n\nCopyright \u00a9 1991-2016 Unicode, Inc. All rights reserved. Distributed under the Terms of Use in http://www.unicode.org/copyright.html.\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of the Unicode data files and any associated documentation (the \"Data Files\") or Unicode software and any associated documentation (the \"Software\") to deal in the Data Files or Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, and/or sell copies of the Data Files or Software, and to permit persons to whom the Data Files or Software are furnished to do so, provided that either\n\n     (a) this copyright and permission notice appear with all copies of the Data Files or Software, or\n     (b) this copyright and permission notice appear in associated Documentation.\n\nTHE DATA FILES AND SOFTWARE ARE PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE DATA FILES OR SOFTWARE.\n\nExcept as contained in this notice, the name of a copyright holder shall not be used in advertising or otherwise to promote the sale, use or other dealings in these Data Files or Software without prior written authorization of the copyright holder.\n",
+            "text": "UNICODE, INC. LICENSE AGREEMENT - DATA FILES AND SOFTWARE\n\nUnicode Data Files include all data files under the directories http://www.unicode.org/Public/, http://www.unicode.org/reports/, http://www.unicode.org/cldr/data/, http://source.icu-project.org/repos/icu/, and http://www.unicode.org/utility/trac/browser/.\n\nUnicode Data Files do not include PDF online code charts under the directory http://www.unicode.org/Public/.\n\nSoftware includes any source code published in the Unicode Standard or under the directories http://www.unicode.org/Public/, http://www.unicode.org/reports/, http://www.unicode.org/cldr/data/, http://source.icu-project.org/repos/icu/, and http://www.unicode.org/utility/trac/browser/.\n\nNOTICE TO USER: Carefully read the following legal agreement. BY DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING UNICODE INC.'S DATA FILES (\"DATA FILES\"), AND/OR SOFTWARE (\"SOFTWARE\"), YOU UNEQUIVOCALLY ACCEPT, AND AGREE TO BE BOUND BY, ALL OF THE TERMS AND CONDITIONS OF THIS AGREEMENT. IF YOU DO NOT AGREE, DO NOT DOWNLOAD, INSTALL, COPY, DISTRIBUTE OR USE THE DATA FILES OR SOFTWARE.\n\nCOPYRIGHT AND PERMISSION NOTICE\n\nCopyright © 1991-2016 Unicode, Inc. All rights reserved. Distributed under the Terms of Use in http://www.unicode.org/copyright.html.\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of the Unicode data files and any associated documentation (the \"Data Files\") or Unicode software and any associated documentation (the \"Software\") to deal in the Data Files or Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, and/or sell copies of the Data Files or Software, and to permit persons to whom the Data Files or Software are furnished to do so, provided that either\n\n     (a) this copyright and permission notice appear with all copies of the Data Files or Software, or\n     (b) this copyright and permission notice appear in associated Documentation.\n\nTHE DATA FILES AND SOFTWARE ARE PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE DATA FILES OR SOFTWARE.\n\nExcept as contained in this notice, the name of a copyright holder shall not be used in advertising or otherwise to promote the sale, use or other dealings in these Data Files or Software without prior written authorization of the copyright holder.\n",
             "used_by": [
                 {
                     "crate": {
@@ -40712,7 +40750,7 @@
                 26
             ],
             "name": "Unicode License Agreement - Data Files and Software (2016)",
-            "text": "UNICODE, INC. LICENSE AGREEMENT - DATA FILES AND SOFTWARE\n\nUnicode Data Files include all data files under the directories http://www.unicode.org/Public/, http://www.unicode.org/reports/, http://www.unicode.org/cldr/data/, http://source.icu-project.org/repos/icu/, and http://www.unicode.org/utility/trac/browser/.\n\nUnicode Data Files do not include PDF online code charts under the directory http://www.unicode.org/Public/.\n\nSoftware includes any source code published in the Unicode Standard or under the directories http://www.unicode.org/Public/, http://www.unicode.org/reports/, http://www.unicode.org/cldr/data/, http://source.icu-project.org/repos/icu/, and http://www.unicode.org/utility/trac/browser/.\n\nNOTICE TO USER: Carefully read the following legal agreement. BY DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING UNICODE INC.'S DATA FILES (\"DATA FILES\"), AND/OR SOFTWARE (\"SOFTWARE\"), YOU UNEQUIVOCALLY ACCEPT, AND AGREE TO BE BOUND BY, ALL OF THE TERMS AND CONDITIONS OF THIS AGREEMENT. IF YOU DO NOT AGREE, DO NOT DOWNLOAD, INSTALL, COPY, DISTRIBUTE OR USE THE DATA FILES OR SOFTWARE.\n\nCOPYRIGHT AND PERMISSION NOTICE\n\nCopyright \u00a9 1991-2016 Unicode, Inc. All rights reserved. Distributed under the Terms of Use in http://www.unicode.org/copyright.html.\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of the Unicode data files and any associated documentation (the \"Data Files\") or Unicode software and any associated documentation (the \"Software\") to deal in the Data Files or Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, and/or sell copies of the Data Files or Software, and to permit persons to whom the Data Files or Software are furnished to do so, provided that either\n\n     (a) this copyright and permission notice appear with all copies of the Data Files or Software, or\n     (b) this copyright and permission notice appear in associated Documentation.\n\nTHE DATA FILES AND SOFTWARE ARE PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE DATA FILES OR SOFTWARE.\n\nExcept as contained in this notice, the name of a copyright holder shall not be used in advertising or otherwise to promote the sale, use or other dealings in these Data Files or Software without prior written authorization of the copyright holder.\n"
+            "text": "UNICODE, INC. LICENSE AGREEMENT - DATA FILES AND SOFTWARE\n\nUnicode Data Files include all data files under the directories http://www.unicode.org/Public/, http://www.unicode.org/reports/, http://www.unicode.org/cldr/data/, http://source.icu-project.org/repos/icu/, and http://www.unicode.org/utility/trac/browser/.\n\nUnicode Data Files do not include PDF online code charts under the directory http://www.unicode.org/Public/.\n\nSoftware includes any source code published in the Unicode Standard or under the directories http://www.unicode.org/Public/, http://www.unicode.org/reports/, http://www.unicode.org/cldr/data/, http://source.icu-project.org/repos/icu/, and http://www.unicode.org/utility/trac/browser/.\n\nNOTICE TO USER: Carefully read the following legal agreement. BY DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING UNICODE INC.'S DATA FILES (\"DATA FILES\"), AND/OR SOFTWARE (\"SOFTWARE\"), YOU UNEQUIVOCALLY ACCEPT, AND AGREE TO BE BOUND BY, ALL OF THE TERMS AND CONDITIONS OF THIS AGREEMENT. IF YOU DO NOT AGREE, DO NOT DOWNLOAD, INSTALL, COPY, DISTRIBUTE OR USE THE DATA FILES OR SOFTWARE.\n\nCOPYRIGHT AND PERMISSION NOTICE\n\nCopyright © 1991-2016 Unicode, Inc. All rights reserved. Distributed under the Terms of Use in http://www.unicode.org/copyright.html.\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of the Unicode data files and any associated documentation (the \"Data Files\") or Unicode software and any associated documentation (the \"Software\") to deal in the Data Files or Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, and/or sell copies of the Data Files or Software, and to permit persons to whom the Data Files or Software are furnished to do so, provided that either\n\n     (a) this copyright and permission notice appear with all copies of the Data Files or Software, or\n     (b) this copyright and permission notice appear in associated Documentation.\n\nTHE DATA FILES AND SOFTWARE ARE PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE DATA FILES OR SOFTWARE.\n\nExcept as contained in this notice, the name of a copyright holder shall not be used in advertising or otherwise to promote the sale, use or other dealings in these Data Files or Software without prior written authorization of the copyright holder.\n"
         }
     ]
 }

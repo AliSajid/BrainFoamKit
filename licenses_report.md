@@ -1697,19 +1697,19 @@ Apache License 2.0
 
 #### Used by
 
-- [anyhow]( https://github.com/dtolnay/anyhow ) 1.0.77
+- [anyhow]( https://github.com/dtolnay/anyhow ) 1.0.79
 - [indoc]( https://github.com/dtolnay/indoc ) 2.0.4
 - [itoa]( https://github.com/dtolnay/itoa ) 1.0.10
 - [libc]( https://github.com/rust-lang/libc ) 0.2.151
-- [litrs]( https://github.com/LukasKalbertodt/litrs/ ) 0.2.3
+- [litrs]( https://github.com/LukasKalbertodt/litrs/ ) 0.4.1
 - [paste]( https://github.com/dtolnay/paste ) 1.0.14
-- [proc-macro2]( https://github.com/dtolnay/proc-macro2 ) 1.0.71
-- [quote]( https://github.com/dtolnay/quote ) 1.0.33
+- [proc-macro2]( https://github.com/dtolnay/proc-macro2 ) 1.0.75
+- [quote]( https://github.com/dtolnay/quote ) 1.0.35
 - [rustversion]( https://github.com/dtolnay/rustversion ) 1.0.14
 - [ryu]( https://github.com/dtolnay/ryu ) 1.0.16
-- [serde]( https://github.com/serde-rs/serde ) 1.0.193
-- [serde_derive]( https://github.com/serde-rs/serde ) 1.0.193
-- [syn]( https://github.com/dtolnay/syn ) 2.0.43
+- [serde]( https://github.com/serde-rs/serde ) 1.0.194
+- [serde_derive]( https://github.com/serde-rs/serde ) 1.0.194
+- [syn]( https://github.com/dtolnay/syn ) 2.0.47
 - [unicode-ident]( https://github.com/dtolnay/unicode-ident ) 1.0.12
 - [zerocopy]( https://github.com/google/zerocopy ) 0.7.32
 
@@ -1902,7 +1902,7 @@ Apache License 2.0
 #### Used by
 
 - [addr2line]( https://github.com/gimli-rs/addr2line ) 0.21.0
-- [ahash]( https://github.com/tkaitchuck/ahash ) 0.8.6
+- [ahash]( https://github.com/tkaitchuck/ahash ) 0.8.7
 - [autocfg]( https://github.com/cuviper/autocfg ) 1.1.0
 - [backtrace]( https://github.com/rust-lang/backtrace-rs ) 0.3.69
 - [bitflags]( https://github.com/bitflags/bitflags ) 2.4.1
@@ -2588,7 +2588,7 @@ Apache License 2.0
 
 #### Used by
 
-- [document-features]( https://github.com/slint-ui/document-features ) 0.2.7
+- [document-features]( https://github.com/slint-ui/document-features ) 0.2.8
 - [winapi-i686-pc-windows-gnu]( https://github.com/retep998/winapi-rs ) 0.4.0
 - [winapi-x86_64-pc-windows-gnu]( https://github.com/retep998/winapi-rs ) 0.4.0
 
@@ -2939,7 +2939,7 @@ MIT License
 
 #### Used by
 
-- [is-terminal]( https://github.com/sunfishcode/is-terminal ) 0.4.9
+- [is-terminal]( https://github.com/sunfishcode/is-terminal ) 0.4.10
 
 #### License
 
@@ -2978,7 +2978,7 @@ MIT License
 
 - [csv]( https://github.com/BurntSushi/rust-csv ) 1.3.0
 - [csv-core]( https://github.com/BurntSushi/rust-csv ) 0.1.11
-- [memchr]( https://github.com/BurntSushi/memchr ) 2.6.4
+- [memchr]( https://github.com/BurntSushi/memchr ) 2.7.1
 
 #### License
 
@@ -3051,7 +3051,7 @@ MIT License
 
 - [csv]( https://github.com/BurntSushi/rust-csv ) 1.3.0
 - [csv-core]( https://github.com/BurntSushi/rust-csv ) 0.1.11
-- [memchr]( https://github.com/BurntSushi/memchr ) 2.6.4
+- [memchr]( https://github.com/BurntSushi/memchr ) 2.7.1
 
 #### License
 
@@ -3097,3 +3097,4 @@ THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
 Except as contained in this notice, the name of a copyright holder shall not be used in advertising or otherwise to promote the sale, use or other dealings in these Data Files or Software without prior written authorization of the copyright holder.
 
 ```
+

@@ -54,16 +54,19 @@ repos:
         - id: check-json
           exclude: ".vscode/.*json"
         - id: check-merge-conflict
+        - id: check-shebang-scripts-are-executable
         - id: check-toml
         - id: check-xml
         - id: check-yaml
         - id: end-of-file-fixer
+          exclude: ".*licenses.*\\.(md|hbs)"
         - args:
             - --fix=no
           id: mixed-line-ending
         - args:
             - --indent=4
             - --autofix
+            - --no-ensure-ascii
           id: pretty-format-json
           exclude: ".vscode/launch.json"
         - args:
