@@ -27,7 +27,6 @@ crossterm = "0.27.0"
 prettytable-rs = "0.10.0"
 ratatui = { version = "0.25.0", features = ["macros", "serde", "document-features"] }
 
-
 [profile.dev]
 opt-level = 1
 debug = true

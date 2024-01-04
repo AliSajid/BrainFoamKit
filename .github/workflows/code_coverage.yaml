@@ -2,7 +2,6 @@
 name: Code Coverage
 on:
     workflow_call:
-
 jobs:
     test:
         name: Generate Coverage
@@ -13,12 +12,10 @@ jobs:
         steps:
             - name: Checkout repository
               uses: actions/checkout@v3
-
             - name: Generate code coverage
               run: |
-                  cargo +nightly tarpaulin --verbose --all-features --workspace --timeout 120 --out Xml --engine llvm
-
+                cargo +nightly tarpaulin --verbose --all-features --workspace --timeout 120 --out Xml --engine llvm
             - name: Upload to codecov.io
               uses: codecov/codecov-action@v3
               env:
-                  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+                CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

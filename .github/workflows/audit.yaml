@@ -8,8 +8,6 @@ on:
             - '**/Cargo.toml'
             - '**/Cargo.lock'
     workflow_dispatch:
-
-
 jobs:
     security_audit:
         if: ${{ !contains(github.event.commits[0].message, '[skip ci]') }}
@@ -22,6 +20,6 @@ jobs:
             - name: Install cargo-audit
               uses: taiki-e/install-action@d3712f40a2bae95e3ce25a24f82a795ed3df0f1c # v2.12.6
               with:
-                  tool: cargo-audit
+                tool: cargo-audit
             - name: Security Audit
               run: cargo audit
