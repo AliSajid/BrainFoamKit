@@ -25,15 +25,15 @@ repos:
           pass_filenames: false
         - id: cargo-about-json
           name: Generate list of licenses in JSON
-          entry: cargo about generate --format json --output-file meta/licenses.json
-          language: system
+          entry: scripts/generate_about_json.sh
+          language: script
           types_or: [file, rust]
           files: "Cargo.toml$"
           pass_filenames: false
-        - id: cargo-about-html
-          name: Generate list of licenses in HTML
-          entry: cargo about generate --output-file meta/licenses.html meta/licenses.hbs
-          language: system
+        - id: cargo-about-md
+          name: Generate list of licenses in Markdown
+          entry: scripts/generate_about_md.sh meta/licenses.hbs
+          language: script
           types_or: [file, rust]
           files: "Cargo.toml$"
           pass_filenames: false
@@ -117,6 +117,7 @@ repos:
       rev: v1.4.0
       hooks:
         - id: detect-secrets
+          args: ["--baseline", ".secrets.baseline"]
           exclude: "meta/licenses.*"
     - repo: https://github.com/sirosen/texthooks
       rev: 0.6.3
