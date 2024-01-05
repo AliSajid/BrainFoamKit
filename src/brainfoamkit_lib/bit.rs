@@ -115,9 +115,9 @@ use std::{
 /// use brainfoamkit_lib::Bit;
 ///
 /// let bit = Bit::zero();
-/// assert_eq!(bit.to_u8(), 0);
+/// assert_eq!(u8::from(bit), 0);
 /// let bit = Bit::one();
-/// assert_eq!(bit.to_u8(), 1);
+/// assert_eq!(u8::from(bit), 1);
 /// ```
 ///
 /// ## Perform logical operations

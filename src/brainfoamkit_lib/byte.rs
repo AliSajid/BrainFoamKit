@@ -241,7 +241,7 @@ impl Byte {
     /// use brainfoamkit_lib::Bit;
     ///
     /// let byte_single = Byte::new(Bit::zero(), Bit::zero(), Bit::zero(), Bit::zero(), Bit::one(), Bit::zero(), Bit::one(), Bit::zero());
-    /// assert_eq!(byte_single.to_u8(), 0b00001010); // Dec: 10; Hex: 0x0A; Oct: 0o12
+    /// assert_eq!(u8::from(&byte_single), 0b00001010); // Dec: 10; Hex: 0x0A; Oct: 0o12
     /// assert_eq!(byte_single.to_string(), "0x0A");
     /// ```
     /// ## Double Digit
@@ -250,7 +250,7 @@ impl Byte {
     /// use brainfoamkit_lib::Bit;
     ///
     /// let byte_double = Byte::new(Bit::one(), Bit::zero(), Bit::one(), Bit::zero(), Bit::one(), Bit::zero(), Bit::one(), Bit::zero());
-    /// assert_eq!(byte_double.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
+    /// assert_eq!(u8::from(&byte_double), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     /// assert_eq!(byte_double.to_string(), "0xAA");
     /// ```
     ///

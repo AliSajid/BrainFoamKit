@@ -44,16 +44,7 @@ apply_gitignore = false
 [jobs.test]
 command = [
     "cargo",
-    "nextest",
-    "--config-file",
-    "nextest.toml",
-    "--color",
-    "always",
-    "run",
-    "--release",
-    "--jobs",
-    "num-cpus",
-    "--",
+    "test",
     "--",
     "--color",
     "always", # https://github.com/Canop/bacon/issues/124
