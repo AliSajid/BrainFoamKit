@@ -73,7 +73,7 @@ use crate::{
 ///     Nybble,
 /// };
 ///
-/// let nybble = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+/// let nybble = Nybble::from(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
 /// let mut iter = IterableNybble::new(&nybble);
 ///
 /// assert_eq!(iter.next(), Some(Bit::zero()));
@@ -113,7 +113,7 @@ impl<'a> IterableNybble<'a> {
     ///     Nybble,
     /// };
     ///
-    /// let nybble = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// let nybble = Nybble::from(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
     /// let mut iter = IterableNybble::new(&nybble);
     ///
     /// for bit in iter {
@@ -148,7 +148,7 @@ impl<'a> Iterator for IterableNybble<'a> {
     ///     Nybble,
     /// };
     ///
-    /// let nybble = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// let nybble = Nybble::from(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
     ///
     /// let mut iter = IterableNybble::new(&nybble);
     ///
@@ -179,7 +179,7 @@ mod tests {
 
     #[test]
     fn test_iterable_nybble() {
-        let nybble = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+        let nybble = Nybble::from(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
         let mut iter = nybble.iter();
 
         assert_eq!(iter.next(), Some(Bit::zero()));
