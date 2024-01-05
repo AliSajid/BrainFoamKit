@@ -93,7 +93,7 @@ use crate::Instruction;
 /// use brainfoamkit_lib::Program;
 ///
 /// let program_string = ">>++<<--";
-/// let program = Program::from_string(program_string);
+/// let program = Program::from(program_string);
 ///
 /// assert_eq!(program.length(), Some(8));
 /// ```
@@ -109,7 +109,7 @@ use crate::Instruction;
 ///
 /// let program_string = ">+<-";
 ///
-/// let mut program = Program::from_string(program_string);
+/// let mut program = Program::from(program_string);
 ///
 /// assert_eq!(
 ///     program.get_instruction(0),
@@ -136,41 +136,6 @@ pub struct Program {
 }
 
 impl Program {
-    /// Create a new `Program` from a series of instructions
-    ///
-    /// This method creates a new `Program` from a series of instructions.
-    ///
-    /// # Arguments
-    ///
-    /// * `instructions` - A vector of `Instruction`s to load into the `Program`
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use brainfoamkit_lib::{
-    ///     Instruction,
-    ///     Program,
-    /// };
-    ///
-    /// let instructions = vec![
-    ///     Instruction::IncrementPointer,
-    ///     Instruction::IncrementValue,
-    ///     Instruction::DecrementPointer,
-    ///     Instruction::DecrementValue,
-    /// ];
-    /// let program: Program = Program::from(instructions);
-    ///
-    /// assert_eq!(program.length(), Some(4));
-    /// ```
-    ///
-    /// # See Also
-    ///
-    /// * [`from_string()`](#method.from_string): Load a `Program` from a string
-    #[must_use]
-    pub fn from(instructions: Vec<Instruction>) -> Self {
-        Self { instructions }
-    }
-
     /// Get an instruction from a `Program` at a specific index
     ///
     /// This method gets an instruction from the program at a specific index.
@@ -188,7 +153,7 @@ impl Program {
     /// };
     ///
     /// let instructions = ">>++<<--";
-    /// let program = Program::from_string(instructions);
+    /// let program = Program::from(instructions);
     ///
     /// assert_eq!(
     ///     program.get_instruction(0),
@@ -261,7 +226,7 @@ impl Program {
     /// };
     ///
     /// let instructions = "[[]]";
-    /// let mut program = Program::from_string(instructions);
+    /// let mut program = Program::from(instructions);
     ///
     /// assert_eq!(program.find_matching_bracket(0), Some(3));
     /// assert_eq!(program.find_matching_bracket(1), Some(2));
@@ -303,40 +268,6 @@ impl Program {
         }
     }
 
-    /// Load a `Program` from a string
-    ///
-    /// This method loads a `Program` from a string.
-    ///
-    /// # Arguments
-    ///
-    /// * `program` - A string containing the program to load
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use brainfoamkit_lib::Program;
-    ///
-    /// let program_string = ">>++<<--";
-    /// let program = Program::from_string(program_string);
-    ///
-    /// assert_eq!(program.length(), Some(8));
-    /// ```
-    ///
-    /// # See Also
-    ///
-    /// * [`from()`](#method.from): Create a new `Program` from a series of
-    ///   instructions
-    #[must_use]
-    pub fn from_string(program: &str) -> Self {
-        let mut instructions = Vec::new();
-
-        for c in program.chars() {
-            instructions.push(Instruction::from_char(c));
-        }
-
-        Self { instructions }
-    }
-
     /// Get the length of the program
     ///
     /// This method returns the length of the program.
@@ -347,7 +278,7 @@ impl Program {
     /// use brainfoamkit_lib::Program;
     ///
     /// let program_string = ">>++<<--";
-    /// let program = Program::from_string(program_string);
+    /// let program = Program::from(program_string);
     ///
     /// assert_eq!(program.length(), Some(8));
     /// ```
@@ -389,6 +320,77 @@ impl Index<usize> for Program {
     }
 }
 
+impl From<&str> for Program {
+    /// Load a `Program` from a string
+    ///
+    /// This method loads a `Program` from a string.
+    ///
+    /// # Arguments
+    ///
+    /// * `program` - A string containing the program to load
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Program;
+    ///
+    /// let program_string = ">>++<<--";
+    /// let program = Program::from(program_string);
+    ///
+    /// assert_eq!(program.length(), Some(8));
+    /// ```
+    ///
+    /// # See Also
+    ///
+    /// * [`from()`](#method.from): Create a new `Program` from a series of
+    ///   instructions
+    fn from(program: &str) -> Self {
+        let mut instructions = Vec::new();
+
+        for c in program.chars() {
+            instructions.push(Instruction::from_char(c));
+        }
+
+        Self { instructions }
+    }
+}
+
+impl From<Vec<Instruction>> for Program {
+    /// Create a new `Program` from a series of instructions
+    ///
+    /// This method creates a new `Program` from a series of instructions.
+    ///
+    /// # Arguments
+    ///
+    /// * `instructions` - A vector of `Instruction`s to load into the `Program`
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::{
+    ///     Instruction,
+    ///     Program,
+    /// };
+    ///
+    /// let instructions = vec![
+    ///     Instruction::IncrementPointer,
+    ///     Instruction::IncrementValue,
+    ///     Instruction::DecrementPointer,
+    ///     Instruction::DecrementValue,
+    /// ];
+    /// let program: Program = Program::from(instructions);
+    ///
+    /// assert_eq!(program.length(), Some(4));
+    /// ```
+    ///
+    /// # See Also
+    ///
+    /// * [`from()`](#method.from): Load a `Program` from a string
+    fn from(instructions: Vec<Instruction>) -> Self {
+        Self { instructions }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -403,9 +405,9 @@ mod tests {
     }
 
     #[test]
-    fn test_program_load_from_string() {
+    fn test_program_load_from() {
         let instructions = ">>++<<--";
-        let program = Program::from_string(instructions);
+        let program = Program::from(instructions);
 
         assert_eq!(program.instructions.len(), 8);
         assert_eq!(program.length(), Some(8));
@@ -413,10 +415,10 @@ mod tests {
 
     #[test]
     fn test_program_length() {
-        let program = Program::from_string(">>++<<--");
+        let program = Program::from(">>++<<--");
         assert_eq!(program.length(), Some(8));
 
-        let program = Program::from_string("");
+        let program = Program::from("");
         assert_eq!(program.length(), None);
     }
 
@@ -443,7 +445,7 @@ mod tests {
     #[test]
     fn test_program_find_matching_bracket() {
         let instructions = "[]";
-        let program = Program::from_string(instructions);
+        let program = Program::from(instructions);
 
         assert_eq!(program.find_matching_bracket(0), Some(1));
     }
@@ -451,7 +453,7 @@ mod tests {
     #[test]
     fn test_program_find_matching_bracket_nested() {
         let instructions = "[[]]";
-        let program = Program::from_string(instructions);
+        let program = Program::from(instructions);
 
         assert_eq!(program.find_matching_bracket(0), Some(3));
     }
@@ -459,7 +461,7 @@ mod tests {
     // #[test]
     // fn test_find_matching_bracket_no_match() {
     //     let instructions = "[";
-    //     let program = Program::from_string(instructions);
+    //     let program = Program::from(instructions);
 
     //     assert_eq!(program.find_matching_bracket(0), None);
     // }
@@ -467,7 +469,7 @@ mod tests {
     #[test]
     fn test_find_matching_bracket_not_jump_forward() {
         let instructions = "]";
-        let program = Program::from_string(instructions);
+        let program = Program::from(instructions);
 
         assert_eq!(program.find_matching_bracket(0), None);
     }
@@ -547,7 +549,7 @@ mod tests {
 
     #[test]
     fn test_index() {
-        let program = Program::from_string(">>++<<--");
+        let program = Program::from(">>++<<--");
 
         assert_eq!(program[0], Instruction::IncrementPointer);
         assert_eq!(program[1], Instruction::IncrementPointer);
@@ -562,7 +564,7 @@ mod tests {
     #[test]
     #[should_panic(expected = "index out of bounds")]
     fn test_index_out_of_bounds() {
-        let program = Program::from_string(">>++<<--");
+        let program = Program::from(">>++<<--");
         let _ = program[8];
     }
 }
