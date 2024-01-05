@@ -66,9 +66,9 @@ use crate::Byte;
 /// };
 ///
 /// let ascii_char: AsciiChar =
-///     AsciiChar::new(Byte::from_u8(97), "LCA", "Lowercase letter a", "a");
+///     AsciiChar::new(Byte::from(97), "LCA", "Lowercase letter a", "a");
 ///
-/// assert_eq!(ascii_char.binary_value(), Byte::from_u8(97));
+/// assert_eq!(ascii_char.binary_value(), Byte::from(97));
 /// assert_eq!(ascii_char.decimal_value(), 97);
 /// assert_eq!(ascii_char.hexadecimal_value(), "0x61");
 /// assert_eq!(ascii_char.character_code(), "LCA");
@@ -100,7 +100,7 @@ use crate::Byte;
 /// };
 ///
 /// let ascii_char: AsciiChar =
-///     AsciiChar::new(Byte::from_u8(0), "NUL", "Null character", "\0");
+///     AsciiChar::new(Byte::from(0), "NUL", "Null character", "\0");
 ///
 /// assert_eq!(ascii_char.is_control(), true);
 /// ```
@@ -114,7 +114,7 @@ use crate::Byte;
 /// };
 ///
 /// let ascii_char: AsciiChar =
-///     AsciiChar::new(Byte::from_u8(97), "LCA", "Lowercase letter a", "a");
+///     AsciiChar::new(Byte::from(97), "LCA", "Lowercase letter a", "a");
 ///
 /// assert_eq!(ascii_char.is_printable(), true);
 /// ```
@@ -128,7 +128,7 @@ use crate::Byte;
 /// };
 ///
 /// let ascii_char: AsciiChar =
-///     AsciiChar::new(Byte::from_u8(9), "CTAB", "Horizontal tab", "\t");
+///     AsciiChar::new(Byte::from(9), "CTAB", "Horizontal tab", "\t");
 ///
 /// assert_eq!(ascii_char.is_whitespace(), true);
 /// ```
@@ -142,7 +142,7 @@ use crate::Byte;
 /// };
 ///
 /// let ascii_char: AsciiChar =
-///     AsciiChar::new(Byte::from_u8(49), "DIG1", "Digit one", "1");
+///     AsciiChar::new(Byte::from(49), "DIG1", "Digit one", "1");
 ///
 /// assert_eq!(ascii_char.is_digit(), true);
 /// ```
@@ -158,7 +158,7 @@ use crate::Byte;
 /// };
 ///
 /// let ascii_char: AsciiChar =
-///     AsciiChar::new(Byte::from_u8(65), "UCA", "Uppercase letter a", "A");
+///     AsciiChar::new(Byte::from(65), "UCA", "Uppercase letter a", "A");
 ///
 /// assert_eq!(ascii_char.is_uppercase(), true);
 /// assert_eq!(ascii_char.is_lowercase(), false);
@@ -174,7 +174,7 @@ use crate::Byte;
 /// };
 ///
 /// let ascii_char: AsciiChar =
-///     AsciiChar::new(Byte::from_u8(97), "LCA", "Lowercase letter a", "a");
+///     AsciiChar::new(Byte::from(97), "LCA", "Lowercase letter a", "a");
 ///
 /// assert_eq!(ascii_char.is_lowercase(), true);
 /// assert_eq!(ascii_char.is_uppercase(), false);
@@ -190,7 +190,7 @@ use crate::Byte;
 /// };
 ///
 /// let ascii_char: AsciiChar =
-///     AsciiChar::new(Byte::from_u8(64), "AT", "At Symbol", "@");
+///     AsciiChar::new(Byte::from(64), "AT", "At Symbol", "@");
 ///
 /// assert_eq!(ascii_char.is_symbol(), true);
 /// ```
@@ -224,9 +224,9 @@ impl AsciiChar {
     /// };
     ///
     /// let ascii_char: AsciiChar =
-    ///     AsciiChar::new(Byte::from_u8(97), "LCA", "Lowercase letter a", "a");
+    ///     AsciiChar::new(Byte::from(97), "LCA", "Lowercase letter a", "a");
     ///
-    /// assert_eq!(ascii_char.binary_value(), Byte::from_u8(97));
+    /// assert_eq!(ascii_char.binary_value(), Byte::from(97));
     /// assert_eq!(ascii_char.decimal_value(), 97);
     /// assert_eq!(ascii_char.hexadecimal_value(), "0x61");
     /// assert_eq!(ascii_char.character_code(), "LCA");
@@ -263,7 +263,7 @@ impl AsciiChar {
     /// };
     ///
     /// let ascii_char: AsciiChar =
-    ///     AsciiChar::new(Byte::from_u8(0), "NUL", "Null character", "\0");
+    ///     AsciiChar::new(Byte::from(0), "NUL", "Null character", "\0");
     ///
     /// assert_eq!(ascii_char.is_control(), true);
     /// ```
@@ -323,14 +323,14 @@ impl AsciiChar {
     /// };
     ///
     /// let lca: AsciiChar =
-    ///     AsciiChar::new(Byte::from_u8(97), "LCA", "Lowercase letter a", "a");
+    ///     AsciiChar::new(Byte::from(97), "LCA", "Lowercase letter a", "a");
     /// let uca: AsciiChar =
-    ///     AsciiChar::new(Byte::from_u8(65), "UCA", "Uppercase letter a", "A");
+    ///     AsciiChar::new(Byte::from(65), "UCA", "Uppercase letter a", "A");
     /// let symat: AsciiChar =
-    ///     AsciiChar::new(Byte::from_u8(64), "SYMAT", "Symbol At", "@");
+    ///     AsciiChar::new(Byte::from(64), "SYMAT", "Symbol At", "@");
     /// let dig1: AsciiChar =
-    ///     AsciiChar::new(Byte::from_u8(49), "DIG1", "Digit one", "1");
-    /// let sp: AsciiChar = AsciiChar::new(Byte::from_u8(32), "SP", "Space", " ");
+    ///     AsciiChar::new(Byte::from(49), "DIG1", "Digit one", "1");
+    /// let sp: AsciiChar = AsciiChar::new(Byte::from(32), "SP", "Space", " ");
     ///
     /// assert_eq!(lca.is_printable(), true);
     /// assert_eq!(uca.is_printable(), true);
@@ -366,7 +366,7 @@ impl AsciiChar {
     /// };
     ///
     /// let ascii_char: AsciiChar =
-    ///     AsciiChar::new(Byte::from_u8(9), "CTAB", "Horizontal tab", "\t");
+    ///     AsciiChar::new(Byte::from(9), "CTAB", "Horizontal tab", "\t");
     ///
     /// assert_eq!(ascii_char.is_whitespace(), true);
     /// ```
@@ -404,7 +404,7 @@ impl AsciiChar {
     /// };
     ///
     /// let ascii_char: AsciiChar =
-    ///     AsciiChar::new(Byte::from_u8(49), "DIG1", "Digit one", "1");
+    ///     AsciiChar::new(Byte::from(49), "DIG1", "Digit one", "1");
     ///
     /// assert_eq!(ascii_char.is_digit(), true);
     /// ```
@@ -434,7 +434,7 @@ impl AsciiChar {
     /// };
     ///
     /// let ascii_char: AsciiChar =
-    ///     AsciiChar::new(Byte::from_u8(97), "LCA", "Lowercase letter a", "a");
+    ///     AsciiChar::new(Byte::from(97), "LCA", "Lowercase letter a", "a");
     ///
     /// assert_eq!(ascii_char.is_letter(), true);
     /// ```
@@ -448,9 +448,9 @@ impl AsciiChar {
     /// };
     ///
     /// let lca: AsciiChar =
-    ///     AsciiChar::new(Byte::from_u8(97), "LCA", "Lowercase letter a", "a");
+    ///     AsciiChar::new(Byte::from(97), "LCA", "Lowercase letter a", "a");
     /// let uca: AsciiChar =
-    ///     AsciiChar::new(Byte::from_u8(65), "UCA", "Uppercase letter a", "A");
+    ///     AsciiChar::new(Byte::from(65), "UCA", "Uppercase letter a", "A");
     ///
     /// assert_eq!(lca.is_letter(), true);
     /// assert_eq!(uca.is_letter(), true);
@@ -480,7 +480,7 @@ impl AsciiChar {
     /// };
     ///
     /// let ascii_char: AsciiChar =
-    ///     AsciiChar::new(Byte::from_u8(65), "UCA", "Uppercase letter A", "A");
+    ///     AsciiChar::new(Byte::from(65), "UCA", "Uppercase letter A", "A");
     ///
     /// assert_eq!(ascii_char.is_uppercase(), true);
     /// ```
@@ -508,7 +508,7 @@ impl AsciiChar {
     /// };
     ///
     /// let ascii_char: AsciiChar =
-    ///     AsciiChar::new(Byte::from_u8(97), "LCA", "Lowercase letter a", "a");
+    ///     AsciiChar::new(Byte::from(97), "LCA", "Lowercase letter a", "a");
     ///
     /// assert_eq!(ascii_char.is_lowercase(), true);
     /// ```
@@ -536,7 +536,7 @@ impl AsciiChar {
     /// };
     ///
     /// let ascii_char: AsciiChar =
-    ///     AsciiChar::new(Byte::from_u8(64), "SYMAT", "Symbol at", "@");
+    ///     AsciiChar::new(Byte::from(64), "SYMAT", "Symbol at", "@");
     ///
     /// assert_eq!(ascii_char.is_symbol(), true);
     /// ```
@@ -574,9 +574,9 @@ impl AsciiChar {
     /// };
     ///
     /// let ascii_char: AsciiChar =
-    ///     AsciiChar::new(Byte::from_u8(97), "LCA", "Lowercase letter a", "a");
+    ///     AsciiChar::new(Byte::from(97), "LCA", "Lowercase letter a", "a");
     ///
-    /// assert_eq!(ascii_char.binary_value(), Byte::from_u8(97));
+    /// assert_eq!(ascii_char.binary_value(), Byte::from(97));
     /// ```
     #[must_use]
     pub const fn binary_value(&self) -> Byte {
@@ -597,13 +597,13 @@ impl AsciiChar {
     /// };
     ///
     /// let ascii_char: AsciiChar =
-    ///     AsciiChar::new(Byte::from_u8(97), "LCA", "Lowercase letter a", "a");
+    ///     AsciiChar::new(Byte::from(97), "LCA", "Lowercase letter a", "a");
     ///
     /// assert_eq!(ascii_char.decimal_value(), 97);
     /// ```
     #[must_use]
     pub fn decimal_value(&self) -> u8 {
-        self.binary_value.to_u8()
+        u8::from(&self.binary_value)
     }
 
     /// Returns the `AsciiChar` instance's hexadecimal value.
@@ -620,7 +620,7 @@ impl AsciiChar {
     /// };
     ///
     /// let ascii_char: AsciiChar =
-    ///     AsciiChar::new(Byte::from_u8(97), "LCA", "Lowercase letter a", "a");
+    ///     AsciiChar::new(Byte::from(97), "LCA", "Lowercase letter a", "a");
     ///
     /// assert_eq!(ascii_char.hexadecimal_value(), "0x61");
     /// ```
@@ -643,7 +643,7 @@ impl AsciiChar {
     /// };
     ///
     /// let ascii_char: AsciiChar =
-    ///     AsciiChar::new(Byte::from_u8(97), "LCA", "Lowercase letter a", "a");
+    ///     AsciiChar::new(Byte::from(97), "LCA", "Lowercase letter a", "a");
     ///
     /// assert_eq!(ascii_char.character_code(), "LCA");
     /// ```
@@ -666,7 +666,7 @@ impl AsciiChar {
     /// };
     ///
     /// let ascii_char: AsciiChar =
-    ///     AsciiChar::new(Byte::from_u8(97), "LCA", "Lowercase letter a", "a");
+    ///     AsciiChar::new(Byte::from(97), "LCA", "Lowercase letter a", "a");
     ///
     /// assert_eq!(ascii_char.character_description(), "Lowercase letter a");
     /// ```
@@ -689,7 +689,7 @@ impl AsciiChar {
     /// };
     ///
     /// let ascii_char: AsciiChar =
-    ///     AsciiChar::new(Byte::from_u8(97), "LCA", "Lowercase letter a", "a");
+    ///     AsciiChar::new(Byte::from(97), "LCA", "Lowercase letter a", "a");
     ///
     /// assert_eq!(ascii_char.character_value(), "a");
     /// ```
@@ -706,9 +706,9 @@ mod tests {
     #[test]
     fn test_ascii_char() {
         let ascii_char: AsciiChar =
-            AsciiChar::new(Byte::from_u8(97), "LCA", "Lowercase letter a", "a");
+            AsciiChar::new(Byte::from(97), "LCA", "Lowercase letter a", "a");
 
-        assert_eq!(ascii_char.binary_value(), Byte::from_u8(97));
+        assert_eq!(ascii_char.binary_value(), Byte::from(97));
         assert_eq!(ascii_char.decimal_value(), 97);
         assert_eq!(ascii_char.hexadecimal_value(), "0x61");
         assert_eq!(ascii_char.character_code(), "LCA");
@@ -718,18 +718,18 @@ mod tests {
 
     #[test]
     fn test_ascii_char_is_control() {
-        let ascii_char: AsciiChar = AsciiChar::new(Byte::from_u8(0), "NUL", "Null character", "\0");
+        let ascii_char: AsciiChar = AsciiChar::new(Byte::from(0), "NUL", "Null character", "\0");
 
         assert!(ascii_char.is_control());
     }
 
     #[test]
     fn test_ascii_char_is_printable() {
-        let lca: AsciiChar = AsciiChar::new(Byte::from_u8(97), "LCA", "Lowercase letter a", "a");
-        let uca: AsciiChar = AsciiChar::new(Byte::from_u8(65), "UCA", "Uppercase letter a", "A");
-        let symat: AsciiChar = AsciiChar::new(Byte::from_u8(64), "SYMAT", "Symbol At", "@");
-        let dig1: AsciiChar = AsciiChar::new(Byte::from_u8(49), "DIG1", "Digit one", "1");
-        let sp: AsciiChar = AsciiChar::new(Byte::from_u8(32), "SP", "Space", " ");
+        let lca: AsciiChar = AsciiChar::new(Byte::from(97), "LCA", "Lowercase letter a", "a");
+        let uca: AsciiChar = AsciiChar::new(Byte::from(65), "UCA", "Uppercase letter a", "A");
+        let symat: AsciiChar = AsciiChar::new(Byte::from(64), "SYMAT", "Symbol At", "@");
+        let dig1: AsciiChar = AsciiChar::new(Byte::from(49), "DIG1", "Digit one", "1");
+        let sp: AsciiChar = AsciiChar::new(Byte::from(32), "SP", "Space", " ");
 
         assert!(lca.is_printable());
         assert!(uca.is_printable());
@@ -740,8 +740,8 @@ mod tests {
 
     #[test]
     fn test_ascii_char_is_letter() {
-        let lca: AsciiChar = AsciiChar::new(Byte::from_u8(97), "LCA", "Lowercase letter a", "a");
-        let uca: AsciiChar = AsciiChar::new(Byte::from_u8(65), "UCA", "Uppercase letter a", "A");
+        let lca: AsciiChar = AsciiChar::new(Byte::from(97), "LCA", "Lowercase letter a", "a");
+        let uca: AsciiChar = AsciiChar::new(Byte::from(65), "UCA", "Uppercase letter a", "A");
 
         assert!(lca.is_letter());
         assert!(uca.is_letter());
@@ -750,7 +750,7 @@ mod tests {
     #[test]
     fn test_ascii_char_is_uppercase() {
         let ascii_char: AsciiChar =
-            AsciiChar::new(Byte::from_u8(65), "UCA", "Uppercase letter a", "A");
+            AsciiChar::new(Byte::from(65), "UCA", "Uppercase letter a", "A");
 
         assert!(ascii_char.is_uppercase());
         assert!(!ascii_char.is_lowercase());
@@ -760,7 +760,7 @@ mod tests {
     #[test]
     fn test_ascii_char_is_lowercase() {
         let ascii_char: AsciiChar =
-            AsciiChar::new(Byte::from_u8(97), "LCA", "Lowercase letter a", "a");
+            AsciiChar::new(Byte::from(97), "LCA", "Lowercase letter a", "a");
 
         assert!(ascii_char.is_lowercase());
         assert!(!ascii_char.is_uppercase());
@@ -771,7 +771,7 @@ mod tests {
     fn test_ascii_char_is_whitespace() {
         let whitespace_chars = vec![9, 10, 11, 12, 13, 32];
         for &val in &whitespace_chars {
-            let ascii_char = AsciiChar::new(Byte::from_u8(val), "", "", "");
+            let ascii_char = AsciiChar::new(Byte::from(val), "", "", "");
             assert!(
                 ascii_char.is_whitespace(),
                 "Character with decimal value {} should be identified as whitespace",
@@ -779,7 +779,7 @@ mod tests {
             );
         }
 
-        let non_whitespace_char = AsciiChar::new(Byte::from_u8(65), "", "", "");
+        let non_whitespace_char = AsciiChar::new(Byte::from(65), "", "", "");
         assert!(
             !non_whitespace_char.is_whitespace(),
             "Character with decimal value 65 should not be identified as whitespace"
@@ -790,7 +790,7 @@ mod tests {
     fn test_ascii_char_is_digit() {
         let digit_chars = vec![48, 49, 50, 51, 52, 53, 54, 55, 56, 57];
         for &val in &digit_chars {
-            let ascii_char = AsciiChar::new(Byte::from_u8(val), "", "", "");
+            let ascii_char = AsciiChar::new(Byte::from(val), "", "", "");
             assert!(
                 ascii_char.is_digit(),
                 "Character with decimal value {} should be identified as a digit",
@@ -798,7 +798,7 @@ mod tests {
             );
         }
 
-        let non_digit_char = AsciiChar::new(Byte::from_u8(65), "", "", "");
+        let non_digit_char = AsciiChar::new(Byte::from(65), "", "", "");
         assert!(
             !non_digit_char.is_digit(),
             "Character with decimal value 65 should not be identified as a digit"
@@ -812,7 +812,7 @@ mod tests {
             91, 92, 93, 94, 95, 96, 123, 124, 125, 126,
         ];
         for &val in &symbol_chars {
-            let ascii_char = AsciiChar::new(Byte::from_u8(val), "", "", "");
+            let ascii_char = AsciiChar::new(Byte::from(val), "", "", "");
             assert!(
                 ascii_char.is_symbol(),
                 "Character with decimal value {} should be identified as a symbol",
@@ -820,7 +820,7 @@ mod tests {
             );
         }
 
-        let non_symbol_char = AsciiChar::new(Byte::from_u8(65), "", "", "");
+        let non_symbol_char = AsciiChar::new(Byte::from(65), "", "", "");
         assert!(
             !non_symbol_char.is_symbol(),
             "Character with decimal value 65 should not be identified as a symbol"
@@ -829,10 +829,10 @@ mod tests {
 
     #[test]
     fn test_ascii_char_binary_value() {
-        let ascii_char = AsciiChar::new(Byte::from_u8(97), "", "", "");
+        let ascii_char = AsciiChar::new(Byte::from(97), "", "", "");
         assert_eq!(
             ascii_char.binary_value(),
-            Byte::from_u8(97),
+            Byte::from(97),
             "Binary value should be equal to the input value"
         );
     }

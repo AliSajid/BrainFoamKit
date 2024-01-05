@@ -1465,7 +1465,7 @@ mod tests {
 
     #[test]
     fn test_into_iter() {
-        let byte = Nybble::from(0b1010); // Assuming Byte::from_u8 exists
+        let byte = Nybble::from(0b1010); // Assuming Byte::from exists
         let mut iter = (&byte).into_iter();
 
         // Assuming Bit is an enum with variants Zero and One
@@ -1478,7 +1478,7 @@ mod tests {
 
     #[test]
     fn test_into_iter_empty_byte() {
-        let byte = Nybble::from(0b0000); // Assuming Byte::from_u8 exists
+        let byte = Nybble::from(0b0000); // Assuming Byte::from exists
         let mut iter = (&byte).into_iter();
 
         // Assuming Bit is an enum with variants Zero and One

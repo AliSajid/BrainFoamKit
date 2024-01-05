@@ -473,7 +473,7 @@ where
     fn input_value(&mut self) {
         let input = self.input.read();
         if let Ok(input) = input {
-            self.tape[self.memory_pointer] = Byte::from_u8(input);
+            self.tape[self.memory_pointer] = Byte::from(input);
         }
     }
 
@@ -553,7 +553,7 @@ mod tests {
         machine.execute_instruction();
         assert_eq!(
             machine.tape[1],
-            Byte::from_u8(0b0000_0001),
+            Byte::from(0b0000_0001),
             "Value at memory pointer should be incremented"
         );
         assert_eq!(
@@ -570,7 +570,7 @@ mod tests {
         machine.execute_instruction();
         assert_eq!(
             machine.tape[1],
-            Byte::from_u8(0),
+            Byte::from(0),
             "Value at memory pointer should be decremented"
         );
         assert_eq!(
@@ -673,7 +673,7 @@ mod tests {
             .input_device(input_device)
             .build()
             .unwrap();
-        let increment_result = Byte::from_u8(1);
+        let increment_result = Byte::from(1);
 
         machine.increment_value();
         assert_eq!(
@@ -691,11 +691,11 @@ mod tests {
             .input_device(input_device)
             .build()
             .unwrap();
-        machine.tape[0] = Byte::from_u8(1);
+        machine.tape[0] = Byte::from(1);
         machine.decrement_value();
         assert_eq!(
             machine.tape[0],
-            Byte::from_u8(0),
+            Byte::from(0),
             "Value at memory pointer should be decremented"
         );
     }
@@ -728,7 +728,7 @@ mod tests {
 
         assert_eq!(
             machine.tape[0],
-            Byte::from_u8(65),
+            Byte::from(65),
             "Value at memory pointer should be set to the input value"
         );
     }
@@ -748,7 +748,7 @@ mod tests {
 
         assert_eq!(
             machine.tape[0],
-            Byte::from_u8(0),
+            Byte::from(0),
             "Value at memory pointer should not be set to the input value"
         );
     }

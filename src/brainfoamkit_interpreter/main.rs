@@ -69,14 +69,14 @@ fn main() {
     table.set_format(*format::consts::FORMAT_NO_LINESEP_WITH_TITLE);
 
     for num in 0..128 {
-        let byte = Byte::from_u8(num);
+        let byte = Byte::from(num);
         let char = ascii
             .get(byte)
             .map_or("NA".to_owned(), AsciiChar::character_value);
         table.add_row(row![c=>
-            format!("{num}", num = byte),
-            format!("{num:#010b}", num = byte.to_u8()),
-            format!("{num:#04X}", num = byte.to_u8()),
+            format!("{num}", num = &byte),
+            format!("{num:#010b}", num = u8::from(&byte)),
+            format!("{num:#04X}", num = u8::from(&byte)),
             format!("{num}", num = byte.to_string()),
             format!("{char}", char = char)
         ]);
