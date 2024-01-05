@@ -1,118 +1,118 @@
+---
 name: Continuous integration
-
 on:
-  push:
-    branches:
-      - '*'
-      - '!main'
-  pull_request:
-    branches:
-      - 'main'
-  workflow_dispatch:
-
-
+    push:
+        branches:
+            - '*'
+            - '!main'
+    pull_request:
+        branches:
+            - main
+    workflow_dispatch:
 concurrency:
-  group: CI
-
+    group: CI
 env:
-  GIST_KEY: 80eb42183fabbaf02eebcf768bdae485 # pragma: allowlist secret
-  RUST_BACKTRACE: 1
-  MINIMUM_WAIT: 3
-  MAXIMUM_WAIT: 10
-
+    GIST_KEY: 80eb42183fabbaf02eebcf768bdae485 # pragma: allowlist secret
+    RUST_BACKTRACE: 1
+    MINIMUM_WAIT: 3
+    MAXIMUM_WAIT: 10
 jobs:
-  ci:
-    runs-on: ${{matrix.os}}-latest
-    outputs:
-      result: ${{steps.result.outputs.result}}
-    strategy:
-      fail-fast: false
-      matrix:
-        rust:
-          - stable
-          - beta
-          - nightly
-          - 1.70.0  # MSRV
-        os:
-          - windows
-          - ubuntu
-          - macos
-        include:
-          - os: windows
-            logo: windows
-          - os: ubuntu
-            logo: ubuntu
-          - os: macos
-            logo: apple
-          - rust: 1.70.0 # MSRV
-            label: msrv
-          - rust: stable
-            label: stable
-          - rust: beta
-            label: beta
-          - rust: nightly
-            label: nightly
-
-    steps:
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
-
-      - name: Install Rust
-        uses: dtolnay/rust-toolchain@master
+    ci:
+        runs-on: ${{matrix.os}}-latest
+        outputs:
+            result: ${{steps.result.outputs.result}}
+        strategy:
+            fail-fast: false
+            matrix:
+                rust:
+                    - stable
+                    - beta
+                    - nightly
+                    - 1.70.0 # MSRV
+                os:
+                    - windows
+                    - ubuntu
+                    - macos
+                include:
+                    - os: windows
+                      logo: windows
+                    - os: ubuntu
+                      logo: ubuntu
+                    - os: macos
+                      logo: apple
+                    - rust: 1.70.0 # MSRV
+                      label: msrv
+                    - rust: stable
+                      label: stable
+                    - rust: beta
+                      label: beta
+                    - rust: nightly
+                      label: nightly
+        steps:
+            - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+            - name: Install Rust
+              uses: dtolnay/rust-toolchain@master
+              with:
+                toolchain: ${{matrix.rust}}
+                components: rustfmt, clippy
+            - name: Install nightly Rust
+              uses: dtolnay/rust-toolchain@nightly
+              with:
+                toolchain: nightly
+                components: rustfmt, clippy
+            - name: Cache dependencies
+              uses: Swatinem/rust-cache@6fd3edff6979b79f87531400ad694fb7f2c84b1f # v2.2.1
+            - name: Cargo Build
+              run: cargo build --verbose
+            - name: Cargo Test
+              run: cargo test
+            - name: Cargo Format
+              run: cargo +nightly fmt --all -- --check
+            - name: Cargo Lint
+              run: cargo clippy -- -D warnings
+            - name: Wait before badge creation
+              uses: AliSajid/random-wait-action@v1.1.0
+              with:
+                minimum: ${{env.MINIMUM_WAIT}}
+                maximum: ${{env.MAXIMUM_WAIT}}
+            - name: Create Awesome Badge - Success
+              uses: schneegans/dynamic-badges-action@5d424ad4060f866e4d1dab8f8da0456e6b1c4f56 # v1.6.0
+              if: success()
+              with:
+                auth: ${{secrets.GIST_SECRET}}
+                gistID: ${{env.GIST_KEY}}
+                filename: ${{matrix.os}}-${{matrix.label}}.json
+                label: Build
+                namedLogo: ${{matrix.logo}}
+                message: Succeeded
+                color: green
+            - name: Create Awesome Badge - Failure
+              uses: schneegans/dynamic-badges-action@5d424ad4060f866e4d1dab8f8da0456e6b1c4f56 # v1.6.0
+              if: failure()
+              with:
+                auth: ${{secrets.GIST_SECRET}}
+                gistID: ${{env.GIST_KEY}}
+                filename: ${{matrix.os}}-${{matrix.label}}.json
+                namedLogo: ${{matrix.logo}}
+                label: Build
+                message: Failed
+                isError: true
+            - name: Set Result
+              if: always()
+              id: result
+              run: echo "result=${{job.status}}" >> "$GITHUB_OUTPUT"
+    generate_code_coverage:
+        uses: ./.github/workflows/code_coverage.yaml
+        needs: [ci]
+        secrets: inherit # pragma: allowlist secret
+    get-next-version:
+        uses: ./.github/workflows/get-next-version.yaml
+        needs: [ci]
+        secrets: inherit # pragma: allowlist secret
+    semantic-release:
+        needs: [ci, get-next-version]
+        uses: ./.github/workflows/release.yaml
+        secrets: inherit # pragma: allowlist secret
         with:
-          toolchain: ${{matrix.rust}}
-          components: rustfmt, clippy
-
-      - name: Cache dependencies
-        uses: Swatinem/rust-cache@6fd3edff6979b79f87531400ad694fb7f2c84b1f # v2.2.1
-
-      - name: Cargo Build
-        run: cargo build --verbose
-
-      - name: Cargo Test
-        run: cargo test
-
-      - name: Cargo Format
-        run: cargo fmt --all -- --check
-
-      - name: Cargo Lint
-        run: cargo clippy -- -D warnings
-
-      - name: Wait before badge creation
-        uses: AliSajid/random-wait-action@v1.1.0
-        with:
-          minimum: ${{env.MINIMUM_WAIT}}
-          maximum: ${{env.MAXIMUM_WAIT}}
-
-      - name: Create Awesome Badge - Success
-        uses: schneegans/dynamic-badges-action@5d424ad4060f866e4d1dab8f8da0456e6b1c4f56 # v1.6.0
-        if: success()
-        with:
-          auth: ${{secrets.GIST_SECRET}}
-          gistID: ${{env.GIST_KEY}}
-          filename: ${{matrix.os}}-${{matrix.label}}.json
-          label: Build
-          namedLogo: ${{matrix.logo}}
-          message: Succeeded
-          color: green
-
-      - name: Create Awesome Badge - Failure
-        uses: schneegans/dynamic-badges-action@5d424ad4060f866e4d1dab8f8da0456e6b1c4f56 # v1.6.0
-        if: failure()
-        with:
-          auth: ${{secrets.GIST_SECRET}}
-          gistID: ${{env.GIST_KEY}}
-          filename: ${{matrix.os}}-${{matrix.label}}.json
-          namedLogo: ${{matrix.logo}}
-          label: Build
-          message: Failed
-          isError: true
-
-      - name: Set Result
-        if: always()
-        id: result
-        run: echo "result=${{job.status}}" >> "$GITHUB_OUTPUT"
-
-  semantic-release:
-    needs: [ci]
-    uses: ./.github/workflows/release.yaml
-    secrets: inherit # pragma: allowlist secret
+            new-release-published: ${{needs.get-next-version.outputs.new-release-published}}
+            new-release-version: ${{needs.get-next-version.outputs.new-release-version}}

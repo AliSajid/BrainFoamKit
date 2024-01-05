@@ -1,0 +1,57 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "bfkview • debug",
+      "type": "lldb",
+      "request": "launch",
+      "internalConsoleOptions": "openOnSessionStart",
+      "preLaunchTask": "cargo build --package brainfoamkit --bin bfkview",
+      "program": "${workspaceFolder}/target/debug/bfkview",
+      "cwd": "${workspaceFolder}",
+      "env": { "name": "RUST_BACKTRACE", "value": "1" },
+      "windows": {
+        "program": "${workspaceFolder}/target/debug/bfkview.exe"
+      }
+    },
+    {
+      "name": "bfkview • release",
+      "type": "lldb",
+      "request": "launch",
+      "internalConsoleOptions": "openOnSessionStart",
+      "preLaunchTask": "cargo build --package brainfoamkit --bin bfkview --release",
+      "program": "${workspaceFolder}/target/release/bfkview",
+      "cwd": "${workspaceFolder}",
+      "env": { "name": "RUST_BACKTRACE", "value": "1" },
+      "windows": {
+        "program": "${workspaceFolder}/target/release/bfkview.exe"
+      }
+    },
+    {
+      "name": "bfkrun • debug",
+      "type": "lldb",
+      "request": "launch",
+      "internalConsoleOptions": "openOnSessionStart",
+      "preLaunchTask": "cargo build --package brainfoamkit --bin bfkrun",
+      "program": "${workspaceFolder}/target/debug/bfkrun",
+      "cwd": "${workspaceFolder}",
+      "env": { "name": "RUST_BACKTRACE", "value": "1" },
+      "windows": {
+        "program": "${workspaceFolder}/target/debug/bfkrun.exe"
+      }
+    },
+    {
+      "name": "bfkrun • release",
+      "type": "lldb",
+      "request": "launch",
+      "internalConsoleOptions": "openOnSessionStart",
+      "preLaunchTask": "cargo build --package brainfoamkit --bin bfkrun --release",
+      "program": "${workspaceFolder}/target/release/bfkrun",
+      "cwd": "${workspaceFolder}",
+      "env": { "name": "RUST_BACKTRACE", "value": "1" },
+      "windows": {
+        "program": "${workspaceFolder}/target/release/bfkrun.exe"
+      }
+    }
+  ]
+}

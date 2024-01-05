@@ -1,92 +1,134 @@
+---
 repos:
-- hooks:
-  - id: commitizen
-  repo: https://github.com/commitizen-tools/commitizen
-  rev: v2.32.2
-- hooks:
-  - id: check-json
-  - id: check-merge-conflict
-  - id: check-toml
-  - id: check-xml
-  - id: check-yaml
-  - id: end-of-file-fixer
-  - args:
-    - --fix=no
-    id: mixed-line-ending
-  - args:
-    - --indent=4
-    - --autofix
-    id: pretty-format-json
-  - args:
-    - --markdown-linebreak-ext=md
-    id: trailing-whitespace
-  repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.1.0
-- hooks:
-  - args:
-    - build
-    - chore
-    - ci
-    - docs
-    - feat
-    - fix
-    - perf
-    - refactor
-    - revert
-    - style
-    - test
-    - bump
-    id: conventional-pre-commit
-    stages:
-    - commit-msg
-  repo: https://github.com/compilerla/conventional-pre-commit
-  rev: v2.0.0
-- hooks:
-  - id: forbid-crlf
-  - id: remove-crlf
-  - id: forbid-tabs
-  - id: remove-tabs
-  - args:
-    - --license-filepath
-    - meta/LICENSE-HEADER
-    - --comment-style
-    - //
-    files: \.rs$
-    id: insert-license
-  repo: https://github.com/Lucas-C/pre-commit-hooks
-  rev: v1.3.1
-- hooks:
-  - args:
-    - --config=$(pwd)/.yamllint.yml
-    id: yamllint
-    stages:
-    - commit-msg
-  repo: https://github.com/adrienverge/yamllint
-  rev: v1.27.1
-- hooks:
-  - args:
-    - --ignore
-    - CHANGELOG.md
-    id: markdownlint
-  repo: https://github.com/igorshubovych/markdownlint-cli
-  rev: v0.32.1
-- hooks:
-  - id: detect-secrets
-  repo: https://github.com/Yelp/detect-secrets
-  rev: v1.3.0
-- hooks:
-  - id: fix-smartquotes
-  - id: fix-ligatures
-  - id: forbid-bidi-controls
-  repo: https://github.com/sirosen/texthooks
-  rev: 0.3.1
-- hooks:
-  - id: gitleaks
-  repo: https://github.com/zricethezav/gitleaks
-  rev: v8.2.0
-- hooks:
-  - id: fmt
-  - id: cargo-check
-  - id: clippy
-  repo: https://github.com/doublify/pre-commit-rust
-  rev: v1.0
+    - repo: local
+      hooks:
+        - id: fmt
+          name: Rust format
+          entry: cargo +nightly fmt --all
+          language: system
+          types: [rust]
+          files: \.rs$
+          pass_filenames: false
+        - id: clippy
+          name: Run clippy linter
+          entry: cargo +nightly clippy --all-targets --all-features -- -D warnings
+          language: system
+          types: [rust]
+          files: \.rs$
+          pass_filenames: false
+        - id: cargo-check
+          name: Run cargo check
+          entry: cargo +nightly check --all-targets --all-features
+          language: system
+          types: [rust]
+          files: \.rs$
+          pass_filenames: false
+        - id: cargo-about-json
+          name: Generate list of licenses in JSON
+          entry: scripts/generate_about_json.sh
+          language: script
+          types_or: [file, rust]
+          files: "Cargo.toml$"
+          pass_filenames: false
+        - id: cargo-about-md
+          name: Generate list of licenses in Markdown
+          entry: scripts/generate_about_md.sh meta/licenses.hbs
+          language: script
+          types_or: [file, rust]
+          files: "Cargo.toml$"
+          pass_filenames: false
+        - id: cargo-toml-lint
+          name: Check Cargo.toml
+          entry: cargo-toml-lint
+          language: system
+          types_or: [file, rust]
+          files: "Cargo.toml$"
+          pass_filenames: true
+    - repo: https://github.com/commitizen-tools/commitizen
+      rev: v3.13.0
+      hooks:
+        - id: commitizen
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v4.5.0
+      hooks:
+        - id: check-json
+          exclude: ".vscode/.*json"
+        - id: check-merge-conflict
+        - id: check-shebang-scripts-are-executable
+        - id: check-toml
+        - id: check-xml
+        - id: check-yaml
+        - id: end-of-file-fixer
+          exclude: ".*licenses.*\\.(md|hbs)"
+        - args:
+            - --fix=no
+          id: mixed-line-ending
+        - args:
+            - --indent=4
+            - --autofix
+            - --no-ensure-ascii
+          id: pretty-format-json
+          exclude: ".vscode/launch.json"
+        - args:
+            - --markdown-linebreak-ext=md
+          id: trailing-whitespace
+    - repo: https://github.com/compilerla/conventional-pre-commit
+      rev: v3.0.0
+      hooks:
+        - args:
+            - build
+            - chore
+            - ci
+            - docs
+            - feat
+            - fix
+            - perf
+            - refactor
+            - revert
+            - style
+            - test
+            - bump
+          id: conventional-pre-commit
+          stages:
+            - commit-msg
+    - repo: https://github.com/Lucas-C/pre-commit-hooks
+      rev: v1.5.4
+      hooks:
+        - id: forbid-crlf
+        - id: remove-crlf
+        - id: forbid-tabs
+        - id: remove-tabs
+        - args:
+            - --license-filepath
+            - meta/LICENSE-HEADER
+            - --comment-style
+            - //
+          files: \.rs$
+          id: insert-license
+    - repo: https://github.com/google/yamlfmt
+      rev: v0.10.0
+      hooks:
+        - id: yamlfmt
+    - repo: https://github.com/igorshubovych/markdownlint-cli
+      rev: v0.37.0
+      hooks:
+        - args:
+            - --ignore
+            - CHANGELOG.md
+          id: markdownlint
+    - repo: https://github.com/Yelp/detect-secrets
+      rev: v1.4.0
+      hooks:
+        - id: detect-secrets
+          args: ["--baseline", ".secrets.baseline"]
+          exclude: "meta/licenses.*"
+    - repo: https://github.com/sirosen/texthooks
+      rev: 0.6.3
+      hooks:
+        - id: fix-smartquotes
+        - id: fix-ligatures
+        - id: forbid-bidi-controls
+    - repo: https://github.com/zricethezav/gitleaks
+      rev: v8.18.1
+      hooks:
+        - id: gitleaks

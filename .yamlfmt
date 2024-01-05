@@ -1,0 +1,14 @@
+---
+line_ending: "lf"
+doublestar: true
+include:
+    - .github/**/*.yml
+    - .pre-commit-config.yaml
+    - .releaserc.yml
+    - .yamlfmt
+formatter:
+    type: basic
+    include_document_start: true
+    line_ending: "lf"
+    max_line_length: 150
+    indent: 4
