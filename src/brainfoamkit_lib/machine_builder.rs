@@ -155,17 +155,14 @@ where
     /// };
     ///
     /// let input_device = std::io::stdin();
-    /// let program = Program::from_string("++++++[>++++++++++<-]>+++++.");
+    /// let program = Program::from("++++++[>++++++++++<-]>+++++.");
     /// let vm = VirtualMachineBuilder::new()
     ///     .input_device(input_device)
     ///     .program(program)
     ///     .build()
     ///     .unwrap();
     ///
-    /// assert_eq!(
-    ///     vm.program(),
-    ///     Program::from_string("++++++[>++++++++++<-]>+++++.")
-    /// );
+    /// assert_eq!(vm.program(), Program::from("++++++[>++++++++++<-]>+++++."));
     /// ```
     #[must_use]
     pub fn program(mut self, program: Program) -> Self {
@@ -261,7 +258,7 @@ where
     /// };
     ///
     /// let input_device = std::io::stdin();
-    /// let program = Program::from_string("++++++[>++++++++++<-]>+++++.");
+    /// let program = Program::from("++++++[>++++++++++<-]>+++++.");
     /// let vm = VirtualMachineBuilder::new()
     ///     .program(program)
     ///     .tape_size(100)
@@ -293,7 +290,7 @@ mod tests {
 
     #[test]
     fn test_program() {
-        let program = Program::from_string("++++++[>++++++++++<-]>+++++.");
+        let program = Program::from("++++++[>++++++++++<-]>+++++.");
         let input_device = MockReader {
             data: std::io::Cursor::new("A".as_bytes().to_vec()),
         };
@@ -302,10 +299,7 @@ mod tests {
             .program(program)
             .build()
             .unwrap();
-        assert_eq!(
-            vm.program(),
-            Program::from_string("++++++[>++++++++++<-]>+++++.")
-        );
+        assert_eq!(vm.program(), Program::from("++++++[>++++++++++<-]>+++++."));
     }
 
     #[test]
@@ -335,7 +329,7 @@ mod tests {
 
     #[test]
     fn test_build() {
-        let program = Program::from_string("++++++[>++++++++++<-]>+++++.");
+        let program = Program::from("++++++[>++++++++++<-]>+++++.");
         let input_device = MockReader {
             data: std::io::Cursor::new("A".as_bytes().to_vec()),
         };
@@ -345,10 +339,7 @@ mod tests {
             .program(program)
             .build()
             .unwrap();
-        assert_eq!(
-            vm.program(),
-            Program::from_string("++++++[>++++++++++<-]>+++++.")
-        );
+        assert_eq!(vm.program(), Program::from("++++++[>++++++++++<-]>+++++."));
         assert_eq!(vm.tape_size(), 100);
     }
 
