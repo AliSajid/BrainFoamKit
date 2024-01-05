@@ -784,7 +784,7 @@ impl Display for Nybble {
     /// * [`from_u8()`](#method.from_u8): Creates a new Nybble from a u8 value.
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         let number: u8 = self.into();
-        write!(f, "{:#03X}", number)
+        write!(f, "{number:#03X}")
     }
 }
 
@@ -912,7 +912,7 @@ impl From<&Nybble> for u8 {
     ///
     /// * [`from_u8()`](#method.from_u8): Creates a new Nybble from a u8 value.
     /// * [`to_string()`](#method.to_string): Converts the Nybble to a string.
-    fn from(nybble: &Nybble) -> u8 {
+    fn from(nybble: &Nybble) -> Self {
         let mut n = 0;
 
         for i in 0..4 {
