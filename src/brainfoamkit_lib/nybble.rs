@@ -202,71 +202,6 @@ impl Nybble {
         }
     }
 
-    // /// Creates a new Nybble from a u8 value.
-    // ///
-    // /// This method takes a u8 value as an argument and creates a new Nybble
-    // /// truncating to only the least significant four bits.
-    // ///
-    // /// # Arguments
-    // ///
-    // /// * `n` - The u8 value to create the Nybble from.
-    // ///
-    // /// # Examples
-    // ///
-    // /// ## A valid value for a Nybble
-    // ///
-    // /// ```
-    // /// use brainfoamkit_lib::Nybble;
-    // ///
-    // /// let nybble = Nybble::from(5);
-    // /// assert_eq!(u8::from(&nybble), 5);
-    // /// assert_eq!(nybble.to_string(), "0x5");
-    // /// ```
-    // ///
-    // /// ## A value too large for a Nybble
-    // ///
-    // /// ```
-    // /// use brainfoamkit_lib::Nybble;
-    // ///
-    // /// let nybble = Nybble::from(16);
-    // /// assert_eq!(u8::from(&nybble), 0);
-    // /// assert_eq!(nybble.to_string(), "0x0");
-    // /// ```
-    // ///
-    // /// # Returns
-    // ///
-    // /// A new Nybble from the specified u8 value, or an all
-    // /// [`Bit::One`](crate::Bit::One) Nybble if the value is larger than 15.
-    // ///
-    // /// # See Also
-    // ///
-    // /// * [`new()`](#method.new): Creates a new Nybble with the specified Bit
-    // ///   values.
-    // /// * [`default()`](#method.default): Creates a new Nybble with default (all
-    // ///   [`Bit::Zero`](crate::Bit::Zero)) Bit values.
-    // #[must_use]
-    // pub fn from_u8(n: u8) -> Self {
-    //     let n = n & 0b0000_1111;
-
-    //     // Create a new Nybble instance with default Bit values
-    //     let mut nybble = Self::default();
-
-    //     if n & 0b0001 != 0 {
-    //         nybble.bit_0.set();
-    //     };
-    //     if n & 0b0010 != 0 {
-    //         nybble.bit_1.set();
-    //     };
-    //     if n & 0b0100 != 0 {
-    //         nybble.bit_2.set();
-    //     };
-    //     if n & 0b1000 != 0 {
-    //         nybble.bit_3.set();
-    //     };
-
-    //     nybble
-    // }
-
     /// Sets the Bit value at the specified index.
     ///
     /// This method is used "Set" the bit value at a given index.
@@ -375,41 +310,6 @@ impl Nybble {
             _ => panic!("Index out of bounds"),
         }
     }
-
-    // /// Converts the Nybble to an 8-bit unsigned integer (u8).
-    // ///
-    // /// This method converts the Nybble to an 8-bit unsigned integer (u8).
-    // ///
-    // /// # Examples
-    // ///
-    // /// ```
-    // /// use brainfoamkit_lib::Nybble;
-    // /// use brainfoamkit_lib::Bit;
-    // ///
-    // /// let nybble = Nybble::new(Bit::One, Bit::Zero, Bit::One, Bit::Zero); //
-    // Dec: 10; Hex: 0xA; Oct: 0o12 /// let result = u8::from(&nybble); // Dec:
-    // 10; Hex: 0xA; Oct: 0o12 /// assert_eq!(result, 0b1010);
-    // /// ```
-    // /// # Returns
-    // ///
-    // /// The Nybble as an 8-bit unsigned integer (u8).
-    // ///
-    // /// # See Also
-    // ///
-    // /// * [`from_u8()`](#method.from_u8): Creates a new Nybble from a u8 value.
-    // /// * [`to_string()`](#method.to_string): Converts the Nybble to a string.
-    // #[must_use]
-    // pub fn to_u8(&self) -> u8 {
-    //     let mut n = 0;
-
-    //     for i in 0..4 {
-    //         if self.get_bit(i) == Bit::One {
-    //             n |= 1 << i;
-    //         }
-    //     }
-
-    //     n
-    // }
 
     /// Get the Bit value at the specified index.
     ///
