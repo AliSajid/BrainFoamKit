@@ -73,7 +73,7 @@ use crate::{
 ///     IterableByte,
 /// };
 ///
-/// let byte = Byte::from_u8(0b1100_1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+/// let byte = Byte::from(0b1100_1010); // Dec: 10; Hex: 0xA; Oct: 0o12
 /// let mut iter = IterableByte::new(&byte);
 ///
 /// assert_eq!(iter.next(), Some(Bit::zero()));
@@ -117,7 +117,7 @@ impl<'a> IterableByte<'a> {
     ///     IterableByte,
     /// };
     ///
-    /// let byte = Byte::from_u8(0b1100_1010); // Dec: 202; Hex: 0xCA; Oct: 0o312
+    /// let byte = Byte::from(0b1100_1010); // Dec: 202; Hex: 0xCA; Oct: 0o312
     /// let mut iter = IterableByte::new(&byte);
     ///
     /// for bit in iter {
@@ -152,7 +152,7 @@ impl<'a> Iterator for IterableByte<'a> {
     ///     IterableByte,
     /// };
     ///
-    /// let byte = Byte::from_u8(0b1100_1010); // Dec: 202; Hex: 0xCA; Oct: 0o312
+    /// let byte = Byte::from(0b1100_1010); // Dec: 202; Hex: 0xCA; Oct: 0o312
     ///
     /// let mut iter = IterableByte::new(&byte);
     ///
@@ -186,7 +186,7 @@ mod tests {
 
     #[test]
     fn test_iterable_nybble() {
-        let byte = Byte::from_u8(0b11001010); // Dec: 10; Hex: 0xA; Oct: 0o12
+        let byte = Byte::from(0b11001010); // Dec: 10; Hex: 0xA; Oct: 0o12
         let mut iter = byte.iter();
 
         assert_eq!(iter.next(), Some(Bit::zero()));

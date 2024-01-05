@@ -106,7 +106,7 @@ use crate::{
 ///     Bit::one(),
 ///     Bit::zero(),
 /// );
-/// assert_eq!(byte.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
+/// assert_eq!(u8::from(&byte), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
 /// assert_eq!(byte.to_string(), "0xAA");
 /// ```
 /// ## Create a byte from a primitive u8 value
@@ -114,8 +114,8 @@ use crate::{
 /// ```
 /// use brainfoamkit_lib::Byte;
 ///
-/// let byte = Byte::from_u8(0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
-/// assert_eq!(byte.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
+/// let byte = Byte::from(0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
+/// assert_eq!(u8::from(&byte), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
 /// assert_eq!(byte.to_string(), "0xAA");
 /// ```
 ///
@@ -130,7 +130,7 @@ use crate::{
 /// let high_nybble = Nybble::from(0b1011); // Dec: 11; Hex: 0x0B; Oct: 0o13
 /// let low_nybble = Nybble::from(0b0101); // Dec: 5; Hex: 0x05; Oct: 0o5
 /// let byte = Byte::from_nybbles(high_nybble, low_nybble);
-/// assert_eq!(byte.to_u8(), 0b10110101); // Dec: 181; Hex: 0xB5; Oct: 0o265
+/// assert_eq!(u8::from(&byte), 0b10110101); // Dec: 181; Hex: 0xB5; Oct: 0o265
 /// assert_eq!(byte.to_string(), "0xB5");
 /// ```
 ///
@@ -144,10 +144,10 @@ use crate::{
 /// byte.set_bit(0); // Byte: 0b00000001; Dec: 1; Hex: 0x01; Oct: 0o1
 /// byte.set_bit(1); // Byte: 0b00000011; Dec: 3; Hex: 0x03; Oct: 0o3
 /// byte.set_bit(2); // Byte: 0b00000111; Dec: 7; Hex: 0x07; Oct: 0o7
-/// assert_eq!(byte.to_u8(), 0b00000111); // Dec: 7; Hex: 0x07; Oct: 0o7
+/// assert_eq!(u8::from(&byte), 0b00000111); // Dec: 7; Hex: 0x07; Oct: 0o7
 /// assert_eq!(byte.to_string(), "0x07");
 /// byte.unset_bit(1); // Byte: 0b00000101; Dec: 5; Hex: 0x05; Oct: 0o5
-/// assert_eq!(byte.to_u8(), 0b00000101); // Dec: 5; Hex: 0x05; Oct: 0o5
+/// assert_eq!(u8::from(&byte), 0b00000101); // Dec: 5; Hex: 0x05; Oct: 0o5
 /// assert_eq!(byte.to_string(), "0x05");
 /// ```
 ///
@@ -159,7 +159,7 @@ use crate::{
 ///     Byte,
 /// };
 ///
-/// let byte = Byte::from_u8(0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
+/// let byte = Byte::from(0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
 /// assert_eq!(byte.get_bit(0), Bit::Zero); // Least significant bit
 /// assert_eq!(byte.get_bit(1), Bit::One);
 /// assert_eq!(byte.get_bit(2), Bit::Zero);
@@ -180,13 +180,13 @@ use crate::{
 /// byte.set_bit(0); // Byte: 0b00000001; Dec: 1; Hex: 0x01; Oct: 0o1
 /// byte.set_bit(2); // Byte: 0b00000101; Dec: 5; Hex: 0x05; Oct: 0o5
 /// byte.set_bit(4); // Byte: 0b00010101; Dec: 21; Hex: 0x15; Oct: 0o25
-/// assert_eq!(byte.to_u8(), 0b00010101); // Dec: 21; Hex: 0x15; Oct: 0o25
+/// assert_eq!(u8::from(&byte), 0b00010101); // Dec: 21; Hex: 0x15; Oct: 0o25
 /// assert_eq!(byte.to_string(), "0x15");
 /// byte.flip_bit(2); // Byte: 0b00010001; Dec: 17; Hex: 0x11; Oct: 0o21
-/// assert_eq!(byte.to_u8(), 0b00010001); // Dec: 17; Hex: 0x11; Oct: 0o21
+/// assert_eq!(u8::from(&byte), 0b00010001); // Dec: 17; Hex: 0x11; Oct: 0o21
 /// assert_eq!(byte.to_string(), "0x11");
 /// byte.flip_bit(7); // Byte: 0b10010001; Dec: 145; Hex: 0x91; Oct: 0o221
-/// assert_eq!(byte.to_u8(), 0b10010001); // Dec: 145; Hex: 0x91; Oct: 0o221
+/// assert_eq!(u8::from(&byte), 0b10010001); // Dec: 145; Hex: 0x91; Oct: 0o221
 /// assert_eq!(byte.to_string(), "0x91");
 /// ```
 ///
@@ -289,61 +289,6 @@ impl Byte {
         }
     }
 
-    /// Creates a new Byte instance from a u8 value.
-    ///
-    /// This method returns an Option. If the input value is out of range, None
-    /// is returned.
-    ///
-    /// # Arguments
-    ///
-    /// * `n` - The value to convert to a Byte.
-    ///
-    /// # Examples
-    ///
-    /// ## Single Digit
-    ///
-    /// ```
-    /// use brainfoamkit_lib::Byte;
-    ///
-    /// let byte_single = Byte::from_u8(0b00000101); // Dec: 5; Hex: 0x05; Oct: 0o5
-    /// assert_eq!(byte_single.to_u8(), 0b00000101); // Dec: 5; Hex: 0x05; Oct: 0o5
-    /// assert_eq!(byte_single.to_string(), "0x05");
-    /// ```
-    /// ## Double Digits
-    ///
-    /// ```
-    /// use brainfoamkit_lib::Byte;
-    ///
-    /// let byte_double = Byte::from_u8(0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
-    /// assert_eq!(byte_double.to_u8(), 0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
-    /// assert_eq!(byte_double.to_string(), "0x55");
-    /// ```
-    ///
-    /// # Returns
-    ///
-    /// A byte containing the value of the input.
-    ///
-    /// # See Also
-    ///
-    /// * [`new()`](#method.new): Create a new Byte from individual Bit values.
-    /// * [`from_nybbles()`](#method.from_nybbles): Create a new Byte from two
-    ///   Nybbles.
-    /// * [`default()`](#method.default): Create a new Byte with all bits set to
-    ///   zero.
-    /// * [`to_u8()`](#method.to_u8): Convert the Byte to a u8.
-    #[must_use]
-    pub fn from_u8(n: u8) -> Self {
-        let mut byte = Self::default();
-
-        for i in 0..8 {
-            if n & (1 << i) != 0 {
-                byte.flip_bit(i);
-            }
-        }
-
-        byte
-    }
-
     /// Creates a new Byte from two Nybbles.
     ///
     /// This method takes two [Nybbles](crate::Nybble) as arguments.
@@ -366,7 +311,7 @@ impl Byte {
     /// let high_nybble = Nybble::from(0b1011); // Dec: 11; Hex: 0x0B; Oct: 0o13
     /// let low_nybble = Nybble::from(0b0101); // Dec: 5; Hex: 0x05; Oct: 0o5
     /// let byte = Byte::from_nybbles(high_nybble, low_nybble);
-    /// assert_eq!(byte.to_u8(), 0b10110101); // Dec: 181; Hex: 0xB5; Oct: 0o265
+    /// assert_eq!(u8::from(&byte), 0b10110101); // Dec: 181; Hex: 0xB5; Oct: 0o265
     /// assert_eq!(byte.to_string(), "0xB5");
     /// ```
     ///
@@ -409,7 +354,7 @@ impl Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let byte = Byte::from_u8(0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
+    /// let byte = Byte::from(0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
     /// let high_nybble = byte.get_high_nybble(); // Nybble: 0b0101; Dec: 5; Hex: 0x05; Oct: 0o5
     /// assert_eq!(u8::from(&high_nybble), 0b0101); // Dec: 5; Hex: 0x05; Oct: 0o5
     /// assert_eq!(high_nybble.to_string(), "0x5");
@@ -447,7 +392,7 @@ impl Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let byte = Byte::from_u8(0b01010101); // Byte: 0b01010101; Dec: 85; Hex: 0x55; Oct: 0o125
+    /// let byte = Byte::from(0b01010101); // Byte: 0b01010101; Dec: 85; Hex: 0x55; Oct: 0o125
     /// let low_nybble = byte.get_low_nybble(); // Nybble: 0b0101; Dec: 5; Hex: 0x05; Oct: 0o5
     /// assert_eq!(u8::from(&low_nybble), 0b0101); // Dec: 5; Hex: 0x05; Oct: 0o5
     /// assert_eq!(low_nybble.to_string(), "0x5");
@@ -496,11 +441,11 @@ impl Byte {
     /// let mut byte = Byte::default(); // Byte: 0b00000000; Dec: 0; Hex: 0x00; Oct: 0o0
     /// byte.set_bit(0); // Byte: 0b00000001; Dec: 1; Hex: 0x01; Oct: 0o1
     /// byte.set_bit(2); // Byte: 0b00000101; Dec: 5; Hex: 0x05; Oct: 0o5
-    /// assert_eq!(byte.to_u8(), 0b00000101); // Dec: 5; Hex: 0x05; Oct: 0o5
+    /// assert_eq!(u8::from(&byte), 0b00000101); // Dec: 5; Hex: 0x05; Oct: 0o5
     /// assert_eq!(byte.to_string(), "0x05");
     /// byte.set_bit(4); // Byte: 0b00010101; Dec: 21; Hex: 0x15; Oct: 0o25
     /// byte.set_bit(6); // Byte: 0b01010101; Dec: 85; Hex: 0x55; Oct: 0o125
-    /// assert_eq!(byte.to_u8(), 0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
+    /// assert_eq!(u8::from(&byte), 0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
     /// assert_eq!(byte.to_string(), "0x55");
     /// ```
     ///
@@ -555,10 +500,10 @@ impl Byte {
     /// let mut byte = Byte::default(); // Byte: 0b00000000; Dec: 0; Hex: 0x00; Oct: 0o0
     /// byte.set_bit(0); // Byte: 0b00000001; Dec: 1; Hex: 0x01; Oct: 0o1
     /// byte.set_bit(2); // Byte: 0b00000101; Dec: 5; Hex: 0x05; Oct: 0o5
-    /// assert_eq!(byte.to_u8(), 0b00000101); // Dec: 5; Hex: 0x05; Oct: 0o5
+    /// assert_eq!(u8::from(&byte), 0b00000101); // Dec: 5; Hex: 0x05; Oct: 0o5
     /// assert_eq!(byte.to_string(), "0x05");
     /// byte.unset_bit(0); // Byte: 0b00000100; Dec: 4; Hex: 0x04; Oct: 0o4
-    /// assert_eq!(byte.to_u8(), 0b00000100); // Dec: 4; Hex: 0x04; Oct: 0o4
+    /// assert_eq!(u8::from(&byte), 0b00000100); // Dec: 4; Hex: 0x04; Oct: 0o4
     /// assert_eq!(byte.to_string(), "0x04");
     /// ```
     ///
@@ -593,54 +538,6 @@ impl Byte {
         }
     }
 
-    /// Converts the Byte to an 8-bit unsigned integer (u8).
-    ///
-    /// This method returns the value of the Byte as an 8-bit unsigned integer
-    /// (u8).
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use brainfoamkit_lib::{
-    ///     Bit,
-    ///     Byte,
-    /// };
-    ///
-    /// let byte = Byte::new(
-    ///     Bit::one(),
-    ///     Bit::zero(),
-    ///     Bit::one(),
-    ///     Bit::zero(),
-    ///     Bit::one(),
-    ///     Bit::zero(),
-    ///     Bit::one(),
-    ///     Bit::zero(),
-    /// );
-    /// assert_eq!(byte.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
-    /// assert_eq!(byte.to_string(), "0xAA");
-    /// ```
-    ///
-    /// # Returns
-    ///
-    /// An 8-bit unsigned integer (u8) containing the value of the Byte.
-    ///
-    /// # See Also
-    ///
-    /// * [`to_string()`](#method.to_string): Convert the Byte to a String.
-    /// * [`from_u8()`](#method.from_u8): Create a new Byte from a u8.
-    #[must_use]
-    pub fn to_u8(&self) -> u8 {
-        let mut n = 0;
-
-        for i in 0..8 {
-            if self.get_bit(i) == Bit::One {
-                n |= 1 << i;
-            }
-        }
-
-        n
-    }
-
     /// Get the Bit value at the specified index.
     ///
     /// The index is zero-based, so the least significant bit is at index 0 and
@@ -668,7 +565,7 @@ impl Byte {
     ///     Bit::one(),
     ///     Bit::zero(),
     /// );
-    /// assert_eq!(byte.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
+    /// assert_eq!(u8::from(&byte), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     /// assert_eq!(byte.get_bit(0), Bit::Zero); // Least significant bit
     /// assert_eq!(byte.get_bit(1), Bit::One);
     /// assert_eq!(byte.get_bit(2), Bit::Zero);
@@ -735,7 +632,7 @@ impl Byte {
     /// byte.set_bit(4); // Byte: 0b00010101; Dec: 21; Hex: 0x15; Oct: 0o25
     /// byte.set_bit(6); // Byte: 0b01010101; Dec: 85; Hex: 0x55; Oct: 0o125
     ///
-    /// assert_eq!(byte.to_u8(), 0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
+    /// assert_eq!(u8::from(&byte), 0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
     /// assert_eq!(byte.to_string(), "0x55");
     ///
     /// byte.flip_bit(0); // Byte: 0b01010100; Dec: 84; Hex: 0x54; Oct: 0o124
@@ -747,7 +644,7 @@ impl Byte {
     /// byte.flip_bit(6); // Byte: 0b10111010; Dec: 186; Hex: 0xBA; Oct: 0o272
     /// byte.flip_bit(7); // Byte: 0b00111010; Dec: 122; Hex: 0x7A; Oct: 0o172
     ///
-    /// assert_eq!(byte.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
+    /// assert_eq!(u8::from(&byte), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     /// assert_eq!(byte.to_string(), "0xAA");
     /// ```
     ///
@@ -807,12 +704,12 @@ impl Byte {
     /// byte.set_bit(4); // Byte: 0b00010101; Dec: 21; Hex: 0x15; Oct: 0o25
     /// byte.set_bit(6); // Byte: 0b01010101; Dec: 85; Hex: 0x55; Oct: 0o125
     ///
-    /// assert_eq!(byte.to_u8(), 0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
+    /// assert_eq!(u8::from(&byte), 0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
     /// assert_eq!(byte.to_string(), "0x55");
     ///
     /// byte.flip();
     ///
-    /// assert_eq!(byte.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
+    /// assert_eq!(u8::from(&byte), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     /// assert_eq!(byte.to_string(), "0xAA");
     /// ```
     ///
@@ -858,12 +755,12 @@ impl Byte {
     ///
     /// byte.increment();
     ///
-    /// assert_eq!(byte.to_u8(), 0b00000001); // Dec: 1; Hex: 0x01; Oct: 0o1
+    /// assert_eq!(u8::from(&byte), 0b00000001); // Dec: 1; Hex: 0x01; Oct: 0o1
     /// assert_eq!(byte.to_string(), "0x01");
     ///
     /// byte.increment();
     ///
-    /// assert_eq!(byte.to_u8(), 0b00000010); // Dec: 2; Hex: 0x02; Oct: 0o2
+    /// assert_eq!(u8::from(&byte), 0b00000010); // Dec: 2; Hex: 0x02; Oct: 0o2
     /// assert_eq!(byte.to_string(), "0x02");
     /// ```
     ///
@@ -872,11 +769,11 @@ impl Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let mut byte = Byte::from_u8(255); // Byte: 0b11111111; Dec: 255; Hex: 0xFF; Oct: 0o377
+    /// let mut byte = Byte::from(255); // Byte: 0b11111111; Dec: 255; Hex: 0xFF; Oct: 0o377
     ///
     /// byte.increment();
     ///
-    /// assert_eq!(byte.to_u8(), 0b00000000); // Byte: 0b00000000; Dec: 0; Hex: 0x00; Oct: 0o0
+    /// assert_eq!(u8::from(&byte), 0b00000000); // Byte: 0b00000000; Dec: 0; Hex: 0x00; Oct: 0o0
     /// assert_eq!(byte.to_string(), "0x00");
     /// ```
     ///
@@ -932,16 +829,16 @@ impl Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let mut byte = Byte::from_u8(0b00000010); // Byte: 0b00000010; Dec: 2; Hex: 0x02; Oct: 0o2
+    /// let mut byte = Byte::from(0b00000010); // Byte: 0b00000010; Dec: 2; Hex: 0x02; Oct: 0o2
     ///
     /// byte.decrement();
     ///
-    /// assert_eq!(byte.to_u8(), 0b00000001); // Dec: 1; Hex: 0x01; Oct: 0o1
+    /// assert_eq!(u8::from(&byte), 0b00000001); // Dec: 1; Hex: 0x01; Oct: 0o1
     /// assert_eq!(byte.to_string(), "0x01");
     ///
     /// byte.decrement();
     ///
-    /// assert_eq!(byte.to_u8(), 0b00000000); // Dec: 0; Hex: 0x00; Oct: 0o0
+    /// assert_eq!(u8::from(&byte), 0b00000000); // Dec: 0; Hex: 0x00; Oct: 0o0
     ///
     /// assert_eq!(byte.to_string(), "0x00");
     /// ```
@@ -951,11 +848,11 @@ impl Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let mut byte = Byte::from_u8(0);  // Byte: 0b00000000; Dec: 0; Hex: 0x00; Oct: 0o0
+    /// let mut byte = Byte::from(0);  // Byte: 0b00000000; Dec: 0; Hex: 0x00; Oct: 0o0
     ///
     /// byte.decrement();
     ///
-    /// assert_eq!(byte.to_u8(), 0b11111111); // Byte: 0b11111111; Dec: 255; Hex: 0xFF; Oct: 0o377
+    /// assert_eq!(u8::from(&byte), 0b11111111); // Byte: 0b11111111; Dec: 255; Hex: 0xFF; Oct: 0o377
     /// assert_eq!(byte.to_string(), "0xFF");
     /// ```
     ///
@@ -1000,7 +897,7 @@ impl Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let byte = Byte::from_u8(0b11001010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// let byte = Byte::from(0b11001010); // Dec: 10; Hex: 0xA; Oct: 0o12
     ///
     /// for bit in byte.iter() {
     ///     println!("{}", bit);
@@ -1020,7 +917,7 @@ impl Display for Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let byte = Byte::from_u8(0xAA); // Byte: 0b10101010; Dec: 170; Hex: 0xAA; Oct: 0o252
+    /// let byte = Byte::from(0xAA); // Byte: 0b10101010; Dec: 170; Hex: 0xAA; Oct: 0o252
     /// assert_eq!(byte.to_string(), "0xAA");
     /// ```
     ///
@@ -1033,7 +930,8 @@ impl Display for Byte {
     /// * [`to_u8()`](#method.to_u8)
     /// * [`from_u8()`](#method.from_u8)
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        write!(f, "{:#04X}", self.to_u8())
+        let number = u8::from(self);
+        write!(f, "{number:#04X}")
     }
 }
 
@@ -1046,7 +944,7 @@ impl Default for Byte {
     /// use brainfoamkit_lib::Byte;
     ///
     /// let byte = Byte::default(); // Byte: 0b00000000; Dec: 0; Hex: 0x00; Oct: 0o0
-    /// assert_eq!(byte.to_u8(), 0b00000000); // Dec: 0; Hex: 0x00; Oct: 0o0
+    /// assert_eq!(u8::from(&byte), 0b00000000); // Dec: 0; Hex: 0x00; Oct: 0o0
     /// assert_eq!(byte.to_string(), "0x00");
     /// ```
     ///
@@ -1075,6 +973,96 @@ impl Default for Byte {
     }
 }
 
+impl From<u8> for Byte {
+    /// Creates a new Byte from a u8.
+    ///
+    /// This method creates a new Byte from a u8.
+    ///
+    /// # Arguments
+    ///
+    /// * `n` - The u8 to create the Byte from.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Byte;
+    ///
+    /// let byte = Byte::from(0xAA); // Byte: 0b10101010; Dec: 170; Hex: 0xAA; Oct: 0o252
+    /// assert_eq!(u8::from(&byte), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
+    /// assert_eq!(byte.to_string(), "0xAA");
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// A Byte containing the value of the u8.
+    ///
+    /// # See Also
+    ///
+    /// * [`to_u8()`](#method.to_u8): Convert the Byte to a u8.
+    /// * [`from_nybbles()`](#method.from_nybbles): Create a new Byte from two
+    ///   Nybbles.
+    /// * [`new()`](#method.new): Create a new Byte from individual Bit values.
+    fn from(n: u8) -> Self {
+        let mut byte = Self::default();
+
+        for i in 0..8 {
+            if n & (1 << i) != 0 {
+                byte.set_bit(i);
+            }
+        }
+
+        byte
+    }
+}
+
+impl From<&Byte> for u8 {
+    /// Converts the Byte to an 8-bit unsigned integer (u8).
+    ///
+    /// This method returns the value of the Byte as an 8-bit unsigned integer
+    /// (u8).
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::{
+    ///     Bit,
+    ///     Byte,
+    /// };
+    ///
+    /// let byte = Byte::new(
+    ///     Bit::one(),
+    ///     Bit::zero(),
+    ///     Bit::one(),
+    ///     Bit::zero(),
+    ///     Bit::one(),
+    ///     Bit::zero(),
+    ///     Bit::one(),
+    ///     Bit::zero(),
+    /// );
+    /// assert_eq!(u8::from(&byte), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// An 8-bit unsigned integer (u8) containing the value of the Byte.
+    ///
+    /// # See Also
+    ///
+    /// * [`to_string()`](#method.to_string): Convert the Byte to a String.
+    /// * [`from_u8()`](#method.from_u8): Create a new Byte from a u8.
+    fn from(byte: &Byte) -> Self {
+        let mut n = 0;
+
+        for i in 0..8 {
+            if byte.get_bit(i) == Bit::One {
+                n |= 1 << i;
+            }
+        }
+
+        n
+    }
+}
+
 impl Not for Byte {
     // The return type is Byte because the Not operation is in-place.
     type Output = Self;
@@ -1089,14 +1077,14 @@ impl Not for Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let mut byte = Byte::from_u8(0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
+    /// let mut byte = Byte::from(0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     ///
-    /// assert_eq!(byte.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
+    /// assert_eq!(u8::from(&byte), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     /// assert_eq!(byte.to_string(), "0xAA");
     ///
     /// byte = !byte;
     ///
-    /// assert_eq!(byte.to_u8(), 0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
+    /// assert_eq!(u8::from(&byte), 0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
     /// assert_eq!(byte.to_string(), "0x55");
     /// ```
     ///
@@ -1134,14 +1122,14 @@ impl BitAnd for Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let mut byte = Byte::from_u8(0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
+    /// let mut byte = Byte::from(0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     ///
-    /// assert_eq!(byte.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
+    /// assert_eq!(u8::from(&byte), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     /// assert_eq!(byte.to_string(), "0xAA");
     ///
-    /// byte = byte & Byte::from_u8(0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
+    /// byte = byte & Byte::from(0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
     ///
-    /// assert_eq!(byte.to_u8(), 0b00000000); // Dec: 0; Hex: 0x00; Oct: 0o0
+    /// assert_eq!(u8::from(&byte), 0b00000000); // Dec: 0; Hex: 0x00; Oct: 0o0
     /// assert_eq!(byte.to_string(), "0x00");
     /// ```
     ///
@@ -1191,13 +1179,13 @@ impl BitAndAssign for Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let mut byte = Byte::from_u8(0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
+    /// let mut byte = Byte::from(0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     ///
-    /// assert_eq!(byte.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
+    /// assert_eq!(u8::from(&byte), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     ///
-    /// byte &= Byte::from_u8(0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
+    /// byte &= Byte::from(0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
     ///
-    /// assert_eq!(byte.to_u8(), 0); // Dec: 0; Hex: 0x00; Oct: 0o0
+    /// assert_eq!(u8::from(&byte), 0); // Dec: 0; Hex: 0x00; Oct: 0o0
     /// ```
     ///
     /// # Side Effects
@@ -1247,14 +1235,14 @@ impl BitOr for Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let mut byte = Byte::from_u8(0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
+    /// let mut byte = Byte::from(0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     ///
-    /// assert_eq!(byte.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
+    /// assert_eq!(u8::from(&byte), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     /// assert_eq!(byte.to_string(), "0xAA");
     ///
-    /// byte = byte | Byte::from_u8(0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
+    /// byte = byte | Byte::from(0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
     ///
-    /// assert_eq!(byte.to_u8(), 0b11111111); // Dec: 255; Hex: 0xFF; Oct: 0o377
+    /// assert_eq!(u8::from(&byte), 0b11111111); // Dec: 255; Hex: 0xFF; Oct: 0o377
     /// assert_eq!(byte.to_string(), "0xFF");
     /// ```
     ///
@@ -1303,13 +1291,13 @@ impl BitOrAssign for Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let mut byte = Byte::from_u8(0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
+    /// let mut byte = Byte::from(0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     ///
-    /// assert_eq!(byte.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
+    /// assert_eq!(u8::from(&byte), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     ///
-    /// byte |= Byte::from_u8(0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
+    /// byte |= Byte::from(0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
     ///
-    /// assert_eq!(byte.to_u8(), 0b11111111); // Dec: 255; Hex: 0xFF; Oct: 0o377
+    /// assert_eq!(u8::from(&byte), 0b11111111); // Dec: 255; Hex: 0xFF; Oct: 0o377
     /// ```
     ///
     /// # Side Effects
@@ -1359,13 +1347,13 @@ impl BitXor for Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let mut byte = Byte::from_u8(0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
+    /// let mut byte = Byte::from(0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     ///
-    /// assert_eq!(byte.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
+    /// assert_eq!(u8::from(&byte), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     ///
-    /// byte = byte ^ Byte::from_u8(0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
+    /// byte = byte ^ Byte::from(0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
     ///
-    /// assert_eq!(byte.to_u8(), 0b11111111); // Dec: 255; Hex: 0xFF; Oct: 0o377
+    /// assert_eq!(u8::from(&byte), 0b11111111); // Dec: 255; Hex: 0xFF; Oct: 0o377
     /// ```
     ///
     /// # Returns
@@ -1414,13 +1402,13 @@ impl BitXorAssign for Byte {
     /// ```
     /// use brainfoamkit_lib::Byte;
     ///
-    /// let mut byte = Byte::from_u8(0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
+    /// let mut byte = Byte::from(0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     ///
-    /// assert_eq!(byte.to_u8(), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
+    /// assert_eq!(u8::from(&byte), 0b10101010); // Dec: 170; Hex: 0xAA; Oct: 0o252
     ///
-    /// byte ^= Byte::from_u8(0b01010101);
+    /// byte ^= Byte::from(0b01010101);
     ///
-    /// assert_eq!(byte.to_u8(), 0b11111111); // Dec: 255; Hex: 0xFF; Oct: 0o377
+    /// assert_eq!(u8::from(&byte), 0b11111111); // Dec: 255; Hex: 0xFF; Oct: 0o377
     /// ```
     ///
     /// # Side Effects
@@ -1481,25 +1469,25 @@ mod tests {
 
     #[test]
     fn test_display() {
-        let byte = Byte::from_u8(0b10101010);
+        let byte = Byte::from(0b10101010);
         assert_eq!(format!("{}", byte), "0xAA");
     }
 
     #[test]
     fn test_default() {
         let byte = Byte::default();
-        assert_eq!(byte.to_u8(), 0b00000000);
+        assert_eq!(u8::from(&byte), 0b00000000);
     }
 
     #[test]
     fn test_from_u8_zero() {
-        let byte = Byte::from_u8(0);
+        let byte = Byte::from(0);
         assert_eq!(byte, Byte::default());
     }
 
     #[test]
     fn test_from_u8_one() {
-        let byte = Byte::from_u8(1);
+        let byte = Byte::from(1);
         let mut expected = Byte::default();
         expected.set_bit(0);
         assert_eq!(byte, expected);
@@ -1507,7 +1495,7 @@ mod tests {
 
     #[test]
     fn test_from_u8_max() {
-        let byte = Byte::from_u8(u8::MAX);
+        let byte = Byte::from(u8::MAX);
         let mut expected = Byte::default();
         for i in 0..8 {
             expected.set_bit(i);
@@ -1520,7 +1508,7 @@ mod tests {
         let high_nybble = Nybble::from(15);
         let low_nybble = Nybble::from(15);
         let byte = Byte::from_nybbles(high_nybble, low_nybble);
-        assert_eq!(byte.to_u8(), 0b11111111);
+        assert_eq!(u8::from(&byte), 0b11111111);
     }
 
     #[test]
@@ -1528,7 +1516,7 @@ mod tests {
         let high_nybble = Nybble::default();
         let low_nybble = Nybble::default();
         let byte = Byte::from_nybbles(high_nybble, low_nybble);
-        assert_eq!(byte.to_u8(), 0);
+        assert_eq!(u8::from(&byte), 0);
     }
 
     #[test]
@@ -1536,24 +1524,24 @@ mod tests {
         let high_nybble = Nybble::from(0b1010);
         let low_nybble = Nybble::from(0b0101);
         let byte = Byte::from_nybbles(high_nybble, low_nybble);
-        assert_eq!(byte.to_u8(), 0b10100101);
+        assert_eq!(u8::from(&byte), 0b10100101);
 
         let high_nybble = Nybble::from(0b0101);
         let low_nybble = Nybble::from(0b1010);
         let byte = Byte::from_nybbles(high_nybble, low_nybble);
-        assert_eq!(byte.to_u8(), 0b01011010);
+        assert_eq!(u8::from(&byte), 0b01011010);
     }
 
     #[test]
     fn test_to_u8_all_zeros() {
         let byte = Byte::default();
-        assert_eq!(byte.to_u8(), 0b00000000);
+        assert_eq!(u8::from(&byte), 0b00000000);
     }
 
     #[test]
     fn test_to_u8_all_ones() {
-        let byte = Byte::from_u8(0b11111111);
-        assert_eq!(byte.to_u8(), 0b11111111);
+        let byte = Byte::from(0b11111111);
+        assert_eq!(u8::from(&byte), 0b11111111);
     }
 
     #[test]
@@ -1568,19 +1556,19 @@ mod tests {
             Bit::one(),
             Bit::zero(),
         );
-        assert_eq!(byte.to_u8(), 0b10101010);
+        assert_eq!(u8::from(&byte), 0b10101010);
     }
 
     #[test]
     fn test_to_u8_alternating() {
-        let byte = Byte::from_u8(0b10101010);
-        assert_eq!(byte.to_u8(), 0b10101010);
+        let byte = Byte::from(0b10101010);
+        assert_eq!(u8::from(&byte), 0b10101010);
     }
 
     #[test]
     fn test_to_u8_random() {
-        let byte = Byte::from_u8(0b11001100);
-        assert_eq!(byte.to_u8(), 0b11001100);
+        let byte = Byte::from(0b11001100);
+        assert_eq!(u8::from(&byte), 0b11001100);
     }
 
     #[test]
@@ -1592,21 +1580,21 @@ mod tests {
 
     #[test]
     fn test_get_high_nybble_all_ones() {
-        let byte = Byte::from_u8(0b11111111);
+        let byte = Byte::from(0b11111111);
         let nybble = byte.get_high_nybble();
         assert_eq!(u8::from(&nybble), 15);
     }
 
     #[test]
     fn test_get_high_nybble_alternating() {
-        let byte = Byte::from_u8(0b10101010);
+        let byte = Byte::from(0b10101010);
         let nybble = byte.get_high_nybble();
         assert_eq!(u8::from(&nybble), 0b1010);
     }
 
     #[test]
     fn test_get_high_nybble_random() {
-        let byte = Byte::from_u8(0b11001100);
+        let byte = Byte::from(0b11001100);
         let nybble = byte.get_high_nybble();
         assert_eq!(u8::from(&nybble), 0b1100);
     }
@@ -1620,21 +1608,21 @@ mod tests {
 
     #[test]
     fn test_get_low_nybble_all_ones() {
-        let byte = Byte::from_u8(0b11111111);
+        let byte = Byte::from(0b11111111);
         let nybble = byte.get_low_nybble();
         assert_eq!(u8::from(&nybble), 15);
     }
 
     #[test]
     fn test_get_low_nybble_alternating() {
-        let byte = Byte::from_u8(0b10101010);
+        let byte = Byte::from(0b10101010);
         let nybble = byte.get_low_nybble();
         assert_eq!(u8::from(&nybble), 0b1010);
     }
 
     #[test]
     fn test_get_low_nybble_random() {
-        let byte = Byte::from_u8(0b11001100);
+        let byte = Byte::from(0b11001100);
         let nybble = byte.get_low_nybble();
         assert_eq!(u8::from(&nybble), 0b1100);
     }
@@ -1643,35 +1631,35 @@ mod tests {
     fn test_set_bit_valid() {
         let mut byte = Byte::default();
         byte.set_bit(0);
-        assert_eq!(byte.to_u8(), 1);
+        assert_eq!(u8::from(&byte), 1);
 
         let mut byte = Byte::default();
         byte.set_bit(1);
-        assert_eq!(byte.to_u8(), 2);
+        assert_eq!(u8::from(&byte), 2);
 
         let mut byte = Byte::default();
         byte.set_bit(2);
-        assert_eq!(byte.to_u8(), 4);
+        assert_eq!(u8::from(&byte), 4);
 
         let mut byte = Byte::default();
         byte.set_bit(3);
-        assert_eq!(byte.to_u8(), 0b00001000);
+        assert_eq!(u8::from(&byte), 0b00001000);
 
         let mut byte = Byte::default();
         byte.set_bit(4);
-        assert_eq!(byte.to_u8(), 0b00010000);
+        assert_eq!(u8::from(&byte), 0b00010000);
 
         let mut byte = Byte::default();
         byte.set_bit(5);
-        assert_eq!(byte.to_u8(), 0b00100000);
+        assert_eq!(u8::from(&byte), 0b00100000);
 
         let mut byte = Byte::default();
         byte.set_bit(6);
-        assert_eq!(byte.to_u8(), 0b01000000);
+        assert_eq!(u8::from(&byte), 0b01000000);
 
         let mut byte = Byte::default();
         byte.set_bit(7);
-        assert_eq!(byte.to_u8(), 0b10000000);
+        assert_eq!(u8::from(&byte), 0b10000000);
     }
 
     #[test]
@@ -1683,49 +1671,49 @@ mod tests {
 
     #[test]
     fn test_unset_bit_valid() {
-        let mut byte = Byte::from_u8(0b11111111);
+        let mut byte = Byte::from(0b11111111);
         byte.unset_bit(0);
-        assert_eq!(byte.to_u8(), 0b11111110);
+        assert_eq!(u8::from(&byte), 0b11111110);
 
-        let mut byte = Byte::from_u8(0b11111111);
+        let mut byte = Byte::from(0b11111111);
         byte.unset_bit(1);
-        assert_eq!(byte.to_u8(), 0b11111101);
+        assert_eq!(u8::from(&byte), 0b11111101);
 
-        let mut byte = Byte::from_u8(0b11111111);
+        let mut byte = Byte::from(0b11111111);
         byte.unset_bit(2);
-        assert_eq!(byte.to_u8(), 0b11111011);
+        assert_eq!(u8::from(&byte), 0b11111011);
 
-        let mut byte = Byte::from_u8(0b11111111);
+        let mut byte = Byte::from(0b11111111);
         byte.unset_bit(3);
-        assert_eq!(byte.to_u8(), 0b11110111);
+        assert_eq!(u8::from(&byte), 0b11110111);
 
-        let mut byte = Byte::from_u8(0b11111111);
+        let mut byte = Byte::from(0b11111111);
         byte.unset_bit(4);
-        assert_eq!(byte.to_u8(), 0b11101111);
+        assert_eq!(u8::from(&byte), 0b11101111);
 
-        let mut byte = Byte::from_u8(0b11111111);
+        let mut byte = Byte::from(0b11111111);
         byte.unset_bit(5);
-        assert_eq!(byte.to_u8(), 0b11011111);
+        assert_eq!(u8::from(&byte), 0b11011111);
 
-        let mut byte = Byte::from_u8(0b11111111);
+        let mut byte = Byte::from(0b11111111);
         byte.unset_bit(6);
-        assert_eq!(byte.to_u8(), 0b10111111);
+        assert_eq!(u8::from(&byte), 0b10111111);
 
-        let mut byte = Byte::from_u8(0b11111111);
+        let mut byte = Byte::from(0b11111111);
         byte.unset_bit(7);
-        assert_eq!(byte.to_u8(), 0b01111111);
+        assert_eq!(u8::from(&byte), 0b01111111);
     }
 
     #[test]
     #[should_panic(expected = "Index out of bounds")]
     fn test_unset_bit_out_of_bounds() {
-        let mut byte = Byte::from_u8(0b00000000);
+        let mut byte = Byte::from(0b00000000);
         byte.unset_bit(8);
     }
 
     #[test]
     fn test_get_bit_valid() {
-        let byte = Byte::from_u8(0b01010101);
+        let byte = Byte::from(0b01010101);
         assert_eq!(byte.get_bit(0), Bit::One);
         assert_eq!(byte.get_bit(1), Bit::Zero);
         assert_eq!(byte.get_bit(2), Bit::One);
@@ -1739,239 +1727,239 @@ mod tests {
     #[test]
     #[should_panic(expected = "Index out of bounds")]
     fn test_get_bit_out_of_bounds() {
-        let byte = Byte::from_u8(0b00000000);
+        let byte = Byte::from(0b00000000);
         let _ = byte.get_bit(8);
     }
 
     #[test]
     fn test_flip_bit_valid() {
-        let mut byte = Byte::from_u8(0b01010101);
+        let mut byte = Byte::from(0b01010101);
         byte.flip_bit(0);
-        assert_eq!(byte.to_u8(), 0b01010100);
+        assert_eq!(u8::from(&byte), 0b01010100);
         byte.flip_bit(1);
-        assert_eq!(byte.to_u8(), 0b01010110);
+        assert_eq!(u8::from(&byte), 0b01010110);
         byte.flip_bit(2);
-        assert_eq!(byte.to_u8(), 0b01010010);
+        assert_eq!(u8::from(&byte), 0b01010010);
         byte.flip_bit(3);
-        assert_eq!(byte.to_u8(), 0b01011010);
+        assert_eq!(u8::from(&byte), 0b01011010);
         byte.flip_bit(4);
-        assert_eq!(byte.to_u8(), 0b01001010);
+        assert_eq!(u8::from(&byte), 0b01001010);
         byte.flip_bit(5);
-        assert_eq!(byte.to_u8(), 0b01101010);
+        assert_eq!(u8::from(&byte), 0b01101010);
         byte.flip_bit(6);
-        assert_eq!(byte.to_u8(), 0b00101010);
+        assert_eq!(u8::from(&byte), 0b00101010);
         byte.flip_bit(7);
-        assert_eq!(byte.to_u8(), 0b10101010);
+        assert_eq!(u8::from(&byte), 0b10101010);
     }
 
     #[test]
     #[should_panic(expected = "Index out of bounds")]
     fn test_flip_bit_out_of_bounds() {
-        let mut byte = Byte::from_u8(0b00000000);
+        let mut byte = Byte::from(0b00000000);
         byte.flip_bit(8);
     }
 
     #[test]
     fn test_flip_all_bits() {
-        let mut byte = Byte::from_u8(0b11111111);
+        let mut byte = Byte::from(0b11111111);
         byte.flip();
-        assert_eq!(byte.to_u8(), 0b00000000);
+        assert_eq!(u8::from(&byte), 0b00000000);
     }
 
     #[test]
     fn test_flip_no_bits() {
-        let mut byte = Byte::from_u8(0b00000000);
+        let mut byte = Byte::from(0b00000000);
         byte.flip();
-        assert_eq!(byte.to_u8(), 0b11111111);
+        assert_eq!(u8::from(&byte), 0b11111111);
     }
 
     #[test]
     fn test_flip_odd_bits() {
-        let mut byte = Byte::from_u8(0b01010101);
+        let mut byte = Byte::from(0b01010101);
         byte.flip();
-        assert_eq!(byte.to_u8(), 0b10101010);
+        assert_eq!(u8::from(&byte), 0b10101010);
     }
 
     #[test]
     fn test_flip_even_bits() {
-        let mut byte = Byte::from_u8(0b10101010);
+        let mut byte = Byte::from(0b10101010);
         byte.flip();
-        assert_eq!(byte.to_u8(), 0b01010101);
+        assert_eq!(u8::from(&byte), 0b01010101);
     }
 
     #[test]
     fn test_flip_alternating_bits() {
-        let mut byte = Byte::from_u8(0b01010101);
+        let mut byte = Byte::from(0b01010101);
         byte.flip();
-        assert_eq!(byte.to_u8(), 0b10101010);
+        assert_eq!(u8::from(&byte), 0b10101010);
         byte.flip();
-        assert_eq!(byte.to_u8(), 0b01010101);
+        assert_eq!(u8::from(&byte), 0b01010101);
     }
 
     #[test]
     fn test_bitnot() {
-        let byte = Byte::from_u8(0b10101010);
+        let byte = Byte::from(0b10101010);
         let result = !byte;
-        assert_eq!(result.to_u8(), 0b01010101);
+        assert_eq!(u8::from(&result), 0b01010101);
 
-        let byte = Byte::from_u8(0b11110000);
+        let byte = Byte::from(0b11110000);
         let result = !byte;
-        assert_eq!(result.to_u8(), 0b00001111);
+        assert_eq!(u8::from(&result), 0b00001111);
 
-        let byte = Byte::from_u8(0b00000000);
+        let byte = Byte::from(0b00000000);
         let result = !byte;
-        assert_eq!(result.to_u8(), 0b11111111);
+        assert_eq!(u8::from(&result), 0b11111111);
     }
 
     #[test]
     fn test_bitand() {
-        let byte1 = Byte::from_u8(0b10101010);
-        let byte2 = Byte::from_u8(0b11001100);
+        let byte1 = Byte::from(0b10101010);
+        let byte2 = Byte::from(0b11001100);
         let result = byte1 & byte2;
-        assert_eq!(result.to_u8(), 0b10001000);
+        assert_eq!(u8::from(&result), 0b10001000);
 
-        let byte1 = Byte::from_u8(0b11110000);
-        let byte2 = Byte::from_u8(0b00001111);
+        let byte1 = Byte::from(0b11110000);
+        let byte2 = Byte::from(0b00001111);
         let result = byte1 & byte2;
-        assert_eq!(result.to_u8(), 0b00000000);
+        assert_eq!(u8::from(&result), 0b00000000);
 
-        let byte1 = Byte::from_u8(0b11111111);
-        let byte2 = Byte::from_u8(0b11111111);
+        let byte1 = Byte::from(0b11111111);
+        let byte2 = Byte::from(0b11111111);
         let result = byte1 & byte2;
-        assert_eq!(result.to_u8(), 0b11111111);
+        assert_eq!(u8::from(&result), 0b11111111);
     }
 
     #[test]
     fn test_bitand_assign() {
-        let mut byte1 = Byte::from_u8(0b10101010);
-        let byte2 = Byte::from_u8(0b11001100);
+        let mut byte1 = Byte::from(0b10101010);
+        let byte2 = Byte::from(0b11001100);
         byte1 &= byte2;
-        assert_eq!(byte1.to_u8(), 0b10001000);
+        assert_eq!(u8::from(&byte1), 0b10001000);
 
-        let mut byte1 = Byte::from_u8(0b11110000);
-        let byte2 = Byte::from_u8(0b00001111);
+        let mut byte1 = Byte::from(0b11110000);
+        let byte2 = Byte::from(0b00001111);
         byte1 &= byte2;
-        assert_eq!(byte1.to_u8(), 0b00000000);
+        assert_eq!(u8::from(&byte1), 0b00000000);
 
-        let mut byte1 = Byte::from_u8(0b11111111);
-        let byte2 = Byte::from_u8(0b11111111);
+        let mut byte1 = Byte::from(0b11111111);
+        let byte2 = Byte::from(0b11111111);
         byte1 &= byte2;
-        assert_eq!(byte1.to_u8(), 0b11111111);
+        assert_eq!(u8::from(&byte1), 0b11111111);
     }
 
     #[test]
     fn test_bitor() {
-        let byte1 = Byte::from_u8(0b10101010);
-        let byte2 = Byte::from_u8(0b11001100);
+        let byte1 = Byte::from(0b10101010);
+        let byte2 = Byte::from(0b11001100);
         let result = byte1 | byte2;
-        assert_eq!(result.to_u8(), 0b11101110);
+        assert_eq!(u8::from(&result), 0b11101110);
 
-        let byte1 = Byte::from_u8(0b11110000);
-        let byte2 = Byte::from_u8(0b00001111);
+        let byte1 = Byte::from(0b11110000);
+        let byte2 = Byte::from(0b00001111);
         let result = byte1 | byte2;
-        assert_eq!(result.to_u8(), 0b11111111);
+        assert_eq!(u8::from(&result), 0b11111111);
 
-        let byte1 = Byte::from_u8(0b00000000);
-        let byte2 = Byte::from_u8(0b11111111);
+        let byte1 = Byte::from(0b00000000);
+        let byte2 = Byte::from(0b11111111);
         let result = byte1 | byte2;
-        assert_eq!(result.to_u8(), 0b11111111);
+        assert_eq!(u8::from(&result), 0b11111111);
     }
 
     #[test]
     fn test_bitor_assign() {
-        let mut byte1 = Byte::from_u8(0b10101010);
-        let byte2 = Byte::from_u8(0b11001100);
+        let mut byte1 = Byte::from(0b10101010);
+        let byte2 = Byte::from(0b11001100);
         byte1 |= byte2;
-        assert_eq!(byte1.to_u8(), 0b11101110);
+        assert_eq!(u8::from(&byte1), 0b11101110);
 
-        let mut byte1 = Byte::from_u8(0b11110000);
-        let byte2 = Byte::from_u8(0b00001111);
+        let mut byte1 = Byte::from(0b11110000);
+        let byte2 = Byte::from(0b00001111);
         byte1 |= byte2;
-        assert_eq!(byte1.to_u8(), 0b11111111);
+        assert_eq!(u8::from(&byte1), 0b11111111);
 
-        let mut byte1 = Byte::from_u8(0b00000000);
-        let byte2 = Byte::from_u8(0b11111111);
+        let mut byte1 = Byte::from(0b00000000);
+        let byte2 = Byte::from(0b11111111);
         byte1 |= byte2;
-        assert_eq!(byte1.to_u8(), 0b11111111);
+        assert_eq!(u8::from(&byte1), 0b11111111);
     }
 
     #[test]
     fn test_bitxor() {
-        let byte1 = Byte::from_u8(0b10101010);
-        let byte2 = Byte::from_u8(0b11001100);
+        let byte1 = Byte::from(0b10101010);
+        let byte2 = Byte::from(0b11001100);
         let result = byte1 ^ byte2;
-        assert_eq!(result.to_u8(), 0b01100110);
+        assert_eq!(u8::from(&result), 0b01100110);
 
-        let byte1 = Byte::from_u8(0b11110000);
-        let byte2 = Byte::from_u8(0b00001111);
+        let byte1 = Byte::from(0b11110000);
+        let byte2 = Byte::from(0b00001111);
         let result = byte1 ^ byte2;
-        assert_eq!(result.to_u8(), 0b11111111);
+        assert_eq!(u8::from(&result), 0b11111111);
 
-        let byte1 = Byte::from_u8(0b00000000);
-        let byte2 = Byte::from_u8(0b11111111);
+        let byte1 = Byte::from(0b00000000);
+        let byte2 = Byte::from(0b11111111);
         let result = byte1 ^ byte2;
-        assert_eq!(result.to_u8(), 0b11111111);
+        assert_eq!(u8::from(&result), 0b11111111);
     }
 
     #[test]
     fn test_bitxor_assign() {
-        let mut byte1 = Byte::from_u8(0b10101010);
-        let byte2 = Byte::from_u8(0b11001100);
+        let mut byte1 = Byte::from(0b10101010);
+        let byte2 = Byte::from(0b11001100);
         byte1 ^= byte2;
-        assert_eq!(byte1.to_u8(), 0b01100110);
+        assert_eq!(u8::from(&byte1), 0b01100110);
 
-        let mut byte1 = Byte::from_u8(0b11110000);
-        let byte2 = Byte::from_u8(0b00001111);
+        let mut byte1 = Byte::from(0b11110000);
+        let byte2 = Byte::from(0b00001111);
         byte1 ^= byte2;
-        assert_eq!(byte1.to_u8(), 0b11111111);
+        assert_eq!(u8::from(&byte1), 0b11111111);
 
-        let mut byte1 = Byte::from_u8(0b00000000);
-        let byte2 = Byte::from_u8(0b11111111);
+        let mut byte1 = Byte::from(0b00000000);
+        let byte2 = Byte::from(0b11111111);
         byte1 ^= byte2;
-        assert_eq!(byte1.to_u8(), 0b11111111);
+        assert_eq!(u8::from(&byte1), 0b11111111);
     }
 
     #[test]
     fn test_increment() {
         let mut byte = Byte::default();
         byte.increment();
-        assert_eq!(byte.to_u8(), 1);
+        assert_eq!(u8::from(&byte), 1);
 
-        let mut byte = Byte::from_u8(0b11111111);
+        let mut byte = Byte::from(0b11111111);
         byte.increment();
-        assert_eq!(byte.to_u8(), 0);
+        assert_eq!(u8::from(&byte), 0);
 
-        let mut byte = Byte::from_u8(0b00001111);
+        let mut byte = Byte::from(0b00001111);
         byte.increment();
-        assert_eq!(byte.to_u8(), 0b00010000);
+        assert_eq!(u8::from(&byte), 0b00010000);
 
-        let mut byte = Byte::from_u8(0b11110000);
+        let mut byte = Byte::from(0b11110000);
         byte.increment();
-        assert_eq!(byte.to_u8(), 0b11110001);
+        assert_eq!(u8::from(&byte), 0b11110001);
     }
 
     #[test]
     fn test_decrement() {
         let mut byte = Byte::default();
         byte.decrement();
-        assert_eq!(byte.to_u8(), 0b11111111);
+        assert_eq!(u8::from(&byte), 0b11111111);
 
-        let mut byte = Byte::from_u8(0b11111111);
+        let mut byte = Byte::from(0b11111111);
         byte.decrement();
-        assert_eq!(byte.to_u8(), 0b11111110);
+        assert_eq!(u8::from(&byte), 0b11111110);
 
-        let mut byte = Byte::from_u8(0b00001111);
+        let mut byte = Byte::from(0b00001111);
         byte.decrement();
-        assert_eq!(byte.to_u8(), 0b00001110);
+        assert_eq!(u8::from(&byte), 0b00001110);
 
-        let mut byte = Byte::from_u8(0b11110000);
+        let mut byte = Byte::from(0b11110000);
         byte.decrement();
-        assert_eq!(byte.to_u8(), 0b11101111);
+        assert_eq!(u8::from(&byte), 0b11101111);
     }
 
     #[test]
     fn test_iter() {
-        let byte = Byte::from_u8(0b10101010);
+        let byte = Byte::from(0b10101010);
         let mut iter = byte.iter();
         assert_eq!(iter.next(), Some(Bit::Zero)); // zeroth Bit
         assert_eq!(iter.next(), Some(Bit::One)); // first Bit
@@ -1986,7 +1974,7 @@ mod tests {
 
     #[test]
     fn test_into_iter() {
-        let byte = Byte::from_u8(0b10101010); // Assuming Byte::from_u8 exists
+        let byte = Byte::from(0b10101010); // Assuming Byte::from exists
         let mut iter = (&byte).into_iter();
 
         // Assuming Bit is an enum with variants Zero and One
@@ -2003,7 +1991,7 @@ mod tests {
 
     #[test]
     fn test_into_iter_empty_byte() {
-        let byte = Byte::from_u8(0b00000000); // Assuming Byte::from_u8 exists
+        let byte = Byte::from(0b00000000); // Assuming Byte::from exists
         let mut iter = (&byte).into_iter();
 
         // Assuming Bit is an enum with variants Zero and One
