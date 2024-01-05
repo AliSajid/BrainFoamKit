@@ -94,7 +94,7 @@ use crate::{
 /// };
 ///
 /// let nybble = Nybble::new(Bit::One, Bit::Zero, Bit::One, Bit::Zero);
-/// assert_eq!(nybble.to_u8(), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+/// assert_eq!(u8::from(&nybble), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
 /// assert_eq!(nybble.to_string(), "0xA");
 /// ```
 ///
@@ -103,8 +103,8 @@ use crate::{
 /// ```
 /// use brainfoamkit_lib::Nybble;
 ///
-/// let nybble = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
-/// assert_eq!(nybble.to_u8(), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+/// let nybble = Nybble::from(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+/// assert_eq!(u8::from(&nybble), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
 /// assert_eq!(nybble.to_string(), "0xA");
 /// ```
 ///
@@ -117,7 +117,7 @@ use crate::{
 /// nybble.set_bit(0); // Nybble: 0b0001; Dec: 1; Hex: 0x1; Oct: 0o1
 /// nybble.set_bit(2); // Nybble: 0b0101; Dec: 5; Hex: 0x5; Oct: 0o5
 ///
-/// assert_eq!(nybble.to_u8(), 0b0101); // Dec: 5; Hex: 0x5; Oct: 0o5
+/// assert_eq!(u8::from(&nybble), 0b0101); // Dec: 5; Hex: 0x5; Oct: 0o5
 /// assert_eq!(nybble.to_string(), "0x5");
 /// ```
 ///
@@ -126,11 +126,11 @@ use crate::{
 /// ```
 /// use brainfoamkit_lib::Nybble;
 ///
-/// let mut nybble = Nybble::from_u8(0b0101); // Dec: 5; Hex: 0x5; Oct: 0o5
+/// let mut nybble = Nybble::from(0b0101); // Dec: 5; Hex: 0x5; Oct: 0o5
 /// nybble.flip_bit(0); // Nybble: 0b0100; Dec: 4; Hex: 0x4; Oct: 0o4
 /// nybble.flip_bit(1); // Nybble: 0b0110; Dec: 6; Hex: 0x6; Oct: 0o6
 ///
-/// assert_eq!(nybble.to_u8(), 0b0110); // Dec: 6; Hex: 0x6; Oct: 0o6
+/// assert_eq!(u8::from(&nybble), 0b0110); // Dec: 6; Hex: 0x6; Oct: 0o6
 /// assert_eq!(nybble.to_string(), "0x6");
 /// ```
 ///
@@ -179,7 +179,7 @@ impl Nybble {
     /// };
     ///
     /// let nybble = Nybble::new(Bit::One, Bit::Zero, Bit::One, Bit::Zero);
-    /// assert_eq!(nybble.to_u8(), 10);
+    /// assert_eq!(u8::from(&nybble), 10);
     /// assert_eq!(nybble.to_string(), "0xA");
     /// ```
     ///
@@ -200,71 +200,6 @@ impl Nybble {
             bit_2: second,
             bit_3: first, // Most Significant Bit
         }
-    }
-
-    /// Creates a new Nybble from a u8 value.
-    ///
-    /// This method takes a u8 value as an argument and creates a new Nybble
-    /// truncating to only the least significant four bits.
-    ///
-    /// # Arguments
-    ///
-    /// * `n` - The u8 value to create the Nybble from.
-    ///
-    /// # Examples
-    ///
-    /// ## A valid value for a Nybble
-    ///
-    /// ```
-    /// use brainfoamkit_lib::Nybble;
-    ///
-    /// let nybble = Nybble::from_u8(5);
-    /// assert_eq!(nybble.to_u8(), 5);
-    /// assert_eq!(nybble.to_string(), "0x5");
-    /// ```
-    ///
-    /// ## A value too large for a Nybble
-    ///
-    /// ```
-    /// use brainfoamkit_lib::Nybble;
-    ///
-    /// let nybble = Nybble::from_u8(16);
-    /// assert_eq!(nybble.to_u8(), 0);
-    /// assert_eq!(nybble.to_string(), "0x0");
-    /// ```
-    ///
-    /// # Returns
-    ///
-    /// A new Nybble from the specified u8 value, or an all
-    /// [`Bit::One`](crate::Bit::One) Nybble if the value is larger than 15.
-    ///
-    /// # See Also
-    ///
-    /// * [`new()`](#method.new): Creates a new Nybble with the specified Bit
-    ///   values.
-    /// * [`default()`](#method.default): Creates a new Nybble with default (all
-    ///   [`Bit::Zero`](crate::Bit::Zero)) Bit values.
-    #[must_use]
-    pub fn from_u8(n: u8) -> Self {
-        let n = n & 0b0000_1111;
-
-        // Create a new Nybble instance with default Bit values
-        let mut nybble = Self::default();
-
-        if n & 0b0001 != 0 {
-            nybble.bit_0.set();
-        };
-        if n & 0b0010 != 0 {
-            nybble.bit_1.set();
-        };
-        if n & 0b0100 != 0 {
-            nybble.bit_2.set();
-        };
-        if n & 0b1000 != 0 {
-            nybble.bit_3.set();
-        };
-
-        nybble
     }
 
     /// Sets the Bit value at the specified index.
@@ -290,7 +225,7 @@ impl Nybble {
     /// let mut nybble = Nybble::default();
     /// nybble.set_bit(0);
     /// nybble.set_bit(2);
-    /// assert_eq!(nybble.to_u8(), 0b0101); // Dec: 5; Hex: 0x5; Oct: 0o5
+    /// assert_eq!(u8::from(&nybble), 0b0101); // Dec: 5; Hex: 0x5; Oct: 0o5
     /// assert_eq!(nybble.to_string(), "0x5");
     /// ```
     ///
@@ -342,10 +277,10 @@ impl Nybble {
     /// let mut nybble = Nybble::default(); // Nybble: 0b0000; Dec: 0; Hex: 0x0; Oct: 0o0
     /// nybble.set_bit(0); // Nybble: 0b0001; Dec: 1; Hex: 0x1; Oct: 0o1
     /// nybble.set_bit(2); // Nybble: 0b0101; Dec: 5; Hex: 0x5; Oct: 0o5
-    /// assert_eq!(nybble.to_u8(), 0b0101); // Dec: 5; Hex: 0x5; Oct: 0o5
+    /// assert_eq!(u8::from(&nybble), 0b0101); // Dec: 5; Hex: 0x5; Oct: 0o5
     /// assert_eq!(nybble.to_string(), "0x5");
     /// nybble.unset_bit(0); // Nybble: 0b0100; Dec: 4; Hex: 0x4; Oct: 0o4
-    /// assert_eq!(nybble.to_u8(), 4); // Dec: 4; Hex: 0x4; Oct: 0o4
+    /// assert_eq!(u8::from(&nybble), 4); // Dec: 4; Hex: 0x4; Oct: 0o4
     /// assert_eq!(nybble.to_string(), "0x4");
     /// ```
     ///
@@ -374,41 +309,6 @@ impl Nybble {
             3 => self.bit_3.unset(),
             _ => panic!("Index out of bounds"),
         }
-    }
-
-    /// Converts the Nybble to an 8-bit unsigned integer (u8).
-    ///
-    /// This method converts the Nybble to an 8-bit unsigned integer (u8).
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use brainfoamkit_lib::Nybble;
-    /// use brainfoamkit_lib::Bit;
-    ///
-    /// let nybble = Nybble::new(Bit::One, Bit::Zero, Bit::One, Bit::Zero); // Dec: 10; Hex: 0xA; Oct: 0o12
-    /// let result = nybble.to_u8(); // Dec: 10; Hex: 0xA; Oct: 0o12
-    /// assert_eq!(result, 0b1010);
-    /// ```
-    /// # Returns
-    ///
-    /// The Nybble as an 8-bit unsigned integer (u8).
-    ///
-    /// # See Also
-    ///
-    /// * [`from_u8()`](#method.from_u8): Creates a new Nybble from a u8 value.
-    /// * [`to_string()`](#method.to_string): Converts the Nybble to a string.
-    #[must_use]
-    pub fn to_u8(&self) -> u8 {
-        let mut n = 0;
-
-        for i in 0..4 {
-            if self.get_bit(i) == Bit::One {
-                n |= 1 << i;
-            }
-        }
-
-        n
     }
 
     /// Get the Bit value at the specified index.
@@ -540,7 +440,7 @@ impl Nybble {
     /// nybble.set_bit(0); // Nybble: 0b0001; Dec: 1; Hex: 0x1; Oct: 0o1
     /// nybble.set_bit(2); // Nybble: 0b0101; Dec: 5; Hex: 0x5; Oct: 0o5
     ///
-    /// assert_eq!(nybble.to_u8(), 0b0101); // Dec: 5; Hex: 0x5; Oct: 0o5
+    /// assert_eq!(u8::from(&nybble), 0b0101); // Dec: 5; Hex: 0x5; Oct: 0o5
     /// assert_eq!(nybble.to_string(), "0x5");
     ///
     /// nybble.flip_bit(0); // Nybble: 0b0100; Dec: 4; Hex: 0x4; Oct: 0o4
@@ -548,7 +448,7 @@ impl Nybble {
     /// nybble.flip_bit(2); // Nybble: 0b0010; Dec: 2; Hex: 0x2; Oct: 0o2
     /// nybble.flip_bit(3); // Nybble: 0b1010; Dec: 10; Hex: 0xA; Oct: 0o12
     ///
-    /// assert_eq!(nybble.to_u8(), 10);
+    /// assert_eq!(u8::from(&nybble), 10);
     /// assert_eq!(nybble.to_string(), "0xA");
     /// ```
     ///
@@ -597,12 +497,12 @@ impl Nybble {
     /// nybble.set_bit(0); // Nybble: 0b0001; Dec: 1; Hex: 0x1; Oct: 0o1
     /// nybble.set_bit(2); // Nybble: 0b0101; Dec: 5; Hex: 0x5; Oct: 0o5
     ///
-    /// assert_eq!(nybble.to_u8(), 0b0101); // Dec: 5; Hex: 0x5; Oct: 0o5
+    /// assert_eq!(u8::from(&nybble), 0b0101); // Dec: 5; Hex: 0x5; Oct: 0o5
     /// assert_eq!(nybble.to_string(), "0x5");
     ///
     /// nybble.flip(); // Nybble: 0b1010; Dec: 10; Hex: 0xA; Oct: 0o12
     ///
-    /// assert_eq!(nybble.to_u8(), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// assert_eq!(u8::from(&nybble), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
     /// assert_eq!(nybble.to_string(), "0xA");
     /// ```
     ///
@@ -638,11 +538,11 @@ impl Nybble {
     /// let mut nybble = Nybble::default(); // Nybble: 0b0000; Dec: 0; Hex: 0x0; Oct: 0o0
     ///
     /// nybble.increment();
-    /// assert_eq!(nybble.to_u8(), 1);
+    /// assert_eq!(u8::from(&nybble), 1);
     /// assert_eq!(nybble.to_string(), "0x1");
     ///
     /// nybble.increment();
-    /// assert_eq!(nybble.to_u8(), 2);
+    /// assert_eq!(u8::from(&nybble), 2);
     /// assert_eq!(nybble.to_string(), "0x2");
     /// ```
     ///
@@ -651,10 +551,10 @@ impl Nybble {
     /// ```
     /// use brainfoamkit_lib::Nybble;
     ///
-    /// let mut nybble = Nybble::from_u8(15); // Nybble: 0b1111; Dec: 15; Hex: 0xF; Oct: 0o17
+    /// let mut nybble = Nybble::from(15); // Nybble: 0b1111; Dec: 15; Hex: 0xF; Oct: 0o17
     ///
     /// nybble.increment();
-    /// assert_eq!(nybble.to_u8(), 0);
+    /// assert_eq!(u8::from(&nybble), 0);
     /// assert_eq!(nybble.to_string(), "0x0");
     /// ```
     ///
@@ -694,14 +594,14 @@ impl Nybble {
     /// ```
     /// use brainfoamkit_lib::Nybble;
     ///
-    /// let mut nybble = Nybble::from_u8(2); // Nybble: 0b0010; Dec: 2; Hex: 0x2; Oct: 0o2
+    /// let mut nybble = Nybble::from(2); // Nybble: 0b0010; Dec: 2; Hex: 0x2; Oct: 0o2
     ///
     /// nybble.decrement();
-    /// assert_eq!(nybble.to_u8(), 1);
+    /// assert_eq!(u8::from(&nybble), 1);
     /// assert_eq!(nybble.to_string(), "0x1");
     ///
     /// nybble.decrement();
-    /// assert_eq!(nybble.to_u8(), 0);
+    /// assert_eq!(u8::from(&nybble), 0);
     /// assert_eq!(nybble.to_string(), "0x0");
     /// ```
     ///
@@ -713,7 +613,7 @@ impl Nybble {
     /// let mut nybble = Nybble::default(); // Nybble: 0b0000; Dec: 0; Hex: 0x0; Oct: 0o0
     ///
     /// nybble.decrement();
-    /// assert_eq!(nybble.to_u8(), 0);
+    /// assert_eq!(u8::from(&nybble), 0);
     /// assert_eq!(nybble.to_string(), "0x0");
     /// ```
     ///
@@ -746,7 +646,7 @@ impl Nybble {
     /// ```
     /// use brainfoamkit_lib::Nybble;
     ///
-    /// let nybble = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// let nybble = Nybble::from(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
     ///
     /// for bit in nybble.iter() {
     ///     println!("{}", bit);
@@ -768,7 +668,7 @@ impl Display for Nybble {
     /// ```
     /// use brainfoamkit_lib::Nybble;
     ///
-    /// let nybble = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// let nybble = Nybble::from(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
     ///
     /// assert_eq!(nybble.to_string(), "0xA");
     /// ```
@@ -783,7 +683,8 @@ impl Display for Nybble {
     ///   integer (u8).
     /// * [`from_u8()`](#method.from_u8): Creates a new Nybble from a u8 value.
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        write!(f, "{:#03X}", self.to_u8())
+        let number: u8 = self.into();
+        write!(f, "{number:#03X}")
     }
 }
 
@@ -800,7 +701,7 @@ impl Default for Nybble {
     ///
     /// let nybble = Nybble::default();
     ///
-    /// assert_eq!(nybble.to_u8(), 0b0000); // Nybble: 0b0000; Dec: 0; Hex: 0x0; Oct: 0o0
+    /// assert_eq!(u8::from(&nybble), 0b0000); // Nybble: 0b0000; Dec: 0; Hex: 0x0; Oct: 0o0
     ///
     /// assert_eq!(nybble.to_string(), "0x0");
     /// ```
@@ -822,6 +723,108 @@ impl Default for Nybble {
     }
 }
 
+impl From<u8> for Nybble {
+    /// Creates a new Nybble from a u8 value.
+    ///
+    /// This method takes a u8 value as an argument and creates a new Nybble
+    /// truncating to only the least significant four bits.
+    ///
+    /// # Arguments
+    ///
+    /// * `n` - The u8 value to create the Nybble from.
+    ///
+    /// # Examples
+    ///
+    /// ## A valid value for a Nybble
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Nybble;
+    ///
+    /// let nybble = Nybble::from(5);
+    /// assert_eq!(u8::from(&nybble), 5);
+    /// assert_eq!(nybble.to_string(), "0x5");
+    /// ```
+    ///
+    /// ## A value too large for a Nybble
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Nybble;
+    ///
+    /// let nybble = Nybble::from(16);
+    /// assert_eq!(u8::from(&nybble), 0);
+    /// assert_eq!(nybble.to_string(), "0x0");
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// A new Nybble from the specified u8 value, or an all
+    /// [`Bit::One`](crate::Bit::One) Nybble if the value is larger than 15.
+    ///
+    /// # See Also
+    ///
+    /// * [`new()`](#method.new): Creates a new Nybble with the specified Bit
+    ///   values.
+    /// * [`default()`](#method.default): Creates a new Nybble with default (all
+    ///   [`Bit::Zero`](crate::Bit::Zero)) Bit values.
+    fn from(n: u8) -> Self {
+        let n = n & 0b0000_1111;
+
+        // Create a new Nybble instance with default Bit values
+        let mut nybble = Self::default();
+
+        if n & 0b0001 != 0 {
+            nybble.bit_0.set();
+        };
+        if n & 0b0010 != 0 {
+            nybble.bit_1.set();
+        };
+        if n & 0b0100 != 0 {
+            nybble.bit_2.set();
+        };
+        if n & 0b1000 != 0 {
+            nybble.bit_3.set();
+        };
+
+        nybble
+    }
+}
+
+impl From<&Nybble> for u8 {
+    /// Converts the Nybble to an 8-bit unsigned integer (u8).
+    ///
+    /// This method converts the Nybble to an 8-bit unsigned integer (u8).
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Nybble;
+    /// use brainfoamkit_lib::Bit;
+    ///
+    /// let nybble = Nybble::new(Bit::One, Bit::Zero, Bit::One, Bit::Zero); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// let result = u8::from(&nybble); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// assert_eq!(result, 0b1010);
+    /// ```
+    /// # Returns
+    ///
+    /// The Nybble as an 8-bit unsigned integer (u8).
+    ///
+    /// # See Also
+    ///
+    /// * [`from_u8()`](#method.from_u8): Creates a new Nybble from a u8 value.
+    /// * [`to_string()`](#method.to_string): Converts the Nybble to a string.
+    fn from(nybble: &Nybble) -> Self {
+        let mut n = 0;
+
+        for i in 0..4 {
+            if nybble.get_bit(i) == Bit::One {
+                n |= 1 << i;
+            }
+        }
+
+        n
+    }
+}
+
 impl Not for Nybble {
     // The output type of Not is Nybble as the operation is symmetric
     type Output = Self;
@@ -836,14 +839,14 @@ impl Not for Nybble {
     /// ```
     /// use brainfoamkit_lib::Nybble;
     ///
-    /// let nybble = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// let nybble = Nybble::from(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
     ///
-    /// assert_eq!(nybble.to_u8(), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// assert_eq!(u8::from(&nybble), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
     /// assert_eq!(nybble.to_string(), "0xA");
     ///
     /// let nybble = !nybble;
     ///
-    /// assert_eq!(nybble.to_u8(), 0b0101); // Dec: 5; Hex: 0x5; Oct: 0o5
+    /// assert_eq!(u8::from(&nybble), 0b0101); // Dec: 5; Hex: 0x5; Oct: 0o5
     /// assert_eq!(nybble.to_string(), "0x5");
     /// ```
     ///
@@ -893,18 +896,18 @@ impl BitAnd for Nybble {
     /// ```
     /// use brainfoamkit_lib::Nybble;
     ///
-    /// let nybble_1 = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
-    /// let nybble_2 = Nybble::from_u8(0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
+    /// let nybble_1 = Nybble::from(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// let nybble_2 = Nybble::from(0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
     ///
-    /// assert_eq!(nybble_1.to_u8(), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// assert_eq!(u8::from(&nybble_1), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
     /// assert_eq!(nybble_1.to_string(), "0xA");
     ///
-    /// assert_eq!(nybble_2.to_u8(), 0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
+    /// assert_eq!(u8::from(&nybble_2), 0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
     /// assert_eq!(nybble_2.to_string(), "0xC");
     ///
     /// let nybble = nybble_1 & nybble_2;
     ///
-    /// assert_eq!(nybble.to_u8(), 0b1000); // Dec: 8; Hex: 0x8; Oct: 0o10
+    /// assert_eq!(u8::from(&nybble), 0b1000); // Dec: 8; Hex: 0x8; Oct: 0o10
     /// assert_eq!(nybble.to_string(), "0x8");
     /// ```
     ///
@@ -951,18 +954,18 @@ impl BitAndAssign for Nybble {
     /// ```
     /// use brainfoamkit_lib::Nybble;
     ///
-    /// let mut nybble_1 = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
-    /// let nybble_2 = Nybble::from_u8(0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
+    /// let mut nybble_1 = Nybble::from(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// let nybble_2 = Nybble::from(0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
     ///
-    /// assert_eq!(nybble_1.to_u8(), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// assert_eq!(u8::from(&nybble_1), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
     /// assert_eq!(nybble_1.to_string(), "0xA");
     ///
-    /// assert_eq!(nybble_2.to_u8(), 0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
+    /// assert_eq!(u8::from(&nybble_2), 0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
     /// assert_eq!(nybble_2.to_string(), "0xC");
     ///
     /// nybble_1 &= nybble_2;
     ///
-    /// assert_eq!(nybble_1.to_u8(), 0b1000); // Dec: 8; Hex: 0x8; Oct: 0o10
+    /// assert_eq!(u8::from(&nybble_1), 0b1000); // Dec: 8; Hex: 0x8; Oct: 0o10
     /// assert_eq!(nybble_1.to_string(), "0x8");
     /// ```
     ///
@@ -1009,17 +1012,17 @@ impl BitOr for Nybble {
     /// ```
     /// use brainfoamkit_lib::Nybble;
     ///
-    /// let nybble_1 = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
-    /// let nybble_2 = Nybble::from_u8(0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
+    /// let nybble_1 = Nybble::from(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// let nybble_2 = Nybble::from(0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
     ///
-    /// assert_eq!(nybble_1.to_u8(), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// assert_eq!(u8::from(&nybble_1), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
     /// assert_eq!(nybble_1.to_string(), "0xA");
     ///
-    /// assert_eq!(nybble_2.to_u8(), 0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
+    /// assert_eq!(u8::from(&nybble_2), 0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
     ///
     /// let nybble = nybble_1 | nybble_2;
     ///
-    /// assert_eq!(nybble.to_u8(), 0b1110); // Dec: 14; Hex: 0xE; Oct: 0o16
+    /// assert_eq!(u8::from(&nybble), 0b1110); // Dec: 14; Hex: 0xE; Oct: 0o16
     /// assert_eq!(nybble.to_string(), "0xE");
     /// ```
     ///
@@ -1066,18 +1069,18 @@ impl BitOrAssign for Nybble {
     /// ```
     /// use brainfoamkit_lib::Nybble;
     ///
-    /// let mut nybble_1 = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
-    /// let nybble_2 = Nybble::from_u8(0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
+    /// let mut nybble_1 = Nybble::from(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// let nybble_2 = Nybble::from(0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
     ///
-    /// assert_eq!(nybble_1.to_u8(), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// assert_eq!(u8::from(&nybble_1), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
     /// assert_eq!(nybble_1.to_string(), "0xA");
     ///
-    /// assert_eq!(nybble_2.to_u8(), 0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
+    /// assert_eq!(u8::from(&nybble_2), 0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
     /// assert_eq!(nybble_2.to_string(), "0xC");
     ///
     /// nybble_1 |= nybble_2;
     ///
-    /// assert_eq!(nybble_1.to_u8(), 0b1110); // Dec: 14; Hex: 0xE; Oct: 0o16
+    /// assert_eq!(u8::from(&nybble_1), 0b1110); // Dec: 14; Hex: 0xE; Oct: 0o16
     /// ```
     ///
     /// # Side Effects
@@ -1123,17 +1126,17 @@ impl BitXor for Nybble {
     /// ```
     /// use brainfoamkit_lib::Nybble;
     ///
-    /// let nybble_1 = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
-    /// let nybble_2 = Nybble::from_u8(0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
+    /// let nybble_1 = Nybble::from(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// let nybble_2 = Nybble::from(0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
     ///
-    /// assert_eq!(nybble_1.to_u8(), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// assert_eq!(u8::from(&nybble_1), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
     /// assert_eq!(nybble_1.to_string(), "0xA");
     ///
-    /// assert_eq!(nybble_2.to_u8(), 0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
+    /// assert_eq!(u8::from(&nybble_2), 0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
     ///
     /// let nybble = nybble_1 ^ nybble_2;
     ///
-    /// assert_eq!(nybble.to_u8(), 0b0110); // Dec: 6; Hex: 0x6; Oct: 0o6
+    /// assert_eq!(u8::from(&nybble), 0b0110); // Dec: 6; Hex: 0x6; Oct: 0o6
     /// ```
     ///
     /// # Returns
@@ -1180,18 +1183,18 @@ impl BitXorAssign for Nybble {
     /// ```
     /// use brainfoamkit_lib::Nybble;
     ///
-    /// let mut nybble_1 = Nybble::from_u8(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
-    /// let nybble_2 = Nybble::from_u8(0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
+    /// let mut nybble_1 = Nybble::from(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// let nybble_2 = Nybble::from(0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
     ///
-    /// assert_eq!(nybble_1.to_u8(), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+    /// assert_eq!(u8::from(&nybble_1), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
     /// assert_eq!(nybble_1.to_string(), "0xA");
     ///
-    /// assert_eq!(nybble_2.to_u8(), 0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
+    /// assert_eq!(u8::from(&nybble_2), 0b1100); // Dec: 12; Hex: 0xC; Oct: 0o14
     /// assert_eq!(nybble_2.to_string(), "0xC");
     ///
     /// nybble_1 ^= nybble_2;
     ///
-    /// assert_eq!(nybble_1.to_u8(), 0b0110); // Dec: 6; Hex: 0x6; Oct: 0o6
+    /// assert_eq!(u8::from(&nybble_1), 0b0110); // Dec: 6; Hex: 0x6; Oct: 0o6
     /// ```
     ///
     /// # Side Effects
@@ -1248,31 +1251,31 @@ mod tests {
 
     #[test]
     fn test_from_u8() {
-        let nybble = Nybble::from_u8(10);
-        assert_eq!(nybble.to_u8(), 0b1010);
+        let nybble = Nybble::from(10);
+        assert_eq!(u8::from(&nybble), 0b1010);
     }
 
     #[test]
     fn test_from_u8_zero() {
-        let nybble = Nybble::from_u8(0);
-        assert_eq!(nybble.to_u8(), 0);
+        let nybble = Nybble::from(0);
+        assert_eq!(u8::from(&nybble), 0);
     }
 
     #[test]
     fn test_from_u8_all_ones() {
-        let nybble = Nybble::from_u8(0b1111);
-        assert_eq!(nybble.to_u8(), 0b1111);
+        let nybble = Nybble::from(0b1111);
+        assert_eq!(u8::from(&nybble), 0b1111);
     }
 
     #[test]
     fn test_from_u8_high_bits() {
-        let nybble = Nybble::from_u8(0b10101010);
-        assert_eq!(nybble.to_u8(), 0b1010);
+        let nybble = Nybble::from(0b10101010);
+        assert_eq!(u8::from(&nybble), 0b1010);
     }
 
     #[test]
     fn test_get_bit() {
-        let nybble = Nybble::from_u8(12);
+        let nybble = Nybble::from(12);
         assert_eq!(nybble.get_bit(0), Bit::zero());
         assert_eq!(nybble.get_bit(1), Bit::zero());
         assert_eq!(nybble.get_bit(2), Bit::one());
@@ -1283,7 +1286,7 @@ mod tests {
     #[allow(unused_variables)]
     #[should_panic(expected = "Index out of bounds")]
     fn test_get_bit_oob() {
-        let nybble = Nybble::from_u8(12);
+        let nybble = Nybble::from(12);
         let p = nybble.get_bit(4);
     }
 
@@ -1294,132 +1297,132 @@ mod tests {
         nybble.set_bit(1);
         nybble.set_bit(2);
         nybble.set_bit(3);
-        assert_eq!(nybble.to_u8(), 15);
+        assert_eq!(u8::from(&nybble), 15);
         assert_eq!(nybble.to_string(), "0xF");
     }
 
     #[test]
     #[should_panic(expected = "Index out of bounds")]
     fn test_set_bit_oob() {
-        let mut nybble = Nybble::from_u8(12);
+        let mut nybble = Nybble::from(12);
         nybble.set_bit(4);
     }
 
     #[test]
     fn test_unset_bit() {
-        let mut nybble = Nybble::from_u8(15);
+        let mut nybble = Nybble::from(15);
         nybble.unset_bit(0);
         nybble.unset_bit(1);
         nybble.unset_bit(2);
         nybble.unset_bit(3);
-        assert_eq!(nybble.to_u8(), 0);
+        assert_eq!(u8::from(&nybble), 0);
         assert_eq!(nybble.to_string(), "0x0");
     }
 
     #[test]
     #[should_panic(expected = "Index out of bounds")]
     fn test_unset_bit_oob() {
-        let mut nybble = Nybble::from_u8(12);
+        let mut nybble = Nybble::from(12);
         nybble.unset_bit(4);
     }
 
     #[test]
     fn test_flip_bit() {
-        let mut nybble = Nybble::from_u8(15);
+        let mut nybble = Nybble::from(15);
         nybble.flip_bit(0);
         nybble.flip_bit(1);
         nybble.flip_bit(2);
         nybble.flip_bit(3);
-        assert_eq!(nybble.to_u8(), 0);
+        assert_eq!(u8::from(&nybble), 0);
         assert_eq!(nybble.to_string(), "0x0");
     }
 
     #[test]
     #[should_panic(expected = "Index out of bounds")]
     fn test_flip_bit_oob() {
-        let mut nybble = Nybble::from_u8(12);
+        let mut nybble = Nybble::from(12);
         nybble.flip_bit(4);
     }
 
     #[test]
     fn test_flip() {
-        let mut nybble = Nybble::from_u8(15);
+        let mut nybble = Nybble::from(15);
         nybble.flip();
-        assert_eq!(nybble.to_u8(), 0);
+        assert_eq!(u8::from(&nybble), 0);
         assert_eq!(nybble.to_string(), "0x0");
     }
 
     #[test]
     fn test_not() {
-        let nybble = Nybble::from_u8(15);
+        let nybble = Nybble::from(15);
         let nybble_not = !nybble;
-        assert_eq!(nybble_not.to_u8(), 0);
+        assert_eq!(u8::from(&nybble_not), 0);
         assert_eq!(nybble_not.to_string(), "0x0");
     }
 
     #[test]
     fn test_and() {
-        let nybble_1 = Nybble::from_u8(0b1010);
-        let nybble_2 = Nybble::from_u8(0b1100);
+        let nybble_1 = Nybble::from(0b1010);
+        let nybble_2 = Nybble::from(0b1100);
         let nybble_3 = nybble_1 & nybble_2;
-        assert_eq!(nybble_3.to_u8(), 0b1000);
+        assert_eq!(u8::from(&nybble_3), 0b1000);
         assert_eq!(nybble_3.to_string(), "0x8");
     }
 
     #[test]
     fn test_and_assign() {
-        let mut nybble_1 = Nybble::from_u8(0b1010);
-        let nybble_2 = Nybble::from_u8(0b1100);
+        let mut nybble_1 = Nybble::from(0b1010);
+        let nybble_2 = Nybble::from(0b1100);
         nybble_1 &= nybble_2;
-        assert_eq!(nybble_1.to_u8(), 0b1000);
+        assert_eq!(u8::from(&nybble_1), 0b1000);
         assert_eq!(nybble_1.to_string(), "0x8");
     }
 
     #[test]
     fn test_or() {
-        let nybble_1 = Nybble::from_u8(0b1010);
-        let nybble_2 = Nybble::from_u8(0b1100);
+        let nybble_1 = Nybble::from(0b1010);
+        let nybble_2 = Nybble::from(0b1100);
         let nybble_3 = nybble_1 | nybble_2;
-        assert_eq!(nybble_3.to_u8(), 0b1110);
+        assert_eq!(u8::from(&nybble_3), 0b1110);
         assert_eq!(nybble_3.to_string(), "0xE");
     }
 
     #[test]
     fn test_or_assign() {
-        let mut nybble_1 = Nybble::from_u8(0b1010);
-        let nybble_2 = Nybble::from_u8(0b1100);
+        let mut nybble_1 = Nybble::from(0b1010);
+        let nybble_2 = Nybble::from(0b1100);
         nybble_1 |= nybble_2;
-        assert_eq!(nybble_1.to_u8(), 0b1110);
+        assert_eq!(u8::from(&nybble_1), 0b1110);
         assert_eq!(nybble_1.to_string(), "0xE");
     }
 
     #[test]
     fn test_xor() {
-        let nybble_1 = Nybble::from_u8(0b1010);
-        let nybble_2 = Nybble::from_u8(0b1100);
+        let nybble_1 = Nybble::from(0b1010);
+        let nybble_2 = Nybble::from(0b1100);
         let nybble_3 = nybble_1 ^ nybble_2;
-        assert_eq!(nybble_3.to_u8(), 0b0110);
+        assert_eq!(u8::from(&nybble_3), 0b0110);
         assert_eq!(nybble_3.to_string(), "0x6");
     }
 
     #[test]
     fn test_xor_assign() {
-        let mut nybble_1 = Nybble::from_u8(0b1010);
-        let nybble_2 = Nybble::from_u8(0b1100);
+        let mut nybble_1 = Nybble::from(0b1010);
+        let nybble_2 = Nybble::from(0b1100);
         nybble_1 ^= nybble_2;
-        assert_eq!(nybble_1.to_u8(), 0b0110);
+        assert_eq!(u8::from(&nybble_1), 0b0110);
         assert_eq!(nybble_1.to_string(), "0x6");
     }
 
     #[test]
     fn test_display() {
-        let nybble = Nybble::from_u8(10);
+        let nybble = Nybble::from(10);
         assert_eq!(format!("{}", nybble), "0xA");
     }
 
     #[test]
     fn test_iterator() {
-        let nybble = Nybble::from_u8(10);
+        let nybble = Nybble::from(10);
         let mut iter = nybble.iter();
         assert_eq!(iter.next(), Some(Bit::zero()));
         assert_eq!(iter.next(), Some(Bit::one()));
@@ -1430,39 +1433,39 @@ mod tests {
 
     #[test]
     fn test_increment() {
-        let mut nybble = Nybble::from_u8(10);
+        let mut nybble = Nybble::from(10);
         nybble.increment();
-        assert_eq!(nybble.to_u8(), 11);
+        assert_eq!(u8::from(&nybble), 11);
         assert_eq!(nybble.to_string(), "0xB");
     }
 
     #[test]
     fn test_decrement() {
-        let mut nybble = Nybble::from_u8(10);
+        let mut nybble = Nybble::from(10);
         nybble.decrement();
-        assert_eq!(nybble.to_u8(), 9);
+        assert_eq!(u8::from(&nybble), 9);
         assert_eq!(nybble.to_string(), "0x9");
     }
 
     #[test]
     fn test_increment_boundary() {
-        let mut nybble = Nybble::from_u8(15);
+        let mut nybble = Nybble::from(15);
         nybble.increment();
-        assert_eq!(nybble.to_u8(), 0);
+        assert_eq!(u8::from(&nybble), 0);
         assert_eq!(nybble.to_string(), "0x0");
     }
 
     #[test]
     fn test_decrement_boundary() {
-        let mut nybble = Nybble::from_u8(0);
+        let mut nybble = Nybble::from(0);
         nybble.decrement();
-        assert_eq!(nybble.to_u8(), 0);
+        assert_eq!(u8::from(&nybble), 0);
         assert_eq!(nybble.to_string(), "0x0");
     }
 
     #[test]
     fn test_into_iter() {
-        let byte = Nybble::from_u8(0b1010); // Assuming Byte::from_u8 exists
+        let byte = Nybble::from(0b1010); // Assuming Byte::from exists
         let mut iter = (&byte).into_iter();
 
         // Assuming Bit is an enum with variants Zero and One
@@ -1475,7 +1478,7 @@ mod tests {
 
     #[test]
     fn test_into_iter_empty_byte() {
-        let byte = Nybble::from_u8(0b0000); // Assuming Byte::from_u8 exists
+        let byte = Nybble::from(0b0000); // Assuming Byte::from exists
         let mut iter = (&byte).into_iter();
 
         // Assuming Bit is an enum with variants Zero and One

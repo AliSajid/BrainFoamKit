@@ -115,9 +115,9 @@ use std::{
 /// use brainfoamkit_lib::Bit;
 ///
 /// let bit = Bit::zero();
-/// assert_eq!(bit.to_u8(), 0);
+/// assert_eq!(u8::from(bit), 0);
 /// let bit = Bit::one();
-/// assert_eq!(bit.to_u8(), 1);
+/// assert_eq!(u8::from(bit), 1);
 /// ```
 ///
 /// ## Perform logical operations
@@ -236,34 +236,6 @@ impl Bit {
         *self = match self {
             Self::Zero => Self::One,
             Self::One => Self::Zero,
-        }
-    }
-
-    /// Converts the Bit to a u8.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// use brainfoamkit_lib::Bit;
-    ///
-    /// let bit = Bit::zero();
-    /// assert_eq!(bit.to_u8(), 0);
-    /// let bit = Bit::one();
-    /// assert_eq!(bit.to_u8(), 1);
-    /// ```
-    ///
-    /// # Returns
-    ///
-    /// The value of the Bit as a u8.
-    ///
-    /// # See Also
-    ///
-    /// * [`Bit::to_string()`](#method.to_string): Converts the Bit to a string.
-    #[must_use]
-    pub const fn to_u8(&self) -> u8 {
-        match self {
-            Self::Zero => 0,
-            Self::One => 1,
         }
     }
 
@@ -452,6 +424,79 @@ impl Default for Bit {
     /// * [`Bit::one()`](#method.one): Constructs a new Bit with the value 1.
     fn default() -> Self {
         Self::zero()
+    }
+}
+
+impl From<u8> for Bit {
+    /// Create a new Bit from a u8.
+    ///
+    /// This function returns a new Bit with the value of the u8.
+    ///
+    /// # Arguments
+    ///
+    /// * `value` - The value to create the Bit from.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Bit;
+    ///
+    /// let bit = Bit::from(0);
+    /// assert_eq!(bit, Bit::Zero);
+    ///
+    /// let bit = Bit::from(1);
+    /// assert_eq!(bit, Bit::One);
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// A new Bit with the value of the u8.
+    ///
+    /// # See Also
+    ///
+    /// * [`Bit::zero()`](#method.zero): Constructs a new Bit with the value 0.
+    /// * [`Bit::one()`](#method.one): Constructs a new Bit with the value 1.
+    fn from(value: u8) -> Self {
+        match value {
+            0 => Self::Zero,
+            _ => Self::One,
+        }
+    }
+}
+
+impl From<Bit> for u8 {
+    /// Convert a Bit to a u8.
+    ///
+    /// This function returns the value of the Bit as a u8.
+    ///
+    /// # Arguments
+    ///
+    /// * `bit` - The Bit to convert to a u8.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use brainfoamkit_lib::Bit;
+    ///
+    /// let bit = Bit::zero();
+    /// assert_eq!(u8::from(bit), 0);
+    ///
+    /// let bit = Bit::one();
+    /// assert_eq!(u8::from(bit), 1);
+    /// ```
+    ///
+    /// # Returns
+    ///
+    /// The value of the Bit as a u8.
+    ///
+    /// # See Also
+    ///
+    /// * [`Bit::to_u8()`](#method.to_u8): Converts the Bit to a u8.
+    fn from(bit: Bit) -> Self {
+        match bit {
+            Bit::Zero => 0,
+            Bit::One => 1,
+        }
     }
 }
 
@@ -875,13 +920,13 @@ mod tests {
     #[test]
     fn test_to_u8_zero() {
         let bit = Bit::zero();
-        assert_eq!(bit.to_u8(), 0);
+        assert_eq!(u8::from(bit), 0);
     }
 
     #[test]
     fn test_to_u8_one() {
         let bit = Bit::one();
-        assert_eq!(bit.to_u8(), 1);
+        assert_eq!(u8::from(bit), 1);
     }
 
     #[test]

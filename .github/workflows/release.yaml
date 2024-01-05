@@ -12,16 +12,12 @@ on:
                 required: true
                 default: ''
                 type: string
-
 name: Semantic Release
-
 env:
     RUST_BACKTRACE: 1
     SEMREL_RUST_VERSION: 2.1.53
-
 concurrency:
     group: ${{ github.workflow }}
-
 jobs:
     build_application:
         name: Build CLI ${{ matrix.build.target }}
@@ -29,111 +25,96 @@ jobs:
         runs-on: ${{ matrix.build.os }}
         env:
             CARGO: cargo
-
         strategy:
             matrix:
                 bin:
-                -   bfkview
-                -   bfkrun
+                    - bfkview
+                    - bfkrun
                 build:
                     # alphabatized by target
-                -   os: macOS-latest
-                    target: aarch64-apple-darwin
-                    cross: true
-                -   os: ubuntu-latest
-                    target: aarch64-unknown-linux-gnu
-                    cross: true
-                -   os: ubuntu-latest
-                    target: aarch64-unknown-linux-musl
-                    cross: true
-                -   os: ubuntu-latest
-                    target: i686-unknown-linux-gnu
-                    cross: true
-                -   os: ubuntu-latest
-                    target: i686-unknown-linux-musl
-                    cross: true
-                -   os: macOS-latest
-                    target: x86_64-apple-darwin
-                    cross: false
-                -   os: ubuntu-latest
-                    target: x86_64-unknown-linux-gnu
-                    cross: false
-                -   os: ubuntu-latest
-                    target: x86_64-unknown-linux-musl
-                    cross: false
-                -   os: ubuntu-latest
-                    target: x86_64-pc-windows-gnu
-                    cross: true
-                -   os: ubuntu-latest
-                    target: i686-pc-windows-gnu
-                    cross: true
-
+                    - os: macOS-latest
+                      target: aarch64-apple-darwin
+                      cross: true
+                    - os: ubuntu-latest
+                      target: aarch64-unknown-linux-gnu
+                      cross: true
+                    - os: ubuntu-latest
+                      target: aarch64-unknown-linux-musl
+                      cross: true
+                    - os: ubuntu-latest
+                      target: i686-unknown-linux-gnu
+                      cross: true
+                    - os: ubuntu-latest
+                      target: i686-unknown-linux-musl
+                      cross: true
+                    - os: macOS-latest
+                      target: x86_64-apple-darwin
+                      cross: false
+                    - os: ubuntu-latest
+                      target: x86_64-unknown-linux-gnu
+                      cross: false
+                    - os: ubuntu-latest
+                      target: x86_64-unknown-linux-musl
+                      cross: false
+                    - os: ubuntu-latest
+                      target: x86_64-pc-windows-gnu
+                      cross: true
+                    - os: ubuntu-latest
+                      target: i686-pc-windows-gnu
+                      cross: true
         steps:
-        -   name: Checkout
-            uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c      # v3.3.0
-
-        -   name: Install tree
-            if: runner.os == 'Linux'
-            run: sudo apt install tree
-
-        -   name: Install build inputs
-            if: runner.os == 'Linux' && !matrix.build.cross
-            run: sudo apt install musl-tools mingw-w64
-
-        -   name: Install Rust toolchain
-            uses: dtolnay/rust-toolchain@master
-            id: rust-toolchain
-            with:
+            - name: Checkout
+              uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+            - name: Install tree
+              if: runner.os == 'Linux'
+              run: sudo apt install tree
+            - name: Install build inputs
+              if: runner.os == 'Linux' && !matrix.build.cross
+              run: sudo apt install musl-tools mingw-w64
+            - name: Install Rust toolchain
+              uses: dtolnay/rust-toolchain@master
+              id: rust-toolchain
+              with:
                 toolchain: stable
                 target: ${{ matrix.build.target }}
-
-        -   name: Cache dependencies
-            uses: Swatinem/rust-cache@6fd3edff6979b79f87531400ad694fb7f2c84b1f      # v2.2.1
-
-        -   name: Install cross
-            uses: taiki-e/install-action@v2
-            with:
+            - name: Cache dependencies
+              uses: Swatinem/rust-cache@6fd3edff6979b79f87531400ad694fb7f2c84b1f # v2.2.1
+            - name: Install cross
+              uses: taiki-e/install-action@v2
+              with:
                 tool: cross
-
-        -   name: Configure cross
-            if: matrix.build.cross
-            run: echo "CARGO=cross" >> "$GITHUB_ENV"
-
-        -   name: Compile release binary
-            run: ${{ env.CARGO }} build --bin ${{ matrix.bin }} --release --target ${{ matrix.build.target }} --verbose
-
-        -   name: Show generated binary
-            if: runner.os == 'Linux'
-            run: tree target/
-
-        -   name: Create release archive - windows
-            if: matrix.build.target == 'x86_64-pc-windows-gnu' || matrix.build.target == 'i686-pc-windows-gnu'
-            run: |
+            - name: Configure cross
+              if: matrix.build.cross
+              run: echo "CARGO=cross" >> "$GITHUB_ENV"
+            - name: Compile release binary
+              run: ${{ env.CARGO }} build --bin ${{ matrix.bin }} --release --target ${{ matrix.build.target }} --verbose
+            - name: Show generated binary
+              if: runner.os == 'Linux'
+              run: tree target/
+            - name: Create release archive - windows
+              if: matrix.build.target == 'x86_64-pc-windows-gnu' || matrix.build.target == 'i686-pc-windows-gnu'
+              run: |
                 mkdir dist
                 cp target/${{ matrix.build.target }}/release/${{ matrix.bin }}.exe dist/${{ matrix.bin }}-${{ matrix.build.target }}
-
-        -   name: Create release archive - non-windows
-            if: matrix.build.target != 'x86_64-pc-windows-gnu' && matrix.build.target != 'i686-pc-windows-gnu'
-            run: |
+            - name: Create release archive - non-windows
+              if: matrix.build.target != 'x86_64-pc-windows-gnu' && matrix.build.target != 'i686-pc-windows-gnu'
+              run: |
                 mkdir dist
                 cp target/${{ matrix.build.target }}/release/${{ matrix.bin }} dist/${{ matrix.bin }}-${{ matrix.build.target }}
-
-        -   name: Create binary checksum
-            run: |
+            - name: Create binary checksum
+              run: |
                 shasum --algorithm 256 \
                 --binary ${{ matrix.bin }}-${{ matrix.build.target }} | tee ${{ matrix.bin }}-${{ matrix.build.target }}-SHA256SUM.txt
-            working-directory: ./dist
-
-        -   name: Upload release artifacts
-            uses: actions/upload-artifact@v3
-            with:
+              working-directory: ./dist
+            - name: Upload release artifacts
+              uses: actions/upload-artifact@v3
+              with:
                 name: ${{ matrix.build.target }}
                 path: |
                     dist/${{ matrix.bin }}-${{ matrix.build.target }}
                     dist/${{ matrix.bin }}-${{ matrix.build.target }}-SHA256SUM.txt
                 if-no-files-found: error
                 retention-days: 1
-
     release:
         name: Semantic Release
         runs-on: ubuntu-latest
@@ -144,30 +125,25 @@ jobs:
             new_release_notes: ${{steps.semantic.outputs.new_release_notes}}
             new_release_channel: ${{steps.semantic.outputs.new_release_channel}}
         steps:
-        -   name: Checkout
-            uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c      # v3.3.0
-            with:
+            - name: Checkout
+              uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+              with:
                 fetch-depth: 0
                 persist-credentials: false
-
-        -   name: Install dependencies
-            run: sudo apt install tree
-
-        -   name: Install semantic-release-cargo
-            uses: taiki-e/install-action@v2
-            with:
+            - name: Install dependencies
+              run: sudo apt install tree
+            - name: Install semantic-release-cargo
+              uses: taiki-e/install-action@v2
+              with:
                 tool: semantic-release-cargo@${{env.SEMREL_RUST_VERSION}}
-
-        -   name: Download release artifacts
-            uses: actions/download-artifact@v3
-            with:
+            - name: Download release artifacts
+              uses: actions/download-artifact@v3
+              with:
                 path: artifacts
-
-        -   name: ls artifacts
-            run: tree ./artifacts
-
-        -   name: Prepare GitHub Release artifacts
-            run: |
+            - name: ls artifacts
+              run: tree ./artifacts
+            - name: Prepare GitHub Release artifacts
+              run: |
                 mkdir dist/
                 mv -v artifacts/aarch64-apple-darwin dist/
                 mv -v artifacts/aarch64-unknown-linux-gnu dist/
@@ -179,21 +155,20 @@ jobs:
                 mv -v artifacts/x86_64-unknown-linux-musl dist/
                 mv -v artifacts/x86_64-pc-windows-gnu dist/
                 mv -v artifacts/i686-pc-windows-gnu dist/
-
-        -   name: Combine checksums
-            run: cat dist/**/*-SHA256SUM.txt | tee dist/SHA256SUMS.txt
-
-        -   name: Install Conventional Commit preset
-            run: npm install conventional-changelog-conventionalcommits
-
-        -   name: Semantic Release
-            uses: cycjimmy/semantic-release-action@61680d0e9b02ff86f5648ade99e01be17f0260a4      # v4.0.0
-            id: semantic
-            with:
+            - name: Combine checksums
+              run: cat dist/**/*-SHA256SUM.txt | tee dist/SHA256SUMS.txt
+            - name: Install Conventional Commit preset
+              run: npm install conventional-changelog-conventionalcommits
+            - name: Semantic Release
+              uses: cycjimmy/semantic-release-action@61680d0e9b02ff86f5648ade99e01be17f0260a4 # v4.0.0
+              id: semantic
+              with:
                 semantic_version: 22.0.3
                 extra_plugins: |
                     @semantic-release/exec@6
                     @semantic-release/git@10
-            env:
+              env:
                 GITHUB_TOKEN: ${{secrets.ACTIONS_PAT_GITHUB}}
                 CARGO_REGISTRY_TOKEN: ${{secrets.SEMREL_CRATES_IO}}
+                GIT_AUTHOR_NAME: ${{vars.GIT_AUTHOR_NAME}}
+                GIT_AUTHOR_EMAIL: ${{vars.GIT_AUTHOR_EMAIL}}

@@ -56,6 +56,7 @@ the [lang](lang/) directory.
 See the [Contributing](CONTRIBUTING.md) for details on how to contribute to the project.
 
 You can contribute to the project through [GitPod](https://gitpod.io).
+
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#AliSajid/brainfoamkit)
 
 ## Code of Conduct

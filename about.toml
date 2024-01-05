@@ -1,0 +1,99 @@
+# Accepted licesnes by default
+accepted = ["Apache-2.0", "MIT"]
+targets = [
+    "aarch64-apple-darwin",
+    "aarch64-unknown-linux-gnu",
+    "aarch64-unknown-linux-musl",
+    "i686-unknown-linux-gnu",
+    "i686-unknown-linux-musl",
+    "x86_64-apple-darwin",
+    "x86_64-unknown-linux-gnu",
+    "x86_64-unknown-linux-musl",
+    "x86_64-pc-windows-gnu",
+    "i686-pc-windows-gnu",
+]
+
+# Do not ignore any dependencies
+ignore-build-dependencies = false
+ignore-dev-dependencies = false
+ignore-transitive-dependencies = false
+
+# Try to resolve any time clearlydefined.io marks something as NOASSERTION
+filter-noassertion = true
+
+# Specify the license from the girhub page:
+# BSD 3-Clause: https://github.com/phsym/prettytable-rs/blob/master/LICENSE.txt
+[prettytable-rs]
+accepted = ["BSD-3-Clause"]
+
+# Specify the triple license for `unicode-ident`
+# MIT: https://github.com/dtolnay/unicode-ident/LICENSE-MIT
+# Apache-2.0: https://github.com/dtolnay/unicode-ident/LICENSE-APACHE
+# Unicode-DFS-2016: https://github.com/dtolnay/unicode-ident/LICENSE-UNICODE
+[unicode-ident]
+accepted = ["Unicode-DFS-2016"]
+
+# Specify the license for `stability`
+# MIT: https://github.com/sagebind/stability
+[stability.clarify]
+license = "MIT"
+
+[[stability.clarify.git]]
+path = "LICENSE"
+checksum = "1c53c5a23d1bcc3df0ba1bdb8079421331c344e082d70b7fbb8ee5461d76a24c" #pragma: allowlist secret
+
+# Specify the license for `proc-macro2`
+# MIT: https://github.com/dtolnay/proc-macro2/LICENSE-MIT
+# Apache-2.0: https://github.com/dtolnay/proc-macro2/LICENSE-APACHE
+[proc-macro2.clarify]
+license = "MIT OR Apache-2.0"
+
+[[proc-macro2.clarify.git]]
+path = "LICENSE-MIT"
+license = "MIT"
+checksum = "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3" #pragma: allowlist secret
+
+[[proc-macro2.clarify.git]]
+path = "LICENSE-APACHE"
+license = "Apache-2.0"
+checksum = "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a" #pragma: allowlist secret
+
+# Specify the license for `anyhow`
+# MIT: https://github.com/dtolnay/anyhow/LICENSE-MIT
+# Apache-2.0: https://github.com/dtolnay/anyhow/LICENSE-APACHE
+[anyhow.clarify]
+license = "MIT OR Apache-2.0"
+
+[[anyhow.clarify.git]]
+path = "LICENSE-MIT"
+license = "MIT"
+checksum = "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3" #pragma: allowlist secret
+
+[[anyhow.clarify.git]]
+path = "LICENSE-APACHE"
+license = "Apache-2.0"
+checksum = "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a" #pragma: allowlist secret
+
+# Specify the license for `ratatui`
+# MIT: https://github.com/ratatui-org/ratatui
+[ratatui.clarify]
+license = "MIT"
+
+[[ratatui.clarify.git]]
+path = "LICENSE"
+checksum = "2b18886c930206292980646fa5d0b80c076be55516a93fbcb1bc4fe1a849f76c" #pragma: allowlist secret
+
+
+# Specify the license for `document-features`
+[document-features.clarify]
+license = "MIT OR Apache-2.0"
+
+[[document-features.clarify.git]]
+path = "LICENSE-MIT"
+license = "MIT"
+checksum = "aa893340d14b9844625be6a50ac644169a01b52f0211cbf81b09e1874c8cd81d" #pragma: allowlist secret
+
+[[document-features.clarify.git]]
+path = "LICENSE-APACHE"
+license = "Apache-2.0"
+checksum = "074e6e32c86a4c0ef8b3ed25b721ca23aca83df277cd88106ef7177c354615ff" #pragma: allowlist secret

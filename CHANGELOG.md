@@ -1,7 +1,19 @@
-## 1.0.0-beta.1 (2023-12-28)
-
-
 ### ⚠ BREAKING CHANGES
+
+
+## [1.0.0-alpha.14](https://github.com/AliSajid/BrainFoamKit/compare/v1.0.0-alpha.13...v1.0.0-alpha.14) (2024-01-01)
+
+* **VM:**
+
+### Features
+
+* **bfkrun:** change the interpreter to use the brainfoamkit_lib ([3979b11](https://github.com/AliSajid/BrainFoamKit/commit/3979b11b7616ebab0126cca62625f62fc2dd12f9))
+* **bfkrun:** use vm-native byte implementation for the table ([6702eed](https://github.com/AliSajid/BrainFoamKit/commit/6702eed17c993d3ecb32dbb8010e96d245f69bb5))
+* **VMReader:** add the `VMReader` trait for input for the VM ([a0031c2](https://github.com/AliSajid/BrainFoamKit/commit/a0031c254abaaeba26e423c3fa1f8ec6453c7686))
+* **VM:** refactor both `VirtualMachine` and `VirtualMachineBuilder` to be generic over type R ([5657213](https://github.com/AliSajid/BrainFoamKit/commit/565721388bd1decddf871747cabe73d29e30b1f1))
+
+
+## 1.0.0-beta.1 (2023-12-28)
 
 * **VMBuilder:** closes #3
 * **Machine:** 
