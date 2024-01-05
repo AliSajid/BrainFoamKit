@@ -127,8 +127,8 @@ use crate::{
 ///     Nybble,
 /// };
 ///
-/// let high_nybble = Nybble::from_u8(0b1011); // Dec: 11; Hex: 0x0B; Oct: 0o13
-/// let low_nybble = Nybble::from_u8(0b0101); // Dec: 5; Hex: 0x05; Oct: 0o5
+/// let high_nybble = Nybble::from(0b1011); // Dec: 11; Hex: 0x0B; Oct: 0o13
+/// let low_nybble = Nybble::from(0b0101); // Dec: 5; Hex: 0x05; Oct: 0o5
 /// let byte = Byte::from_nybbles(high_nybble, low_nybble);
 /// assert_eq!(byte.to_u8(), 0b10110101); // Dec: 181; Hex: 0xB5; Oct: 0o265
 /// assert_eq!(byte.to_string(), "0xB5");
@@ -363,8 +363,8 @@ impl Byte {
     ///     Nybble,
     /// };
     ///
-    /// let high_nybble = Nybble::from_u8(0b1011); // Dec: 11; Hex: 0x0B; Oct: 0o13
-    /// let low_nybble = Nybble::from_u8(0b0101); // Dec: 5; Hex: 0x05; Oct: 0o5
+    /// let high_nybble = Nybble::from(0b1011); // Dec: 11; Hex: 0x0B; Oct: 0o13
+    /// let low_nybble = Nybble::from(0b0101); // Dec: 5; Hex: 0x05; Oct: 0o5
     /// let byte = Byte::from_nybbles(high_nybble, low_nybble);
     /// assert_eq!(byte.to_u8(), 0b10110101); // Dec: 181; Hex: 0xB5; Oct: 0o265
     /// assert_eq!(byte.to_string(), "0xB5");
@@ -411,7 +411,7 @@ impl Byte {
     ///
     /// let byte = Byte::from_u8(0b01010101); // Dec: 85; Hex: 0x55; Oct: 0o125
     /// let high_nybble = byte.get_high_nybble(); // Nybble: 0b0101; Dec: 5; Hex: 0x05; Oct: 0o5
-    /// assert_eq!(high_nybble.to_u8(), 0b0101); // Dec: 5; Hex: 0x05; Oct: 0o5
+    /// assert_eq!(u8::from(&high_nybble), 0b0101); // Dec: 5; Hex: 0x05; Oct: 0o5
     /// assert_eq!(high_nybble.to_string(), "0x5");
     /// ```
     ///
@@ -449,7 +449,7 @@ impl Byte {
     ///
     /// let byte = Byte::from_u8(0b01010101); // Byte: 0b01010101; Dec: 85; Hex: 0x55; Oct: 0o125
     /// let low_nybble = byte.get_low_nybble(); // Nybble: 0b0101; Dec: 5; Hex: 0x05; Oct: 0o5
-    /// assert_eq!(low_nybble.to_u8(), 0b0101); // Dec: 5; Hex: 0x05; Oct: 0o5
+    /// assert_eq!(u8::from(&low_nybble), 0b0101); // Dec: 5; Hex: 0x05; Oct: 0o5
     /// assert_eq!(low_nybble.to_string(), "0x5");
     /// ```
     ///
@@ -1517,8 +1517,8 @@ mod tests {
 
     #[test]
     fn test_from_nybbles_ones() {
-        let high_nybble = Nybble::from_u8(15);
-        let low_nybble = Nybble::from_u8(15);
+        let high_nybble = Nybble::from(15);
+        let low_nybble = Nybble::from(15);
         let byte = Byte::from_nybbles(high_nybble, low_nybble);
         assert_eq!(byte.to_u8(), 0b11111111);
     }
@@ -1533,13 +1533,13 @@ mod tests {
 
     #[test]
     fn test_from_nybbles_alternating() {
-        let high_nybble = Nybble::from_u8(0b1010);
-        let low_nybble = Nybble::from_u8(0b0101);
+        let high_nybble = Nybble::from(0b1010);
+        let low_nybble = Nybble::from(0b0101);
         let byte = Byte::from_nybbles(high_nybble, low_nybble);
         assert_eq!(byte.to_u8(), 0b10100101);
 
-        let high_nybble = Nybble::from_u8(0b0101);
-        let low_nybble = Nybble::from_u8(0b1010);
+        let high_nybble = Nybble::from(0b0101);
+        let low_nybble = Nybble::from(0b1010);
         let byte = Byte::from_nybbles(high_nybble, low_nybble);
         assert_eq!(byte.to_u8(), 0b01011010);
     }
@@ -1587,56 +1587,56 @@ mod tests {
     fn test_get_high_nybble_all_zeros() {
         let byte = Byte::default();
         let nybble = byte.get_high_nybble();
-        assert_eq!(nybble.to_u8(), 0b0000);
+        assert_eq!(u8::from(&nybble), 0b0000);
     }
 
     #[test]
     fn test_get_high_nybble_all_ones() {
         let byte = Byte::from_u8(0b11111111);
         let nybble = byte.get_high_nybble();
-        assert_eq!(nybble.to_u8(), 15);
+        assert_eq!(u8::from(&nybble), 15);
     }
 
     #[test]
     fn test_get_high_nybble_alternating() {
         let byte = Byte::from_u8(0b10101010);
         let nybble = byte.get_high_nybble();
-        assert_eq!(nybble.to_u8(), 0b1010);
+        assert_eq!(u8::from(&nybble), 0b1010);
     }
 
     #[test]
     fn test_get_high_nybble_random() {
         let byte = Byte::from_u8(0b11001100);
         let nybble = byte.get_high_nybble();
-        assert_eq!(nybble.to_u8(), 0b1100);
+        assert_eq!(u8::from(&nybble), 0b1100);
     }
 
     #[test]
     fn test_get_low_nybble_all_zeros() {
         let byte = Byte::default();
         let nybble = byte.get_low_nybble();
-        assert_eq!(nybble.to_u8(), 0b0000);
+        assert_eq!(u8::from(&nybble), 0b0000);
     }
 
     #[test]
     fn test_get_low_nybble_all_ones() {
         let byte = Byte::from_u8(0b11111111);
         let nybble = byte.get_low_nybble();
-        assert_eq!(nybble.to_u8(), 15);
+        assert_eq!(u8::from(&nybble), 15);
     }
 
     #[test]
     fn test_get_low_nybble_alternating() {
         let byte = Byte::from_u8(0b10101010);
         let nybble = byte.get_low_nybble();
-        assert_eq!(nybble.to_u8(), 0b1010);
+        assert_eq!(u8::from(&nybble), 0b1010);
     }
 
     #[test]
     fn test_get_low_nybble_random() {
         let byte = Byte::from_u8(0b11001100);
         let nybble = byte.get_low_nybble();
-        assert_eq!(nybble.to_u8(), 0b1100);
+        assert_eq!(u8::from(&nybble), 0b1100);
     }
 
     #[test]
