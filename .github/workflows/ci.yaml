@@ -2,9 +2,8 @@
 name: Continuous integration
 on:
     push:
-        branches:
-            - '*'
-            - '!main'
+        branches-ignore:
+            - 'main'
     pull_request:
         branches:
             - main
@@ -21,8 +20,7 @@ env:
 jobs:
     ci:
         runs-on: ${{matrix.os}}-latest
-        if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged ==
-            true)
+        if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true)
         outputs:
             result: ${{steps.result.outputs.result}}
         strategy:
