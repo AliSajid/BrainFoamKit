@@ -30,7 +30,7 @@ jobs:
                     - stable
                     - beta
                     - nightly
-                    - 1.70.0 # MSRV
+                    - 1.72.1 # MSRV
                 os:
                     - windows
                     - ubuntu
@@ -42,7 +42,7 @@ jobs:
                       logo: ubuntu
                     - os: macos
                       logo: apple
-                    - rust: 1.70.0 # MSRV
+                    - rust: 1.72.1 # MSRV
                       label: msrv
                     - rust: stable
                       label: stable
