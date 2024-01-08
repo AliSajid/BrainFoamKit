@@ -6,10 +6,10 @@
 
 # CLI Tool Reference
 
-- [The BFK Interpreter - bfkrun](./bfk/README.md)
-  - [Draft Chapter](#)
+- [The BFK Interpreter - bfkrun](./bfkrun/README.md)
+  - [Draft Chapter](./bfkrun/placeholder.md)
 - [The BFK View Tool - bfkview](./bfkview/README.md)
-  - [Draft Chapter]()
+  - [Draft Chapter](./bfkrun/placeholder.md)
 
 # The BFK Language
 
@@ -24,7 +24,7 @@
   - [Language Syntax](./language_changes/language-syntax.md)
   - [Language Semantics](./language_changes/language-semantics.md)
   - [EBNF Grammar](./language_changes/ebnf-grammar.md)
-- [BFK Language Implementation](./language_implementation.md/README.md)
+- [BFK Language Implementation](./language_implementation/README.md)
   - [The Basic Structs](./language_implementation/basic_structs.md)
   - [The Virtual Machine](./language_implementation/virtual_machine.md)
   - [The Parser](./language_implementation/parser.md)
