@@ -107,8 +107,12 @@ jobs:
         uses: ./.github/workflows/code_coverage.yaml
         needs: [ci]
         secrets: inherit # pragma: allowlist secret
+    generate_mdbook:
+        uses: ./.github/workflows/deploy_mdbook.yaml
+        needs: [ci]
+        secrets: inherit # pragma: allowlist secret
     get-next-version:
-        uses: ./.github/workflows/get-next-version.yaml
+        uses: ./.github/workflows/get_next_version.yaml
         needs: [ci]
         secrets: inherit # pragma: allowlist secret
     semantic-release:
