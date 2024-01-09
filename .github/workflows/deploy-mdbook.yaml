@@ -1,4 +1,4 @@
-name: Vercel Production Deployments
+name: Book Deployment
 on:
   push:
     branches:
@@ -62,7 +62,7 @@ jobs:
         with:
           tool: cargo-binstall
       - name: Install dependencies
-        run: cargo binstall mdbook mdbook-plantuml mdbook-inline-highlighting
+        run: cargo binstall --log-level debug --no-confirm --locked mdbook mdbook-plantuml mdbook-inline-highlighting
       - name: Install dependencies
         run: pnpm install -g vercel@latest
       - name: Populate Preview Variables
