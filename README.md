@@ -27,14 +27,9 @@ implementation in Rust due the combination of memory-safety, speed and zero-cost
 interpreter is expected to be non-trivial in complexity while still only scratching the surface of the features Rust has
 to offer. Thus, it provides an excellent educational opportunity for someone trying to learn Rust.
 
-## Implementation Details
+## Details
 
-Briefly, the interpreter is implemented as a Virtual Machine on top of the existing Rust runtime. This frees us from
-low-level hardware constraints, allowing us to focus on the core of the program. The language remains focused on 8-byte
-operations and the ASCII code, allowing for rust to shine as a fast language.
-
-More details regarding the implementation, including an EBNF grammar and other design tradeoffs can be found in
-the [lang](lang/) directory.
+The major details for the project are available in the [BrainFoamKit Book](https://brainfoamkit.imamiland.com/).
 
 ## (Planned) Features
 
