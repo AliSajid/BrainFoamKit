@@ -35,7 +35,7 @@ jobs:
           if [[ ${{ env.BRANCH }} == "main" ]]; then
             echo "PROJECT_ENVIRONMENT=production" >> $GITHUB_ENV
           else
-            echo echo "PROJECT_ENVIRONMENT=preview" >> $GITHUB_ENV
+            echo "PROJECT_ENVIRONMENT=preview" >> $GITHUB_ENV
           fi
       - name: Setup NodeJS
         uses: actions/setup-node@v3
