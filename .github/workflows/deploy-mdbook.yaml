@@ -64,7 +64,7 @@ jobs:
           toolchain: stable
       - name: Cache dependencies
         uses: Swatinem/rust-cache@6fd3edff6979b79f87531400ad694fb7f2c84b1f # v2.2.1
-      - name: Install cross
+      - name: Install cargo-binstall
         uses: taiki-e/install-action@v2
         with:
           tool: cargo-binstall
@@ -77,7 +77,7 @@ jobs:
       - name: Build the Book
         run: mdbook build guide
       - name: Build for Vercel deployment
-        run: vercel build --cwd guide/book -y -d
+        run: vercel build --cwd guide/book -y -d --token=${{ env.VERCEL_TOKEN }}
       - name: Deploy to Vercel -- Preview
         if: env.PROJECT_ENVIRONMENT == 'preview'
         run: vercel deploy --cwd guide/book --prebuilt --token=${{ env.VERCEL_TOKEN }} > deployment_url
