@@ -1,13 +1,5 @@
 name: Book Deployment
 on:
-  push:
-    branches:
-      - main
-      - next
-  pull_request:
-    branches:
-      - main
-      - next
   workflow_call:
     outputs:
       deployment_url:
