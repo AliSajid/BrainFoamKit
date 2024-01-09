@@ -8,6 +8,11 @@ on:
     branches:
       - main
       - next
+  workflow_call:
+    outputs:
+      deployment_url:
+        description: "The vercel deployment url of the book"
+        value: ${{ jobs.deploy_book.outputs.deployment_url }}
 
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -19,6 +24,8 @@ env:
 jobs:
   deploy_book:
     runs-on: ubuntu-latest
+    outputs:
+      deployment_url: ${{ steps.output_deployment_url.outputs.deployment_url }}
     steps:
       - name: Checkout the Repository
         uses: actions/checkout@v3
@@ -73,7 +80,10 @@ jobs:
         run: vercel build --cwd guide/book -y -d
       - name: Deploy to Vercel -- Preview
         if: env.PROJECT_ENVIRONMENT == 'preview'
-        run: vercel deploy --cwd guide/book --prebuilt --token=${{ env.VERCEL_TOKEN }}
+        run: vercel deploy --cwd guide/book --prebuilt --token=${{ env.VERCEL_TOKEN }} > deployment_url
       - name: Deploy to Vercel -- Production
         if: env.PROJECT_ENVIRONMENT == 'production'
-        run: vercel deploy --cwd guide/book --prod --prebuilt --token=${{ env.VERCEL_TOKEN }}
+        run: vercel deploy --cwd guide/book --prod --prebuilt --token=${{ env.VERCEL_TOKEN }} > deployment_url
+      - name: Output Deployment URL
+        id: output_deployment_url
+        run: echo "deployment_url=$(cat deployment_url)" >> $GITHUB_OUTPUT
