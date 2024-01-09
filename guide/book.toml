@@ -4,3 +4,18 @@ language = "en"
 multilingual = false
 src = "src"
 title = "The BrainFoamKit Book"
+
+[rust]
+edition = "2021"
+
+[preprocessor.plantuml]
+plantuml-cmd="http://www.plantuml.com/plantuml"
+
+[preprocessor.inline-highlighting]
+
+[output.html]
+git-repository-url = "https://github.com/AliSajid/brainfoamkit"
+
+[output.html.print]
+enable = true
+page-break = true
