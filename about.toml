@@ -21,10 +21,42 @@ ignore-transitive-dependencies = false
 # Try to resolve any time clearlydefined.io marks something as NOASSERTION
 filter-noassertion = true
 
-# Specify the license from the girhub page:
+# Specify the license from the github page:
 # BSD 3-Clause: https://github.com/phsym/prettytable-rs/blob/master/LICENSE.txt
 [prettytable-rs]
 accepted = ["BSD-3-Clause"]
+
+# Specify the license for `adler32`
+# Zlib: https://github.com/remram44/adler32-rs/blob/master/LICENSE
+[adler32]
+accepted = ["Zlib"]
+
+# Specify the triple license for `encoding-rs`
+# MIT: https://github.com/hsivonen/encoding_rs/blob/master/LICENSE-MIT
+# Apache-2.0: https://github.com/hsivonen/encoding_rs/blob/master/LICENSE-APACHE
+# BSD-3-Clause: https://github.com/hsivonen/encoding_rs/blob/master/LICENSE-WHATWG
+[encoding_rs]
+accepted = ["BSD-3-Clause"]
+
+# Specify the license for `inotify`
+# ISC: https://github.com/hannobraun/inotify-rs/blob/main/LICENSE
+[inotify]
+accepted = ["ISC"]
+
+# Specify the license for `inotify-sys`
+# ISC: https://github.com/hannobraun/inotify-sys/blob/master/LICENSE
+[inotify-sys]
+accepted = ["ISC"]
+
+# Specify the license for `mdbook`
+# MPL-2.0: https://github.com/rust-lang/mdBook/blob/master/LICENSE
+[mdbook]
+accepted = ["MPL-2.0"]
+
+# Specify the license for `notify`
+# CC0-1.0: https://github.com/notify-rs/notify/blob/main/notify/LICENSE-CC0
+[notify]
+accepted = ["CC0-1.0"]
 
 # Specify the triple license for `unicode-ident`
 # MIT: https://github.com/dtolnay/unicode-ident/LICENSE-MIT
