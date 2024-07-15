@@ -78,7 +78,7 @@ jobs:
                 minimum: ${{env.MINIMUM_WAIT}}
                 maximum: ${{env.MAXIMUM_WAIT}}
             - name: Create Awesome Badge - Success
-              uses: schneegans/dynamic-badges-action@5d424ad4060f866e4d1dab8f8da0456e6b1c4f56 # v1.6.0
+              uses: schneegans/dynamic-badges-action@e9a478b16159b4d31420099ba146cdc50f134483 # v1.7.0
               if: success()
               with:
                 auth: ${{secrets.GIST_SECRET}}
@@ -89,7 +89,7 @@ jobs:
                 message: Succeeded
                 color: green
             - name: Create Awesome Badge - Failure
-              uses: schneegans/dynamic-badges-action@5d424ad4060f866e4d1dab8f8da0456e6b1c4f56 # v1.6.0
+              uses: schneegans/dynamic-badges-action@e9a478b16159b4d31420099ba146cdc50f134483 # v1.7.0
               if: failure()
               with:
                 auth: ${{secrets.GIST_SECRET}}
