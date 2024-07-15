@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+#
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: MIT
+
 # A script that uses `cargo about` to generate a machine-readable summary of
 # the current crate's dependencies and their licenses and saves them
 # to a JSON file.
@@ -31,17 +36,16 @@ then
     exit
 fi
 
+## Step 3: Check that jq is installed
+
 if ! command -v jq &> /dev/null
 then
     echo "jq could not be found"
     exit
 fi
 
-## Step 3: Generate the JSON file
+## Step 4: Generate the JSON file
 
-if [ -z "$1" ]
-then
-    cargo about generate --format json | jq --sort-keys --indent 4 -r > licenses_report.json
-else
-    cargo about generate --format json | jq --sort-keys --indent 4 -r > "$1"
-fi
+OUTPUT_FILE=${1:-licenses_report.json}
+
+cargo about generate --format json | jq --sort-keys --indent 4 -r > "$OUTPUT_FILE"

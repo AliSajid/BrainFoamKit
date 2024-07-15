@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+#
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: MIT
+
 # A script that uses `cargo about` to generate a machine-readable summary of
 # the current crate's dependencies and their licenses and saves them
 # to a JSON file.
@@ -48,9 +53,5 @@ then
     exit 1
 fi
 
-if [ -z "$2" ]
-then
-    cargo about generate --format handlebars "$1" | gexpand -t 4 | dos2unix > licenses_report.md
-else
-    cargo about generate --format handlebars  "$1" | gexpand -t 4 | dos2unix > "$2"
-fi
+OUTPUT_FILE=${2:-licenses_report.md}
+cargo about generate --format handlebars "$1" | gexpand -t 4 | dos2unix > "$OUTPUT_FILE"
