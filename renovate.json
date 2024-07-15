@@ -1,6 +1,58 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
-  ]
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "assignees": [
+        "AliSajid"
+    ],
+    "baseBranches": [
+        "next"
+    ],
+    "extends": [
+        "config:best-practices",
+        "group:githubArtifactActions",
+        ":rebaseStalePrs"
+    ],
+    "labels": [
+        "dependencies",
+        "renovate"
+    ],
+    "packageRules": [
+        {
+            "automerge": true,
+            "groupName": "Repository Maintenance",
+            "groupSlug": "repository-maintenance",
+            "matchManagers": [
+                "pre-commit",
+                "github-actions"
+            ]
+        },
+        {
+            "enabled": false,
+            "matchFileNames": [
+                "Dockerfile"
+            ],
+            "matchManagers": [
+                "dockerfile"
+            ]
+        },
+        {
+            "automerge": true,
+            "matchDepTypes": [
+                "devDependencies"
+            ],
+            "matchUpdateTypes": [
+                "minor",
+                "patch"
+            ]
+        }
+    ],
+    "platformCommit": true,
+    "pre-commit": {
+        "enabled": true
+    },
+    "schedule": [
+        "after 10pm every weekday",
+        "every weekend",
+        "before 5am every weekday"
+    ],
+    "semanticCommits": "enabled"
 }
