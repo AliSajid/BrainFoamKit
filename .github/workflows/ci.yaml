@@ -1,9 +1,12 @@
+# SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+#
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: MIT
+
 ---
 name: Continuous integration
 on:
     push:
-        branches-ignore:
-            - 'main'
     pull_request:
         branches:
             - main
@@ -11,16 +14,40 @@ on:
             - closed
     workflow_dispatch:
 concurrency:
-    group: CI
+    group: ${{github.event.ref}}
+    cancel-in-progress: true
 env:
     GIST_KEY: 80eb42183fabbaf02eebcf768bdae485 # pragma: allowlist secret
     RUST_BACKTRACE: 1
     MINIMUM_WAIT: 3
     MAXIMUM_WAIT: 10
 jobs:
+    check_changed_dirs:
+      runs-on: ubuntu-latest
+      outputs:
+        source_changed: ${{steps.changed_dirs.outputs.source}}
+        book_changed: ${{steps.changed_dirs.outputs.book}}
+      steps:
+        - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        - name: Check changed directories
+          id: changed_dirs
+          uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+          with:
+            base: ${{ github.ref }}
+            filters: |
+              source:
+                - "src/**/*"
+                - "tests/**/*"
+                - "examples/**/*"
+                - "Cargo.toml"
+                - "Cargo.lock"
+              book:
+                - "guide/src/*.md"
+                - "guide/book.toml"
     ci:
         runs-on: ${{matrix.os}}-latest
-        if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true)
+        needs: [check_changed_dirs]
+        if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.merged == true) || github.event_name == 'workflow_dispatch'
         outputs:
             result: ${{steps.result.outputs.result}}
         strategy:
@@ -51,34 +78,42 @@ jobs:
                     - rust: nightly
                       label: nightly
         steps:
-            - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+            - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
             - name: Install Rust
+              if: ${{ needs.check_changed_dirs.outputs.source_changed == 'true' }}
               uses: dtolnay/rust-toolchain@master
               with:
                 toolchain: ${{matrix.rust}}
                 components: rustfmt, clippy
             - name: Install nightly Rust
+              if: ${{ needs.check_changed_dirs.outputs.source_changed == 'true' }}
               uses: dtolnay/rust-toolchain@nightly
               with:
                 toolchain: nightly
                 components: rustfmt, clippy
             - name: Cache dependencies
-              uses: Swatinem/rust-cache@6fd3edff6979b79f87531400ad694fb7f2c84b1f # v2.2.1
+              if: ${{ needs.check_changed_dirs.outputs.source_changed == 'true' }}
+              uses: Swatinem/rust-cache@23bce251a8cd2ffc3c1075eaa2367cf899916d84 # v2.7.3
             - name: Cargo Build
+              if: ${{ needs.check_changed_dirs.outputs.source_changed == 'true' }}
               run: cargo build --verbose
             - name: Cargo Test
+              if: ${{ needs.check_changed_dirs.outputs.source_changed == 'true' }}
               run: cargo test
             - name: Cargo Format
+              if: ${{ needs.check_changed_dirs.outputs.source_changed == 'true' }}
               run: cargo +nightly fmt --all -- --check
             - name: Cargo Lint
+              if: ${{ needs.check_changed_dirs.outputs.source_changed == 'true' }}
               run: cargo clippy -- -D warnings
             - name: Wait before badge creation
-              uses: AliSajid/random-wait-action@v1.1.0
+              if: ${{ needs.check_changed_dirs.outputs.source_changed == 'true' }}
+              uses: AliSajid/random-wait-action@1b5e44cb823eb8790ca12e1cc6c555febbca4164 # v2.4.0
               with:
                 minimum: ${{env.MINIMUM_WAIT}}
                 maximum: ${{env.MAXIMUM_WAIT}}
             - name: Create Awesome Badge - Success
-              uses: schneegans/dynamic-badges-action@5d424ad4060f866e4d1dab8f8da0456e6b1c4f56 # v1.6.0
+              uses: schneegans/dynamic-badges-action@e9a478b16159b4d31420099ba146cdc50f134483 # v1.7.0
               if: success()
               with:
                 auth: ${{secrets.GIST_SECRET}}
@@ -89,7 +124,7 @@ jobs:
                 message: Succeeded
                 color: green
             - name: Create Awesome Badge - Failure
-              uses: schneegans/dynamic-badges-action@5d424ad4060f866e4d1dab8f8da0456e6b1c4f56 # v1.6.0
+              uses: schneegans/dynamic-badges-action@e9a478b16159b4d31420099ba146cdc50f134483 # v1.7.0
               if: failure()
               with:
                 auth: ${{secrets.GIST_SECRET}}
@@ -105,20 +140,28 @@ jobs:
               run: echo "result=${{job.status}}" >> "$GITHUB_OUTPUT"
     generate_code_coverage:
         uses: ./.github/workflows/code_coverage.yaml
-        needs: [ci]
+        needs: [ci, check_changed_dirs]
+        if: ${{needs.check_changed_dirs.outputs.source_changed == 'true'}}
         secrets: inherit # pragma: allowlist secret
     generate_mdbook:
         uses: ./.github/workflows/deploy_mdbook.yaml
-        needs: [ci]
+        needs: [check_changed_dirs]
+        if: ${{needs.check_changed_dirs.outputs.book_changed == 'true'}}
         secrets: inherit # pragma: allowlist secret
     get-next-version:
         uses: ./.github/workflows/get_next_version.yaml
-        needs: [ci]
+        needs: [ci, check_changed_dirs]
+        if: ${{needs.ci.outputs.result == 'success'}}
         secrets: inherit # pragma: allowlist secret
     semantic-release:
         needs: [ci, get-next-version]
+        if: ${{needs.get-next-version.outputs.new-release-published == 'true'}}
         uses: ./.github/workflows/release.yaml
         secrets: inherit # pragma: allowlist secret
-        with:
-            new-release-published: ${{needs.get-next-version.outputs.new-release-published}}
-            new-release-version: ${{needs.get-next-version.outputs.new-release-version}}
+    build-container:
+      permissions:
+        id-token: write
+        packages: write
+      needs: [ci]
+      uses: ./.github/workflows/build_container.yaml
+      secrets: inherit # pragma: allowlist secret
