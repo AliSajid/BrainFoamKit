@@ -1,0 +1,140 @@
+# SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+#
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: MIT
+
+---
+name: Docker Image Generation
+on:
+  workflow_call:
+  workflow_dispatch:
+
+concurrency:
+  group: docker-{github.event.ref}
+
+env:
+  DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
+  DOCKER_REPOSITORY_NAME: ${{ vars.DOCKER_REPOSITORY_NAME }}
+  REPOSITORY_NAME: ${{ github.event.repository.name }}
+  COSIGN_RELEASE_VERSION: v2.2.4
+  SYFT_VERSION: v1.7.0
+  SOURCE_DATE_EPOCH: 0
+jobs:
+    docker-build-push:
+        runs-on: ubuntu-latest
+        permissions:
+          id-token: write
+          packages: write
+        steps:
+            - name: Checkout
+              uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+            - name: Get Last Commit Date/Time for reproducible builds
+              run: echo "SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)" >> $GITHUB_ENV
+            - name: Generate Docker Metadata
+              id: meta
+              uses: docker/metadata-action@8e5442c4ef9f78752691e2d8f8d19755c6f78e81 # v5.5.1
+              with:
+                  images: |
+                    ${{env.DOCKER_REPOSITORY_NAME}}/${{env.REPOSITORY_NAME}}
+                    ghcr.io/${{ github.repository}}
+                  tags: |
+                    type=ref,event=branch
+                    type=ref,event=pr
+                    type=ref,event=tag
+                    type=semver,pattern={{version}}
+                    type=semver,pattern={{major}}.{{minor}}
+                    type=semver,pattern={{major}}
+                    type=sha
+                  labels: |
+                    org.opencontainers.image.licenses="MIT AND Apache-2.0"
+            - name: Debug Metadata
+              run: echo "${{ steps.meta.outputs.json }}"
+            - name: Setup Buildx
+              uses: docker/setup-buildx-action@d70bba72b1f3fd22344832f00baa16ece964efeb # v3.3.0
+              with:
+                install: true
+                buildkitd-flags: --debug
+            - name: Setup QEMU
+              uses: docker/setup-qemu-action@68827325e0b33c7199eb31dd4e31fbe9023e06e3 # v3.0.0
+              with:
+                platforms: aarch64,amd64
+            - name: Login to DockerHub
+              uses: docker/login-action@0d4c9c5ea7693da7b068278f7b52bda2a190a446 # v3.2.0
+              with:
+                  username: ${{ env.DOCKER_USERNAME }}
+                  password: ${{ secrets.DOCKER_TOKEN }}
+            - name: Login to GitHub Container Registry
+              uses: docker/login-action@0d4c9c5ea7693da7b068278f7b52bda2a190a446 # v3.2.0
+              with:
+                  registry: ghcr.io
+                  username: ${{ github.actor }}
+                  password: ${{ secrets.GHCR_TOKEN }}
+            - name: Build and Push Docker Images
+              id: build
+              uses: docker/build-push-action@15560696de535e4014efeff63c48f16952e52dd1 # v6.2.0
+              env:
+                SOURCE_DATE_EPOCH: ${{ env.SOURCE_DATE_EPOCH }}
+              with:
+                  context: .
+                  push: true
+                  provenance: true
+                  annotations: ${{ steps.meta.outputs.annotations }}
+                  tags: ${{ steps.meta.outputs.tags }}
+                  labels: ${{ steps.meta.outputs.labels }}
+                  platforms: linux/amd64,linux/arm64
+            - name: Debug Build
+              run: echo "${{join(steps.build.outputs.*, '\n')}}"
+            - name: Install cosign
+              uses: sigstore/cosign-installer@59acb6260d9c0ba8f4a2f9d9b48431a222b68e20 # v3.5.0
+              with:
+                cosign-release: ${{ env.COSIGN_RELEASE_VERSION }}
+            - name: Install Syft
+              uses: anchore/sbom-action/download-syft@e8d2a6937ecead383dfe75190d104edd1f9c5751 # v0.16.0
+              with:
+                syft-version: ${{ env.SYFT_VERSION }}
+            - name: Sign and Push
+              env:
+                IMAGE_DIGEST: ${{ steps.build.outputs.digest }}
+                IMAGE_TAGS: ${{ steps.meta.outputs.tags }}
+                GITHUB_TOKEN: ${{ github.token }}
+                SOURCE_DATE_EPOCH: ${{ env.SOURCE_DATE_EPOCH }}
+              run: |
+                for tag in ${IMAGE_TAGS}; do
+                  image="${tag}@${IMAGE_DIGEST}"
+                  original_name="sbom-${tag}.json"
+                  sanitized_name=$(echo "$original_name" | sed 's|[/:]|_|g' | tr '_-' '-_')
+                  echo "Signing the image: ${image}"
+                  echo "Using the original name: $original_name"
+                  echo "Using the sanitized name: $sanitized_name"
+                  echo "Signing and pushing ${tag}@${IMAGE_DIGEST}"
+                  cosign sign --yes ${image}
+                  echo "Generating Software Bill of Materials for ${image}"
+                  syft ${image} -o spdx-json=${sanitized_name} -v
+                  echo "Attesting the Software Bill of Materials for ${image}"
+                  cosign attest --type=spdxjson --yes --predicate ${sanitized_name} ${image}
+                  echo "Done signing and pushing ${tag}@${IMAGE_DIGEST} with SBOM"
+                done
+              shell: bash
+            - name: Verify Signatures
+              env:
+                IMAGE_DIGEST: ${{ steps.build.outputs.digest }}
+                IMAGE_TAGS: ${{ steps.meta.outputs.tags }}
+                GITHUB_TOKEN: ${{ github.token }}
+                SOURCE_DATE_EPOCH: ${{ env.SOURCE_DATE_EPOCH }}
+              run: |
+                for tag in ${IMAGE_TAGS}; do
+                  mkdir -p /tmp/cosign-verifications
+                  image="${tag}@${IMAGE_DIGEST}"
+                  echo "Verifying ${image}"
+                  cosign verify ${image} --certificate-identity-regexp="${{vars.COSIGN_CERTIFICATE_IDENTITY}}" --certificate-oidc-issuer-regexp="${{vars.COSIGN_CERTIFICATE_OIDC_ISSUER}}" --output-file="/tmp/cosign-verifications/cosign-verify.json"
+                  echo "Verifying SBOM Attestation for ${image}"
+                  cosign verify-attestation ${image} --type=spdxjson --certificate-identity-regexp="${{vars.COSIGN_CERTIFICATE_IDENTITY}}" --certificate-oidc-issuer-regexp="${{vars.COSIGN_CERTIFICATE_OIDC_ISSUER}}" --output-file="/tmp/cosign-verifications/cosign-verify-attestation.json"
+                  echo "Done verifying ${image}"
+                done
+              shell: bash
+            - name: Upload verification results
+              uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+              with:
+                path: /tmp/cosign-verifications
+                name: cosign-verifications
+                compression-level: 9
