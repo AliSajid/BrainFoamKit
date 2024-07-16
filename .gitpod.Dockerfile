@@ -1,4 +1,4 @@
-FROM gitpod/workspace-full:2023-04-14-07-10-23
+FROM gitpod/workspace-full:2023-04-14-07-10-23@sha256:bfff4e64d6c72d41c979b7c7580253a99dcafbfc527d9dd3b7e2f08f48ab8490
 
 # Install your tools here
 

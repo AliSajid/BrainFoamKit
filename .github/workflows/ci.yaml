@@ -3,6 +3,11 @@
 # SPDX-License-Identifier: Apache-2.0
 # SPDX-License-Identifier: MIT
 
+# SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+#
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: MIT
+
 ---
 name: Continuous integration
 on:
@@ -58,6 +63,7 @@ jobs:
                     - beta
                     - nightly
                     - 1.75 # MSRV
+                    - 1.75 # MSRV
                 os:
                     - windows
                     - ubuntu
@@ -70,6 +76,7 @@ jobs:
                     - os: macos
                       logo: apple
                     - rust: 1.75 # MSRV
+                    - rust: 1.75 # MSRV
                       label: msrv
                     - rust: stable
                       label: stable
@@ -78,6 +85,7 @@ jobs:
                     - rust: nightly
                       label: nightly
         steps:
+            - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
             - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
             - name: Install Rust
               if: ${{ needs.check_changed_dirs.outputs.source_changed == 'true' }}
