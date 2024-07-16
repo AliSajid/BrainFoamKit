@@ -15,6 +15,7 @@ plantuml-cmd="http://www.plantuml.com/plantuml"
 
 [output.html]
 git-repository-url = "https://github.com/AliSajid/brainfoamkit"
+mathjax-support = true
 
 [output.html.print]
 enable = true
