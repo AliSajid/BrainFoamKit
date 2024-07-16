@@ -63,7 +63,7 @@ jobs:
                 toolchain: nightly
                 components: rustfmt, clippy
             - name: Cache dependencies
-              uses: Swatinem/rust-cache@6fd3edff6979b79f87531400ad694fb7f2c84b1f # v2.2.1
+              uses: Swatinem/rust-cache@23bce251a8cd2ffc3c1075eaa2367cf899916d84 # v2.7.3
             - name: Cargo Build
               run: cargo build --verbose
             - name: Cargo Test
