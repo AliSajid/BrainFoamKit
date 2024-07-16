@@ -657,9 +657,9 @@ impl AsciiTable {
     /// # Returns
     ///
     /// * `Some(&AsciiChar)` - The [`AsciiChar`](struct.AsciiChar.html) value
-    ///  corresponding to the given [Byte](struct.Byte.html) value.
+    ///   corresponding to the given [Byte](struct.Byte.html) value.
     /// * `None` - If the given [`Byte`](struct.Byte.html) value does not
-    ///  correspond to an ASCII character.
+    ///   correspond to an ASCII character.
     ///
     /// # Examples
     ///
