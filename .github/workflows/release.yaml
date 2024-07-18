@@ -10,7 +10,7 @@ on:
 name: Semantic Release
 env:
     RUST_BACKTRACE: 1
-    SEMREL_RUST_VERSION: 2.1.53
+    SEMREL_RUST_VERSION: 2.3.39
 concurrency:
     group: ${{ github.workflow }}
 jobs:
