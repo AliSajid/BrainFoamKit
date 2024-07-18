@@ -19,10 +19,9 @@ tree artifacts
 mkdir -p dist
 
 # Copy binaries with the rust triple to the dist folder
-for arch in $(ls artifacts); do
-  filename=$PREFIX{run,view}-$arch
-  if [ -f "artifacts/$arch/$filename" ]; then
-    cp -v "artifacts/$arch/$filename" "dist/$filename"
+for filename in $(ls artifacts); do
+  if [ -f "artifacts/$filename/$filename" ]; then
+    cp -v "artifacts/$filename/$filename" "dist/$filename"
   fi
 done
 
