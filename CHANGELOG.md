@@ -1,3 +1,9 @@
+## [1.1.0-next.6](https://github.com/AliSajid/BrainFoamKit/compare/v1.1.0-next.5...v1.1.0-next.6) (2024-07-18)
+
+### Bug Fixes
+
+* ignore package.json ([7df57eb](https://github.com/AliSajid/BrainFoamKit/commit/7df57eb429e17d24d9915d4161199230b26d4915))
+
 ## [1.1.0-next.5](https://github.com/AliSajid/BrainFoamKit/compare/v1.1.0-next.4...v1.1.0-next.5) (2024-07-18)
 
 ### Bug Fixes
