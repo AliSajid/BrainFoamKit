@@ -98,13 +98,6 @@ repos:
         - id: remove-crlf
         - id: forbid-tabs
         - id: remove-tabs
-        - args:
-            - --license-filepath
-            - meta/LICENSE-HEADER
-            - --comment-style
-            - //
-          files: \.rs$
-          id: insert-license
     - repo: https://github.com/google/yamlfmt
       rev: v0.13.0
       hooks:
