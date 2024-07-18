@@ -1,3 +1,9 @@
+## [1.1.0-next.4](https://github.com/AliSajid/BrainFoamKit/compare/v1.1.0-next.3...v1.1.0-next.4) (2024-07-18)
+
+### Bug Fixes
+
+* add dist/ to gitignore ([da9ccf0](https://github.com/AliSajid/BrainFoamKit/commit/da9ccf0ed9963be456bf0b83a226b1d2b3e45748))
+
 ## [1.1.0-next.3](https://github.com/AliSajid/BrainFoamKit/compare/v1.1.0-next.2...v1.1.0-next.3) (2024-07-18)
 
 ### Bug Fixes
