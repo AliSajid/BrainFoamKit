@@ -109,7 +109,7 @@ pub enum Instruction {
     JumpBackward,
     /// Instruction to do nothing
     ///
-    /// This does not have a corresponding instruction in BrainFuck
+    /// This does not have a corresponding instruction in `BrainFuck`
     NoOp,
 }
 

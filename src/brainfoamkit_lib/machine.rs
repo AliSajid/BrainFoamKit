@@ -62,14 +62,14 @@ use crate::{
 /// # Fields
 ///
 /// * `tape`: A vector of `Byte` values representing the memory of the machine.
-///  Each `Byte` in the vector is a cell in the memory tape.
+///   Each `Byte` in the vector is a cell in the memory tape.
 /// * `program`: A `Program` instance representing the Brainfuck program that
-/// the machine is executing.
-/// * `memory_pointer`: A `usize` value representing the current position of
-/// the memory pointer. The memory pointer points to a given cell in the memory
-/// tape.
+///   the machine is executing.
+/// * `memory_pointer`: A `usize` value representing the current position of the
+///   memory pointer. The memory pointer points to a given cell in the memory
+///   tape.
 /// * `program_counter`: A `usize` that represents which instruction of the
-/// `Program` is being executed right now.
+///   `Program` is being executed right now.
 ///
 /// # Example
 ///
@@ -466,7 +466,7 @@ where
         self.tape[self.memory_pointer].decrement();
     }
 
-    fn output_value(&mut self) {
+    fn output_value(&self) {
         todo!("Implement output_value")
     }
 
@@ -477,11 +477,11 @@ where
         }
     }
 
-    fn jump_forward(&mut self) {
+    fn jump_forward(&self) {
         todo!("Implement jump_forward")
     }
 
-    fn jump_backward(&mut self) {
+    fn jump_backward(&self) {
         todo!("Implement jump_backward")
     }
 }
@@ -706,7 +706,7 @@ mod tests {
         let input_device = MockReader {
             data: Cursor::new("A".as_bytes().to_vec()),
         };
-        let mut machine = VirtualMachine::builder()
+        let machine = VirtualMachine::builder()
             .input_device(input_device)
             .build()
             .unwrap();
@@ -759,7 +759,7 @@ mod tests {
         let input_device = MockReader {
             data: Cursor::new("A".as_bytes().to_vec()),
         };
-        let mut machine = VirtualMachine::builder()
+        let machine = VirtualMachine::builder()
             .input_device(input_device)
             .build()
             .unwrap();
@@ -772,7 +772,7 @@ mod tests {
         let input_device = MockReader {
             data: Cursor::new("A".as_bytes().to_vec()),
         };
-        let mut machine = VirtualMachine::builder()
+        let machine = VirtualMachine::builder()
             .input_device(input_device)
             .build()
             .unwrap();

@@ -40,7 +40,7 @@ codegen-units = 1
 [dev-dependencies]
 tempfile = "3.9.0"
 
-[build-dependencies]
-mdbook = "0.4.36"
-mdbook-inline-highlighting = "0.1.0"
-mdbook-plantuml = "0.8.0"
+# Dependencies needed to build the book
+# mdbook ~ "0.4.36"
+# mdbook-inline-highlighting = "0.1.0"
+# mdbook-plantuml = "0.8.0"

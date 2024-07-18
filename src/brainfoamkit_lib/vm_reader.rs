@@ -107,10 +107,10 @@ pub enum VMReaderType {
     Stdin,
     /// A file as implemented by the [std::fs::File struct](https://doc.rust-lang.org/std/fs/struct.File.html)
     File,
-    /// A mock reader as implemented by the [MockReader
+    /// A mock reader as implemented by the [`MockReader`
     /// struct](struct.MockReader.html)
     Mock,
-    /// The default type of VMReader
+    /// The default type of `VMReader`
     Unknown,
 }
 /// The `VMReader` trait

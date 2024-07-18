@@ -12,9 +12,11 @@ edition = "2021"
 plantuml-cmd="http://www.plantuml.com/plantuml"
 
 [preprocessor.inline-highlighting]
+default-language = "rust"
 
 [output.html]
 git-repository-url = "https://github.com/AliSajid/brainfoamkit"
+mathjax-support = true
 
 [output.html.print]
 enable = true

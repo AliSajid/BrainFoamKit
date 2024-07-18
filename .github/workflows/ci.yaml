@@ -3,6 +3,11 @@
 # SPDX-License-Identifier: Apache-2.0
 # SPDX-License-Identifier: MIT
 
+# SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+#
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: MIT
+
 ---
 name: Continuous integration
 on:
@@ -58,6 +63,7 @@ jobs:
                     - beta
                     - nightly
                     - 1.75 # MSRV
+                    - 1.75 # MSRV
                 os:
                     - windows
                     - ubuntu
@@ -70,6 +76,7 @@ jobs:
                     - os: macos
                       logo: apple
                     - rust: 1.75 # MSRV
+                    - rust: 1.75 # MSRV
                       label: msrv
                     - rust: stable
                       label: stable
@@ -78,6 +85,7 @@ jobs:
                     - rust: nightly
                       label: nightly
         steps:
+            - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
             - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
             - name: Install Rust
               if: ${{ needs.check_changed_dirs.outputs.source_changed == 'true' }}
@@ -108,7 +116,7 @@ jobs:
               run: cargo clippy -- -D warnings
             - name: Wait before badge creation
               if: ${{ needs.check_changed_dirs.outputs.source_changed == 'true' }}
-              uses: AliSajid/random-wait-action@f9109712daa7a8103f7be16b68634b9d376587a7 # v2.4.1
+              uses: AliSajid/random-wait-action@1b5e44cb823eb8790ca12e1cc6c555febbca4164 # v2.4.0
               with:
                 minimum: ${{env.MINIMUM_WAIT}}
                 maximum: ${{env.MAXIMUM_WAIT}}
@@ -147,10 +155,6 @@ jobs:
         uses: ./.github/workflows/deploy_mdbook.yaml
         needs: [check_changed_dirs]
         if: ${{needs.check_changed_dirs.outputs.book_changed == 'true'}}
-        secrets: inherit # pragma: allowlist secret
-    generate_mdbook:
-        uses: ./.github/workflows/deploy_mdbook.yaml
-        needs: [ci]
         secrets: inherit # pragma: allowlist secret
     get-next-version:
         uses: ./.github/workflows/get_next_version.yaml
