@@ -1,3 +1,9 @@
+## [1.1.0-next.3](https://github.com/AliSajid/BrainFoamKit/compare/v1.1.0-next.2...v1.1.0-next.3) (2024-07-18)
+
+### Bug Fixes
+
+* add additional logging to the publish step ([0b6b5ba](https://github.com/AliSajid/BrainFoamKit/commit/0b6b5bac04a76267a0059b70e6c0b580467344d1))
+
 ## [1.1.0-next.2](https://github.com/AliSajid/BrainFoamKit/compare/v1.1.0-next.1...v1.1.0-next.2) (2024-07-18)
 
 ### Bug Fixes
