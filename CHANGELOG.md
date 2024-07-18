@@ -1,3 +1,9 @@
+## [1.1.0-next.2](https://github.com/AliSajid/BrainFoamKit/compare/v1.1.0-next.1...v1.1.0-next.2) (2024-07-18)
+
+### Bug Fixes
+
+* update semantic-release-cargo version ([59a1a59](https://github.com/AliSajid/BrainFoamKit/commit/59a1a59873abd294731374a121931bf850b6e276))
+
 ## [1.1.0-next.1](https://github.com/AliSajid/BrainFoamKit/compare/v1.0.0...v1.1.0-next.1) (2024-07-18)
 
 ### Features
