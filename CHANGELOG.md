@@ -1,3 +1,9 @@
+## [1.1.0-next.5](https://github.com/AliSajid/BrainFoamKit/compare/v1.1.0-next.4...v1.1.0-next.5) (2024-07-18)
+
+### Bug Fixes
+
+* ignore other files ([12efda7](https://github.com/AliSajid/BrainFoamKit/commit/12efda7d45c9eadf2493a71cc4757cdf85ace8a1))
+
 ## [1.1.0-next.4](https://github.com/AliSajid/BrainFoamKit/compare/v1.1.0-next.3...v1.1.0-next.4) (2024-07-18)
 
 ### Bug Fixes
