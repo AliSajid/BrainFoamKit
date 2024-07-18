@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+
+SPDX-License-Identifier: CC0-1.0
+-->
+
 ## [1.1.0-next.1](https://github.com/AliSajid/BrainFoamKit/compare/v1.0.0...v1.1.0-next.1) (2024-07-18)
 
 ### Features
@@ -20,12 +26,12 @@
 
 ### ⚠ BREAKING CHANGES
 
-* **VM:** 
+* **VM:**
 * **VMBuilder:** closes #3
-* **Machine:** 
+* **Machine:**
 * **Program:** closes #2
-* 
-* **test_get_bit:** 
+*
+* **test_get_bit:**
 
 ### Features
 
@@ -95,7 +101,7 @@
 
 ### ⚠ BREAKING CHANGES
 
-* **VM:** 
+* **VM:**
 
 ### Features
 
@@ -122,10 +128,10 @@
 ## 1.0.0-beta.1 (2023-12-28)
 
 * **VMBuilder:** closes #3
-* **Machine:** 
+* **Machine:**
 * **Program:** closes #2
-* 
-* **test_get_bit:** 
+*
+* **test_get_bit:**
 
 ### Features
 
