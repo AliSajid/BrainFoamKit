@@ -1,3 +1,10 @@
+<!--
+SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+
+SPDX-License-Identifier: Apache-2.0
+SPDX-License-Identifier: MIT
+-->
+
 # Introduction
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/AliSajid/brainfoamkit)

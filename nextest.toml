@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+#
+# SPDX-License-Identifier: CC0-1.0
+
 # This is the default config used by nextest. It is embedded in the binary at
 # build time. It may be used as a template for .config/nextest.toml.
 

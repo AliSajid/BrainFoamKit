@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+#
+# SPDX-License-Identifier: CC0-1.0
+
 # Accepted licesnes by default
 accepted = ["Apache-2.0", "MIT"]
 targets = [

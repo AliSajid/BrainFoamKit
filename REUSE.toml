@@ -1,0 +1,52 @@
+# SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+#
+# SPDX-License-Identifier: CC0-1.0
+
+version = 1
+
+[[annotations]]
+path = [
+    ".gitleaksignore",
+    ".gitignore",
+    ".secrets.baseline",
+    ".markdownlintignore",
+    ".vscode/*",
+    "guide/.gitignore"
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2023 - 2024 Ali Sajid Imami"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "Cargo.lock"
+precedence = "override"
+SPDX-FileCopyrightText = "2023 - 2024 Ali Sajid Imami"
+SPDX-License-Identifier = "MIT OR Apache-2.0"
+
+[[annotations]]
+path = [
+    "licenses_report.md",
+    "licenses_report.json",
+    "renovate.json",
+    ".markdownlint.json"
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2023 - 2024 Ali Sajid Imami"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = [
+    "lang/grammar.ebnf",
+    "lang/railroad/*.svg"
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2023 - 2024 Ali Sajid Imami"
+SPDX-License-Identifier = "MIT OR Apache-2.0"
+
+[[annotations]]
+path = [
+    "guide/src/mdbook-plantuml-img/*.svg"
+]
+precedence = "override"
+SPDX-FileCopyrightText = "2023 - 2024 Ali Sajid Imami"
+SPDX-License-Identifier = "MIT OR Apache-2.0"
