@@ -83,4 +83,8 @@ target/
 # Cargo watch trigger file (https://crates.io/crates/cargo-watch)
 .trigger*
 
+# Allow the build scripts
 !scripts/
+
+# Ignore dist/ folder
+dist/

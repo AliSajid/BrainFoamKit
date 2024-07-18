@@ -9,9 +9,6 @@ set -x
 
 # Set the necessary variables
 
-# Set the prefix for the binary
-PREFIX="bfk"
-
 # Check the files in the source folder
 tree artifacts
 
