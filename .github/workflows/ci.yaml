@@ -3,11 +3,6 @@
 # SPDX-License-Identifier: Apache-2.0
 # SPDX-License-Identifier: MIT
 
-# SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
-#
-# SPDX-License-Identifier: Apache-2.0
-# SPDX-License-Identifier: MIT
-
 ---
 name: Continuous integration
 on:
@@ -63,27 +58,25 @@ jobs:
                     - beta
                     - nightly
                     - 1.75 # MSRV
-                    - 1.75 # MSRV
                 os:
                     - windows
                     - ubuntu
                     - macos
                 include:
-                    - os: windows
-                      logo: windows
-                    - os: ubuntu
-                      logo: ubuntu
-                    - os: macos
-                      logo: apple
-                    - rust: 1.75 # MSRV
-                    - rust: 1.75 # MSRV
-                      label: msrv
-                    - rust: stable
-                      label: stable
-                    - rust: beta
-                      label: beta
-                    - rust: nightly
-                      label: nightly
+                  - os: windows
+                    logoSvg: "<svg role=\"img\" viewBox=\"0 0 24 24\" xmlns=\"http://www.w3.org/2000/svg\"><title>Windows</title><path d=\"M0,0H11.377V11.372H0ZM12.623,0H24V11.372H12.623ZM0,12.623H11.377V24H0Zm12.623,0H24V24H12.623\"/></svg>"
+                  - os: ubuntu
+                    logoSvg: "<svg role=\"img\" viewBox=\"0 0 24 24\" xmlns=\"http://www.w3.org/2000/svg\"><title>Ubuntu</title><path d=\"M17.61.455a3.41 3.41 0 0 0-3.41 3.41 3.41 3.41 0 0 0 3.41 3.41 3.41 3.41 0 0 0 3.41-3.41 3.41 3.41 0 0 0-3.41-3.41zM12.92.8C8.923.777 5.137 2.941 3.148 6.451a4.5 4.5 0 0 1 .26-.007 4.92 4.92 0 0 1 2.585.737A8.316 8.316 0 0 1 12.688 3.6 4.944 4.944 0 0 1 13.723.834 11.008 11.008 0 0 0 12.92.8zm9.226 4.994a4.915 4.915 0 0 1-1.918 2.246 8.36 8.36 0 0 1-.273 8.303 4.89 4.89 0 0 1 1.632 2.54 11.156 11.156 0 0 0 .559-13.089zM3.41 7.932A3.41 3.41 0 0 0 0 11.342a3.41 3.41 0 0 0 3.41 3.409 3.41 3.41 0 0 0 3.41-3.41 3.41 3.41 0 0 0-3.41-3.41zm2.027 7.866a4.908 4.908 0 0 1-2.915.358 11.1 11.1 0 0 0 7.991 6.698 11.234 11.234 0 0 0 2.422.249 4.879 4.879 0 0 1-.999-2.85 8.484 8.484 0 0 1-.836-.136 8.304 8.304 0 0 1-5.663-4.32zm11.405.928a3.41 3.41 0 0 0-3.41 3.41 3.41 3.41 0 0 0 3.41 3.41 3.41 3.41 0 0 0 3.41-3.41 3.41 3.41 0 0 0-3.41-3.41z\"/></svg>"
+                  - os: macos
+                    logoSvg: "<svg role=\"img\" viewBox=\"0 0 24 24\" xmlns=\"http://www.w3.org/2000/svg\"><title>Apple</title><path d=\"M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701\"/></svg>"
+                  - rust: 1.75 # MSRV
+                    label: msrv
+                  - rust: stable
+                    label: stable
+                  - rust: beta
+                    label: beta
+                  - rust: nightly
+                    label: nightly
         steps:
             - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
             - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
@@ -128,9 +121,10 @@ jobs:
                 gistID: ${{env.GIST_KEY}}
                 filename: ${{matrix.os}}-${{matrix.label}}.json
                 label: Build
-                namedLogo: ${{matrix.logo}}
+                labelColor: lightgrey
+                logoSvg: ${{matrix.logoSvg}}
                 message: Succeeded
-                color: green
+                color: darkgreen
             - name: Create Awesome Badge - Failure
               uses: schneegans/dynamic-badges-action@e9a478b16159b4d31420099ba146cdc50f134483 # v1.7.0
               if: failure()
@@ -138,8 +132,9 @@ jobs:
                 auth: ${{secrets.GIST_SECRET}}
                 gistID: ${{env.GIST_KEY}}
                 filename: ${{matrix.os}}-${{matrix.label}}.json
-                namedLogo: ${{matrix.logo}}
+                logoSvg: ${{matrix.logoSvg}}
                 label: Build
+                labelColor: lightgrey
                 message: Failed
                 isError: true
             - name: Set Result
