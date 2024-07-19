@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
       - name: Decide Deployment Environment
         id: deployment_environment
         run: |
@@ -31,7 +31,7 @@ jobs:
             echo echo "PROJECT_ENVIRONMENT=preview" >> $GITHUB_ENV
           fi
       - name: Setup NodeJS
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4
         with:
           node-version: '18'
       - name: Install pnpm
@@ -43,7 +43,7 @@ jobs:
         shell: bash
         run: |
           echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-      - uses: actions/cache@v3
+      - uses: actions/cache@0c45773b623bea8c8e75f6c82b208c3cf94ea4f9 # v4
         name: Setup pnpm cache
         with:
           path: ${{ env.STORE_PATH }}
