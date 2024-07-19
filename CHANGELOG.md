@@ -1,3 +1,9 @@
+## [1.1.0-next.7](https://github.com/AliSajid/BrainFoamKit/compare/v1.1.0-next.6...v1.1.0-next.7) (2024-07-19)
+
+### Features
+
+* **guide:** add the complete EBNF grammar for brainfuck ([fa3beae](https://github.com/AliSajid/BrainFoamKit/commit/fa3beaee29f66c0e4b1a3b6c69171bb22ba31757))
+
 ## [1.1.0-next.6](https://github.com/AliSajid/BrainFoamKit/compare/v1.1.0-next.5...v1.1.0-next.6) (2024-07-18)
 
 ### Bug Fixes
