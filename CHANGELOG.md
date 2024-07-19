@@ -1,3 +1,26 @@
+## [1.1.0](https://github.com/AliSajid/BrainFoamKit/compare/v1.0.0...v1.1.0) (2024-07-19)
+
+### Features
+
+* **guide:** add the complete EBNF grammar for brainfuck ([fa3beae](https://github.com/AliSajid/BrainFoamKit/commit/fa3beaee29f66c0e4b1a3b6c69171bb22ba31757))
+* **guide:** add the complete EBNF grammar for brainfuck ([cc5c98d](https://github.com/AliSajid/BrainFoamKit/commit/cc5c98d75ae325d3f4bdd763cb9daab104f66370))
+
+### Bug Fixes
+
+* add additional logging to the publish step ([0b6b5ba](https://github.com/AliSajid/BrainFoamKit/commit/0b6b5bac04a76267a0059b70e6c0b580467344d1))
+* add dist/ to gitignore ([da9ccf0](https://github.com/AliSajid/BrainFoamKit/commit/da9ccf0ed9963be456bf0b83a226b1d2b3e45748))
+* clear out clippy warnings for incorrect formatting ([f7f09ce](https://github.com/AliSajid/BrainFoamKit/commit/f7f09ce13e316c88b58e4ec1976a74e867075ad9))
+* **deps:** update rust crate anyhow to v1.0.86 ([534d936](https://github.com/AliSajid/BrainFoamKit/commit/534d936d414e85962ff141a9690a75dba70171d9))
+* **deps:** update rust crate ratatui to 0.27.0 ([7f0f47a](https://github.com/AliSajid/BrainFoamKit/commit/7f0f47a83a67614b0e5288f5946d469616ed74c9))
+* ensure the build script is part of the repo ([2950d0d](https://github.com/AliSajid/BrainFoamKit/commit/2950d0d1068dd18e84972c2f28b03f14df02fe8f))
+* ignore other files ([12efda7](https://github.com/AliSajid/BrainFoamKit/commit/12efda7d45c9eadf2493a71cc4757cdf85ace8a1))
+* ignore package.json ([7df57eb](https://github.com/AliSajid/BrainFoamKit/commit/7df57eb429e17d24d9915d4161199230b26d4915))
+* modify the EBNF grammar for completion ([d15a2e0](https://github.com/AliSajid/BrainFoamKit/commit/d15a2e06108fcb83c79ddd9af1e84c5006f3bb6f))
+* modify the EBNF grammar for completion ([bd067e6](https://github.com/AliSajid/BrainFoamKit/commit/bd067e6126eb8dce19810465d610713bc5511f7c))
+* uniquely identify the uploaded artifacts ([8ee0991](https://github.com/AliSajid/BrainFoamKit/commit/8ee099127b1d0368603824e01026e154ec730baa))
+* update semantic-release-cargo version ([59a1a59](https://github.com/AliSajid/BrainFoamKit/commit/59a1a59873abd294731374a121931bf850b6e276))
+* update the build script for correct directories ([abda8cf](https://github.com/AliSajid/BrainFoamKit/commit/abda8cfd158311aed95ca4b8b62b29befa6fe057))
+
 ## [1.1.0-next.7](https://github.com/AliSajid/BrainFoamKit/compare/v1.1.0-next.6...v1.1.0-next.7) (2024-07-19)
 
 ### Features
