@@ -19,6 +19,9 @@ env:
 jobs:
   deploy_book:
     runs-on: ubuntu-latest
+    env:
+      PROJECT_ENVIRONMENT: ''
+      STORE_PATH: ''
     steps:
       - name: Checkout the Repository
         uses: actions/checkout@v3
@@ -57,13 +60,11 @@ jobs:
           toolchain: stable
       - name: Cache dependencies
         uses: Swatinem/rust-cache@6fd3edff6979b79f87531400ad694fb7f2c84b1f # v2.2.1
-      - name: Install cross
+      - name: Install Rust Dependencies
         uses: taiki-e/install-action@v2
         with:
-          tool: cargo-binstall
-      - name: Install dependencies
-        run: cargo binstall mdbook mdbook-plantuml mdbook-inline-highlighting
-      - name: Install dependencies
+          tool: mdbook,mdbook-plantuml,mdbook-inline-highlighting
+      - name: Install Vercel Dependencies
         run: pnpm install -g vercel@latest
       - name: Populate Preview Variables
         run: vercel pull --yes --environment=${{env.PROJECT_ENVIRONMENT}} --token=${{ env.VERCEL_TOKEN }}
