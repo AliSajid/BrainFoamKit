@@ -20,10 +20,10 @@ forcing oneself to think.
 
 The examples of the languages that follow each of the purposes above are:
 
-- Research: [Binary lambda calculus](https://esolangs.org/wiki/Binary_lambda_calculus)
-- Challenge: [Malbolge](https://esolangs.org/wiki/Malbolge)
-- Art: [Piet](https://esolangs.org/wiki/Piet)
-- Fun: [LOLCODE](https://esolangs.org/wiki/LOLCODE)
+- Research: [Binary lambda calculus](https://esolangs.org/wiki/Binary_lambda_calculus) is an esolang that is designed to be representable by bits or bytes, encoding lambda calculus.
+- Challenge: [Malbolge](https://esolangs.org/wiki/Malbolge) is an esolang designed to be extremely difficult to program in.
+- Art: [Piet](https://esolangs.org/wiki/Piet) is an esolang where programs take the shape of bitmaps of abstract art.
+- Fun: [LOLCODE](https://esolangs.org/wiki/LOLCODE) is an esolang that purportedly reads as if the lolcats cats were writing code.
 
 ## Brainf**k
 
@@ -53,3 +53,9 @@ The conditions for Turing Completeness are:
 1. The array is unbounded, or in other words, the memory tape is infinite.
    OR
 2. The array is at least three cells long and each cell can store unbounded (infinite) values.
+
+
+If either of the above mentioned conditions are met, then Brainf**k is a Turing Complete language. The requirements for
+certain things to be _unbounded_ may seem to indicate that it is impossible. However, in practice, the _unbounded_ condition is
+irrelevant for practical considerations, particularly if you consider modern computers with large memory sizes. In fact, it should
+be trivial to implement a VM for Brainf**k that has a practically unbounded memory tape.
