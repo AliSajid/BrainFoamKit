@@ -28,7 +28,8 @@ path = [
     "licenses_report.md",
     "licenses_report.json",
     "renovate.json",
-    ".markdownlint.json"
+    ".markdownlint.json",
+    "CHANGELOG.md"
 ]
 precedence = "override"
 SPDX-FileCopyrightText = "2023 - 2024 Ali Sajid Imami"
@@ -37,14 +38,7 @@ SPDX-License-Identifier = "CC0-1.0"
 [[annotations]]
 path = [
     "lang/grammar.ebnf",
-    "lang/railroad/*.svg"
-]
-precedence = "override"
-SPDX-FileCopyrightText = "2023 - 2024 Ali Sajid Imami"
-SPDX-License-Identifier = "MIT OR Apache-2.0"
-
-[[annotations]]
-path = [
+    "lang/railroad/*.svg",
     "guide/src/mdbook-plantuml-img/*.svg"
 ]
 precedence = "override"
