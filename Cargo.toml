@@ -1,6 +1,10 @@
+# SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+#
+# SPDX-License-Identifier: CC0-1.0
+
 [package]
 name = "brainfoamkit"
-version = "1.0.0"
+version = "1.1.0-next.7"
 edition = "2021"
 readme = "README.md"
 description = "An interpreter for the brainf*** language"
@@ -25,7 +29,7 @@ path = "src/brainfoamkit_interpreter/main.rs"
 anyhow = { version = "1.0.79", features = ["backtrace"] }
 crossterm = "0.27.0"
 prettytable-rs = "0.10.0"
-ratatui = { version = "0.25.0", features = ["macros", "serde", "document-features"] }
+ratatui = { version = "0.27.0", features = ["macros", "serde", "document-features"] }
 
 [profile.dev]
 opt-level = 1
@@ -40,7 +44,7 @@ codegen-units = 1
 [dev-dependencies]
 tempfile = "3.9.0"
 
-[build-dependencies]
-mdbook = "0.4.36"
-mdbook-inline-highlighting = "0.1.0"
-mdbook-plantuml = "0.8.0"
+# Dependencies needed to build the book
+# mdbook ~ "0.4.36"
+# mdbook-inline-highlighting = "0.1.0"
+# mdbook-plantuml = "0.8.0"

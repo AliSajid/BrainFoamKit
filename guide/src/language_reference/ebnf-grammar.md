@@ -1,3 +1,10 @@
+<!--
+SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+
+SPDX-License-Identifier: Apache-2.0
+SPDX-License-Identifier: MIT
+-->
+
 # EBNF Grammar
 
 ## Introduction
@@ -115,7 +122,7 @@ input = ",";
 
 #### Loop Start
 
-The `loop_start` operation is represented by the `[` symbol. This operation marks the start of a loop. The nearest `loop_end` instruction will refer to this. This operation translates into marking the current instruction as the start of a loop.
+The `loop_start` operation is represented by the `\[` symbol. This operation marks the start of a loop. The nearest `loop_end` instruction will refer to this. This operation translates into marking the current instruction as the start of a loop.
 
 ```ebnf
 loop_start = "[";

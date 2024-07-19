@@ -10,7 +10,7 @@ on:
 name: Semantic Release
 env:
     RUST_BACKTRACE: 1
-    SEMREL_RUST_VERSION: 2.1.53
+    SEMREL_RUST_VERSION: 2.3.39
 concurrency:
     group: ${{ github.workflow }}
 jobs:
@@ -74,7 +74,7 @@ jobs:
             - name: Cache dependencies
               uses: Swatinem/rust-cache@23bce251a8cd2ffc3c1075eaa2367cf899916d84 # v2.7.3
             - name: Install cross
-              uses: taiki-e/install-action@b6880389f33347ffd265f5e9d76f95335616c9f3 # v2.41.6
+              uses: taiki-e/install-action@37461a1de4134bec919a737ee9ba018e72011b7c # v2.42.4
               with:
                 tool: cross
             - name: Configure cross
@@ -95,18 +95,12 @@ jobs:
               run: |
                 mkdir dist
                 cp target/${{ matrix.build.target }}/release/${{ matrix.bin }} dist/${{ matrix.bin }}-${{ matrix.build.target }}
-            - name: Create binary checksum
-              run: |
-                shasum --algorithm 256 \
-                --binary ${{ matrix.bin }}-${{ matrix.build.target }} | tee ${{ matrix.bin }}-${{ matrix.build.target }}-SHA256SUM.txt
-              working-directory: ./dist
             - name: Upload release artifacts
-              uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+              uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
               with:
-                name: ${{ matrix.build.target }}
+                name: ${{ matrix.bin }}-${{ matrix.build.target }}
                 path: |
                     dist/${{ matrix.bin }}-${{ matrix.build.target }}
-                    dist/${{ matrix.bin }}-${{ matrix.build.target }}-SHA256SUM.txt
                 if-no-files-found: error
                 retention-days: 1
     release:
@@ -141,11 +135,11 @@ jobs:
             - name: Install dependencies
               run: sudo apt install tree
             - name: Install semantic-release-cargo
-              uses: taiki-e/install-action@b6880389f33347ffd265f5e9d76f95335616c9f3 # v2.41.6
+              uses: taiki-e/install-action@37461a1de4134bec919a737ee9ba018e72011b7c # v2.42.4
               with:
                 tool: semantic-release-cargo@${{env.SEMREL_RUST_VERSION}}
             - name: Download release artifacts
-              uses: actions/download-artifact@65a9edc5881444af0b9093a5e628f2fe47ea3b2e # v4.1.7
+              uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
               with:
                 path: artifacts
             - name: ls artifacts

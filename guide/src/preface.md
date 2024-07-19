@@ -1,3 +1,10 @@
+<!--
+SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+
+SPDX-License-Identifier: Apache-2.0
+SPDX-License-Identifier: MIT
+-->
+
 # Preface
 
 In many ways, this is more than just a passion project; it's a journey through the realms of curiosity and perseverance. While at times it might seem like an exercise in futility, this project and the subsequent documentation of my adventures in its pursuit serve as a testament to the possibility of completion, not only for myself but for all the fellow procrastinators out there.
