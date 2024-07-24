@@ -130,3 +130,7 @@ repos:
       rev: v8.18.4
       hooks:
         - id: gitleaks
+    - repo: https://github.com/fsfe/reuse-tool
+      rev: v4.0.3
+      hooks:
+        - id: reuse
