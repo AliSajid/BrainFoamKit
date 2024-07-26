@@ -74,7 +74,7 @@ jobs:
             - name: Cache dependencies
               uses: Swatinem/rust-cache@23bce251a8cd2ffc3c1075eaa2367cf899916d84 # v2.7.3
             - name: Install cross
-              uses: taiki-e/install-action@a61689725720f6f0db45726338d52b7031c0e3df # v2.42.6
+              uses: taiki-e/install-action@49053c01a2b3f55bef30f4c9d3e64c9cff7c38ea # v2.42.7
               with:
                 tool: cross
             - name: Configure cross
@@ -135,7 +135,7 @@ jobs:
             - name: Install dependencies
               run: sudo apt install tree
             - name: Install semantic-release-cargo
-              uses: taiki-e/install-action@a61689725720f6f0db45726338d52b7031c0e3df # v2.42.6
+              uses: taiki-e/install-action@49053c01a2b3f55bef30f4c9d3e64c9cff7c38ea # v2.42.7
               with:
                 tool: semantic-release-cargo@${{env.SEMREL_RUST_VERSION}}
             - name: Download release artifacts
