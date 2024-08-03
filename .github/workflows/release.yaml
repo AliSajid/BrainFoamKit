@@ -74,7 +74,7 @@ jobs:
             - name: Cache dependencies
               uses: Swatinem/rust-cache@23bce251a8cd2ffc3c1075eaa2367cf899916d84 # v2.7.3
             - name: Install cross
-              uses: taiki-e/install-action@3451569d988f3b0b3eaccd1d1b539a75ec96f192 # v2.42.14
+              uses: taiki-e/install-action@f01eb80f09bf29765801ebe1894eabfe8b47d967 # v2.42.16
               with:
                 tool: cross
             - name: Configure cross
@@ -96,7 +96,7 @@ jobs:
                 mkdir dist
                 cp target/${{ matrix.build.target }}/release/${{ matrix.bin }} dist/${{ matrix.bin }}-${{ matrix.build.target }}
             - name: Upload release artifacts
-              uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
+              uses: actions/upload-artifact@89ef406dd8d7e03cfd12d9e0a4a378f454709029 # v4.3.5
               with:
                 name: ${{ matrix.bin }}-${{ matrix.build.target }}
                 path: |
@@ -135,7 +135,7 @@ jobs:
             - name: Install dependencies
               run: sudo apt install tree
             - name: Install semantic-release-cargo
-              uses: taiki-e/install-action@3451569d988f3b0b3eaccd1d1b539a75ec96f192 # v2.42.14
+              uses: taiki-e/install-action@f01eb80f09bf29765801ebe1894eabfe8b47d967 # v2.42.16
               with:
                 tool: semantic-release-cargo@${{env.SEMREL_RUST_VERSION}}
             - name: Download release artifacts
