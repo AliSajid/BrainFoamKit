@@ -15,6 +15,16 @@
         "dependencies",
         "renovate"
     ],
+    "lockFileMaintenance": {
+        "branchTopic": "lock-file-maintenance",
+        "commitMessageAction": "Lock file maintenance",
+        "enabled": false,
+        "rebaseStalePrs": true,
+        "recreateWhen": "always",
+        "schedule": [
+            "before 4am on monday"
+        ]
+    },
     "packageRules": [
         {
             "automerge": true,
@@ -45,7 +55,7 @@
             ]
         }
     ],
-    "platformCommit": true,
+    "platformCommit": "enabled",
     "pre-commit": {
         "enabled": true
     },
