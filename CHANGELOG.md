@@ -1,3 +1,9 @@
+## [1.1.1-next.1](https://github.com/AliSajid/BrainFoamKit/compare/v1.1.0...v1.1.1-next.1) (2024-08-06)
+
+### Bug Fixes
+
+* **deps:** update rust crate crossterm to 0.28.0 ([36d468b](https://github.com/AliSajid/BrainFoamKit/commit/36d468b5e882dbaec01373952bf6411349673cdb))
+
 ## [1.1.0](https://github.com/AliSajid/BrainFoamKit/compare/v1.0.0...v1.1.0) (2024-07-19)
 
 ### Features
