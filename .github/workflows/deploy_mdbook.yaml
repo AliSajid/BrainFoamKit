@@ -26,13 +26,13 @@ jobs:
       - name: Checkout the Repository
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
       - name: Install mdbook
-        uses: taiki-e/install-action@c4b9b42ecf7c8bbcd94fa96cf4bf7e8ab56f9315 # v2.42.17
+        uses: taiki-e/install-action@d79dff47733726f636463323dd2d82724f6c36ba # v2.42.18
         with:
           tool: mdbook
       - name: Build the Book
         run: mdbook build guide
       - name: Upload artifact
-        uses: actions/upload-artifact@89ef406dd8d7e03cfd12d9e0a4a378f454709029 # v4.3.5
+        uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a # v4.3.6
         with:
           name: book
           path: guide/book
