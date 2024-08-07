@@ -71,7 +71,7 @@ jobs:
                   password: ${{ secrets.GHCR_TOKEN }}
             - name: Build and Push Docker Images
               id: build
-              uses: docker/build-push-action@5176d81f87c23d6fc96624dfdbcd9f3830bbe445 # v6.5.0
+              uses: docker/build-push-action@4f7cdeb0f05278b464e71357394bf2c61f94138e # v6.6.0
               env:
                 SOURCE_DATE_EPOCH: ${{ env.SOURCE_DATE_EPOCH }}
               with:
@@ -85,7 +85,7 @@ jobs:
             - name: Debug Build
               run: echo "${{join(steps.build.outputs.*, '\n')}}"
             - name: Install cosign
-              uses: sigstore/cosign-installer@59acb6260d9c0ba8f4a2f9d9b48431a222b68e20 # v3.5.0
+              uses: sigstore/cosign-installer@4959ce089c160fddf62f7b42464195ba1a56d382 # v3.6.0
               with:
                 cosign-release: ${{ env.COSIGN_RELEASE_VERSION }}
             - name: Install Syft
