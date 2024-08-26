@@ -1,3 +1,9 @@
+## [1.1.1-next.3](https://github.com/AliSajid/BrainFoamKit/compare/v1.1.1-next.2...v1.1.1-next.3) (2024-08-26)
+
+### Bug Fixes
+
+* **deps:** update rust crate ratatui to v0.28.1 ([02d187c](https://github.com/AliSajid/BrainFoamKit/commit/02d187cf6e46ad333fe996afe889d54bb687237a))
+
 ## [1.1.1-next.2](https://github.com/AliSajid/BrainFoamKit/compare/v1.1.1-next.1...v1.1.1-next.2) (2024-08-10)
 
 ### Bug Fixes

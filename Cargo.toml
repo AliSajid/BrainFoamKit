@@ -4,7 +4,7 @@
 
 [package]
 name = "brainfoamkit"
-version = "1.1.1-next.2"
+version = "1.1.1-next.3"
 edition = "2021"
 readme = "README.md"
 description = "An interpreter for the brainf*** language"
