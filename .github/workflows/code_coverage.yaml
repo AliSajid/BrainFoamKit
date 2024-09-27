@@ -21,7 +21,7 @@ jobs:
             - uses: dtolnay/rust-toolchain@nightly
               with:
                 components: llvm-tools-preview
-            - uses: taiki-e/install-action@58a3efb22c892c0e7d722787ab604b97b62ac694 # v2.44.9
+            - uses: taiki-e/install-action@cbe8580ec991a0ff820fd912a2db18ba22dcbe54 # v2.44.10
               with:
                 tool: cargo-llvm-cov,nextest
             - name: Collect coverage data (including doctests)
