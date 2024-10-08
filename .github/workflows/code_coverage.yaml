@@ -12,16 +12,16 @@ jobs:
         name: Generate Coverage
         runs-on: ubuntu-latest
         container:
-            image: xd009642/tarpaulin:develop-nightly@sha256:56652b0a2ff14bd9aec3fe3c7152416834d3c6655e632f3fd7a5893e9f5c5e43
+            image: xd009642/tarpaulin:develop-nightly@sha256:81639b443dc30490b4fe18bb347f7954e098f05a595a8723f03bf8c58f4b5f14
             options: --security-opt seccomp=unconfined
         steps:
             - name: Checkout repository
-              uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
+              uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4.2.1
             # Nightly Rust is required for cargo llvm-cov --doc.
             - uses: dtolnay/rust-toolchain@nightly
               with:
                 components: llvm-tools-preview
-            - uses: taiki-e/install-action@6d49eff78fe8ad9f571fb25522747f2d9e84be6b # v2.44.24
+            - uses: taiki-e/install-action@e29814c376696105d80cec9e9efaa98bae8e7347 # v2.44.26
               with:
                 tool: cargo-llvm-cov,nextest
             - name: Collect coverage data (including doctests)
