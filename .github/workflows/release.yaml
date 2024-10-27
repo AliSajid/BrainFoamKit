@@ -74,7 +74,7 @@ jobs:
             - name: Cache dependencies
               uses: Swatinem/rust-cache@82a92a6e8fbeee089604da2575dc567ae9ddeaab # v2.7.5
             - name: Install cross
-              uses: taiki-e/install-action@86ec8296ca78c5cfba526854b020d4e58cf41e67 # v2.44.51
+              uses: taiki-e/install-action@de2de18dd28aa26d0ec2a35406466cd5ce3648a2 # v2.44.52
               with:
                 tool: cross
             - name: Configure cross
@@ -119,7 +119,7 @@ jobs:
                 fetch-depth: 0
                 persist-credentials: false
             - name: Import GPG key
-              uses: crazy-max/ghaction-import-gpg@01dd5d3ca463c7f10f7f4f7b4f177225ac661ee4 # v6.1.0
+              uses: crazy-max/ghaction-import-gpg@cb9bde2e2525e640591a934b1fd28eef1dcaf5e5 # v6.2.0
               with:
                 gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
                 passphrase: ${{ secrets.GPG_KEY_PASSPHRASE }}
@@ -135,7 +135,7 @@ jobs:
             - name: Install dependencies
               run: sudo apt install tree
             - name: Install semantic-release-cargo
-              uses: taiki-e/install-action@86ec8296ca78c5cfba526854b020d4e58cf41e67 # v2.44.51
+              uses: taiki-e/install-action@de2de18dd28aa26d0ec2a35406466cd5ce3648a2 # v2.44.52
               with:
                 tool: semantic-release-cargo@${{env.SEMREL_RUST_VERSION}}
             - name: Download release artifacts
