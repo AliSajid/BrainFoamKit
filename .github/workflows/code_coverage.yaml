@@ -12,7 +12,7 @@ jobs:
         name: Generate Coverage
         runs-on: ubuntu-latest
         container:
-            image: xd009642/tarpaulin:develop-nightly@sha256:7e6a3d2e1c4c76817c81b319d1cc069ea3366dab7aebc349cbb3bbedd6305edd
+            image: xd009642/tarpaulin:develop-nightly@sha256:6883db80eb53ec4cbdc7351696dcc5edeeeaa01add22e78e7c58a8630596f096
             options: --security-opt seccomp=unconfined
         steps:
             - name: Checkout repository
