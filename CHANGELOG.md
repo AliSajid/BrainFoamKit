@@ -1,3 +1,9 @@
+## [1.1.1-next.11](https://github.com/AliSajid/BrainFoamKit/compare/v1.1.1-next.10...v1.1.1-next.11) (2025-03-12)
+
+### Bug Fixes
+
+* **deps:** update rust crate anyhow to v1.0.97 ([f986a38](https://github.com/AliSajid/BrainFoamKit/commit/f986a38b2f2a686154903910b44060f8820882ca))
+
 ## [1.1.1-next.10](https://github.com/AliSajid/BrainFoamKit/compare/v1.1.1-next.9...v1.1.1-next.10) (2025-02-25)
 
 ### Bug Fixes
