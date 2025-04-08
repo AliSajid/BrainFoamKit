@@ -12,7 +12,7 @@ jobs:
         name: Generate Coverage
         runs-on: ubuntu-latest
         container:
-            image: xd009642/tarpaulin:develop-nightly@sha256:0caca04d63b7bc4e91df7f275b020006d490eb3dadf03bfeaeb779858a2c5312
+            image: xd009642/tarpaulin:develop-nightly@sha256:4498022a8ebfea4e09d1b3eeb2b5d3adaf1a383bef2a1ac3b4d7746d46d6edea
             options: --security-opt seccomp=unconfined
         steps:
             - name: Checkout repository
@@ -21,7 +21,7 @@ jobs:
             - uses: dtolnay/rust-toolchain@nightly
               with:
                 components: llvm-tools-preview
-            - uses: taiki-e/install-action@f1390fd0d8205ae79e5e57b1d1e300dceeb4163e # v2.49.44
+            - uses: taiki-e/install-action@d4635f2de61c8b8104d59cd4aede2060638378cc # v2.49.45
               with:
                 tool: cargo-llvm-cov,nextest
             - name: Collect coverage data (including doctests)
