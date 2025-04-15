@@ -76,7 +76,7 @@ dependencies = [
 
 [[package]]
 name = "brainfoamkit"
-version = "1.1.1-next.11"
+version = "1.1.1-next.12"
 dependencies = [
  "anyhow",
  "crossterm 0.29.0",
