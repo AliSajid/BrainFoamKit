@@ -77,7 +77,7 @@ repos:
             - --markdown-linebreak-ext=md
           id: trailing-whitespace
     - repo: https://github.com/compilerla/conventional-pre-commit
-      rev: v4.1.0
+      rev: v4.2.0
       hooks:
         - args:
             - build
