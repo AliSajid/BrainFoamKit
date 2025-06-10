@@ -49,7 +49,7 @@ repos:
           files: "Cargo.toml$"
           pass_filenames: true
     - repo: https://github.com/commitizen-tools/commitizen
-      rev: v4.8.2
+      rev: v4.8.3
       hooks:
         - id: commitizen
     - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -127,7 +127,7 @@ repos:
         - id: fix-ligatures
         - id: forbid-bidi-controls
     - repo: https://github.com/zricethezav/gitleaks
-      rev: v8.27.1
+      rev: v8.27.2
       hooks:
         - id: gitleaks
     - repo: https://github.com/fsfe/reuse-tool
@@ -135,6 +135,6 @@ repos:
       hooks:
         - id: reuse
     - repo: https://github.com/renovatebot/pre-commit-hooks
-      rev: 40.48.4
+      rev: 40.48.10
       hooks:
         - id: renovate-config-validator
