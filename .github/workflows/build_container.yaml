@@ -50,7 +50,7 @@ jobs:
             - name: Debug Metadata
               run: echo "${{ steps.meta.outputs.json }}"
             - name: Setup Buildx
-              uses: docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2 # v3.10.0
+              uses: docker/setup-buildx-action@18ce135bb5112fa8ce4ed6c17ab05699d7f3a5e0 # v3.11.0
               with:
                 install: true
                 buildkitd-flags: --debug
@@ -85,7 +85,7 @@ jobs:
             - name: Debug Build
               run: echo "${{join(steps.build.outputs.*, '\n')}}"
             - name: Install cosign
-              uses: sigstore/cosign-installer@3454372f43399081ed03b604cb2d021dabca52bb # v3.8.2
+              uses: sigstore/cosign-installer@fb28c2b6339dcd94da6e4cbcbc5e888961f6f8c3 # v3.9.0
               with:
                 cosign-release: ${{ env.COSIGN_RELEASE_VERSION }}
             - name: Install Syft
