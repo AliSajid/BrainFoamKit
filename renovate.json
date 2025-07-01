@@ -19,7 +19,7 @@
         "branchTopic": "lock-file-maintenance",
         "commitMessageAction": "Lock file maintenance",
         "enabled": false,
-        "rebaseStalePrs": true,
+        "rebaseWhen": "behind-base-branch",
         "recreateWhen": "always",
         "schedule": [
             "before 4am on monday"
