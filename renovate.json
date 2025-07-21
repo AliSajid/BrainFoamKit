@@ -3,7 +3,7 @@
     "assignees": [
         "AliSajid"
     ],
-    "baseBranches": [
+    "baseBranchPatterns": [
         "next"
     ],
     "extends": [
