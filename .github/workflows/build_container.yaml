@@ -32,7 +32,7 @@ jobs:
               run: echo "SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)" >> $GITHUB_ENV
             - name: Generate Docker Metadata
               id: meta
-              uses: docker/metadata-action@902fa8ec7d6ecbf8d84d538b9b233a880e428804 # v5.7.0
+              uses: docker/metadata-action@c1e51972afc2121e065aed6d45c65596fe445f3f # v5.8.0
               with:
                   images: |
                     ${{env.DOCKER_REPOSITORY_NAME}}/${{env.REPOSITORY_NAME}}
@@ -59,12 +59,12 @@ jobs:
               with:
                 platforms: aarch64,amd64
             - name: Login to DockerHub
-              uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 # v3.4.0
+              uses: docker/login-action@184bdaa0721073962dff0199f1fb9940f07167d1 # v3.5.0
               with:
                   username: ${{ env.DOCKER_USERNAME }}
                   password: ${{ secrets.DOCKER_TOKEN }}
             - name: Login to GitHub Container Registry
-              uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 # v3.4.0
+              uses: docker/login-action@184bdaa0721073962dff0199f1fb9940f07167d1 # v3.5.0
               with:
                   registry: ghcr.io
                   username: ${{ github.actor }}
@@ -89,7 +89,7 @@ jobs:
               with:
                 cosign-release: ${{ env.COSIGN_RELEASE_VERSION }}
             - name: Install Syft
-              uses: anchore/sbom-action/download-syft@cee1b8e05ae5b2593a75e197229729eabaa9f8ec # v0.20.2
+              uses: anchore/sbom-action/download-syft@7b36ad622f042cab6f59a75c2ac24ccb256e9b45 # v0.20.4
               with:
                 syft-version: ${{ env.SYFT_VERSION }}
             - name: Sign and Push
