@@ -59,12 +59,12 @@ jobs:
               with:
                 platforms: aarch64,amd64
             - name: Login to DockerHub
-              uses: docker/login-action@184bdaa0721073962dff0199f1fb9940f07167d1 # v3.5.0
+              uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
               with:
                   username: ${{ env.DOCKER_USERNAME }}
                   password: ${{ secrets.DOCKER_TOKEN }}
             - name: Login to GitHub Container Registry
-              uses: docker/login-action@184bdaa0721073962dff0199f1fb9940f07167d1 # v3.5.0
+              uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
               with:
                   registry: ghcr.io
                   username: ${{ github.actor }}
@@ -85,11 +85,11 @@ jobs:
             - name: Debug Build
               run: echo "${{join(steps.build.outputs.*, '\n')}}"
             - name: Install cosign
-              uses: sigstore/cosign-installer@d7543c93d881b35a8faa02e8e3605f69b7a1ce62 # v3.10.0
+              uses: sigstore/cosign-installer@7e8b541eb2e61bf99390e1afd4be13a184e9ebc5 # v3.10.1
               with:
                 cosign-release: ${{ env.COSIGN_RELEASE_VERSION }}
             - name: Install Syft
-              uses: anchore/sbom-action/download-syft@f8bdd1d8ac5e901a77a92f111440fdb1b593736b # v0.20.6
+              uses: anchore/sbom-action/download-syft@aa0e114b2e19480f157109b9922bda359bd98b90 # v0.20.8
               with:
                 syft-version: ${{ env.SYFT_VERSION }}
             - name: Sign and Push
