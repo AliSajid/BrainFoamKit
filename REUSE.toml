@@ -7,11 +7,12 @@ version = 1
 [[annotations]]
 path = [
     ".gitleaksignore",
+    ".gitleaks_baseline.json",
     ".gitignore",
     ".secrets.baseline",
     ".markdownlintignore",
     ".vscode/*",
-    "guide/.gitignore"
+    "guide/.gitignore",
 ]
 precedence = "override"
 SPDX-FileCopyrightText = "2023 - 2024 Ali Sajid Imami"
@@ -29,7 +30,7 @@ path = [
     "licenses_report.json",
     "renovate.json",
     ".markdownlint.json",
-    "CHANGELOG.md"
+    "CHANGELOG.md",
 ]
 precedence = "override"
 SPDX-FileCopyrightText = "2023 - 2024 Ali Sajid Imami"
@@ -39,7 +40,7 @@ SPDX-License-Identifier = "CC0-1.0"
 path = [
     "lang/grammar.ebnf",
     "lang/railroad/*.svg",
-    "guide/src/mdbook-plantuml-img/*.svg"
+    "guide/src/mdbook-plantuml-img/*.svg",
 ]
 precedence = "override"
 SPDX-FileCopyrightText = "2023 - 2024 Ali Sajid Imami"

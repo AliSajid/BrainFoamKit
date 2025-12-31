@@ -83,7 +83,7 @@ local security_checks = new Mapping<String, Step> {
     check = "hk util check-added-large-files --maxkb 2048 {{files}}"
   }
   ["gitleaks"] = new Step {
-    check = "gitleaks git --no-banner --log-level error"
+    check = "gitleaks git --baseline-path .gitleaks_baseline.json --no-banner --log-level error"
   }
 }
 
@@ -98,15 +98,10 @@ local rust_checks = new Mapping<String, Step> {
     check = "cargo +nightly fmt --all --quiet"
   }
   // Name: Run clippy linter
-  ["clippy"] = new Step {
-    types = List("rust")
-    check = "cargo +nightly clippy --quiet --all-targets -- -D warnings"
-  }
+  ["clippy"] = Builtins.cargo_clippy
+
   // Name: Run cargo check
-  ["cargo-check"] = new Step {
-    types = List("rust")
-    check = "cargo +nightly check --all-targets --quiet"
-  }
+  ["cargo-check"] = Builtins.cargo_check
 }
 
 // ============================================================================
