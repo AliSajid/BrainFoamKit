@@ -13,7 +13,8 @@ import "package://github.com/jdx/hk/releases/download/v1.28.0/hk@1.28.0#/Types.p
 // ============================================================================
 local file_format_checks = new Mapping<String, Step> {
   ["check-json"] = Builtins.jq
-  ["check-toml"] = Builtins.taplo
+  ["lint-toml"] = Builtins.taplo
+  ["format-toml"] = Builtins.taplo_format
   ["yamlfmt"] = Builtins.yamlfmt
   ["markdownlint"] = Builtins.markdown_lint
   ["shellcheck"] = Builtins.shellcheck

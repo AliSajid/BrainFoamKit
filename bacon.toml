@@ -14,15 +14,16 @@ summary = true
 wrap = true
 
 [jobs.check]
-command = ["cargo", "check", "--color", "always"]
-need_stdout = false
+  command = ["cargo", "check", "--color", "always"]
+  need_stdout = false
 
 [jobs.check-all]
-command = ["cargo", "check", "--all-targets", "--color", "always"]
-need_stdout = false
+  command = ["cargo", "check", "--all-targets", "--color", "always"]
+  need_stdout = false
 
 [jobs.clippy]
-command = [
+  apply_gitignore = false
+  command = [
     "cargo",
     "+nightly",
     "clippy",
@@ -37,59 +38,58 @@ command = [
     "clippy::unwrap_used",
     "-W",
     "clippy::expect_used",
-]
-need_stdout = false
-apply_gitignore = false
+  ]
+  need_stdout = false
 
 # This job lets you run
 # - all tests: bacon test
 # - a specific test: bacon test -- config::test_default_files
 # - the tests of a package: bacon test -- -- -p config
 [jobs.test]
-command = [
+  command = [
     "cargo",
     "test",
     "--",
     "--color",
-    "always", # https://github.com/Canop/bacon/issues/124
-]
-need_stdout = true
+    "always",  # https://github.com/Canop/bacon/issues/124
+  ]
+  need_stdout = true
 
 [jobs.doc]
-command = ["cargo", "doc", "--color", "always", "--no-deps"]
-need_stdout = false
-on_success = "back"
+  command = ["cargo", "doc", "--color", "always", "--no-deps"]
+  need_stdout = false
+  on_success = "back"
 
 # If the doc compiles, then it opens in your browser and bacon switches
 # to the previous job
 [jobs.doc-open]
-command = ["cargo", "doc", "--color", "always", "--no-deps", "--open"]
-need_stdout = false
-on_success = "back" # so that we don't open the browser at each change
+  command = ["cargo", "doc", "--color", "always", "--no-deps", "--open"]
+  need_stdout = false
+  on_success = "back"                                                    # so that we don't open the browser at each change
 
 # Audit your dependencies for security vulnerabilities
 [jobs.audit]
-command = ["cargo", "audit", "--color", "always"]
-need_stdout = true
+  command = ["cargo", "audit", "--color", "always"]
+  need_stdout = true
 
 # This parameterized job runs the example of your choice, as soon
 # as the code compiles.
 # Call it as
 #    bacon ex -- my-example
 [jobs.ex]
-command = ["cargo", "run", "--color", "always", "--example"]
-allow_warnings = true
-need_stdout = true
+  allow_warnings = true
+  command = ["cargo", "run", "--color", "always", "--example"]
+  need_stdout = true
 
 # You may define here keybindings that would be specific to
 # a project, for example a shortcut to launch a specific job.
 # Shortcuts to internal functions (scrolling, toggling, etc.)
 # should go in your personal global prefs.toml file instead.
 [keybindings]
-# alt-m = "job:my-job"
-ctrl-c = "job:check-all"
-a = "job:audit"
-t = "job:test"
-d = "job:doc"
-o = "job:doc-open"
-c = "job:clippy"
+  # alt-m = "job:my-job"
+  a = "job:audit"
+  c = "job:clippy"
+  ctrl-c = "job:check-all"
+  d = "job:doc"
+  o = "job:doc-open"
+  t = "job:test"

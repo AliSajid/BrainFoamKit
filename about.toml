@@ -5,16 +5,16 @@
 # Accepted licesnes by default
 accepted = ["Apache-2.0", "MIT"]
 targets = [
-    "aarch64-apple-darwin",
-    "aarch64-unknown-linux-gnu",
-    "aarch64-unknown-linux-musl",
-    "i686-unknown-linux-gnu",
-    "i686-unknown-linux-musl",
-    "x86_64-apple-darwin",
-    "x86_64-unknown-linux-gnu",
-    "x86_64-unknown-linux-musl",
-    "x86_64-pc-windows-gnu",
-    "i686-pc-windows-gnu",
+  "aarch64-apple-darwin",
+  "aarch64-unknown-linux-gnu",
+  "aarch64-unknown-linux-musl",
+  "i686-pc-windows-gnu",
+  "i686-unknown-linux-gnu",
+  "i686-unknown-linux-musl",
+  "x86_64-apple-darwin",
+  "x86_64-pc-windows-gnu",
+  "x86_64-unknown-linux-gnu",
+  "x86_64-unknown-linux-musl",
 ]
 
 # Do not ignore any dependencies
@@ -28,38 +28,38 @@ filter-noassertion = true
 # Specify the license from the github page:
 # BSD 3-Clause: https://github.com/phsym/prettytable-rs/blob/master/LICENSE.txt
 [prettytable-rs]
-accepted = ["BSD-3-Clause"]
+  accepted = ["BSD-3-Clause"]
 
 # Specify the license for `adler32`
 # Zlib: https://github.com/remram44/adler32-rs/blob/master/LICENSE
 [adler32]
-accepted = ["Zlib"]
+  accepted = ["Zlib"]
 
 # Specify the triple license for `encoding-rs`
 # MIT: https://github.com/hsivonen/encoding_rs/blob/master/LICENSE-MIT
 # Apache-2.0: https://github.com/hsivonen/encoding_rs/blob/master/LICENSE-APACHE
 # BSD-3-Clause: https://github.com/hsivonen/encoding_rs/blob/master/LICENSE-WHATWG
 [encoding_rs]
-accepted = ["BSD-3-Clause"]
+  accepted = ["BSD-3-Clause"]
 
 # Specify the license for `inotify`
 # ISC: https://github.com/hannobraun/inotify-rs/blob/main/LICENSE
 [inotify]
-accepted = ["ISC"]
+  accepted = ["ISC"]
 
 # Specify the license for `inotify-sys`
 # ISC: https://github.com/hannobraun/inotify-sys/blob/master/LICENSE
 [inotify-sys]
-accepted = ["ISC"]
+  accepted = ["ISC"]
 
 # Specify the license for `notify`
 # CC0-1.0: https://github.com/notify-rs/notify/blob/main/notify/LICENSE-CC0
 [notify]
-accepted = ["CC0-1.0"]
+  accepted = ["CC0-1.0"]
 
 # Specify the triple license for `unicode-ident`
 # MIT: https://github.com/dtolnay/unicode-ident/LICENSE-MIT
 # Apache-2.0: https://github.com/dtolnay/unicode-ident/LICENSE-APACHE
 # Unicode-DFS-2016: https://github.com/dtolnay/unicode-ident/LICENSE-UNICODE
 [unicode-ident]
-accepted = ["Unicode-DFS-2016"]
+  accepted = ["Unicode-DFS-2016"]

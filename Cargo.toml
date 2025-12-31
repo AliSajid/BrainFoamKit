@@ -3,48 +3,54 @@
 # SPDX-License-Identifier: CC0-1.0
 
 [package]
-name = "brainfoamkit"
-version = "1.1.1-next.12"
-edition = "2021"
-readme = "README.md"
-description = "An interpreter for the brainf*** language"
-rust-version = "1.70.0"
-repository = "https://github.com/AliSajid/brainfoamkit"
-license = "MIT OR Apache-2.0"
+  name = "brainfoamkit"
+  version = "1.1.1-next.12"
+  edition = "2021"
+  readme = "README.md"
+  description = "An interpreter for the brainf*** language"
+  rust-version = "1.70.0"
+  repository = "https://github.com/AliSajid/brainfoamkit"
+  license = "MIT OR Apache-2.0"
 
 [lib]
-name = "brainfoamkit_lib"
-path = "src/brainfoamkit_lib/lib.rs"
-crate-type = ["lib"]
+  name = "brainfoamkit_lib"
+  path = "src/brainfoamkit_lib/lib.rs"
+  crate-type = ["lib"]
 
 [[bin]]
-name = "bfkview"
-path = "src/brainfoamkit_visualizer/main.rs"
+  name = "bfkview"
+  path = "src/brainfoamkit_visualizer/main.rs"
 
 [[bin]]
-name = "bfkrun"
-path = "src/brainfoamkit_interpreter/main.rs"
+  name = "bfkrun"
+  path = "src/brainfoamkit_interpreter/main.rs"
 
 [dependencies]
-anyhow = { version = "1.0.79", features = ["backtrace"] }
-crossterm = "0.29.0"
-prettytable-rs = "0.10.0"
-ratatui = { version = "0.29.0", features = ["macros", "serde", "document-features"] }
+  anyhow = { version = "1.0.79", features = ["backtrace"] }
+  crossterm = "0.29.0"
+  prettytable-rs = "0.10.0"
+  ratatui = { version = "0.29.0", features = [
+    "macros",
+    "serde",
+    "document-features",
+  ] }
 
 [profile.dev]
-opt-level = 1
-debug = true
+  opt-level = 1
+  debug = true
 
 [profile.release]
-opt-level = 3
-strip = true
-lto = true
-codegen-units = 1
+  opt-level = 3
+  strip = true
+  lto = true
+  codegen-units = 1
 
 [dev-dependencies]
-tempfile = "=3.23.0"
+  tempfile = "=3.23.0"
+  tracing = "0.1.44"
+  tracing-subscriber = "0.3.22"
 
-# Dependencies needed to build the book
-# mdbook ~ "0.4.36"
-# mdbook-inline-highlighting = "0.1.0"
-# mdbook-plantuml = "0.8.0"
+  # Dependencies needed to build the book
+  # mdbook ~ "0.4.36"
+  # mdbook-inline-highlighting = "0.1.0"
+  # mdbook-plantuml = "0.8.0"
