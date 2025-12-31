@@ -149,7 +149,7 @@
 * update the build script for correct directories ([abda8cf](https://github.com/AliSajid/BrainFoamKit/commit/abda8cfd158311aed95ca4b8b62b29befa6fe057))
 
 <!--
-SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+SPDX-FileCopyrightText: 2023 - 2026 Ali Sajid Imami
 
 SPDX-License-Identifier: CC0-1.0
 -->
