@@ -187,7 +187,7 @@ impl Bit {
     ///   1.
     /// * [`Bit::is_unset()`](#method.is_unset): Checks if the value of the Bit
     ///   is 0.
-    pub fn flip(&mut self) {
+    pub const fn flip(&mut self) {
         *self = match self {
             Self::Zero => Self::One,
             Self::One => Self::Zero,
@@ -226,7 +226,7 @@ impl Bit {
     ///   1.
     /// * [`Bit::is_unset()`](#method.is_unset): Checks if the value of the Bit
     ///   is 0.
-    pub fn set(&mut self) {
+    pub const fn set(&mut self) {
         *self = Self::One;
     }
 
@@ -262,7 +262,7 @@ impl Bit {
     ///   1.
     /// * [`Bit::is_unset()`](#method.is_unset): Checks if the value of the Bit
     ///   is 0.
-    pub fn unset(&mut self) {
+    pub const fn unset(&mut self) {
         *self = Self::Zero;
     }
 

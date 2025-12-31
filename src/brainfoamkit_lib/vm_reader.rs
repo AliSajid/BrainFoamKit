@@ -13,8 +13,8 @@ use std::{
 };
 
 use anyhow::{
-    anyhow,
     Result,
+    anyhow,
 };
 
 /// Allowable types of `VMReader`

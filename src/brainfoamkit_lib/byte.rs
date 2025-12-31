@@ -677,7 +677,7 @@ impl Byte {
     ///
     /// * [`flip_bit()`](#method.flip_bit): Flip the Bit value at the specified
     ///   index.
-    pub fn flip(&mut self) {
+    pub const fn flip(&mut self) {
         self.bit_0.flip();
         self.bit_1.flip();
         self.bit_2.flip();
@@ -859,7 +859,7 @@ impl Byte {
     /// }
     /// ```
     #[must_use]
-    pub const fn iter(&self) -> IterableByte {
+    pub const fn iter(&self) -> IterableByte<'_> {
         IterableByte::new(self)
     }
 }

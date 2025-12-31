@@ -470,7 +470,7 @@ impl Nybble {
     ///
     /// * [`flip_bit()`](#method.flip_bit): Flips the Bit value at the specified
     ///   index.
-    pub fn flip(&mut self) {
+    pub const fn flip(&mut self) {
         self.bit_0.flip();
         self.bit_1.flip();
         self.bit_2.flip();
@@ -608,7 +608,7 @@ impl Nybble {
     /// }
     /// ```
     #[must_use]
-    pub const fn iter(&self) -> IterableNybble {
+    pub const fn iter(&self) -> IterableNybble<'_> {
         IterableNybble::new(self)
     }
 }
@@ -729,16 +729,16 @@ impl From<u8> for Nybble {
 
         if n & 0b0001 != 0 {
             nybble.bit_0.set();
-        };
+        }
         if n & 0b0010 != 0 {
             nybble.bit_1.set();
-        };
+        }
         if n & 0b0100 != 0 {
             nybble.bit_2.set();
-        };
+        }
         if n & 0b1000 != 0 {
             nybble.bit_3.set();
-        };
+        }
 
         nybble
     }

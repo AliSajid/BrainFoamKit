@@ -84,7 +84,7 @@ impl<'a> IterableNybble<'a> {
     }
 }
 
-impl<'a> Iterator for IterableNybble<'a> {
+impl Iterator for IterableNybble<'_> {
     /// The type of the element the iterator returns
     type Item = Bit;
 

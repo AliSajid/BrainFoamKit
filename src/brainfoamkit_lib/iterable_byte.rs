@@ -88,7 +88,7 @@ impl<'a> IterableByte<'a> {
     }
 }
 
-impl<'a> Iterator for IterableByte<'a> {
+impl Iterator for IterableByte<'_> {
     /// The type of the element the iterator returns
     type Item = Bit;
 

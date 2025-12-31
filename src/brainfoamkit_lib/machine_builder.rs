@@ -6,9 +6,9 @@
 use anyhow::Result;
 
 use crate::{
-    vm_reader::VMReader,
     Program,
     VirtualMachine,
+    vm_reader::VMReader,
 };
 
 /// `VirtualMachineBuilder` is a builder for the `VirtualMachine` struct.

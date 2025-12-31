@@ -9,11 +9,11 @@ use brainfoamkit_lib::{
     Byte,
 };
 use prettytable::{
+    Table,
     format::{
         self,
     },
     row,
-    Table,
 };
 
 fn main() {

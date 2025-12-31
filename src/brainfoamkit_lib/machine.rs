@@ -4,11 +4,11 @@
 // SPDX-License-Identifier: MIT
 
 use crate::{
-    vm_reader::VMReader,
     Byte,
     Instruction,
     Program,
     VirtualMachineBuilder,
+    vm_reader::VMReader,
 };
 
 /// `VirtualMachine` is a struct representing a Virtual Machine capable of
@@ -297,7 +297,7 @@ where
     /// * [`VMReader`](trait.VMReader.html)
     /// * [`VirtualMachineBuilder`](struct.VirtualMachineBuilder.html)
     #[must_use]
-    pub fn input_device(&mut self) -> &mut R {
+    pub const fn input_device(&mut self) -> &mut R {
         &mut self.input
     }
 
@@ -395,7 +395,7 @@ where
         self.program_counter += 1;
     }
 
-    fn increment_pointer(&mut self) {
+    const fn increment_pointer(&mut self) {
         let next = self.memory_pointer.checked_add(1);
         if let Some(next) = next {
             self.memory_pointer = next;
