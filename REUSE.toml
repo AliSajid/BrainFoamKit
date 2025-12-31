@@ -31,6 +31,7 @@ path = [
     "renovate.json",
     ".markdownlint.json",
     "CHANGELOG.md",
+    "meta/vale-styles/config/vocabularies/Custom/*.txt",
 ]
 precedence = "override"
 SPDX-FileCopyrightText = "2023 - 2024 Ali Sajid Imami"

@@ -39,9 +39,11 @@ the smallest compiler for Amiga OS 2.0. This goal was realized and he managed to
 The design for Brainf**k was inspired by another esolang with the same goal: [FALSE](https://esolangs.org/wiki/FALSE).
 The FALSE compiler was 1024 bytes and was implemented for the 68000 assembler.
 
+<!-- vale alex.Race = NO -->
 Another programming language, \\( P'' \\) bears a lot of similarity to Brainf\*\*k. This language was designed by Corrado Böhm
 in 1964 as a way to describe a subclass of turing machines. \\( P'' \\) is designed for a left-infinite turing machine and relies
 on two symbols and their permutations. The primitive functions for \\( P'' \\) can be mapped directly to those of Brainf**k.
+<!-- vale alex.Race = YES -->
 
 ## Turing Completeness
 

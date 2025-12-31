@@ -13,7 +13,7 @@ This chapter serves to provide an annotated [Extended Backus-Naur Form (EBNF)](h
 
 The EBNF syntax allows us to express the grammar in a concise and readable way. The grammar is annotated with comments that explain the meaning of each rule. The grammar is also annotated with the precedence and associativity of each operator.
 
-## EBNF Crash Course
+## Quick Introduction to EBNF
 
 EBNF is a notation for describing the syntax of a language. It is a formal grammar that is used to describe the syntax of many programming languages, including the language of this book.
 
@@ -24,7 +24,7 @@ Briefly, an EBNF grammar consists of a series of rules. The rules can be "termin
 The BF Grammar will be split into two sections:
 
 1. The terminal symbols: This will enumerate all the symbols and what they mean.
-2. The the non-terminal constructs: These would be the constructs, made up of the terminal symbols that will actually appear in the program.
+2. The non-terminal constructs: These would be the constructs, made up of the terminal symbols that will actually appear in the program.
 
 ### Terminal Symbols
 

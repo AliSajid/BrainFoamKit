@@ -11,12 +11,12 @@ First off, thanks for taking the time to contribute! ❤️
 
 All types of contributions are encouraged and valued. See the [Table of Contents](#table-of-contents) for different ways to help and details about how this project handles them. Please make sure to read the relevant section before making your contribution. It will make it a lot easier for us maintainers and smooth out the experience for all involved. The community looks forward to your contributions. 🎉
 
-And if you like the project, but just don't have time to contribute, that's fine. There are other easy ways to support the project and show your appreciation, which we would also be very happy about:
+And if you like the project, but just don't have time to contribute, that's fine. You can show your appreciation and support for this project in other easy ways  which we would also be very happy about:
 
 - Star the project
 - Tweet about it
 - Cite the project in your publications if you found it helpful
-- Refer this project in your project's readme
+- Refer this project in your project's [README](README)
 - Mention the project at local meetups and tell your friends/colleagues
 
 <!-- omit in toc -->
@@ -44,7 +44,7 @@ If you then still feel the need to ask a question and need clarification, we rec
 
 - Open an [Issue](https://github.com/AliSajid/brainfoamkit/issues/new).
 - Provide as much context as you can about what you're running into.
-- Provide project and platform versions (nodejs, npm, etc), depending on what seems relevant.
+- Provide project and platform versions depending on what seems relevant.
 
 We will then take care of the issue as soon as possible.
 
@@ -71,7 +71,7 @@ A good bug report shouldn't leave others needing to chase you up for more inform
 - Also make sure to search the internet (including Stack Overflow) to see if users outside of the GitHub community have discussed the issue.
 - Collect information about the bug:
   - Stack trace (Traceback). We use RUST_BACKTRACE=1 to get a full stack trace.
-  - OS, Platform and Version (Windows, Linux, macOS, x86, ARM)
+  - OS, Platform and Version (Windows, Linux, macos, x86, ARM)
   - Version of Rust, Cargo, and other environment components if applicable
   - Possibly your input and the output
   - Can you reliably reproduce the issue? And can you also reproduce it with older versions?
@@ -114,7 +114,7 @@ Enhancement suggestions are tracked as [GitHub issues](https://github.com/AliSaj
 - Use a **clear and descriptive title** for the issue to identify the suggestion.
 - Provide a **step-by-step description of the suggested enhancement** in as many details as possible.
 - **Describe the current behavior** and **explain which behavior you expected to see instead** and why. At this point you can also tell which alternatives do not work for you.
-- You may want to **include screenshots and animated GIFs** which help you demonstrate the steps or point out the part which the suggestion is related to. You can use [this tool](https://www.cockos.com/licecap/) to record GIFs on macOS and Windows, and [this tool](https://github.com/colinkeenan/silentcast) or [this tool](https://github.com/GNOME/byzanz) on Linux. <!-- this should only be included if the project has a GUI -->
+- You may want to **include screenshots and animated GIFs** which help you demonstrate the steps or point out the part which the suggestion is related to. You can use [this tool](https://www.cockos.com/licecap/) to record GIFs on macos and Windows, and [this tool](https://github.com/colinkeenan/silentcast) or [this tool](https://github.com/GNOME/byzanz) on Linux. <!-- this should only be included if the project has a GUI -->
 - **Explain why this enhancement would be useful** to most Gainful Key users. You may also want to point out the other projects that solved it better and which could serve as inspiration.
 
 ### Your First Code Contribution
@@ -135,7 +135,7 @@ We use `rustfmt`, `clippy` and `cargo check` to ensure a consistent code style. 
 
 ### Commit Messages
 
-We use the Conventionnal Commits specification for commit messages. This leads to **more readable messages** that are easy to follow when looking through the **project history**. But also, the commit messages are used to **generate the Gainful Key change log**.
+We use the Conventional Commits specification for commit messages. This leads to **more readable messages** that are easy to follow when looking through the **project history**. But also, the commit messages are used to **generate the Gainful Key change log**.
 
 ## Join The Project Team
 
