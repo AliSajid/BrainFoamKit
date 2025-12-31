@@ -49,3 +49,21 @@
   tempfile = "=3.23.0"
   tracing = "0.1.44"
   tracing-subscriber = "0.3.22"
+
+[lints.clippy]
+  pedantic = { level = "warn", priority = -1 }
+  nursery = { level = "warn", priority = -1 }
+  cargo = { level = "warn", priority = -1 }
+  unwrap_used = "warn"
+  expect_used = "warn"
+  redundant_feature_names = "warn"
+  cargo_common_metadata = "warn"
+  todo = "warn"
+  unimplemented = "warn"
+  cast-lossless = "warn"
+  cast-possible-truncation = "warn"
+  cast-possible-wrap = "warn"
+  wildcard_dependencies = "warn"
+  dbg_macro = "warn"
+  exhaustive_enums = "warn"
+  pub_with_shorthand = "deny"

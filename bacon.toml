@@ -23,22 +23,7 @@ wrap = true
 
 [jobs.clippy]
   apply_gitignore = false
-  command = [
-    "cargo",
-    "+nightly",
-    "clippy",
-    "--color",
-    "always",
-    "--",
-    "-W",
-    "clippy::pedantic",
-    "-W",
-    "clippy::nursery",
-    "-W",
-    "clippy::unwrap_used",
-    "-W",
-    "clippy::expect_used",
-  ]
+  command = ["cargo", "clippy", "--color", "always"]
   need_stdout = false
 
 [jobs.test]
