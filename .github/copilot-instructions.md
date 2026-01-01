@@ -18,6 +18,7 @@ BrainFoamKit is a Brainfuck interpreter and TUI visualizer written in Rust. The 
 ### Current Status: 🟡 MVP Development (v1.1 Milestone)
 
 **What Works:**
+
 - ✅ Custom type system (Bit, Nybble, Byte) with full trait implementations
 - ✅ VirtualMachine architecture with builder pattern
 - ✅ VMReader trait for generic input
@@ -26,6 +27,7 @@ BrainFoamKit is a Brainfuck interpreter and TUI visualizer written in Rust. The 
 - ✅ SPDX licensing compliance
 
 **Critical Blockers (Cannot Execute Real BF Programs):**
+
 - ❌ Loop control (`[` and `]` instructions) - see [#414](https://github.com/AliSajid/BrainFoamKit/issues/414)
 - ❌ Output (`.` instruction) - see [#415](https://github.com/AliSajid/BrainFoamKit/issues/415)
 - ❌ Functional CLI (`bfkrun` doesn't execute .bf files) - see [#418](https://github.com/AliSajid/BrainFoamKit/issues/418)
@@ -72,12 +74,12 @@ All modules include inline `#[cfg(test)]` blocks. Tests live alongside implement
 ### Testing
 
 - **Test runner**: `cargo nextest` (configured in `nextest.toml`)
-- Config: `test-threads = "num-cpus"`, shows all test statuses including skipped
+- Configuration: `test-threads = "num-cpus"`, shows all test statuses including skipped
 - Run: `cargo nextest run` or `bacon test-nextest`
 
 ### Strict Linting
 
-Clippy configuration enforces:
+`clippy` configuration enforces:
 
 - `-W clippy::pedantic`, `-W clippy::nursery`
 - `-W clippy::unwrap_used`, `-W clippy::expect_used`
@@ -102,7 +104,7 @@ Clippy configuration enforces:
 // SPDX-License-Identifier: MIT
 ```
 
-Dual-licensed under MIT OR Apache-2.0. Config files use `CC0-1.0`.
+Dual-licensed under MIT OR Apache-2.0. Configuration and other ancillary files use `CC0-1.0`.
 
 ### Documentation Standards
 
@@ -119,7 +121,7 @@ Dual-licensed under MIT OR Apache-2.0. Config files use `CC0-1.0`.
 
 ### Continuous Integration
 
-- Matrix testing: stable/beta/nightly/MSRV across Linux/Windows/macOS
+- Matrix testing: stable/beta/nightly/MSRV across Linux/Windows/macos
 - Path filters skip source builds when only docs change
 - Uses `cargo-deny` for dependency auditing (`deny.toml`)
 - Gist-based build badges (see `README.md`)
@@ -159,14 +161,16 @@ Dual-licensed under MIT OR Apache-2.0. Config files use `CC0-1.0`.
 
 ### Priority Order for Contributors
 
-**Week 1-2: MVP Critical Path** (Work on these FIRST)
+#### **Week 1-2: MVP Critical Path** (Work on these FIRST)
+
 1. **Loop Control** ([#414](https://github.com/AliSajid/BrainFoamKit/issues/414)) - Implement `jump_forward()` and `jump_backward()`
 2. **Output Value** ([#415](https://github.com/AliSajid/BrainFoamKit/issues/415)) - Implement `.` instruction
 3. **Pointer Wrapping** ([#416](https://github.com/AliSajid/BrainFoamKit/issues/416)) - Fix boundary wrapping
 4. **Functional CLI** ([#418](https://github.com/AliSajid/BrainFoamKit/issues/418)) - Make `bfkrun` execute .bf files
 5. **Integration Tests** ([#417](https://github.com/AliSajid/BrainFoamKit/issues/417)) - End-to-end test coverage
 
-**Post-MVP: Enhancements**
+#### **Post-MVP: Enhancements**
+
 - VMWriter trait ([#420](https://github.com/AliSajid/BrainFoamKit/issues/420))
 - TUI debugger ([#419](https://github.com/AliSajid/BrainFoamKit/issues/419))
 - Performance benchmarks ([#422](https://github.com/AliSajid/BrainFoamKit/issues/422))
@@ -183,17 +187,20 @@ Dual-licensed under MIT OR Apache-2.0. Config files use `CC0-1.0`.
 ### Known Architectural Decisions
 
 **Custom Byte Type vs Native u8:**
+
 - Current: Custom `Byte` type with 8 `Bit` fields
 - Pros: Educational, type-safe, explicit operations
 - Cons: Estimated 100-1000x slower than native u8
 - Decision: Keep for now, benchmark in [#422](https://github.com/AliSajid/BrainFoamKit/issues/422), revisit post-MVP
 
 **No Integration Tests:**
+
 - Tracked in [#417](https://github.com/AliSajid/BrainFoamKit/issues/417)
 - Reason: Core functionality incomplete
 - Plan: Add after MVP features work
 
 **Incomplete VM Methods:**
+
 - `jump_forward()`, `jump_backward()`, `output_value()` all use `todo!()`
 - This is intentional - implementation is the MVP focus
 - See [#414](https://github.com/AliSajid/BrainFoamKit/issues/414) and [#415](https://github.com/AliSajid/BrainFoamKit/issues/415)

@@ -104,3 +104,5 @@ upperlimit
 version_check
 winapi
 zerocopy
+VMWriter
+bitwise
