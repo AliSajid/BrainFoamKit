@@ -56,21 +56,42 @@ decisions when appropriate.
 
 ## Scope
 
-This Code of Conduct applies within all community spaces, and also applies when
-an individual is officially representing the community in public spaces.
-Examples of representing our community include using an official e-mail address,
-posting via an official social media account, or acting as an appointed
-representative at an online or offline event.
+This Code of Conduct applies in all community spaces, including:
+
+* GitHub repository (issues, pull requests, discussions, code reviews)
+* Official communication channels (mailing lists, chat platforms, forums)
+* Community events (meetups, conferences, workshops)
+* Social media when representing the project
+
+It also applies when an individual officially represents the community in public spaces, such as:
+
+* Using an official project email address
+* Posting via official social media accounts
+* Acting as an appointed representative at events
+* Speaking on behalf of the project
+
+**Private spaces:** While this Code primarily governs public community interactions, behavior in private channels related to community business (e.g., maintainer discussions) is also subject to these standards.
 
 ## Enforcement
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the community leaders responsible for enforcement at
-[Ali.Sajid.Imami+brainfoamkit@gmail.com](mailto:Ali.Sajid.Imami+brainfoamkit@gmail.com).
-All complaints will be reviewed and investigated promptly and fairly.
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the community leaders at [security+brainfoamkit@imamiland.com](mailto:security+brainfoamkit@imamiland.com).
 
-All community leaders are obligated to respect the privacy and security of the
-reporter of any incident.
+**What to include in your report:**
+
+* Your contact information
+* Names (real or usernames) of individuals involved
+* Description of the behavior and where it occurred
+* Approximate date and time of the incident
+* Any additional context or supporting materials
+
+**Response timeline:**
+
+* Initial acknowledgment within 2 business days
+* Investigation and decision within 10 business days
+* Appeals reviewed within 5 business days
+
+**Confidentiality:**
+All reports are handled confidentially. We will only share information on a need-to-know basis with those involved in the investigation and resolution. Reporters' identities will be protected unless disclosure is legally required or explicitly authorized by the reporter.
 
 ## Enforcement Guidelines
 
@@ -79,56 +100,104 @@ the consequences for any action they deem in violation of this Code of Conduct:
 
 ### 1. Correction
 
-**Community Impact**: Use of inappropriate language or other behavior deemed
-unprofessional or unwelcome in the community.
+**Community Impact**: Use of inappropriate language or other behavior deemed unprofessional or unwelcome in the community.
 
-**Consequence**: A private, written warning from community leaders, providing
-clarity around the nature of the violation and an explanation of why the
-behavior was inappropriate. A public apology may be requested.
+**Consequence**: A private written warning from community leaders that:
+
+* Identifies the specific behavior that was inappropriate
+* Explains why it violated the Code of Conduct
+* Provides guidance on expected behavior going forward
+* May request a public or private apology to affected parties
+
+**Duration**: One-time correction with no ongoing restrictions.
 
 ### 2. Warning
 
-**Community Impact**: A violation through a single incident or series
-of actions.
+**Community Impact**: A violation through a single significant incident or series of actions.
 
-**Consequence**: A warning with consequences for continued behavior. No
-interaction with the people involved, including unsolicited interaction with
-those enforcing the Code of Conduct, for a specified period of time. This
-includes avoiding interactions in community spaces as well as external channels
-like social media. Violating these terms may lead to a temporary or
-permanent ban.
+**Consequence**: A formal warning with specified behavioral restrictions:
+
+* No interaction with affected individuals for a defined period (typically 30-90 days)
+* Prohibition on unsolicited contact with those enforcing this Code
+* Avoidance of all community spaces and external channels where the project is discussed
+* Required check-in with community leaders before returning to full participation
+
+**Violation of warning terms**: Will result in escalation to a temporary or permanent ban.
+
+**Duration**: 30-90 days, as determined by the severity of the violation.
 
 ### 3. Temporary Ban
 
-**Community Impact**: A serious violation of community standards, including
-sustained inappropriate behavior.
+**Community Impact**: A serious violation of community standards, including sustained inappropriate behavior, violation of warning terms, or a single severe incident.
 
-**Consequence**: A temporary ban from any sort of interaction or public
-communication with the community for a specified period of time. No public or
-private interaction with the people involved, including unsolicited interaction
-with those enforcing the Code of Conduct, is allowed during this period.
-Violating these terms may lead to a permanent ban.
+**Consequence**: Temporary removal from all community participation:
+
+* Complete ban from all project repositories, communication channels, and events
+* No public or private interaction with community members
+* No contributions (code, issues, pull requests, comments) will be accepted
+* Unsolicited contact with enforcement team members is prohibited
+
+**Reinstatement**: After the ban period, individuals may request reinstatement by:
+
+* Acknowledging their violation
+* Demonstrating understanding of appropriate behavior
+* Committing to follow community standards
+
+**Violation of ban terms**: Will result in an immediate permanent ban.
+
+**Duration**: 3-12 months, based on violation severity.
 
 ### 4. Permanent Ban
 
-**Community Impact**: Demonstrating a pattern of violation of community
-standards, including sustained inappropriate behavior,  harassment of an
-individual, or aggression toward or disparagement of classes of individuals.
+**Community Impact**: Demonstrating a pattern of violation of community standards, including:
 
-**Consequence**: A permanent ban from any sort of public interaction within
-the community.
+* Sustained inappropriate behavior despite previous interventions
+* Harassment or stalking of individuals
+* Aggression toward or disparagement of protected classes
+* Severe violations such as threats of violence or doxxing
+* Violation of temporary ban terms
+
+**Consequence**: Permanent removal from all community participation:
+
+* Permanent ban from all project spaces and communications
+* All contributions and access rights revoked
+* Name may be added to a public exclusion list if necessary for community safety
+* Legal action may be pursued for severe violations
+
+**Appeals**: Permanent bans may be appealed after 12 months by submitting a written request to the enforcement team. Appeals will only be considered in exceptional circumstances where the individual can demonstrate genuine rehabilitation and remorse.
+
+## Conflicts of Interest and Transparency
+
+Community leaders involved in enforcement will:
+
+* Recuse themselves from cases where they have a personal relationship with those involved
+* Disclose any potential conflicts of interest to other enforcement team members
+* Ensure decisions are made by individuals without conflicts when possible
+* Document all enforcement decisions and maintain records for accountability
+
+**Transparency**: While maintaining confidentiality of individuals, community leaders will:
+
+* Publish anonymized summaries of enforcement actions quarterly
+* Report trends and patterns to help prevent future violations
+* Make this Code of Conduct and enforcement process publicly accessible
 
 ## Attribution
 
-This Code of Conduct is adapted from the [Contributor Covenant][homepage],
-version 2.0, available at
-[https://www.contributor-covenant.org/version/2/0/code_of_conduct.html](https://www.contributor-covenant.org/version/2/0/code_of_conduct.html).
+This Code of Conduct is adapted from the [Contributor Covenant][homepage], version 2.0, available at [https://www.contributor-covenant.org/version/2/0/code_of_conduct.html](https://www.contributor-covenant.org/version/2/0/code_of_conduct.html).
 
 Community Impact Guidelines were inspired by [Mozilla's code of conduct
 enforcement ladder](https://github.com/mozilla/diversity).
 
 [homepage]: https://www.contributor-covenant.org
 
-For answers to common questions about this code of conduct, see the FAQ at
-[https://www.contributor-covenant.org/faq](https://www.contributor-covenant.org/faq). Translations are available at
-[https://www.contributor-covenant.org/translations](https://www.contributor-covenant.org/translations).
+For answers to common questions about this code of conduct, see the FAQ at [https://www.contributor-covenant.org/faq](https://www.contributor-covenant.org/faq). Translations are available at [https://www.contributor-covenant.org/translations](https://www.contributor-covenant.org/translations).
+
+**Modifications**: This Code of Conduct has been modified from the original to include:
+
+* Specific enforcement contact information and response timelines
+* Detailed scope clarification for community spaces
+* Enhanced enforcement guidelines with specific durations and requirements
+* Appeal process for permanent bans
+* Conflicts of interest and transparency provisions
+
+**Last Updated**: December 31, 2025
