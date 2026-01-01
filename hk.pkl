@@ -103,6 +103,12 @@ local rust_checks = new Mapping<String, Step> {
 
   // Name: Run cargo check
   ["cargo-check"] = Builtins.cargo_check
+
+  // Name: Cargo Deny check
+  ["cargo-deny"] = new Step {
+    glob = "Cargo.toml"
+    check = "cargo deny --frozen check"
+  }
 }
 
 // ============================================================================
