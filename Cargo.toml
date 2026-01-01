@@ -28,6 +28,7 @@
 [dependencies]
   anyhow = { version = "1.0.100", features = ["backtrace"] }
   crossterm = "0.29.0"
+  prettytable = "0.10.0"
   ratatui = { version = "0.30.0", features = [
     "macros",
     "serde",

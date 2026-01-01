@@ -95,6 +95,7 @@ ratatui
 repo
 roachhd
 rustfmt
+rustfmt
 rustix
 rustversion
 ryu

@@ -63,6 +63,7 @@
   allow = [
     "Apache-2.0 WITH LLVM-exception",
     "Apache-2.0",
+    "BSD-3-Clause",
     "MIT",
     "Unicode-3.0",
     "Zlib",
@@ -174,7 +175,10 @@
   #exact = true
 
   # Certain crates/versions that will be skipped when doing duplicate detection.
-  skip = [{ name = "itertools", version = "0.13.0" }]
+  skip = [
+    { name = "itertools", version = "0.13.0" },
+    { name = "unicode-width" },
+  ]
   # Similarly to `skip` allows you to skip certain crates during duplicate
   # detection. Unlike skip, it also includes the entire tree of transitive
   # dependencies starting at the specified crate, up to a certain depth, which is
