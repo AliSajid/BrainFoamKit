@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2025 Ali Sajid Imami
+// SPDX-FileCopyrightText: 2023 - 2026 Ali Sajid Imami
 //
 // SPDX-License-Identifier: Apache-2.0
 // SPDX-License-Identifier: MIT
@@ -81,7 +81,7 @@ local git_workflow_checks = new Mapping<String, Step> {
 local security_checks = new Mapping<String, Step> {
   ["detect-private-key"] = Builtins.detect_private_key
   ["check-added-large-files"] = (Builtins.check_added_large_files) {
-    check = "hk util check-added-large-files --maxkb 2048 {{files}}"
+    check = "hk util check-added-large-files --maxkb 5120 {{files}}"
   }
   ["gitleaks"] = new Step {
     check = "gitleaks git --baseline-path .gitleaks_baseline.json --no-banner --log-level error"

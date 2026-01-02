@@ -44,4 +44,4 @@ fi
 
 OUTPUT_FILE=${1:-licenses_report.json}
 
-cargo about generate --format json | jq --sort-keys --indent 4 -r >"$OUTPUT_FILE"
+cargo about generate --frozen --format json | jq --sort-keys --indent 4 -r >"$OUTPUT_FILE"
