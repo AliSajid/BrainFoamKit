@@ -7,7 +7,7 @@ SPDX-License-Identifier: CC0-1.0
 # Brainfoamkit
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/AliSajid/brainfoamkit)
-![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/AliSajid/brainfoamkit)
+![GitHub tag (latest Semantic Version)](https://img.shields.io/github/v/tag/AliSajid/brainfoamkit)
 [![Continuous integration](https://github.com/AliSajid/BrainFoamKit/actions/workflows/ci.yaml/badge.svg)](https://github.com/AliSajid/BrainFoamKit/actions/workflows/ci.yaml)
 [![REUSE status](https://api.reuse.software/badge/github.com/AliSajid/brainfoamkit)](https://api.reuse.software/info/github.com/AliSajid/brainfoamkit)
 

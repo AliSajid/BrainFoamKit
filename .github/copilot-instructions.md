@@ -13,7 +13,7 @@ BrainFoamKit is a Brainfuck interpreter and TUI visualizer written in Rust. The 
 - **Core library** (`brainfoamkit_lib`): Virtual machine, instruction set, and low-level types
 - **Interpreter** (`bfkrun`): CLI tool to execute Brainfuck programs
 - **Visualizer** (`bfkview`): TUI for stepping through programs (using `ratatui`)
-- **Documentation** (`guide/`): mdBook-based developer guide
+- **Documentation** (`guide/`): mdbook-based developer guide
 
 ### Current Status: 🟡 MVP Development (v1.1 Milestone)
 
