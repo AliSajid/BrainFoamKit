@@ -2,7 +2,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # SPDX-License-Identifier: MIT
-
 ---
 name: Code Coverage
 on:
@@ -32,7 +31,7 @@ jobs:
             - name: Upload to codecov.io
               uses: codecov/codecov-action@5a1091511ad55cbe89839c7260b706298ca349f7 # v5.5.1
               with:
-                file: lcov.info
+                files: lcov.info
                 token: ${{ secrets.CODECOV_TOKEN }}
                 verbose: true
                 working-directory: .
