@@ -19,15 +19,15 @@ use anyhow::{
 
 /// Allowable types of `VMReader`
 ///
-/// This enum is used to determine the type of `VMReader` that is being used.
+/// This enum classifies the different input sources available to a virtual
+/// machine.
 ///
-/// The currently supported types are:
+/// # Variants
 ///
-/// * Stdin - The standard input device as implemented by the [std::io::Stdin struct](https://doc.rust-lang.org/std/io/struct.Stdin.html)
-/// * File - A file as implemented by the [std::fs::File struct](https://doc.rust-lang.org/std/fs/struct.File.html)
-/// * Mock - A mock reader as implemented by the [`MockReader`
-///   struct](struct.MockReader.html)
-/// * Unknown - The default type of `VMReader`
+/// * `Stdin` - Standard input device
+/// * `File` - File-based input
+/// * `Mock` - Test/mock input device
+/// * `Unknown` - Default/unspecified input type
 ///
 /// # Examples
 ///
@@ -58,28 +58,22 @@ use anyhow::{
 /// * [File](https://doc.rust-lang.org/std/fs/struct.File.html)
 #[derive(Debug, PartialEq, Eq)]
 pub enum VMReaderType {
-    /// The standard input device as implemented by the [std::io::Stdin struct](https://doc.rust-lang.org/std/io/struct.Stdin.html)
+    /// Standard input device
     Stdin,
-    /// A file as implemented by the [std::fs::File struct](https://doc.rust-lang.org/std/fs/struct.File.html)
+    /// File-based input
     File,
-    /// A mock reader as implemented by the [`MockReader`
-    /// struct](struct.MockReader.html)
+    /// Test/mock input device
     Mock,
-    /// The default type of `VMReader`
+    /// Default/unspecified input type
     Unknown,
 }
 /// The `VMReader` trait
 ///
-/// This trait is used to implement a `Reader` for the `VirtualMachine`. This
-/// allows us to abstract over several different types of `Reader`s, including
-/// `StdIn` and `File`. This trait is also implemented for the `MockReader`
-/// struct, which is used for testing.
+/// This trait defines the interface for reading input into the virtual machine.
+/// Implementations exist for standard input, files, and test mocks.
 ///
-/// This is a restricted trait, meaning that it will only be implemented for
-/// specific types. This is done to ensure that the `VMReader` is only
-/// implemented for types that are valid for the `VirtualMachine`. The valid
-/// types for `VMReader` are listed in the
-/// [`VMReaderType`](enum.VMReaderType.html) enum.
+/// Implement this trait to provide custom input sources to the
+/// `VirtualMachine`.
 ///
 /// # Examples
 ///
@@ -120,31 +114,19 @@ pub enum VMReaderType {
 pub trait VMReader {
     /// Read a single byte from the reader
     ///
-    /// This function reads a single byte from the reader and returns it as a
-    /// `u8` for use by the `VirtualMachine`.
+    /// Reads one byte of input and returns it as a `u8`.
     ///
     /// # Errors
     ///
-    /// This function will return an error if the byte read from the reader is
-    /// not within the ASCII range.
+    /// Returns an error if the byte is not a valid ASCII value (> 127).
     fn read(&mut self) -> Result<u8> {
         Ok(0)
     }
 
     /// Get the type of the reader
     ///
-    /// This function returns the type of the reader as a `VMReaderType` enum.
-    ///
-    /// The currently supported types are:
-    ///
-    /// * Stdin - The standard input device as implemented by the [std::io::Stdin struct](https://doc.rust-lang.org/std/io/struct.Stdin.html)
-    /// * File - A file as implemented by the [std::fs::File struct](https://doc.rust-lang.org/std/fs/struct.File.html)
-    /// * Mock - A mock reader as implemented by the [`MockReader`
-    ///   struct](struct.MockReader.html)
-    /// * Unknown - The default type of `VMReader`
-    ///
-    /// The default type of `VMReader` is `Unknown`, and is used when the type
-    /// of the reader is not set.
+    /// Returns a `VMReaderType` indicating the source of input
+    /// (Stdin, File, Mock, or Unknown).
     fn get_vmreader_type(&self) -> VMReaderType {
         VMReaderType::Unknown
     }
@@ -152,12 +134,8 @@ pub trait VMReader {
 
 /// The `MockReader` struct
 ///
-/// This struct is used to implement a mock `Reader` for the `VirtualMachine`.
-/// This allows for us to test the `VirtualMachine` without having to use
-/// `Stdin` or `File` as the `Reader`.
-///
-/// This struct is used for testing purposes only, and should not be used in
-/// production code.
+/// A test utility for providing fixed input to the `VirtualMachine`.
+/// Pass a `Cursor` containing bytes to simulate user input during tests.
 ///
 /// # Examples
 ///

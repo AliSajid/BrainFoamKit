@@ -1019,7 +1019,9 @@ impl From<&Byte> for u8 {
 }
 
 impl Not for Byte {
-    // The return type is Byte because the Not operation is in-place.
+    // NOT on a Byte inverts all 8 bits. The output type is Self (Byte) because
+    // each inverted bit remains a valid Bit, ensuring the result is always a valid
+    // Byte.
     type Output = Self;
 
     /// Performs the Not operation on the Byte.
@@ -1060,7 +1062,8 @@ impl Not for Byte {
 }
 
 impl BitAnd for Byte {
-    // The return type is Byte because the BitAnd operation is symmetric.
+    // AND is commutative and associative. The output is always a valid Byte since
+    // each bit position is operated on independently, with no overflow possible.
     type Output = Self;
 
     /// Performs the Bitwise And operation on the Byte.
@@ -1173,7 +1176,8 @@ impl BitAndAssign for Byte {
 }
 
 impl BitOr for Byte {
-    // The return type is Byte because the BitOr operation is symmetric.
+    // OR is commutative and associative. The output is always a valid Byte since
+    // each bit position is operated on independently, with no overflow possible.
     type Output = Self;
 
     /// Performs the Bitwise Or operation on the Byte.
@@ -1285,7 +1289,8 @@ impl BitOrAssign for Byte {
 }
 
 impl BitXor for Byte {
-    // The return type is Byte because the BitXor operation is symmetric.
+    // XOR is commutative and associative. The output is always a valid Byte since
+    // each bit position is operated on independently, with no overflow possible.
     type Output = Self;
 
     /// Performs the Bitwise Xor operation on the Byte.

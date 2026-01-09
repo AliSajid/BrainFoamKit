@@ -16,13 +16,19 @@ use prettytable::{
     row,
 };
 
+/// Displays an ASCII reference table showing all standard ASCII characters
+/// (0-127) with their decimal, binary, hexadecimal representations and
+/// human-readable forms. This is useful for quick reference when working with
+/// ASCII values in Brainfuck programs.
 fn main() {
     let mut table = Table::new();
     let ascii = AsciiTable::new();
 
+    // Create table headers for different number representations
     table.set_titles(row![bc => "Byte", "Binary", "Hexadecimal", "String", "Representation"]);
     table.set_format(*format::consts::FORMAT_NO_LINESEP_WITH_TITLE);
 
+    // Populate the table with ASCII values 0-127 and their representations
     for num in 0..128 {
         let byte = Byte::from(num);
         let char = ascii

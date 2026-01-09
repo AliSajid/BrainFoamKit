@@ -16,9 +16,9 @@ use crate::Instruction;
 
 /// Structure to hold the program.
 ///
-/// A `Program` is a series if instructions stored in the program stack.
-/// This struct allows us to conveniently read the program, modify it and save
-/// it back.
+/// A `Program` is a sequence of instructions stored in a vector.
+/// This struct provides convenient methods to read, retrieve, and work with
+/// Brainfuck instructions.
 ///
 /// # Examples
 ///

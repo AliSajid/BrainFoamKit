@@ -28,7 +28,7 @@ use crate::{
 ///     IterableByte,
 /// };
 ///
-/// let byte = Byte::from(0b1100_1010); // Dec: 10; Hex: 0xA; Oct: 0o12
+/// let byte = Byte::from(0b1100_1010); // Dec: 202; Hex: 0xCA; Oct: 0o312
 /// let mut iter = IterableByte::new(&byte);
 ///
 /// assert_eq!(iter.next(), Some(Bit::zero()));
@@ -62,7 +62,7 @@ impl<'a> IterableByte<'a> {
     ///
     /// # Returns
     ///
-    /// A new `IterableNybble` that can be used to iterate over the `Nybble`
+    /// A new `IterableByte` that can be used to iterate over the `Byte`
     ///
     /// # Examples
     ///
