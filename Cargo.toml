@@ -11,6 +11,14 @@
   rust-version = "1.86.0"
   repository = "https://github.com/AliSajid/brainfoamkit"
   license = "MIT OR Apache-2.0"
+  keywords = [
+    "brainfuck",
+    "interpreter",
+    "esolang",
+    "virtual-machine",
+    "debugger",
+  ]
+  categories = ["development-tools", "command-line-utilities"]
 
 [lib]
   name = "brainfoamkit_lib"
