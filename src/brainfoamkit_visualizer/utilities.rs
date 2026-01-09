@@ -72,7 +72,7 @@ pub fn run(terminal: &mut Terminal<CrosstermBackend<Stdout>>) -> Result<()> {
 /// frame by the terminal. Currently displays a simple greeting message.
 pub fn render_app(frame: &mut ratatui::Frame) {
     let greeting = Paragraph::new("Hello World! (press 'q' to quit)");
-    frame.render_widget(greeting, frame.size());
+    frame.render_widget(greeting, frame.area());
 }
 
 /// Check if user pressed 'q' to quit. Uses a 250ms timeout on event polling:

@@ -156,6 +156,7 @@ use crate::{
 /// * [`Bit`](crate::Bit): A single bit.
 /// * [`Nybble`](crate::Nybble): A 4-bit unsigned integer (u4).
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[allow(clippy::struct_field_names)]
 pub struct Byte {
     bit_0: Bit,
     bit_1: Bit,

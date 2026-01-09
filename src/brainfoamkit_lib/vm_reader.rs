@@ -57,6 +57,7 @@ use anyhow::{
 /// * [Stdin](https://doc.rust-lang.org/std/io/struct.Stdin.html)
 /// * [File](https://doc.rust-lang.org/std/fs/struct.File.html)
 #[derive(Debug, PartialEq, Eq)]
+#[non_exhaustive]
 pub enum VMReaderType {
     /// Standard input device
     Stdin,

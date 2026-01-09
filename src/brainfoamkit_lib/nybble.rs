@@ -52,6 +52,7 @@ use crate::{
 /// * [`Bit`](crate::Bit): The building block of a Nybble
 /// * [`Byte`](crate::Byte): Contains two Nybbles
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[allow(clippy::struct_field_names)]
 pub struct Nybble {
     /// The least significant bit.
     bit_0: Bit,

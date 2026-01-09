@@ -550,8 +550,7 @@ mod tests {
             let ascii_char = AsciiChar::new(Byte::from(val), "", "", "");
             assert!(
                 ascii_char.is_whitespace(),
-                "Character with decimal value {} should be identified as whitespace",
-                val
+                "Character with decimal value {val} should be identified as whitespace"
             );
         }
 
@@ -569,8 +568,7 @@ mod tests {
             let ascii_char = AsciiChar::new(Byte::from(val), "", "", "");
             assert!(
                 ascii_char.is_digit(),
-                "Character with decimal value {} should be identified as a digit",
-                val
+                "Character with decimal value {val} should be identified as a digit"
             );
         }
 
@@ -591,8 +589,7 @@ mod tests {
             let ascii_char = AsciiChar::new(Byte::from(val), "", "", "");
             assert!(
                 ascii_char.is_symbol(),
-                "Character with decimal value {} should be identified as a symbol",
-                val
+                "Character with decimal value {val} should be identified as a symbol"
             );
         }
 

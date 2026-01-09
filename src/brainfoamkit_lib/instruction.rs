@@ -27,6 +27,7 @@ use std::fmt::{
 /// assert_eq!(decrptr, Instruction::DecrementPointer);
 /// ```
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
+#[allow(clippy::exhaustive_enums)]
 pub enum Instruction {
     /// Instruction to Increment the Pointer
     ///

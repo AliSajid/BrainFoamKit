@@ -43,6 +43,7 @@ use std::{
 /// * [`Nybble`](crate::Nybble): A 4-bit value
 /// * [`Byte`](crate::Byte): An 8-bit value
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[allow(clippy::exhaustive_enums)]
 pub enum Bit {
     /// The zero variant of the Bit Enum.
     /// Represents the value 0 or the Off state.

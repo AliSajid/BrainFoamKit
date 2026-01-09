@@ -421,6 +421,7 @@ where
         self.tape[self.memory_pointer].decrement();
     }
 
+    #[expect(clippy::todo)]
     fn output_value(&self) {
         todo!("Implement output_value")
     }
@@ -432,10 +433,12 @@ where
         }
     }
 
+    #[expect(clippy::todo)]
     fn jump_forward(&self) {
         todo!("Implement jump_forward")
     }
 
+    #[expect(clippy::todo)]
     fn jump_backward(&self) {
         todo!("Implement jump_backward")
     }

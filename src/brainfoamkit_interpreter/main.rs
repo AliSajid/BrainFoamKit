@@ -33,7 +33,7 @@ fn main() {
         let byte = Byte::from(num);
         let char = ascii
             .get(byte)
-            .map_or("NA".to_owned(), AsciiChar::character_value);
+            .map_or_else(|| "NA".to_owned(), AsciiChar::character_value);
         table.add_row(row![c=>
             format!("{num}", num = &byte),
             format!("{num:#010b}", num = u8::from(&byte)),
