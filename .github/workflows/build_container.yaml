@@ -11,8 +11,8 @@ env:
     # ---- registries ----
     CANONICAL_REGISTRY: ghcr.io
     # ---- versions ----
-    COSIGN_RELEASE_VERSION: v2.2.4
-    SYFT_VERSION: v1.7.0
+    COSIGN_RELEASE_VERSION: v3.0.4
+    SYFT_VERSION: v1.40.0
 jobs:
     build:
         runs-on: ubuntu-22.04
@@ -55,6 +55,7 @@ jobs:
                     type=sha,format=short
                 labels: |
                     org.opencontainers.image.source=${{ github.repository }}
+                    org.opencontainers.image.description=Brainfuck interpreter and TUI visualizer with custom byte-level type system
                     org.opencontainers.image.licenses=MIT AND Apache-2.0
             # ---------- auth ----------
             - name: Login to GitHub Container Registry
@@ -133,15 +134,21 @@ jobs:
               run: |
                 set -euo pipefail
 
-                # Get the first tag (main image reference) and its digest
-                FIRST_TAG=$(echo "${TAGS}" | head -n1)
-                IMAGE_DIGEST=$(podman manifest inspect "${FIRST_TAG}" --raw | sha256sum | cut -d' ' -f1)
-                IMAGE_REF="${FIRST_TAG%:*}@sha256:${IMAGE_DIGEST}"
+                      # Get the first tag (main image reference) and its digest
+                      FIRST_TAG=$(echo "${TAGS}" | head -n1)
+                      IMAGE_DIGEST=$(podman manifest inspect "${FIRST_TAG}" --raw | sha256sum | cut -d' ' -f1)
+                      IMAGE_REF="${FIRST_TAG%:*}@sha256:${IMAGE_DIGEST}"
 
-                cosign sign --yes "${IMAGE_REF}"
-                cosign attest --yes \
-                  --type spdxjson \
+                echo "Signing image: ${IMAGE_REF}"
+                cosign sign -y \
+                  --record-creation-timestamp \
+                  "${IMAGE_REF}"
+
+                echo "Creating SBOM attestation: ${IMAGE_REF}"
+                cosign attest -y \
+                  --attestation-type spdxjson \
                   --predicate sbom.json \
+                  --record-creation-timestamp \
                   "${IMAGE_REF}"
             # ---------- verification ----------
             - name: Verify signatures and attestations
@@ -151,16 +158,20 @@ jobs:
               run: |
                 set -euo pipefail
 
-                # Get the first tag (main image reference) and its digest
-                FIRST_TAG=$(echo "${TAGS}" | head -n1)
-                IMAGE_DIGEST=$(podman manifest inspect "${FIRST_TAG}" --raw | sha256sum | cut -d' ' -f1)
-                IMAGE_REF="${FIRST_TAG%:*}@sha256:${IMAGE_DIGEST}"
+                      # Get the first tag (main image reference) and its digest
+                      FIRST_TAG=$(echo "${TAGS}" | head -n1)
+                      IMAGE_DIGEST=$(podman manifest inspect "${FIRST_TAG}" --raw | sha256sum | cut -d' ' -f1)
+                      IMAGE_REF="${FIRST_TAG%:*}@sha256:${IMAGE_DIGEST}"
 
+                echo "Verifying image signature: ${IMAGE_REF}"
                 cosign verify "${IMAGE_REF}" \
                   --certificate-identity-regexp "${{ vars.COSIGN_CERTIFICATE_IDENTITY }}" \
-                  --certificate-oidc-issuer-regexp "${{ vars.COSIGN_CERTIFICATE_OIDC_ISSUER }}"
+                  --certificate-oidc-issuer-regexp "${{ vars.COSIGN_CERTIFICATE_OIDC_ISSUER }}" \
+                  --output json | jq .
 
+                echo "Verifying SBOM attestation: ${IMAGE_REF}"
                 cosign verify-attestation "${IMAGE_REF}" \
-                  --type spdxjson \
+                  --attestation-type spdxjson \
                   --certificate-identity-regexp "${{ vars.COSIGN_CERTIFICATE_IDENTITY }}" \
-                  --certificate-oidc-issuer-regexp "${{ vars.COSIGN_CERTIFICATE_OIDC_ISSUER }}"
+                  --certificate-oidc-issuer-regexp "${{ vars.COSIGN_CERTIFICATE_OIDC_ISSUER }}" \
+                  --output json | jq .
