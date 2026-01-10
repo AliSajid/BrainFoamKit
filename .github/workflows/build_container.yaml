@@ -86,7 +86,7 @@ jobs:
                 labels: ${{ steps.meta.outputs.labels }}
                 platforms: linux/amd64,linux/arm64
                 containerfiles: |
-                    ./Containerfile
+                    ./Dockerfile
                 build-args: |
                     SOURCE_DATE_EPOCH=${{ env.SOURCE_DATE_EPOCH }}
             - name: Push image to GHCR
