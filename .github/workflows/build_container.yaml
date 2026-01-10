@@ -133,15 +133,16 @@ jobs:
               run: |
                 set -euo pipefail
 
-                IFS=$'\n' read -ra TAG_ARRAY <<< "${TAGS}"
+                # Get the first tag (main image reference) and its digest
+                FIRST_TAG=$(echo "${TAGS}" | head -n1)
+                IMAGE_DIGEST=$(podman manifest inspect "${FIRST_TAG}" --raw | sha256sum | cut -d' ' -f1)
+                IMAGE_REF="${FIRST_TAG%:*}@sha256:${IMAGE_DIGEST}"
 
-                for tag in "${TAG_ARRAY[@]}"; do
-                  cosign sign --yes "${tag}"
-                  cosign attest --yes \
-                    --type spdxjson \
-                    --predicate sbom.json \
-                    "${tag}"
-                done
+                cosign sign --yes "${IMAGE_REF}"
+                cosign attest --yes \
+                  --type spdxjson \
+                  --predicate sbom.json \
+                  "${IMAGE_REF}"
             # ---------- verification ----------
             - name: Verify signatures and attestations
               if: github.event_name != 'pull_request'
@@ -150,15 +151,16 @@ jobs:
               run: |
                 set -euo pipefail
 
-                IFS=$'\n' read -ra TAG_ARRAY <<< "${TAGS}"
+                # Get the first tag (main image reference) and its digest
+                FIRST_TAG=$(echo "${TAGS}" | head -n1)
+                IMAGE_DIGEST=$(podman manifest inspect "${FIRST_TAG}" --raw | sha256sum | cut -d' ' -f1)
+                IMAGE_REF="${FIRST_TAG%:*}@sha256:${IMAGE_DIGEST}"
 
-                for tag in "${TAG_ARRAY[@]}"; do
-                  cosign verify "${tag}" \
-                    --certificate-identity-regexp "${{ vars.COSIGN_CERTIFICATE_IDENTITY }}" \
-                    --certificate-oidc-issuer-regexp "${{ vars.COSIGN_CERTIFICATE_OIDC_ISSUER }}"
+                cosign verify "${IMAGE_REF}" \
+                  --certificate-identity-regexp "${{ vars.COSIGN_CERTIFICATE_IDENTITY }}" \
+                  --certificate-oidc-issuer-regexp "${{ vars.COSIGN_CERTIFICATE_OIDC_ISSUER }}"
 
-                  cosign verify-attestation "${tag}" \
-                    --type spdxjson \
-                    --certificate-identity-regexp "${{ vars.COSIGN_CERTIFICATE_IDENTITY }}" \
-                    --certificate-oidc-issuer-regexp "${{ vars.COSIGN_CERTIFICATE_OIDC_ISSUER }}"
-                done
+                cosign verify-attestation "${IMAGE_REF}" \
+                  --type spdxjson \
+                  --certificate-identity-regexp "${{ vars.COSIGN_CERTIFICATE_IDENTITY }}" \
+                  --certificate-oidc-issuer-regexp "${{ vars.COSIGN_CERTIFICATE_OIDC_ISSUER }}"
