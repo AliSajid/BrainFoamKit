@@ -37,7 +37,6 @@ jobs:
                 dpkg -l | grep qemu-user-static
             - name: Enable multi-arch emulation
               run: |
-                sudo update-binfmts --enable
                 docker run --privileged --rm tonistiigi/binfmt --install arm64
             # ---------- metadata ----------
             - name: Generate metadata (GHCR canonical)
