@@ -103,14 +103,14 @@ jobs:
               uses: redhat-actions/push-to-registry@5ed88d269cf581ea9ef6dd6806d01562096bee9c
               with:
                 image: ${{ steps.build.outputs.image }}
-                tags: ${{ steps.build.outputs.tags }}
+                tags: ${{ steps.meta.outputs.version }} ${{ steps.meta.outputs.tag-names }}
                 registry: docker.io/${{ vars.DOCKER_ORG }}
             - name: Push image to Quay.io
               if: github.event_name != 'pull_request'
               uses: redhat-actions/push-to-registry@5ed88d269cf581ea9ef6dd6806d01562096bee9c
               with:
                 image: ${{ steps.build.outputs.image }}
-                tags: ${{ steps.build.outputs.tags }}
+                tags: ${{ steps.meta.outputs.version }} ${{ steps.meta.outputs.tag-names }}
                 registry: quay.io/${{ vars.QUAY_ORG }}
             # ---------- SBOM ----------
             - name: Install Syft
