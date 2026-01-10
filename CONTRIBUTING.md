@@ -1018,7 +1018,7 @@ Located in `.github/workflows/`:
 
 **ci.yaml** - Main CI pipeline:
 
-- Matrix: 3 OS × 4 Rust versions (stable/beta/nightly/MSRV 1.75.0)
+- Matrix: 3 OS × 4 Rust versions (stable/beta/nightly/MSRV 1.86.0)
 - Runs: fmt, clippy, test, build, deny, reuse
 - Path filters: Skips on docs-only changes
 

@@ -16,7 +16,7 @@ also aims to provide a terminal-based TUI for stepping through and understanding
 
 ## Builds
 
-| | Stable | Beta | Nightly | MSRV (1.75.0) |
+| | Stable | Beta | Nightly | MSRV (1.86.0) |
 | ------- | ------ | ---- | ------- | ---- |
 | Linux | ![Ubuntu x Stable Rust](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/AliSajid/80eb42183fabbaf02eebcf768bdae485/raw/ubuntu-stable.json) | ![Ubuntu x Beta Rust](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/AliSajid/80eb42183fabbaf02eebcf768bdae485/raw/ubuntu-beta.json) | ![Ubuntu x Nightly Rust](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/AliSajid/80eb42183fabbaf02eebcf768bdae485/raw/ubuntu-nightly.json) | ![Ubuntu x MSRV Rust](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/AliSajid/80eb42183fabbaf02eebcf768bdae485/raw/ubuntu-msrv.json) |
 | Windows | ![Windows x Stable Rust](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/AliSajid/80eb42183fabbaf02eebcf768bdae485/raw/windows-stable.json) | ![Windows x Beta Rust](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/AliSajid/80eb42183fabbaf02eebcf768bdae485/raw/windows-beta.json) | ![Windows x Nightly Rust](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/AliSajid/80eb42183fabbaf02eebcf768bdae485/raw/windows-nightly.json) | ![Windows x MSRV Rust](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/AliSajid/80eb42183fabbaf02eebcf768bdae485/raw/windows-msrv.json) |

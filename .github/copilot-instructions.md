@@ -114,8 +114,8 @@ Dual-licensed under MIT OR Apache-2.0. Configuration and other ancillary files u
 
 ### Minimum Supported Rust Version (MSRV)
 
-- **1.75.0** as defined in `Cargo.toml` and tested in CI
-- Edition 2021
+- **1.86.0** as defined in `Cargo.toml` and tested in CI
+- Edition 2024
 
 ## CI/CD & Automation
 
