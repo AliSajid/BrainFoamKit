@@ -34,7 +34,7 @@ jobs:
               run: |
                 sudo apt-get update
                 sudo apt-get install -y jq qemu-user-static
-                qemu-user-static --version
+                dpkg -l | grep qemu-user-static
             - name: Enable multi-arch emulation
               run: |
                 sudo update-binfmts --enable
