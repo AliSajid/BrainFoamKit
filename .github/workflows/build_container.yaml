@@ -87,8 +87,6 @@ jobs:
                 platforms: linux/amd64,linux/arm64
                 containerfiles: |
                     ./Dockerfile
-                build-args: |
-                    SOURCE_DATE_EPOCH=${{ env.SOURCE_DATE_EPOCH }}
             - name: Push image to GHCR
               id: push-ghcr
               uses: redhat-actions/push-to-registry@5ed88d269cf581ea9ef6dd6806d01562096bee9c
@@ -120,9 +118,9 @@ jobs:
             - name: Generate SBOM
               if: github.event_name != 'pull_request'
               run: |
-                syft \
-                  "${{ env.CANONICAL_REGISTRY }}/${{ github.repository }}:${{ steps.meta.outputs.version }}" \
-                  -o spdx-json=sbom.json
+                # Extract the first tag (which is already lowercase from docker/metadata-action)
+                FIRST_TAG=$(echo "${{ steps.meta.outputs.tags }}" | head -n1)
+                syft "$FIRST_TAG" -o spdx-json=sbom.json
             # ---------- signing ----------
             - name: Install Cosign
               uses: sigstore/cosign-installer@v3
