@@ -15,17 +15,17 @@ env:
     SYFT_VERSION: v1.40.0
 jobs:
     build:
-        runs-on: ubuntu-22.04
+        runs-on: ubuntu-24.04
         permissions:
             packages: write
             id-token: write
         steps:
             - name: Harden runner
-              uses: step-security/harden-runner@v2
+              uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
               with:
                 egress-policy: audit
             - name: Checkout
-              uses: actions/checkout@v4
+              uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
             - name: Set build environment
               id: env
               run: |
@@ -42,7 +42,7 @@ jobs:
             # ---------- metadata ----------
             - name: Generate metadata (GHCR canonical)
               id: meta
-              uses: docker/metadata-action@v5
+              uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051 # v5.10.0
               with:
                 images: |
                     ${{ env.CANONICAL_REGISTRY }}/${{ github.repository }}
@@ -112,11 +112,22 @@ jobs:
                 tags: ${{ steps.meta.outputs.version }} ${{ steps.meta.outputs.tag-names }}
                 registry: quay.io/${{ vars.QUAY_ORG }}
             # ---------- SBOM ----------
+            - name: Extract first image tag for SBOM
+              if: github.event_name != 'pull_request'
+              id: sbom-image
+              run: |
+                set -euo pipefail
+                FIRST_TAG=$(printf '%s\n' "${{ steps.meta.outputs.tags }}" | head -n1 | tr -d '\r')
+                if [ -z "$FIRST_TAG" ]; then
+                  echo "No tag found for SBOM generation" >&2
+                  exit 1
+                fi
+                printf 'image=%s\n' "$FIRST_TAG" >> "$GITHUB_OUTPUT"
             - name: Generate SBOM for container image
               if: github.event_name != 'pull_request'
               uses: anchore/sbom-action@0b82b0b1a22399a1c542d4d656f70cd903571b5c # v0.21.1
               with:
-                image: ${{ steps.meta.outputs.tags }}
+                image: ${{ steps.sbom-image.outputs.image }}
                 syft-version: ${{ env.SYFT_VERSION }}
                 output-file: sbom.json
                 format: spdx-json
@@ -141,12 +152,13 @@ jobs:
 
                 echo "Signing image: ${IMAGE_REF}"
                 cosign sign -y \
+                  --recursive \
                   --record-creation-timestamp \
                   "${IMAGE_REF}"
 
                 echo "Creating SBOM attestation: ${IMAGE_REF}"
                 cosign attest -y \
-                  --attestation-type spdxjson \
+                  --type spdxjson \
                   --predicate sbom.json \
                   --record-creation-timestamp \
                   "${IMAGE_REF}"
@@ -165,13 +177,14 @@ jobs:
 
                 echo "Verifying image signature: ${IMAGE_REF}"
                 cosign verify "${IMAGE_REF}" \
+                  --recursive \
                   --certificate-identity-regexp "${{ vars.COSIGN_CERTIFICATE_IDENTITY }}" \
                   --certificate-oidc-issuer-regexp "${{ vars.COSIGN_CERTIFICATE_OIDC_ISSUER }}" \
                   --output json | jq .
 
                 echo "Verifying SBOM attestation: ${IMAGE_REF}"
                 cosign verify-attestation "${IMAGE_REF}" \
-                  --attestation-type spdxjson \
+                  --type spdxjson \
                   --certificate-identity-regexp "${{ vars.COSIGN_CERTIFICATE_IDENTITY }}" \
                   --certificate-oidc-issuer-regexp "${{ vars.COSIGN_CERTIFICATE_OIDC_ISSUER }}" \
                   --output json | jq .
