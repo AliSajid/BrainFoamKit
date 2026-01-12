@@ -64,7 +64,7 @@ FROM chef AS builder
 ARG SOURCE_DATE_EPOCH
 ENV SOURCE_DATE_EPOCH=${SOURCE_DATE_EPOCH}
 RUN echo "SOURCE_DATE_EPOCH raw: $SOURCE_DATE_EPOCH"
-RUN date -u --date="@$SOURCE_DATE_EPOCH" '+%Y-%m-%d %H:%M:%S UTC'
+RUN date -u --date="$SOURCE_DATE_EPOCH" '+%Y-%m-%d %H:%M:%S UTC'
 
 ENV RUSTFLAGS="--remap-path-prefix=/app=."
 
