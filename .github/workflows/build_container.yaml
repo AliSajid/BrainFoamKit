@@ -56,7 +56,7 @@ jobs:
                     type=semver,pattern={{major}}
                     type=sha,format=short
                 labels: |
-                    org.opencontainers.image.source=${{ github.repository }}
+                    org.opencontainers.image.source=${{ env.REPOSITORY_NAME }}
                     org.opencontainers.image.description=Brainfuck interpreter and TUI visualizer with custom byte-level type system
                     org.opencontainers.image.licenses=MIT AND Apache-2.0
             # ---------- auth ----------
@@ -105,7 +105,7 @@ jobs:
               env:
                 TAGS: ${{ steps.meta.outputs.tags }}
                 REGISTRY: ${{ env.CANONICAL_REGISTRY }}
-                IMAGE: ${{ github.repository }}
+                IMAGE: ${{ env.REPOSITORY_NAME }}
               run: |
                 set -euo pipefail
 
@@ -209,7 +209,7 @@ jobs:
                 for TAG in ${TAGS}; do
                   for TARGET in docker.io/${DOCKER_ORG} quay.io/${QUAY_ORG}; do
                     skopeo copy \
-                      docker://${{ env.CANONICAL_REGISTRY }}/${{ github.repository }}:${TAG##*:} \
+                      docker://${{ env.CANONICAL_REGISTRY }}/${{ env.REPOSITORY_NAME }}:${TAG##*:} \
                       docker://${TARGET}/${IMAGE_NAME}:${TAG##*:}
                   done
                 done
