@@ -165,7 +165,6 @@ jobs:
 
                 echo "Verifying image signature: ${IMAGE_REF}"
                 cosign verify "${IMAGE_REF}" \
-                  --recursive \
                   --certificate-identity-regexp "${{ vars.COSIGN_CERTIFICATE_IDENTITY }}" \
                   --certificate-oidc-issuer-regexp "${{ vars.COSIGN_CERTIFICATE_OIDC_ISSUER }}" \
                   --output json | jq .
