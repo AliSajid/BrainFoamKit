@@ -24,4 +24,5 @@
   yamllint = "1.37.1"
 
 [env]
+  RUSTFLAGS = "--remap-path-prefix /Users/aimami/experiments/rust-projects/brainfoamkit=. --remap-path-prefix /Users/aimami/.cargo=.cargo-home --remap-path-prefix target=target --remap-path-prefix /Users/aimami=.home"
   RUST_LOG = "warn"

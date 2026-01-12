@@ -35,6 +35,8 @@ FROM lukemathwalker/cargo-chef:0.1.71-rust-1.86.0 AS chef
 
 WORKDIR /app
 
+ENV CARGO_TARGET_DIR=/app/target
+
 # -----------------------------------------------------------------------------------
 # planner stage
 # -----------------------------------------------------------------------------------
@@ -59,11 +61,14 @@ RUN cargo chef prepare --recipe-path recipe.json
 # Use the previous stage as the base image
 FROM chef AS builder
 
+ENV SOURCE_DATE_EPOCH=0
+ENV RUSTFLAGS="--remap-path-prefix=/app=."
+
 # Copy the `cargo-chef` recipe from the `planner` stage to the current image
 COPY --from=planner /app/recipe.json recipe.json
 
 # Use `cargo-chef cook` to build the dependencies of the project
-RUN cargo chef cook --release --recipe-path recipe.json
+RUN cargo chef cook --release --locked --recipe-path recipe.json
 
 # Copy the project files to the image
 COPY . .

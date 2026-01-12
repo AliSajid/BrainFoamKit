@@ -33,11 +33,12 @@ jobs:
             - name: Install tooling
               run: |
                 sudo apt-get update
-                sudo apt-get install -y jq qemu-user-static
-                dpkg -l | grep qemu-user-static
+                sudo apt-get install -y jq qemu-user-static skopeo podman
+                podman --version
+                skopeo --version
             - name: Enable multi-arch emulation
               run: |
-                docker run --privileged --rm tonistiigi/binfmt --install arm64
+                sudo podman run --privileged --rm tonistiigi/binfmt --install arm64
             # ---------- metadata ----------
             - name: Generate metadata (GHCR canonical)
               id: meta
@@ -96,37 +97,33 @@ jobs:
                 registry: ${{ env.CANONICAL_REGISTRY }}
                 username: ${{ github.actor }}
                 password: ${{ secrets.GITHUB_TOKEN }}
-            - name: Push image to Docker Hub
+            - name: Resolve canonical image digest from GHCR
+              id: resolve-digest
               if: github.event_name != 'pull_request'
-              uses: redhat-actions/push-to-registry@5ed88d269cf581ea9ef6dd6806d01562096bee9c
-              with:
-                image: ${{ steps.build.outputs.image }}
-                tags: ${{ steps.meta.outputs.version }} ${{ steps.meta.outputs.tag-names }}
-                registry: docker.io/${{ vars.DOCKER_ORG }}
-            - name: Push image to Quay.io
-              if: github.event_name != 'pull_request'
-              uses: redhat-actions/push-to-registry@5ed88d269cf581ea9ef6dd6806d01562096bee9c
-              with:
-                image: ${{ steps.build.outputs.image }}
-                tags: ${{ steps.meta.outputs.version }} ${{ steps.meta.outputs.tag-names }}
-                registry: quay.io/${{ vars.QUAY_ORG }}
-            # ---------- SBOM ----------
-            - name: Extract first image tag for SBOM
-              if: github.event_name != 'pull_request'
-              id: sbom-image
+              env:
+                TAGS: ${{ steps.meta.outputs.tags }}
+                REGISTRY: ${{ env.CANONICAL_REGISTRY }}
+                IMAGE: ${{ github.repository }}
               run: |
                 set -euo pipefail
-                FIRST_TAG=$(printf '%s\n' "${{ steps.meta.outputs.tags }}" | head -n1 | tr -d '\r')
-                if [ -z "$FIRST_TAG" ]; then
-                  echo "No tag found for SBOM generation" >&2
+
+                PRIMARY_TAG=$(printf '%s\n' "${TAGS}" | head -n1)
+                FULL_REF="${REGISTRY}/${IMAGE}:${PRIMARY_TAG##*:}"
+
+                DIGEST=$(skopeo inspect "docker://${FULL_REF}" --format '{{.Digest}}')
+
+                if [ -z "${DIGEST}" ]; then
+                  echo "Failed to resolve image digest" >&2
                   exit 1
                 fi
-                printf 'image=%s\n' "$FIRST_TAG" >> "$GITHUB_OUTPUT"
+
+                echo "image_ref=${REGISTRY}/${IMAGE}@${DIGEST}" >> "$GITHUB_OUTPUT"
+            # ---------- SBOM ----------
             - name: Generate SBOM for container image
               if: github.event_name != 'pull_request'
-              uses: anchore/sbom-action@0b82b0b1a22399a1c542d4d656f70cd903571b5c # v0.21.1
+              uses: anchore/sbom-action@0b82b0b1a22399a1c542d4d656f70cd903571b5c
               with:
-                image: ${{ steps.sbom-image.outputs.image }}
+                image: ${{ steps.resolve-digest.outputs.image_ref }}
                 syft-version: ${{ env.SYFT_VERSION }}
                 output-file: sbom.json
                 format: spdx-json
@@ -140,14 +137,9 @@ jobs:
             - name: Sign and attest image
               if: github.event_name != 'pull_request'
               env:
-                TAGS: ${{ steps.meta.outputs.tags }}
+                IMAGE_REF: ${{ steps.resolve-digest.outputs.image_ref }}
               run: |
                 set -euo pipefail
-
-                      # Get the first tag (main image reference) and its digest
-                      FIRST_TAG=$(echo "${TAGS}" | head -n1)
-                      IMAGE_DIGEST=$(podman manifest inspect "${FIRST_TAG}" --raw | sha256sum | cut -d' ' -f1)
-                      IMAGE_REF="${FIRST_TAG%:*}@sha256:${IMAGE_DIGEST}"
 
                 echo "Signing image: ${IMAGE_REF}"
                 cosign sign -y \
@@ -165,14 +157,9 @@ jobs:
             - name: Verify signatures and attestations
               if: github.event_name != 'pull_request'
               env:
-                TAGS: ${{ steps.meta.outputs.tags }}
+                IMAGE_REF: ${{ steps.resolve-digest.outputs.image_ref }}
               run: |
                 set -euo pipefail
-
-                      # Get the first tag (main image reference) and its digest
-                      FIRST_TAG=$(echo "${TAGS}" | head -n1)
-                      IMAGE_DIGEST=$(podman manifest inspect "${FIRST_TAG}" --raw | sha256sum | cut -d' ' -f1)
-                      IMAGE_REF="${FIRST_TAG%:*}@sha256:${IMAGE_DIGEST}"
 
                 echo "Verifying image signature: ${IMAGE_REF}"
                 cosign verify "${IMAGE_REF}" \
@@ -187,3 +174,69 @@ jobs:
                   --certificate-identity-regexp "${{ vars.COSIGN_CERTIFICATE_IDENTITY }}" \
                   --certificate-oidc-issuer-regexp "${{ vars.COSIGN_CERTIFICATE_OIDC_ISSUER }}" \
                   --output json | jq .
+            # ---------- mirroring ----------
+            - name: Mirror image by digest to Docker Hub and Quay
+              if: github.event_name != 'pull_request'
+              env:
+                IMAGE_REF: ${{ steps.resolve-digest.outputs.image_ref }}
+                DOCKER_ORG: ${{ vars.DOCKER_ORG }}
+                QUAY_ORG: ${{ vars.QUAY_ORG }}
+                IMAGE_NAME: ${{ github.event.repository.name }}
+                TAGS: ${{ steps.meta.outputs.tags }}
+              run: |
+                set -euo pipefail
+
+                for TARGET in docker.io/${DOCKER_ORG} quay.io/${QUAY_ORG}; do
+                  echo "Mirroring ${IMAGE_REF} to ${TARGET}/${IMAGE_NAME}"
+
+                  skopeo copy \
+                    --all \
+                    docker://${IMAGE_REF} \
+                    docker://${TARGET}/${IMAGE_NAME}
+                done
+            - name: Apply tags to mirrored images
+              if: github.event_name != 'pull_request'
+              env:
+                TAGS: ${{ steps.meta.outputs.tags }}
+                IMAGE_NAME: ${{ github.event.repository.name }}
+                DOCKER_ORG: ${{ vars.DOCKER_ORG }}
+                QUAY_ORG: ${{ vars.QUAY_ORG }}
+              run: |
+                set -euo pipefail
+
+                for TAG in ${TAGS}; do
+                  for TARGET in docker.io/${DOCKER_ORG} quay.io/${QUAY_ORG}; do
+                    skopeo copy \
+                      docker://${{ env.CANONICAL_REGISTRY }}/${{ github.repository }}:${TAG##*:} \
+                      docker://${TARGET}/${IMAGE_NAME}:${TAG##*:}
+                  done
+                done
+            - name: Verify digest consistency across registries
+              if: github.event_name != 'pull_request'
+              env:
+                IMAGE_REF: ${{ steps.resolve-digest.outputs.image_ref }}
+                IMAGE_NAME: ${{ github.event.repository.name }}
+                DOCKER_ORG: ${{ vars.DOCKER_ORG }}
+                QUAY_ORG: ${{ vars.QUAY_ORG }}
+              run: |
+                set -euo pipefail
+
+                CANONICAL_DIGEST="${IMAGE_REF##*@}"
+
+                echo "Canonical digest: ${CANONICAL_DIGEST}"
+
+                for TARGET in \
+                  docker.io/${DOCKER_ORG}/${IMAGE_NAME} \
+                  quay.io/${QUAY_ORG}/${IMAGE_NAME}; do
+
+                  TARGET_DIGEST=$(skopeo inspect docker://${TARGET} --format '{{.Digest}}')
+
+                  echo "${TARGET} -> ${TARGET_DIGEST}"
+
+                  if [ "${TARGET_DIGEST}" != "${CANONICAL_DIGEST}" ]; then
+                    echo "Digest mismatch detected for ${TARGET}" >&2
+                    exit 1
+                  fi
+                done
+
+                echo "All registries match canonical digest"
