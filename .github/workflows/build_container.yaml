@@ -84,7 +84,7 @@ jobs:
                 SOURCE_DATE_EPOCH: ${{ env.SOURCE_DATE_EPOCH }}
               uses: redhat-actions/buildah-build@7a95fa7ee0f02d552a32753e7414641a04307056
               with:
-                image: ${{ github.event.repository.name }}
+                image: ${{ env.REPOSITORY_NAME }}
                 tags: ${{ steps.meta.outputs.tags }}
                 labels: ${{ steps.meta.outputs.labels }}
                 platforms: linux/amd64,linux/arm64
@@ -182,7 +182,7 @@ jobs:
                 IMAGE_REF: ${{ steps.resolve-digest.outputs.image_ref }}
                 DOCKER_ORG: ${{ vars.DOCKER_ORG }}
                 QUAY_ORG: ${{ vars.QUAY_ORG }}
-                IMAGE_NAME: ${{ github.event.repository.name }}
+                IMAGE_NAME: ${{ env.REPOSITORY_NAME }}
                 TAGS: ${{ steps.meta.outputs.tags }}
               run: |
                 set -euo pipefail
@@ -199,7 +199,7 @@ jobs:
               if: github.event_name != 'pull_request'
               env:
                 TAGS: ${{ steps.meta.outputs.tags }}
-                IMAGE_NAME: ${{ github.event.repository.name }}
+                IMAGE_NAME: ${{ env.REPOSITORY_NAME }}
                 DOCKER_ORG: ${{ vars.DOCKER_ORG }}
                 QUAY_ORG: ${{ vars.QUAY_ORG }}
               run: |
@@ -216,7 +216,7 @@ jobs:
               if: github.event_name != 'pull_request'
               env:
                 IMAGE_REF: ${{ steps.resolve-digest.outputs.image_ref }}
-                IMAGE_NAME: ${{ github.event.repository.name }}
+                IMAGE_NAME: ${{ env.REPOSITORY_NAME }}
                 DOCKER_ORG: ${{ vars.DOCKER_ORG }}
                 QUAY_ORG: ${{ vars.QUAY_ORG }}
               run: |
