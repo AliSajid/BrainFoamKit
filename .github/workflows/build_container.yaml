@@ -39,13 +39,15 @@ jobs:
             - name: Enable multi-arch emulation
               run: |
                 sudo podman run --privileged --rm tonistiigi/binfmt --install arm64
+            - name: Convert repository name to lowercase
+              run: echo "REPOSITORY_NAME=`echo ${{github.repository}} | tr '[:upper:]' '[:lower:]'`" >>${GITHUB_ENV}
             # ---------- metadata ----------
             - name: Generate metadata (GHCR canonical)
               id: meta
               uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051 # v5.10.0
               with:
                 images: |
-                    ${{ env.CANONICAL_REGISTRY }}/${{ github.repository }}
+                    ${{ env.CANONICAL_REGISTRY }}/${{ env.REPOSITORY_NAME }}
                 tags: |
                     type=ref,event=branch
                     type=ref,event=tag
