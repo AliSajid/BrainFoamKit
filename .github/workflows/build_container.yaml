@@ -29,7 +29,9 @@ jobs:
             - name: Set build environment
               id: env
               run: |
-                echo "SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)" >> "$GITHUB_ENV"
+                LAST_COMMIT_EPOCH=$(git log -1 --pretty=%ct)
+                echo "SOURCE_DATE_EPOCH=${LAST_COMMIT_EPOCH}" >> "$GITHUB_ENV"
+                echo "SOURCE_DATE_TIMESTAMP=$(date -u --date=\"@${LAST_COMMIT_EPOCH}\" '+%Y-%m-%dT%H:%M:%SZ')" >> "$GITHUB_ENV"
             - name: Install tooling
               run: |
                 sudo apt-get update
@@ -64,6 +66,7 @@ jobs:
                     org.opencontainers.image.source=${{ env.REPOSITORY_FULL }}
                     org.opencontainers.image.description=Brainfuck interpreter and TUI visualizer with custom byte-level type system
                     org.opencontainers.image.licenses=MIT AND Apache-2.0
+                    org.opencontainers.image.created=${{}}
             # ---------- auth ----------
             - name: Login to GitHub Container Registry
               uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
