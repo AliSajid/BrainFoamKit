@@ -218,7 +218,7 @@ jobs:
                 for TAG in ${TAGS}; do
                   for TARGET in docker.io/${DOCKER_ORG} quay.io/${QUAY_ORG}; do
                     skopeo copy \
-                      docker://${{ env.CANONICAL_REGISTRY }}/${{ env.REPOSITORY_NAME }}:${TAG##*:} \
+                      docker://${{ env.CANONICAL_REGISTRY }}/${{ env.REPOSITORY_FULL }}:${TAG##*:} \
                       docker://${TARGET}/${IMAGE_NAME}:${TAG##*:}
                   done
                 done
