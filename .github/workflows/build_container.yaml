@@ -68,6 +68,9 @@ jobs:
                     org.opencontainers.image.description=Brainfuck interpreter and TUI visualizer with custom byte-level type system
                     org.opencontainers.image.licenses=MIT AND Apache-2.0
                     org.opencontainers.image.created=${{ env.SOURCE_DATE_TIMESTAMP }}
+                annotations: |
+                    org.opencontainers.image.description=Brainfuck interpreter and TUI visualizer with custom byte-level type system
+                    org.opencontainers.image.created=${{ env.SOURCE_DATE_TIMESTAMP }}
             # ---------- auth ----------
             - name: Login to GitHub Container Registry
               uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
