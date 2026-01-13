@@ -30,8 +30,9 @@ jobs:
               id: env
               run: |
                 LAST_COMMIT_EPOCH=$(git log -1 --pretty=%ct)
+                LAST_COMMIT_TIMESTAMP=$(date -u --date=@$LAST_COMMIT_EPOCH '+%Y-%m-%dT%H:%M:%SZ')
                 echo "SOURCE_DATE_EPOCH=${LAST_COMMIT_EPOCH}" >> "$GITHUB_ENV"
-                echo "SOURCE_DATE_TIMESTAMP=$(date -u --date=\"@${LAST_COMMIT_EPOCH}\" '+%Y-%m-%dT%H:%M:%SZ')" >> "$GITHUB_ENV"
+                echo "SOURCE_DATE_TIMESTAMP=${LAST_COMMIT_TIMESTAMP}" >> "$GITHUB_ENV"
             - name: Install tooling
               run: |
                 sudo apt-get update
