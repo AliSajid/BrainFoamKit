@@ -39,9 +39,6 @@ jobs:
                 sudo apt-get install -y jq qemu-user-static skopeo podman
                 podman --version
                 skopeo --version
-            - name: Enable multi-arch emulation
-              run: |
-                sudo podman run --privileged --rm tonistiigi/binfmt --install arm64
             - name: Convert repository name to lowercase
               run: |
                 REPO_FULL="$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')"
@@ -98,6 +95,7 @@ jobs:
               with:
                 image: ${{ env.REPOSITORY_FULL }}
                 tags: ${{ steps.meta.outputs.tags }}
+                layers: true
                 labels: ${{ steps.meta.outputs.labels }}
                 platforms: linux/amd64,linux/arm64
                 build-args: |
