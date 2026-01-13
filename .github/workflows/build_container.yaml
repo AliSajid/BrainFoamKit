@@ -121,8 +121,8 @@ jobs:
             - name: Run vulnerability scanning to surface potential issues
               uses: aquasecurity/trivy-action@0.33.1
               with:
-                image_ref: ${{steps.resolve-digest.outputs.image_ref}}
-                scan_type: image
+                image-ref: ${{steps.resolve-digest.outputs.image_ref}}
+                scan-type: image
                 format: sarif
                 output: trivy-results.sarif
             - name: Upload Trivy scan results to GitHub Security tab
