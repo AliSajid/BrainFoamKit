@@ -4,7 +4,6 @@
 // SPDX-License-Identifier: MIT
 
 use brainfoamkit_lib::{
-    AsciiChar,
     AsciiTable,
     Byte,
 };
@@ -25,22 +24,25 @@ fn main() {
     let ascii = AsciiTable::new();
 
     // Create table headers for different number representations
-    table.set_titles(row![bc => "Byte", "Binary", "Hexadecimal", "String", "Representation"]);
+    table.set_titles(row![bc => "Binary", "Hexadecimal", "Character Code", "Character Value", "Character Description"]);
     table.set_format(*format::consts::FORMAT_NO_LINESEP_WITH_TITLE);
 
     // Populate the table with ASCII values 0-127 and their representations
     for num in 0..128 {
         let byte = Byte::from(num);
-        let char = ascii
-            .get(byte)
-            .map_or_else(|| "NA".to_owned(), AsciiChar::character_value);
-        table.add_row(row![c=>
-            format!("{num}", num = &byte),
-            format!("{num:#010b}", num = u8::from(&byte)),
-            format!("{num:#04X}", num = u8::from(&byte)),
-            format!("{num}", num = byte.to_string()),
-            format!("{char}", char = char)
-        ]);
+        let char = ascii.get(byte);
+        match char {
+            None => panic!(),
+            Some(val) => {
+                table.add_row(row![c=>
+                    format!("{display}", display = val.binary_value()),
+                    format!("{display}", display = val.hexadecimal_value()),
+                    format!("{display}", display = val.character_code()),
+                    format!("{display}", display = val.character_value()),
+                    format!("{display}", display = val.character_description())
+                ]);
+            }
+        }
     }
 
     table.printstd();
