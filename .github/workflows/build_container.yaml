@@ -192,7 +192,7 @@ jobs:
                 IMAGE_REF: ${{ steps.resolve-digest.outputs.image_ref }}
                 DOCKER_ORG: ${{ vars.DOCKER_ORG }}
                 QUAY_ORG: ${{ vars.QUAY_ORG }}
-                IMAGE_NAME: ${{ env.REPOSITORY_NAME }}
+                IMAGE_NAME: ${{ env.IMAGE_NAME }}
                 TAGS: ${{ steps.meta.outputs.tags }}
               run: |
                 set -euo pipefail
