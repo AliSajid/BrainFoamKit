@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+// SPDX-FileCopyrightText: 2023 - 2026 Ali Sajid Imami
 //
 // SPDX-License-Identifier: Apache-2.0
 // SPDX-License-Identifier: MIT
@@ -84,7 +84,7 @@ impl<'a> IterableNybble<'a> {
     }
 }
 
-impl<'a> Iterator for IterableNybble<'a> {
+impl Iterator for IterableNybble<'_> {
     /// The type of the element the iterator returns
     type Item = Bit;
 

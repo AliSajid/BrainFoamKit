@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+// SPDX-FileCopyrightText: 2023 - 2026 Ali Sajid Imami
 //
 // SPDX-License-Identifier: Apache-2.0
 // SPDX-License-Identifier: MIT
@@ -12,11 +12,8 @@ use crate::{
 
 /// Represents a table of ASCII characters.
 ///
-/// The table is implemented as a [`HashMap`](https://doc.rust-lang.org/std/collections/struct.HashMap.html)
-/// of [`Byte`](struct.Byte.html) values to [`AsciiChar`](struct.AsciiChar.html)
-///
-/// It maps the valid ASCII [`Byte`](struct.Byte.html) values to their
-/// corresponding [`AsciiChar`](struct.AsciiChar.html) values.
+/// This struct stores the ASCII character set (0-127) in a hash map for
+/// quick lookup. Use `get()` to retrieve an `AsciiChar` by its byte value.
 ///
 /// # Examples
 ///
@@ -28,34 +25,24 @@ use crate::{
 ///
 /// let ascii_table = AsciiTable::new();
 ///
-/// assert_eq!(
-///     ascii_table.get(Byte::from(0)).unwrap().character_code(),
-///     "CNUL"
-/// );
-/// assert_eq!(
-///     ascii_table.get(Byte::from(1)).unwrap().character_code(),
-///     "CSOH"
-/// );
-/// assert_eq!(
-///     ascii_table.get(Byte::from(2)).unwrap().character_code(),
-///     "CSTX"
-/// );
+/// // Get the character representation for ASCII code 65 (uppercase 'A')
+/// let char_a = ascii_table.get(Byte::from(65)).unwrap();
+/// assert_eq!(char_a.character_value(), "A");
 /// ```
 ///
 /// # References
 ///
 /// * [ASCII](https://en.wikipedia.org/wiki/ASCII)
 /// * [ASCII Table](https://www.asciitable.com/)
-/// * [ASCII Table and Description](https://www.cs.cmu.edu/~pattis/15-1XX/common/handouts/ascii.html)
 pub struct AsciiTable {
     table: HashMap<Byte, AsciiChar>,
 }
 
 impl AsciiTable {
-    /// Create a new [`AsciiTable`](struct.AsciiTable.html) instance.
+    /// Create a new `AsciiTable` instance.
     ///
-    /// This will create a new [`AsciiTable`](struct.AsciiTable.html) instance
-    /// with all the valid ASCII characters pre-populated.
+    /// This creates a complete ASCII character set (0-127) pre-populated in
+    /// the table for instant access.
     ///
     /// # Examples
     ///
@@ -67,17 +54,15 @@ impl AsciiTable {
     ///
     /// let ascii_table = AsciiTable::new();
     ///
-    /// assert_eq!(
-    ///     ascii_table.get(Byte::from(0)).unwrap().character_code(),
-    ///     "CNUL"
-    /// );
+    /// // Check that the table has entries
+    /// let null_char = ascii_table.get(Byte::from(0)).unwrap();
+    /// assert_eq!(null_char.character_code(), "CNUL");
     /// ```
     ///
     /// # References
     ///
     /// * [ASCII](https://en.wikipedia.org/wiki/ASCII)
     /// * [ASCII Table](https://www.asciitable.com/)
-    /// * [ASCII Table and Description](https://www.cs.cmu.edu/~pattis/15-1XX/common/handouts/ascii.html)
     #[must_use]
     #[allow(clippy::too_many_lines)]
     pub fn new() -> Self {

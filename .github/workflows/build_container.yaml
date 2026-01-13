@@ -1,140 +1,263 @@
-# SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+# SPDX-FileCopyrightText: 2023 - 2026 Ali Sajid Imami
 #
 # SPDX-License-Identifier: Apache-2.0
 # SPDX-License-Identifier: MIT
-
 ---
-name: Docker Image Generation
+name: OCI Container Build, Mirror, Sign
 on:
-  workflow_call:
-  workflow_dispatch:
-
-concurrency:
-  group: docker-{github.event.ref}
-
+    workflow_dispatch:
+    workflow_call:
 env:
-  DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
-  DOCKER_REPOSITORY_NAME: ${{ vars.DOCKER_REPOSITORY_NAME }}
-  REPOSITORY_NAME: ${{ github.event.repository.name }}
-  COSIGN_RELEASE_VERSION: v2.2.4
-  SYFT_VERSION: v1.7.0
-  SOURCE_DATE_EPOCH: 0
+    # ---- registries ----
+    CANONICAL_REGISTRY: ghcr.io
+    # ---- versions ----
+    COSIGN_RELEASE_VERSION: v3.0.4
+    SYFT_VERSION: v1.40.0
 jobs:
-    docker-build-push:
-        runs-on: ubuntu-latest
+    build:
+        runs-on: ubuntu-24.04
         permissions:
-          id-token: write
-          packages: write
+            packages: write
+            id-token: write
+            security-events: write
         steps:
+            - name: Harden runner
+              uses: step-security/harden-runner@20cf305ff2072d973412fa9b1e3a4f227bda3c76 # v2.14.0
+              with:
+                egress-policy: audit
             - name: Checkout
               uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-            - name: Get Last Commit Date/Time for reproducible builds
-              run: echo "SOURCE_DATE_EPOCH=$(git log -1 --pretty=%ct)" >> $GITHUB_ENV
-            - name: Generate Docker Metadata
+            - name: Set build environment
+              id: env
+              run: |
+                LAST_COMMIT_EPOCH=$(git log -1 --pretty=%ct)
+                LAST_COMMIT_TIMESTAMP=$(date -u --date=@$LAST_COMMIT_EPOCH '+%Y-%m-%dT%H:%M:%SZ')
+                echo "SOURCE_DATE_EPOCH=${LAST_COMMIT_EPOCH}" >> "$GITHUB_ENV"
+                echo "SOURCE_DATE_TIMESTAMP=${LAST_COMMIT_TIMESTAMP}" >> "$GITHUB_ENV"
+            - name: Install tooling
+              run: |
+                sudo apt-get update
+                sudo apt-get install -y jq qemu-user-static skopeo podman
+                podman --version
+                skopeo --version
+            - name: Convert repository name to lowercase
+              run: |
+                REPO_FULL="$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')"
+                REPO_NAME="$(echo '${{ github.repository }}' | awk -F/ '{print $2}' | tr '[:upper:]' '[:lower:]')"
+
+                echo "REPOSITORY_FULL=${REPO_FULL}" >> "$GITHUB_ENV"
+                echo "IMAGE_NAME=${REPO_NAME}" >> "$GITHUB_ENV"
+            # ---------- metadata ----------
+            - name: Generate metadata (GHCR canonical)
               id: meta
-              uses: docker/metadata-action@c1e51972afc2121e065aed6d45c65596fe445f3f # v5.8.0
+              uses: docker/metadata-action@c299e40c65443455700f0fdfc63efafe5b349051 # v5.10.0
               with:
-                  images: |
-                    ${{env.DOCKER_REPOSITORY_NAME}}/${{env.REPOSITORY_NAME}}
-                    ghcr.io/${{ github.repository}}
-                  tags: |
+                images: |
+                    ${{ env.CANONICAL_REGISTRY }}/${{ env.REPOSITORY_FULL }}
+                tags: |
                     type=ref,event=branch
-                    type=ref,event=pr
                     type=ref,event=tag
                     type=semver,pattern={{version}}
                     type=semver,pattern={{major}}.{{minor}}
                     type=semver,pattern={{major}}
-                    type=sha
-                  labels: |
-                    org.opencontainers.image.licenses="MIT AND Apache-2.0"
-            - name: Debug Metadata
-              run: echo "${{ steps.meta.outputs.json }}"
-            - name: Setup Buildx
-              uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435 # v3.11.1
-              with:
-                install: true
-                buildkitd-flags: --debug
-            - name: Setup QEMU
-              uses: docker/setup-qemu-action@29109295f81e9208d7d86ff1c6c12d2833863392 # v3.6.0
-              with:
-                platforms: aarch64,amd64
-            - name: Login to DockerHub
-              uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
-              with:
-                  username: ${{ env.DOCKER_USERNAME }}
-                  password: ${{ secrets.DOCKER_TOKEN }}
+                    type=sha,format=short
+                labels: |
+                    org.opencontainers.image.source=${{ env.REPOSITORY_FULL }}
+                    org.opencontainers.image.description=Brainfuck interpreter and TUI visualizer with custom byte-level type system
+                    org.opencontainers.image.licenses=MIT AND Apache-2.0
+                    org.opencontainers.image.created=${{ env.SOURCE_DATE_TIMESTAMP }}
+                annotations: |
+                    org.opencontainers.image.description=Brainfuck interpreter and TUI visualizer with custom byte-level type system
+                    org.opencontainers.image.created=${{ env.SOURCE_DATE_TIMESTAMP }}
+            # ---------- auth ----------
             - name: Login to GitHub Container Registry
               uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
               with:
-                  registry: ghcr.io
-                  username: ${{ github.actor }}
-                  password: ${{ secrets.GHCR_TOKEN }}
-            - name: Build and Push Docker Images
+                registry: ghcr.io
+                username: ${{ github.actor }}
+                password: ${{ secrets.GITHUB_TOKEN }}
+            - name: Login to Docker Hub
+              uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
+              with:
+                username: ${{ vars.DOCKER_USERNAME }}
+                password: ${{ secrets.DOCKER_TOKEN }}
+            - name: Login to Quay.io
+              uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
+              with:
+                registry: quay.io
+                username: ${{ vars.QUAY_USERNAME }}
+                password: ${{ secrets.QUAY_TOKEN }}
+            # ---------- build ----------
+            - name: Build the container image
               id: build
-              uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
               env:
                 SOURCE_DATE_EPOCH: ${{ env.SOURCE_DATE_EPOCH }}
+              uses: redhat-actions/buildah-build@7a95fa7ee0f02d552a32753e7414641a04307056
               with:
-                  context: .
-                  push: true
-                  provenance: true
-                  annotations: ${{ steps.meta.outputs.annotations }}
-                  tags: ${{ steps.meta.outputs.tags }}
-                  labels: ${{ steps.meta.outputs.labels }}
-                  platforms: linux/amd64,linux/arm64
-            - name: Debug Build
-              run: echo "${{join(steps.build.outputs.*, '\n')}}"
-            - name: Install cosign
+                image: ${{ env.REPOSITORY_FULL }}
+                tags: ${{ steps.meta.outputs.tags }}
+                layers: true
+                labels: ${{ steps.meta.outputs.labels }}
+                platforms: linux/amd64,linux/arm64
+                build-args: |
+                    SOURCE_DATE_EPOCH=${{env.SOURCE_DATE_EPOCH}}
+                containerfiles: |
+                    ./Dockerfile
+            - name: Push image to GHCR
+              id: push-ghcr
+              uses: redhat-actions/push-to-registry@5ed88d269cf581ea9ef6dd6806d01562096bee9c
+              with:
+                tags: ${{ steps.build.outputs.tags }}
+            - name: Resolve canonical image digest from GHCR
+              id: resolve-digest
+              if: github.event_name != 'pull_request'
+              env:
+                DIGEST: ${{ steps.push-ghcr.outputs.digest }}
+                TAGS: ${{ steps.meta.outputs.tags }}
+                REGISTRY: ${{ env.CANONICAL_REGISTRY }}
+                IMAGE: ${{ env.REPOSITORY_FULL }}
+              run: |
+                set -euo pipefail
+                echo "image_ref=${REGISTRY}/${IMAGE}@${DIGEST}" >> "$GITHUB_OUTPUT"
+            - name: Run vulnerability scanning to surface potential issues
+              uses: aquasecurity/trivy-action@0.33.1
+              with:
+                image-ref: ${{steps.resolve-digest.outputs.image_ref}}
+                scan-type: image
+                format: sarif
+                output: trivy-results.sarif
+            - name: Upload Trivy scan results to GitHub Security tab
+              uses: github/codeql-action/upload-sarif@v4
+              with:
+                sarif_file: trivy-results.sarif
+            # ---------- SBOM ----------
+            - name: Generate SBOM for container image
+              if: github.event_name != 'pull_request'
+              uses: anchore/sbom-action@0b82b0b1a22399a1c542d4d656f70cd903571b5c
+              with:
+                image: ${{ steps.resolve-digest.outputs.image_ref }}
+                syft-version: ${{ env.SYFT_VERSION }}
+                output-file: sbom.json
+                format: spdx-json
+                upload-artifact: true
+                upload-release-assets: true
+            # ---------- signing ----------
+            - name: Install Cosign
               uses: sigstore/cosign-installer@faadad0cce49287aee09b3a48701e75088a2c6ad # v4.0.0
               with:
                 cosign-release: ${{ env.COSIGN_RELEASE_VERSION }}
-            - name: Install Syft
-              uses: anchore/sbom-action/download-syft@aa0e114b2e19480f157109b9922bda359bd98b90 # v0.20.8
-              with:
-                syft-version: ${{ env.SYFT_VERSION }}
-            - name: Sign and Push
+            - name: Sign and attest image
+              if: github.event_name != 'pull_request'
               env:
-                IMAGE_DIGEST: ${{ steps.build.outputs.digest }}
-                IMAGE_TAGS: ${{ steps.meta.outputs.tags }}
-                GITHUB_TOKEN: ${{ github.token }}
-                SOURCE_DATE_EPOCH: ${{ env.SOURCE_DATE_EPOCH }}
+                IMAGE_REF: ${{ steps.resolve-digest.outputs.image_ref }}
               run: |
-                for tag in ${IMAGE_TAGS}; do
-                  image="${tag}@${IMAGE_DIGEST}"
-                  original_name="sbom-${tag}.json"
-                  sanitized_name=$(echo "$original_name" | sed 's|[/:]|_|g' | tr '_-' '-_')
-                  echo "Signing the image: ${image}"
-                  echo "Using the original name: $original_name"
-                  echo "Using the sanitized name: $sanitized_name"
-                  echo "Signing and pushing ${tag}@${IMAGE_DIGEST}"
-                  cosign sign --yes ${image}
-                  echo "Generating Software Bill of Materials for ${image}"
-                  syft ${image} -o spdx-json=${sanitized_name} -v
-                  echo "Attesting the Software Bill of Materials for ${image}"
-                  cosign attest --type=spdxjson --yes --predicate ${sanitized_name} ${image}
-                  echo "Done signing and pushing ${tag}@${IMAGE_DIGEST} with SBOM"
-                done
-              shell: bash
-            - name: Verify Signatures
+                set -euo pipefail
+
+                echo "Signing image: ${IMAGE_REF}"
+                cosign sign -y \
+                  --recursive \
+                  --record-creation-timestamp \
+                  "${IMAGE_REF}"
+
+                echo "Creating SBOM attestation: ${IMAGE_REF}"
+                cosign attest -y \
+                  --type spdxjson \
+                  --predicate sbom.json \
+                  --record-creation-timestamp \
+                  "${IMAGE_REF}"
+            # ---------- verification ----------
+            - name: Verify signatures and attestations
+              if: github.event_name != 'pull_request'
               env:
-                IMAGE_DIGEST: ${{ steps.build.outputs.digest }}
-                IMAGE_TAGS: ${{ steps.meta.outputs.tags }}
-                GITHUB_TOKEN: ${{ github.token }}
-                SOURCE_DATE_EPOCH: ${{ env.SOURCE_DATE_EPOCH }}
+                IMAGE_REF: ${{ steps.resolve-digest.outputs.image_ref }}
               run: |
-                for tag in ${IMAGE_TAGS}; do
-                  mkdir -p /tmp/cosign-verifications
-                  image="${tag}@${IMAGE_DIGEST}"
-                  echo "Verifying ${image}"
-                  cosign verify ${image} --certificate-identity-regexp="${{vars.COSIGN_CERTIFICATE_IDENTITY}}" --certificate-oidc-issuer-regexp="${{vars.COSIGN_CERTIFICATE_OIDC_ISSUER}}" --output-file="/tmp/cosign-verifications/cosign-verify.json"
-                  echo "Verifying SBOM Attestation for ${image}"
-                  cosign verify-attestation ${image} --type=spdxjson --certificate-identity-regexp="${{vars.COSIGN_CERTIFICATE_IDENTITY}}" --certificate-oidc-issuer-regexp="${{vars.COSIGN_CERTIFICATE_OIDC_ISSUER}}" --output-file="/tmp/cosign-verifications/cosign-verify-attestation.json"
-                  echo "Done verifying ${image}"
+                set -euo pipefail
+
+                echo "Verifying image signature: ${IMAGE_REF}"
+                cosign verify "${IMAGE_REF}" \
+                  --certificate-identity-regexp "${{ vars.COSIGN_CERTIFICATE_IDENTITY }}" \
+                  --certificate-oidc-issuer-regexp "${{ vars.COSIGN_CERTIFICATE_OIDC_ISSUER }}" \
+                  --output json | jq .
+
+                echo "Verifying SBOM attestation: ${IMAGE_REF}"
+                cosign verify-attestation "${IMAGE_REF}" \
+                  --type spdxjson \
+                  --certificate-identity-regexp "${{ vars.COSIGN_CERTIFICATE_IDENTITY }}" \
+                  --certificate-oidc-issuer-regexp "${{ vars.COSIGN_CERTIFICATE_OIDC_ISSUER }}" \
+                  --output json | jq .
+            # ---------- mirroring ----------
+            - name: Mirror image by digest to Docker Hub and Quay
+              if: github.event_name != 'pull_request'
+              env:
+                IMAGE_REF: ${{ steps.resolve-digest.outputs.image_ref }}
+                IMAGE_NAME: ${{ env.IMAGE_NAME }}
+                DOCKER_ORG: ${{ vars.DOCKER_ORG }}
+                QUAY_ORG: ${{ vars.QUAY_ORG }}
+              run: |
+                set -euo pipefail
+
+                retry() {
+                  local attempt=1
+                  local max=5
+                  while true; do
+                    "$@" && break || {
+                      if [ "$attempt" -ge "$max" ]; then
+                        echo "Command failed after $attempt attempts" >&2
+                        return 1
+                      fi
+                      echo "Retry $attempt/$max failed, sleeping…" >&2
+                      sleep $((2 ** attempt))
+                      attempt=$((attempt + 1))
+                    }
+                  done
+                }
+
+                mirror() {
+                  local TARGET_REGISTRY="$1"
+                  echo "Mirroring ${IMAGE_REF} → ${TARGET_REGISTRY}/${IMAGE_NAME}"
+                  retry skopeo copy \
+                    --all \
+                    docker://${IMAGE_REF} \
+                    docker://${TARGET_REGISTRY}/${IMAGE_NAME}
+                }
+
+                mirror docker.io/${DOCKER_ORG} &
+                mirror quay.io/${QUAY_ORG} &
+                wait
+            - name: Apply tags to mirrored images
+              if: github.event_name != 'pull_request'
+              env:
+                IMAGE_REF: ${{ steps.resolve-digest.outputs.image_ref }}
+                IMAGE_NAME: ${{ env.IMAGE_NAME }}
+                TAGS: ${{ steps.meta.outputs.tags }}
+                DOCKER_ORG: ${{ vars.DOCKER_ORG }}
+                QUAY_ORG: ${{ vars.QUAY_ORG }}
+              run: |
+                set -euo pipefail
+
+                retry() {
+                  local attempt=1
+                  local max=5
+                  while true; do
+                    "$@" && break || {
+                      if [ "$attempt" -ge "$max" ]; then
+                        echo "Command failed after $attempt attempts" >&2
+                        return 1
+                      fi
+                      sleep $((2 ** attempt))
+                      attempt=$((attempt + 1))
+                    }
+                  done
+                }
+
+                CANONICAL_DIGEST="${IMAGE_REF##*@}"
+
+                for TARGET in docker.io/${DOCKER_ORG} quay.io/${QUAY_ORG}; do
+                  for FULL_TAG in ${TAGS}; do
+                    TAG="${FULL_TAG##*:}"
+                    echo "Tagging ${TARGET}/${IMAGE_NAME}:${TAG}"
+                    retry skopeo copy \
+                      docker://${TARGET}/${IMAGE_NAME}@${CANONICAL_DIGEST} \
+                      docker://${TARGET}/${IMAGE_NAME}:${TAG}
+                  done
                 done
-              shell: bash
-            - name: Upload verification results
-              uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
-              with:
-                path: /tmp/cosign-verifications
-                name: cosign-verifications
-                compression-level: 9

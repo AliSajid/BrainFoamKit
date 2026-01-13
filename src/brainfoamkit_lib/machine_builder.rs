@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+// SPDX-FileCopyrightText: 2023 - 2026 Ali Sajid Imami
 //
 // SPDX-License-Identifier: Apache-2.0
 // SPDX-License-Identifier: MIT
@@ -6,9 +6,9 @@
 use anyhow::Result;
 
 use crate::{
-    vm_reader::VMReader,
     Program,
     VirtualMachine,
+    vm_reader::VMReader,
 };
 
 /// `VirtualMachineBuilder` is a builder for the `VirtualMachine` struct.

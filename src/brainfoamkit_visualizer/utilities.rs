@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+// SPDX-FileCopyrightText: 2023 - 2026 Ali Sajid Imami
 //
 // SPDX-License-Identifier: Apache-2.0
 // SPDX-License-Identifier: MIT
@@ -23,10 +23,10 @@ use crossterm::{
     },
     execute,
     terminal::{
-        disable_raw_mode,
-        enable_raw_mode,
         EnterAlternateScreen,
         LeaveAlternateScreen,
+        disable_raw_mode,
+        enable_raw_mode,
     },
 };
 use ratatui::{
@@ -34,10 +34,9 @@ use ratatui::{
     widgets::Paragraph,
 };
 
-/// Setup the terminal. This is where you would enable raw mode, enter the
-/// alternate screen, and hide the cursor. This example does not handle errors.
-/// A more robust application would probably want to handle errors and ensure
-/// that the terminal is restored to a sane state before exiting.
+/// Setup the terminal for TUI mode: enable raw mode (disable line buffering),
+/// enter alternate screen buffer (preserves the previous terminal state), and
+/// hide the cursor. Returns a ratatui Terminal for drawing operations.
 pub fn setup_terminal() -> Result<Terminal<CrosstermBackend<Stdout>>> {
     let mut stdout = io::stdout();
     enable_raw_mode().context("failed to enable raw mode")?;
@@ -45,8 +44,9 @@ pub fn setup_terminal() -> Result<Terminal<CrosstermBackend<Stdout>>> {
     Terminal::new(CrosstermBackend::new(stdout)).context("creating terminal failed")
 }
 
-/// Restore the terminal. This is where you disable raw mode, leave the
-/// alternate screen, and show the cursor.
+/// Restore the terminal to normal mode: disable raw mode (re-enable line
+/// buffering), leave alternate screen buffer (returns to the previous terminal
+/// state), and show the cursor again.
 pub fn restore_terminal(terminal: &mut Terminal<CrosstermBackend<Stdout>>) -> Result<()> {
     disable_raw_mode().context("failed to disable raw mode")?;
     execute!(terminal.backend_mut(), LeaveAlternateScreen)
@@ -54,11 +54,10 @@ pub fn restore_terminal(terminal: &mut Terminal<CrosstermBackend<Stdout>>) -> Re
     terminal.show_cursor().context("unable to show cursor")
 }
 
-/// Run the application loop. This is where you would handle events and update
-/// the application state. This example exits when the user presses 'q'. Other
-/// styles of application loops are possible, for example, you could have
-/// multiple application states and switch between them based on events, or you
-/// could have a single application state and update it based on events.
+/// Run the application event loop: render the UI and check for user input in a
+/// loop. The event polling timeout (250ms) ensures responsive UI updates even
+/// without user input, while keeping CPU usage reasonable by not spinning
+/// continuously.
 pub fn run(terminal: &mut Terminal<CrosstermBackend<Stdout>>) -> Result<()> {
     loop {
         terminal.draw(render_app)?;
@@ -69,18 +68,17 @@ pub fn run(terminal: &mut Terminal<CrosstermBackend<Stdout>>) -> Result<()> {
     Ok(())
 }
 
-/// Render the application. This is where you would draw the application UI.
-/// This example just draws a greeting.
+/// Render the application UI. This is the draw callback invoked once per
+/// frame by the terminal. Currently displays a simple greeting message.
 pub fn render_app(frame: &mut ratatui::Frame) {
     let greeting = Paragraph::new("Hello World! (press 'q' to quit)");
-    frame.render_widget(greeting, frame.size());
+    frame.render_widget(greeting, frame.area());
 }
 
-/// Check if the user has pressed 'q'. This is where you would handle events.
-/// This example just checks if the user has pressed 'q' and returns true if
-/// they have. It does not handle any other events. There is a 250ms timeout on
-/// the event poll so that the application can exit in a timely manner, and to
-/// ensure that the terminal is rendered at least once every 250ms.
+/// Check if user pressed 'q' to quit. Uses a 250ms timeout on event polling:
+/// if no input within 250ms, returns false so the UI can render. If 'q' is
+/// pressed, returns true to signal application exit. Other key events are
+/// silently ignored.
 pub fn should_quit() -> Result<bool> {
     if event::poll(Duration::from_millis(250)).context("event poll failed")? {
         if let Event::Key(key) = event::read().context("event read failed")? {

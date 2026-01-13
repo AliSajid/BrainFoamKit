@@ -1,0 +1,244 @@
+// SPDX-FileCopyrightText: 2023 - 2026 Ali Sajid Imami
+//
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: MIT
+
+amends "package://github.com/jdx/hk/releases/download/v1.28.0/hk@1.28.0#/Config.pkl"
+import "package://github.com/jdx/hk/releases/download/v1.28.0/hk@1.28.0#/Builtins.pkl"
+import "package://github.com/jdx/hk/releases/download/v1.28.0/hk@1.28.0#/Types.pkl" as Types
+
+// ============================================================================
+// FILE FORMAT VALIDATORS
+// Checks for proper syntax and formatting of various file types
+// ============================================================================
+local file_format_checks = new Mapping<String, Step> {
+  ["check-json"] = Builtins.jq
+  ["lint-toml"] = Builtins.taplo
+  ["format-toml"] = Builtins.taplo_format
+  ["yamlfmt"] = Builtins.yamlfmt
+  ["markdownlint"] = Builtins.markdown_lint
+  ["shellcheck"] = Builtins.shellcheck
+  ["renovate-config-validator"] = new Step {
+    glob = "renovate*"
+    types = List("json", "json5")
+    check = "renovate-config-validator"
+  }
+}
+
+// ============================================================================
+// FILE CONTENT FIXERS
+// Normalizes whitespace, line endings, and other file content issues
+// ============================================================================
+local file_content_fixers = new Mapping<String, Step> {
+  ["end-of-file-fixer"] = Builtins.newlines
+  ["mixed-line-ending"] = Builtins.mixed_line_ending
+  ["trailing-whitespace"] = Builtins.trailing_whitespace
+  ["check-byte-order-marker"] = Builtins.check_byte_order_marker
+  // ["forbid-tabs"] = (Vendors_Lucas_C_pre_commit_hooks.forbid_tabs) {
+  //   exclude = Types.Regex(#"^\.hk/"#)
+  // }
+  // ["remove-tabs"] = (Vendors_Lucas_C_pre_commit_hooks.remove_tabs) {
+  //   exclude = Types.Regex(#"^\.hk/"#)
+  // }
+}
+
+// ============================================================================
+// TEXT ENCODING & UNICODE FIXERS
+// Handles unicode issues, smart quotes, ligatures, and special characters
+// ============================================================================
+local text_encoding_fixers = new Mapping<String, Step> {
+  ["fix-smartquotes"] = Builtins.fix_smart_quotes
+  ["fix-ligatures"] = new Step {
+    fix = "fix-ligatures {{files}}"
+  }
+  ["forbid-bidi-controls"] = new Step {
+    check = "forbid-bidi-controls {{files}}"
+  }
+  ["fix-spaces"] = new Step {
+    fix = "fix-spaces {{files}}"
+  }
+  ["fix-unicode-dashes"] = new Step {
+    fix = "fix-unicode-dashes {{files}}"
+  }
+}
+
+// ============================================================================
+// GIT WORKFLOW CHECKS
+// Validates git-specific issues and repository state
+// ============================================================================
+local git_workflow_checks = new Mapping<String, Step> {
+  ["check-merge-conflict"] = Builtins.check_merge_conflict
+  ["no-commit-to-branch"] = (Builtins.no_commit_to_branch) {
+    check = "hk util no-commit-to-branch --branch main --branch next"
+  }
+  ["check-symlinks"] = Builtins.check_symlinks
+}
+
+// ============================================================================
+// SECURITY CHECKS
+// Detects secrets, private keys, and other security concerns
+// ============================================================================
+local security_checks = new Mapping<String, Step> {
+  ["detect-private-key"] = Builtins.detect_private_key
+  ["check-added-large-files"] = (Builtins.check_added_large_files) {
+    check = "hk util check-added-large-files --maxkb 5120 {{files}}"
+  }
+  ["gitleaks"] = new Step {
+    check = "gitleaks git --baseline-path .gitleaks_baseline.json --no-banner --log-level error"
+  }
+}
+
+// ============================================================================
+// RUST DEVELOPMENT
+// Rust-specific formatting, linting, and compilation checks
+// ============================================================================
+local rust_checks = new Mapping<String, Step> {
+  // Name: Rust format
+  ["fmt"] = new Step {
+    types = List("rust")
+    check = "cargo +nightly fmt --all --quiet"
+  }
+  // Name: Run clippy linter
+  ["clippy"] = Builtins.cargo_clippy
+
+  // Name: Run cargo check
+  ["cargo-check"] = Builtins.cargo_check
+
+  // Name: Cargo Deny check
+  ["cargo-deny"] = new Step {
+    glob = "Cargo.toml"
+    check = "cargo deny --frozen check"
+  }
+}
+
+// ============================================================================
+// DEPENDENCY & BUILD MANAGEMENT
+// Cargo dependency tracking and license management
+// ============================================================================
+local dependency_checks = new Mapping<String, Step> {
+  // Name: Generate list of licenses in JSON
+  ["cargo-about-json"] = new Step {
+    glob = "Cargo.toml$"
+    check = "mise run generate_about_json"
+    exclusive = true
+  }
+  // Name: Generate list of licenses in Markdown
+  ["cargo-about-md"] = new Step {
+    glob = "Cargo.toml$"
+    check = "mise run generate_about_md meta/licenses.hbs"
+    exclusive = true
+  }
+  // Name: Check Cargo.toml
+  ["cargo-toml-lint"] = new Step {
+    glob = "Cargo.toml$"
+    check = "cargo-toml-lint {{files}}"
+  }
+}
+
+// ============================================================================
+// DOCUMENTATION CHECKS
+// Validates documentation quality and style
+// ============================================================================
+local documentation_checks = new Mapping<String, Step> {
+  // Name: Run Vale linter
+  ["vale-lint"] = new Step {
+    types = List("markdown")
+    check = "vale {{files}}"
+  }
+}
+
+// ============================================================================
+// LICENSE & LEGAL COMPLIANCE
+// Ensures proper licensing and legal compliance
+// ============================================================================
+local license_checks = new Mapping<String, Step> {
+  // Name: Run Reuse linter
+  ["reuse-lint"] = new Step {
+    check = "reuse lint"
+  }
+}
+
+// ============================================================================
+// CUSTOM STEPS
+// Add your project-specific checks here
+// ============================================================================
+local custom_steps = new Mapping<String, Step> {}
+
+// ============================================================================
+// HOOK CONFIGURATIONS
+// ============================================================================
+hooks {
+  ["commit-msg"] {
+    steps {
+      ...file_format_checks
+      ...file_content_fixers
+      ...text_encoding_fixers
+      ...git_workflow_checks
+    }
+  }
+  ["pre-commit"] {
+    fix = true
+    stash = "git"
+    steps {
+      // Documentation & legal
+      ...license_checks
+      ...documentation_checks
+
+      // File quality checks
+      ...file_format_checks
+      ...file_content_fixers
+      ...text_encoding_fixers
+
+      // Git & security
+      ...git_workflow_checks
+      ...security_checks
+
+      // Rust development
+      ...rust_checks
+      ...dependency_checks
+
+      // Custom checks
+      ...custom_steps
+    }
+  }
+  ["pre-push"] {
+    steps {
+      // Run comprehensive checks before pushing
+      ...security_checks
+      ...rust_checks
+      ...documentation_checks
+      ...license_checks
+    }
+  }
+  ["check"] {
+    steps {
+      // Run all checks
+      ...file_format_checks
+      ...file_content_fixers
+      ...text_encoding_fixers
+      ...git_workflow_checks
+      ...security_checks
+      ...rust_checks
+      ...dependency_checks
+      ...documentation_checks
+      ...license_checks
+      ...custom_steps
+    }
+  }
+  ["fix"] {
+    fix = true
+    steps {
+      // Run all checks with auto-fix enabled
+      ...file_format_checks
+      ...file_content_fixers
+      ...text_encoding_fixers
+      ...git_workflow_checks
+      ...security_checks
+      ...rust_checks
+      ...dependency_checks
+      ...documentation_checks
+      ...license_checks
+      ...custom_steps
+    }
+  }
+}

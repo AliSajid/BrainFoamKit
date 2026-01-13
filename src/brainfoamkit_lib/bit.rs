@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+// SPDX-FileCopyrightText: 2023 - 2026 Ali Sajid Imami
 //
 // SPDX-License-Identifier: Apache-2.0
 // SPDX-License-Identifier: MIT
@@ -22,77 +22,28 @@ use std::{
 
 /// Representation of a single bit.
 ///
-/// This Enum is the most basic building block of the `BrainfoamKit` library.
-/// This encodes a single bit, which can be either a 0 or a 1.
-/// I have implemented this as an Enum to ensure that the only possible values
-/// are 0 and 1. Additionally, the variants are not public and can only be
-/// accessed through the `Bit::zero()` and `Bit::one()` constructor functions.
+/// This is the fundamental building block of the library. A `Bit` can hold
+/// exactly one of two values: 0 (Zero) or 1 (One). Use the `zero()` and `one()`
+/// functions to create new bit values.
 ///
 /// # Examples
 ///
-/// ## Create with helper functions
-///
 /// ```
 /// use brainfoamkit_lib::Bit;
 ///
-/// let bit = Bit::zero();
-/// assert_eq!(bit, Bit::Zero);
-/// let bit = Bit::one();
-/// assert_eq!(bit, Bit::One);
-/// ```
-/// ## Perform basic operations
+/// let zero = Bit::zero();
+/// let one = Bit::one();
 ///
-/// ```
-/// use brainfoamkit_lib::Bit;
-///
-/// let mut bit = Bit::zero();
-/// bit.flip();
-/// assert_eq!(bit, Bit::One);
-/// let mut bit = Bit::one();
-/// bit.flip();
-/// assert_eq!(bit, Bit::Zero);
-/// ```
-///
-/// ## Display the value
-///
-/// ```
-/// use brainfoamkit_lib::Bit;
-///
-/// let bit = Bit::zero();
-/// assert_eq!(format!("{}", bit), "0");
-/// let bit = Bit::one();
-/// assert_eq!(format!("{}", bit), "1");
-/// ```
-///
-/// ## Convert to a u8
-///
-/// ```
-/// use brainfoamkit_lib::Bit;
-///
-/// let bit = Bit::zero();
-/// assert_eq!(u8::from(bit), 0);
-/// let bit = Bit::one();
-/// assert_eq!(u8::from(bit), 1);
-/// ```
-///
-/// ## Perform logical operations
-///
-/// ```
-/// use brainfoamkit_lib::Bit;
-///
-/// let bit = Bit::zero() & Bit::zero();
-/// assert_eq!(bit, Bit::Zero);
-/// let bit = Bit::zero() | Bit::one();
-/// assert_eq!(bit, Bit::One);
-/// let bit = Bit::one() ^ Bit::one();
-/// assert_eq!(bit, Bit::Zero);
+/// assert_eq!(zero, Bit::Zero);
+/// assert_eq!(one, Bit::One);
 /// ```
 ///
 /// # See Also
 ///
-/// * [`Nybble`](crate::Nybble): A 4-bit value composed of 4 Bits.
-/// * [`Byte`](crate::Byte): An 8-bit value composed of 8 Bits.
+/// * [`Nybble`](crate::Nybble): A 4-bit value
+/// * [`Byte`](crate::Byte): An 8-bit value
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+#[allow(clippy::exhaustive_enums)]
 pub enum Bit {
     /// The zero variant of the Bit Enum.
     /// Represents the value 0 or the Off state.
@@ -187,7 +138,7 @@ impl Bit {
     ///   1.
     /// * [`Bit::is_unset()`](#method.is_unset): Checks if the value of the Bit
     ///   is 0.
-    pub fn flip(&mut self) {
+    pub const fn flip(&mut self) {
         *self = match self {
             Self::Zero => Self::One,
             Self::One => Self::Zero,
@@ -199,6 +150,7 @@ impl Bit {
     /// This function *sets* the bit.
     /// This means that the value of the bit is set to 1.
     /// This function ignores the current value of the bit.
+    /// This makes this function idempotent.
     ///
     /// # Examples
     ///
@@ -226,7 +178,7 @@ impl Bit {
     ///   1.
     /// * [`Bit::is_unset()`](#method.is_unset): Checks if the value of the Bit
     ///   is 0.
-    pub fn set(&mut self) {
+    pub const fn set(&mut self) {
         *self = Self::One;
     }
 
@@ -235,6 +187,7 @@ impl Bit {
     /// This function unsets the bit.
     /// This means that the value of the bit is set to 0.
     /// This function ignores the current value of the bit.
+    /// This makes this function idempotent.
     ///
     /// # Examples
     ///
@@ -262,7 +215,7 @@ impl Bit {
     ///   1.
     /// * [`Bit::is_unset()`](#method.is_unset): Checks if the value of the Bit
     ///   is 0.
-    pub fn unset(&mut self) {
+    pub const fn unset(&mut self) {
         *self = Self::Zero;
     }
 
@@ -456,8 +409,8 @@ impl From<Bit> for u8 {
 }
 
 impl Not for Bit {
-    // The return type of the `not` function is Bit since the only possible values
-    // are 0 and 1.
+    // The return type is Self (Bit) because NOT always produces a valid Bit:
+    // NOT(0) = 1 and NOT(1) = 0, both of which are valid Bit values.
     type Output = Self;
 
     /// Perform a logical NOT on the Bit.
@@ -506,8 +459,8 @@ impl Not for Bit {
 }
 
 impl BitOr for Bit {
-    // The return type of the `bitor` function is a Bit since the `Or` operation is
-    // symmetric.
+    // OR is commutative (a | b = b | a) and associative, allowing composition of
+    // multiple OR operations. This is useful for checking if ANY condition is true.
     type Output = Self;
 
     /// Perform a logical OR on the Bit.
@@ -611,8 +564,9 @@ impl BitOrAssign for Bit {
 }
 
 impl BitAnd for Bit {
-    // The return type of the `bitand` function is a Bit since the `And` operation
-    // is symmetric.
+    // AND is commutative (a & b = b & a) and associative, allowing composition of
+    // multiple AND operations. This is useful for checking if ALL conditions are
+    // true.
     type Output = Self;
 
     /// Perform a logical AND on the Bit.
@@ -714,8 +668,9 @@ impl BitAndAssign for Bit {
 }
 
 impl BitXor for Bit {
-    // The return type of the `bitxor` function is a Bit since the `Xor` operation
-    // is symmetric.
+    // XOR is commutative (a ^ b = b ^ a) and associative. It returns 1 only when
+    // bits differ, making it useful for parity checking and comparing bit
+    // patterns.
     type Output = Self;
 
     /// Perform a logical XOR on the Bit.

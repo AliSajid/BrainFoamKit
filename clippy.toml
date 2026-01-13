@@ -1,0 +1,15 @@
+# SPDX-FileCopyrightText: 2023 - 2026 Ali Sajid Imami
+#
+# SPDX-License-Identifier: CC0-1.0
+
+allow-unwrap-in-tests = true
+missing-docs-in-crate-items = false
+
+too-many-lines-threshold = 100
+too-many-arguments-threshold = 5
+type-complexity-threshold = 250
+
+enum-variant-name-threshold = 3
+single-char-binding-names-threshold = 4
+
+doc-valid-idents = ["Brainfuck", "Rust", "Clippy", ".."]

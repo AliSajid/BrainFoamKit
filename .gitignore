@@ -80,11 +80,13 @@ target/
 *.msp
 *.txz
 
-# Cargo watch trigger file (https://crates.io/crates/cargo-watch)
-.trigger*
-
 # Allow the build scripts
 !scripts/
+
+# Narowliy allow vale config
+meta/vale-styles/**/*
+!meta/vale-styles/config/
+!meta/vale-styles/config/**/*
 
 # Ignore dist/ folder
 dist/
@@ -94,3 +96,5 @@ artifacts/
 node_modules/
 package-lock.json
 package.json
+
+*.log

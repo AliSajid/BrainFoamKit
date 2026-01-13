@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+// SPDX-FileCopyrightText: 2023 - 2026 Ali Sajid Imami
 //
 // SPDX-License-Identifier: Apache-2.0
 // SPDX-License-Identifier: MIT
@@ -25,22 +25,12 @@ use crate::{
     IterableNybble,
 };
 
-/// A Nybble is a 4-bit unsigned integer (u4).
+/// A Nybble is a 4-bit unsigned integer.
 ///
-/// This is a wrapper around four Bit instances. The least significant bit is
-/// `bit_0` and the most significant bit is `bit_3`. This struct is used to
-/// conveniently manipulate 4-bit values.
-///
-/// Note that bit instances are stored in reverse (LSB is first, MSB is last)
-/// order, so the least significant bit is `bit_0` and the most significant bit
-/// is `bit_3`. However, the [`new`](#method.new) method takes the bits in the
-/// correct (MSB is first, LSB is last) order.
-///
-///
+/// This is a wrapper around four `Bit` values. Nybbles can represent values
+/// from 0-15, and are commonly used as the high/low halves of a byte.
 ///
 /// # Examples
-///
-/// ## Create a Nybble from primitive Bit values
 ///
 /// ```
 /// use brainfoamkit_lib::{
@@ -48,58 +38,21 @@ use crate::{
 ///     Nybble,
 /// };
 ///
+/// // Create from individual bits
 /// let nybble = Nybble::new(Bit::One, Bit::Zero, Bit::One, Bit::Zero);
-/// assert_eq!(u8::from(&nybble), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
-/// assert_eq!(nybble.to_string(), "0xA");
+/// assert_eq!(u8::from(&nybble), 0b1010); // 10 in decimal
+///
+/// // Create from a u8
+/// let nybble = Nybble::from(0b1010);
+/// assert_eq!(u8::from(&nybble), 0b1010);
 /// ```
-///
-/// ## Create a Nybble from a u8 value
-///
-/// ```
-/// use brainfoamkit_lib::Nybble;
-///
-/// let nybble = Nybble::from(0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
-/// assert_eq!(u8::from(&nybble), 0b1010); // Dec: 10; Hex: 0xA; Oct: 0o12
-/// assert_eq!(nybble.to_string(), "0xA");
-/// ```
-///
-/// ## Set and Unset bits to generate the desired Nybble
-///
-/// ```
-/// use brainfoamkit_lib::Nybble;
-///
-/// let mut nybble = Nybble::default();
-/// nybble.set_bit(0); // Nybble: 0b0001; Dec: 1; Hex: 0x1; Oct: 0o1
-/// nybble.set_bit(2); // Nybble: 0b0101; Dec: 5; Hex: 0x5; Oct: 0o5
-///
-/// assert_eq!(u8::from(&nybble), 0b0101); // Dec: 5; Hex: 0x5; Oct: 0o5
-/// assert_eq!(nybble.to_string(), "0x5");
-/// ```
-///
-/// ## Flip the bits at a given index
-///
-/// ```
-/// use brainfoamkit_lib::Nybble;
-///
-/// let mut nybble = Nybble::from(0b0101); // Dec: 5; Hex: 0x5; Oct: 0o5
-/// nybble.flip_bit(0); // Nybble: 0b0100; Dec: 4; Hex: 0x4; Oct: 0o4
-/// nybble.flip_bit(1); // Nybble: 0b0110; Dec: 6; Hex: 0x6; Oct: 0o6
-///
-/// assert_eq!(u8::from(&nybble), 0b0110); // Dec: 6; Hex: 0x6; Oct: 0o6
-/// assert_eq!(nybble.to_string(), "0x6");
-/// ```
-///
-/// # Panics
-///
-/// The methods [`set_bit()`](#method.set_bit),
-/// [`unset_bit()`](#method.unset_bit) and [`get_bit()`](#method.get_bit) will
-/// panic if the index is out of bounds.
 ///
 /// # See Also
 ///
-/// * [`Bit`](crate::Bit): The building block of a Nybble.
-/// * [`Byte`](crate::Byte): A Byte is a collection of eight Bits.
+/// * [`Bit`](crate::Bit): The building block of a Nybble
+/// * [`Byte`](crate::Byte): Contains two Nybbles
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[allow(clippy::struct_field_names)]
 pub struct Nybble {
     /// The least significant bit.
     bit_0: Bit,
@@ -114,16 +67,15 @@ pub struct Nybble {
 impl Nybble {
     /// Creates a new Nybble instance with the specified Bit values.
     ///
-    /// This method takes four Bit instances as arguments.
-    /// The least significant bit is `bit_0` and the most significant bit is
-    /// `bit_3`.
+    /// This method takes four Bit instances as arguments, starting with the
+    /// most significant bit.
     ///
     /// # Arguments
     ///
-    /// * `first` - The most significant bit.
-    /// * `second` - The second most significant bit.
-    /// * `third` - The second least significant bit.
-    /// * `fourth` - The least significant bit.
+    /// * `first` - The most significant bit
+    /// * `second` - The second most significant bit
+    /// * `third` - The second least significant bit
+    /// * `fourth` - The least significant bit
     ///
     /// # Examples
     ///
@@ -140,13 +92,12 @@ impl Nybble {
     ///
     /// # Returns
     ///
-    /// A new Nybble with the specified Bit values.
+    /// A new Nybble with the specified Bit values
     ///
     /// # See Also
     ///
-    /// * [`from_u8()`](#method.from_u8): Creates a new Nybble from a u8 value.
-    /// * [`default()`](#method.default): Creates a new Nybble with default (all
-    ///   [`Bit::Zero`](crate::Bit::Zero)) Bit values.
+    /// * [`from_u8()`](#method.from_u8): Creates a new Nybble from a u8 value
+    /// * [`default()`](#method.default): Creates a new Nybble with all zeros
     #[must_use]
     pub const fn new(first: Bit, second: Bit, third: Bit, fourth: Bit) -> Self {
         Self {
@@ -470,7 +421,7 @@ impl Nybble {
     ///
     /// * [`flip_bit()`](#method.flip_bit): Flips the Bit value at the specified
     ///   index.
-    pub fn flip(&mut self) {
+    pub const fn flip(&mut self) {
         self.bit_0.flip();
         self.bit_1.flip();
         self.bit_2.flip();
@@ -608,7 +559,7 @@ impl Nybble {
     /// }
     /// ```
     #[must_use]
-    pub const fn iter(&self) -> IterableNybble {
+    pub const fn iter(&self) -> IterableNybble<'_> {
         IterableNybble::new(self)
     }
 }
@@ -729,16 +680,16 @@ impl From<u8> for Nybble {
 
         if n & 0b0001 != 0 {
             nybble.bit_0.set();
-        };
+        }
         if n & 0b0010 != 0 {
             nybble.bit_1.set();
-        };
+        }
         if n & 0b0100 != 0 {
             nybble.bit_2.set();
-        };
+        }
         if n & 0b1000 != 0 {
             nybble.bit_3.set();
-        };
+        }
 
         nybble
     }
@@ -781,7 +732,9 @@ impl From<&Nybble> for u8 {
 }
 
 impl Not for Nybble {
-    // The output type of Not is Nybble as the operation is symmetric
+    // NOT on a Nybble inverts all 4 bits. The output type is Self (Nybble) because
+    // each inverted bit remains a valid Bit, ensuring the result is always a valid
+    // Nybble.
     type Output = Self;
 
     /// Perform the Not operation on the Nybble.
@@ -834,7 +787,8 @@ impl Not for Nybble {
 }
 
 impl BitAnd for Nybble {
-    // The output type of BitAnd is Nybble as the operation is symmetric
+    // AND is commutative and associative. The output is always a valid Nybble since
+    // each bit position is operated on independently, with no overflow possible.
     type Output = Self;
 
     /// Perform the Bitwise And operation on two Nybbles.
@@ -950,7 +904,8 @@ impl BitAndAssign for Nybble {
 }
 
 impl BitOr for Nybble {
-    // The output type of BitOr is Nybble as the operation is symmetric
+    // OR is commutative and associative. The output is always a valid Nybble since
+    // each bit position is operated on independently, with no overflow possible.
     type Output = Self;
 
     /// Perform the Bitwise Or operation on two Nybbles.
@@ -1064,7 +1019,8 @@ impl BitOrAssign for Nybble {
 }
 
 impl BitXor for Nybble {
-    // The output type of BitXor is Nybble as the operation is symmetric
+    // XOR is commutative and associative. The output is always a valid Nybble since
+    // each bit position is operated on independently, with no overflow possible.
     type Output = Self;
 
     /// Perform the Bitwise Xor operation on two Nybbles.

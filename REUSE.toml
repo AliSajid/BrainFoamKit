@@ -1,46 +1,48 @@
-# SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+# SPDX-FileCopyrightText: 2023 - 2026 Ali Sajid Imami
 #
 # SPDX-License-Identifier: CC0-1.0
 
 version = 1
 
 [[annotations]]
-path = [
-    ".gitleaksignore",
+  SPDX-FileCopyrightText = "2023 - 2026 Ali Sajid Imami"
+  SPDX-License-Identifier = "CC0-1.0"
+  path = [
     ".gitignore",
-    ".secrets.baseline",
+    ".gitleaks_baseline.json",
+    ".gitleaksignore",
     ".markdownlintignore",
+    ".secrets.baseline",
     ".vscode/*",
-    "guide/.gitignore"
-]
-precedence = "override"
-SPDX-FileCopyrightText = "2023 - 2024 Ali Sajid Imami"
-SPDX-License-Identifier = "CC0-1.0"
+    "guide/.gitignore",
+  ]
+  precedence = "override"
 
 [[annotations]]
-path = "Cargo.lock"
-precedence = "override"
-SPDX-FileCopyrightText = "2023 - 2024 Ali Sajid Imami"
-SPDX-License-Identifier = "MIT OR Apache-2.0"
+  SPDX-FileCopyrightText = "2023 - 2026 Ali Sajid Imami"
+  SPDX-License-Identifier = "MIT OR Apache-2.0"
+  path = "Cargo.lock"
+  precedence = "override"
 
 [[annotations]]
-path = [
-    "licenses_report.md",
-    "licenses_report.json",
-    "renovate.json",
+  SPDX-FileCopyrightText = "2023 - 2026 Ali Sajid Imami"
+  SPDX-License-Identifier = "CC0-1.0"
+  path = [
     ".markdownlint.json",
-    "CHANGELOG.md"
-]
-precedence = "override"
-SPDX-FileCopyrightText = "2023 - 2024 Ali Sajid Imami"
-SPDX-License-Identifier = "CC0-1.0"
+    "CHANGELOG.md",
+    "licenses_report.json",
+    "licenses_report.md",
+    "meta/vale-styles/config/vocabularies/Custom/*.txt",
+    "renovate.json",
+  ]
+  precedence = "override"
 
 [[annotations]]
-path = [
+  SPDX-FileCopyrightText = "2023 - 2026 Ali Sajid Imami"
+  SPDX-License-Identifier = "MIT OR Apache-2.0"
+  path = [
+    "guide/src/mdbook-plantuml-img/*.svg",
     "lang/grammar.ebnf",
     "lang/railroad/*.svg",
-    "guide/src/mdbook-plantuml-img/*.svg"
-]
-precedence = "override"
-SPDX-FileCopyrightText = "2023 - 2024 Ali Sajid Imami"
-SPDX-License-Identifier = "MIT OR Apache-2.0"
+  ]
+  precedence = "override"

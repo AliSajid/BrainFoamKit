@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+# SPDX-FileCopyrightText: 2023 - 2026 Ali Sajid Imami
 #
 # SPDX-License-Identifier: Apache-2.0
 # SPDX-License-Identifier: MIT
@@ -19,39 +19,34 @@
 
 ## Step 1: Check that rustc and cargo are installed
 
-if ! command -v rustc &> /dev/null
-then
+if ! command -v rustc &>/dev/null; then
     echo "rustc could not be found"
     exit
 fi
 
-if ! command -v cargo &> /dev/null
-then
+if ! command -v cargo &>/dev/null; then
     echo "cargo could not be found"
     exit
 fi
 
 ## Step 2: Check that cargo-about is installed
 
-if ! command -v cargo-about &> /dev/null
-then
+if ! command -v cargo-about &>/dev/null; then
     echo "cargo-about could not be found"
     exit
 fi
 
-if ! command -v dos2unix &> /dev/null
-then
+if ! command -v dos2unix &>/dev/null; then
     echo "dos2unix could not be found"
     exit
 fi
 
 ## Step 3: Generate the html file
 
-if [ -z "$1" ]
-then
+if [ -z "$1" ]; then
     echo "No template file was given"
     exit 1
 fi
 
 OUTPUT_FILE=${2:-licenses_report.md}
-cargo about generate --format handlebars "$1" | gexpand -t 4 | dos2unix > "$OUTPUT_FILE"
+cargo about generate --frozen --format handlebars "$1" | gexpand -t 4 | dos2unix >"$OUTPUT_FILE"

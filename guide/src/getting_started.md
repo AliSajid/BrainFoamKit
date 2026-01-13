@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+SPDX-FileCopyrightText: 2023 - 2026 Ali Sajid Imami
 
 SPDX-License-Identifier: Apache-2.0
 SPDX-License-Identifier: MIT
@@ -61,6 +61,6 @@ bfkrun --file hello_world.bf
 
 ### `bfkview`
 
-`bfkview` is a TUI application with a (hopefully) intuitive interface that lets you step through BF[K] programs.
+`bfkview` is a TUI application with a intuitive interface that lets you step through BF[K] programs.
 
 _Detailed instructions coming soon._

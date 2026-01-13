@@ -1,28 +1,28 @@
-# SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+# SPDX-FileCopyrightText: 2023 - 2026 Ali Sajid Imami
 #
 # SPDX-License-Identifier: Apache-2.0
 # SPDX-License-Identifier: MIT
 
 [book]
-authors = ["Ali Sajid Imami"]
-language = "en"
-multilingual = false
-src = "src"
-title = "The BrainFoamKit Book"
+  authors = ["Ali Sajid Imami"]
+  language = "en"
+  multilingual = false
+  src = "src"
+  title = "The BrainFoamKit Book"
 
 [rust]
-edition = "2021"
+  edition = "2021"
 
 [preprocessor.plantuml]
-plantuml-cmd="http://www.plantuml.com/plantuml"
+  plantuml-cmd = "http://www.plantuml.com/plantuml"
 
 [preprocessor.inline-highlighting]
-default-language = "rust"
+  default-language = "rust"
 
 [output.html]
-git-repository-url = "https://github.com/AliSajid/brainfoamkit"
-mathjax-support = true
+  git-repository-url = "https://github.com/AliSajid/brainfoamkit"
+  mathjax-support = true
 
-[output.html.print]
-enable = true
-page-break = true
+  [output.html.print]
+    enable = true
+    page-break = true

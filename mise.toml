@@ -1,0 +1,28 @@
+# SPDX-FileCopyrightText: 2023 - 2026 Ali Sajid Imami
+#
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: MIT
+
+[tools]
+  "cargo:cargo-about" = "0.6.6"
+  "cargo:cargo-audit" = "0.22.0"
+  "cargo:cargo-deny" = "0.18.9"
+  "cargo:cargo-llvm-cov" = "0.6.21"
+  "cargo:cargo-nextest" = "0.9.87"
+  "cargo:cargo-toml-lint" = "0.1.1"
+  cocogitto = "6.5.0"
+  gitleaks = "8.30.0"
+  hk = "1.28.0"
+  java = "25.0.1"
+  mdbook = "0.5.2"
+  "npm:renovate" = "42.69.1"
+  "pipx:reuse" = "6.2.0"
+  "pipx:texthooks" = "0.7.1"
+  pkl = "0.30.2"
+  taplo = "0.10.0"
+  vale = "3.13.0"
+  yamllint = "1.37.1"
+
+[env]
+  RUSTFLAGS = "--remap-path-prefix /Users/aimami/experiments/rust-projects/brainfoamkit=. --remap-path-prefix /Users/aimami/.cargo=.cargo-home --remap-path-prefix target=target --remap-path-prefix /Users/aimami=.home"
+  RUST_LOG = "warn"

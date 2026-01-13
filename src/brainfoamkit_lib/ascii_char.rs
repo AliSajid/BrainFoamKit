@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+// SPDX-FileCopyrightText: 2023 - 2026 Ali Sajid Imami
 //
 // SPDX-License-Identifier: Apache-2.0
 // SPDX-License-Identifier: MIT
@@ -7,10 +7,9 @@ use crate::Byte;
 
 /// A struct representing an ASCII character.
 ///
-/// This struct is used to represent an ASCII character in terms of a
-/// [`Byte`](struct.Byte.html) value. This struct allows for interrogating the
-/// character in terms of its binary, decimal, and hexadecimal values, as well
-/// as its character code, character description, and character value.
+/// This wraps a `Byte` value with metadata about its ASCII classification.
+/// It provides methods to query character properties and retrieve
+/// representations in different formats.
 ///
 /// # Examples
 ///
@@ -20,141 +19,13 @@ use crate::Byte;
 ///     Byte,
 /// };
 ///
-/// let ascii_char: AsciiChar =
+/// let letter =
 ///     AsciiChar::new(Byte::from(97), "LCA", "Lowercase letter a", "a");
 ///
-/// assert_eq!(ascii_char.binary_value(), Byte::from(97));
-/// assert_eq!(ascii_char.decimal_value(), 97);
-/// assert_eq!(ascii_char.hexadecimal_value(), "0x61");
-/// assert_eq!(ascii_char.character_code(), "LCA");
-/// assert_eq!(ascii_char.character_description(), "Lowercase letter a");
-/// assert_eq!(ascii_char.character_value(), "a");
+/// assert_eq!(letter.decimal_value(), 97);
+/// assert_eq!(letter.hexadecimal_value(), "0x61");
+/// assert_eq!(letter.character_value(), "a");
 /// ```
-///
-/// # ASCII Character Types
-///
-/// The following ASCII character types are available:
-///
-/// * Control characters
-/// * Printable characters
-///     * Whitespace characters
-///     * Digit characters
-///     * Letter characters
-///         * Uppercase characters
-///         * Lowercase characters
-///     * Symbol characters
-///
-/// # ASCII Character Type Examples
-///
-/// ## Control Characters
-///
-/// ```
-/// use brainfoamkit_lib::{
-///     AsciiChar,
-///     Byte,
-/// };
-///
-/// let ascii_char: AsciiChar =
-///     AsciiChar::new(Byte::from(0), "NUL", "Null character", "\0");
-///
-/// assert_eq!(ascii_char.is_control(), true);
-/// ```
-///
-/// ## Printable Characters
-///
-/// ```
-/// use brainfoamkit_lib::{
-///     AsciiChar,
-///     Byte,
-/// };
-///
-/// let ascii_char: AsciiChar =
-///     AsciiChar::new(Byte::from(97), "LCA", "Lowercase letter a", "a");
-///
-/// assert_eq!(ascii_char.is_printable(), true);
-/// ```
-///
-/// ## Whitespace Characters
-///
-/// ```
-/// use brainfoamkit_lib::{
-///     AsciiChar,
-///     Byte,
-/// };
-///
-/// let ascii_char: AsciiChar =
-///     AsciiChar::new(Byte::from(9), "CTAB", "Horizontal tab", "\t");
-///
-/// assert_eq!(ascii_char.is_whitespace(), true);
-/// ```
-///
-/// ## Digit Characters
-///
-/// ```
-/// use brainfoamkit_lib::{
-///     AsciiChar,
-///     Byte,
-/// };
-///
-/// let ascii_char: AsciiChar =
-///     AsciiChar::new(Byte::from(49), "DIG1", "Digit one", "1");
-///
-/// assert_eq!(ascii_char.is_digit(), true);
-/// ```
-///
-/// ## Letter Characters
-///
-/// ### Uppercase Characters
-///
-/// ```
-/// use brainfoamkit_lib::{
-///     AsciiChar,
-///     Byte,
-/// };
-///
-/// let ascii_char: AsciiChar =
-///     AsciiChar::new(Byte::from(65), "UCA", "Uppercase letter a", "A");
-///
-/// assert_eq!(ascii_char.is_uppercase(), true);
-/// assert_eq!(ascii_char.is_lowercase(), false);
-/// assert_eq!(ascii_char.is_letter(), true);
-/// ```
-///
-/// ### Lowercase Characters
-///
-/// ```
-/// use brainfoamkit_lib::{
-///     AsciiChar,
-///     Byte,
-/// };
-///
-/// let ascii_char: AsciiChar =
-///     AsciiChar::new(Byte::from(97), "LCA", "Lowercase letter a", "a");
-///
-/// assert_eq!(ascii_char.is_lowercase(), true);
-/// assert_eq!(ascii_char.is_uppercase(), false);
-/// assert_eq!(ascii_char.is_letter(), true);
-/// ```
-///
-/// ## Symbol Characters
-///
-/// ```
-/// use brainfoamkit_lib::{
-///     AsciiChar,
-///     Byte,
-/// };
-///
-/// let ascii_char: AsciiChar =
-///     AsciiChar::new(Byte::from(64), "AT", "At Symbol", "@");
-///
-/// assert_eq!(ascii_char.is_symbol(), true);
-/// ```
-///
-/// # References
-///
-/// * [ASCII](https://en.wikipedia.org/wiki/ASCII)
-/// * [ASCII Table](https://www.asciitable.com/)
-/// * [ASCII Table and Description](https://www.cs.cmu.edu/~pattis/15-1XX/common/handouts/ascii.html)
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct AsciiChar {
     binary_value:          Byte,
@@ -207,7 +78,10 @@ impl AsciiChar {
         }
     }
 
-    /// Returns `true` if the `AsciiChar` instance is a control character.
+    /// Returns `true` if the character is a control character.
+    ///
+    /// Control characters are non-printing characters (ASCII 0-31 and 127).
+    /// They include tab, newline, carriage return, and other special codes.
     ///
     /// # Examples
     ///
@@ -223,42 +97,6 @@ impl AsciiChar {
     /// assert_eq!(ascii_char.is_control(), true);
     /// ```
     ///
-    /// ## Control Characters
-    ///
-    /// * NUL (Null character)
-    /// * SOH (Start of heading)
-    /// * STX (Start of text)
-    /// * ETX (End of text)
-    /// * EOT (End of transmission)
-    /// * ENQ (Enquiry)
-    /// * ACK (Acknowledgement)
-    /// * BEL (Bell)
-    /// * BS (Backspace)
-    /// * HT (Horizontal tab)
-    /// * LF (Line feed)
-    /// * VT (Vertical tab)
-    /// * FF (Form feed)
-    /// * CR (Carriage return)
-    /// * SO (Shift out)
-    /// * SI (Shift in)
-    /// * DLE (Data link escape)
-    /// * DC1 (Device control 1)
-    /// * DC2 (Device control 2)
-    /// * DC3 (Device control 3)
-    /// * DC4 (Device control 4)
-    /// * NAK (Negative acknowledgement)
-    /// * SYN (Synchronous idle)
-    /// * ETB (End of transmission block)
-    /// * CAN (Cancel)
-    /// * EM (End of medium)
-    /// * SUB (Substitute)
-    /// * ESC (Escape)
-    /// * FS (File separator)
-    /// * GS (Group separator)
-    /// * RS (Record separator)
-    /// * US (Unit separator)
-    /// * DEL (Delete)
-    ///
     /// # References
     ///
     /// * [ASCII Control Characters](https://en.wikipedia.org/wiki/ASCII#Control_characters)
@@ -267,7 +105,11 @@ impl AsciiChar {
         self.decimal_value() < 32 || self.decimal_value() == 127
     }
 
-    /// Returns `true` if the `AsciiChar` instance is a printable character.
+    /// Returns `true` if the character is printable.
+    ///
+    /// Printable characters include letters, digits, punctuation, and spaces
+    /// (ASCII 32-126). Control characters and the delete character (127) are
+    /// not printable.
     ///
     /// # Examples
     ///
@@ -277,30 +119,15 @@ impl AsciiChar {
     ///     Byte,
     /// };
     ///
-    /// let lca: AsciiChar =
+    /// let letter =
     ///     AsciiChar::new(Byte::from(97), "LCA", "Lowercase letter a", "a");
-    /// let uca: AsciiChar =
-    ///     AsciiChar::new(Byte::from(65), "UCA", "Uppercase letter a", "A");
-    /// let symat: AsciiChar =
-    ///     AsciiChar::new(Byte::from(64), "SYMAT", "Symbol At", "@");
-    /// let dig1: AsciiChar =
-    ///     AsciiChar::new(Byte::from(49), "DIG1", "Digit one", "1");
-    /// let sp: AsciiChar = AsciiChar::new(Byte::from(32), "SP", "Space", " ");
+    /// let digit = AsciiChar::new(Byte::from(49), "DIG1", "Digit one", "1");
+    /// let space = AsciiChar::new(Byte::from(32), "SP", "Space", " ");
     ///
-    /// assert_eq!(lca.is_printable(), true);
-    /// assert_eq!(uca.is_printable(), true);
-    /// assert_eq!(symat.is_printable(), true);
-    /// assert_eq!(dig1.is_printable(), true);
-    /// assert_eq!(sp.is_printable(), true);
+    /// assert_eq!(letter.is_printable(), true);
+    /// assert_eq!(digit.is_printable(), true);
+    /// assert_eq!(space.is_printable(), true);
     /// ```
-    ///
-    /// ## Printable Characters
-    ///
-    /// * [All uppercase letters](#methods.is_uppercase)
-    /// * [All lowercase letters](#methods.is_lowercase)
-    /// * [All digit characters](#methods.is_digit)
-    /// * [All symbol characters](#methods.is_symbol)
-    /// * [All whitespace characters](#methods.is_whitespace)
     ///
     /// # References
     ///
@@ -310,7 +137,9 @@ impl AsciiChar {
         self.decimal_value() > 31 && self.decimal_value() < 127
     }
 
-    /// Returns `true` if the `AsciiChar` instance is a whitespace character.
+    /// Returns `true` if the character is whitespace.
+    ///
+    /// Whitespace includes space, tab, newline, and other spacing characters.
     ///
     /// # Examples
     ///
@@ -320,20 +149,12 @@ impl AsciiChar {
     ///     Byte,
     /// };
     ///
-    /// let ascii_char: AsciiChar =
-    ///     AsciiChar::new(Byte::from(9), "CTAB", "Horizontal tab", "\t");
+    /// let tab = AsciiChar::new(Byte::from(9), "CTAB", "Horizontal tab", "\t");
+    /// let space = AsciiChar::new(Byte::from(32), "SP", "Space", " ");
     ///
-    /// assert_eq!(ascii_char.is_whitespace(), true);
+    /// assert_eq!(tab.is_whitespace(), true);
+    /// assert_eq!(space.is_whitespace(), true);
     /// ```
-    ///
-    /// ## Whitespace Characters
-    ///
-    /// * SP (Space)
-    /// * HT (Horizontal tab)
-    /// * LF (Line feed)
-    /// * VT (Vertical tab)
-    /// * FF (Form feed)
-    /// * CR (Carriage return)
     ///
     /// # References
     ///
@@ -729,8 +550,7 @@ mod tests {
             let ascii_char = AsciiChar::new(Byte::from(val), "", "", "");
             assert!(
                 ascii_char.is_whitespace(),
-                "Character with decimal value {} should be identified as whitespace",
-                val
+                "Character with decimal value {val} should be identified as whitespace"
             );
         }
 
@@ -748,8 +568,7 @@ mod tests {
             let ascii_char = AsciiChar::new(Byte::from(val), "", "", "");
             assert!(
                 ascii_char.is_digit(),
-                "Character with decimal value {} should be identified as a digit",
-                val
+                "Character with decimal value {val} should be identified as a digit"
             );
         }
 
@@ -770,8 +589,7 @@ mod tests {
             let ascii_char = AsciiChar::new(Byte::from(val), "", "", "");
             assert!(
                 ascii_char.is_symbol(),
-                "Character with decimal value {} should be identified as a symbol",
-                val
+                "Character with decimal value {val} should be identified as a symbol"
             );
         }
 

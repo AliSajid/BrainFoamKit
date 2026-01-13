@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+SPDX-FileCopyrightText: 2023 - 2026 Ali Sajid Imami
 
 SPDX-License-Identifier: Apache-2.0
 SPDX-License-Identifier: MIT
@@ -9,9 +9,11 @@ SPDX-License-Identifier: MIT
 
 ## Background
 
+<!-- vale alex.Race = NO -->
 Brainf**k is an esoteric and minimalist programming language. This language has entertained and puzzled programmers since its inception.
 The programming language uses only 8 symbols, with 7 primitive operations and works on a memory array. Despite this simplicity,
 it happens to be [Turing Complete](https://en.wikipedia.org/wiki/Turing_completeness).
+<!-- vale alex.Race = YES -->
 
 This chapter provides an overview of the language, as it was specified by Urban Müller in 1993.
 

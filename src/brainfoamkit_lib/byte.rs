@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2023 - 2024 Ali Sajid Imami
+// SPDX-FileCopyrightText: 2023 - 2026 Ali Sajid Imami
 //
 // SPDX-License-Identifier: Apache-2.0
 // SPDX-License-Identifier: MIT
@@ -156,6 +156,7 @@ use crate::{
 /// * [`Bit`](crate::Bit): A single bit.
 /// * [`Nybble`](crate::Nybble): A 4-bit unsigned integer (u4).
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[allow(clippy::struct_field_names)]
 pub struct Byte {
     bit_0: Bit,
     bit_1: Bit,
@@ -677,7 +678,7 @@ impl Byte {
     ///
     /// * [`flip_bit()`](#method.flip_bit): Flip the Bit value at the specified
     ///   index.
-    pub fn flip(&mut self) {
+    pub const fn flip(&mut self) {
         self.bit_0.flip();
         self.bit_1.flip();
         self.bit_2.flip();
@@ -859,7 +860,7 @@ impl Byte {
     /// }
     /// ```
     #[must_use]
-    pub const fn iter(&self) -> IterableByte {
+    pub const fn iter(&self) -> IterableByte<'_> {
         IterableByte::new(self)
     }
 }
@@ -1019,7 +1020,9 @@ impl From<&Byte> for u8 {
 }
 
 impl Not for Byte {
-    // The return type is Byte because the Not operation is in-place.
+    // NOT on a Byte inverts all 8 bits. The output type is Self (Byte) because
+    // each inverted bit remains a valid Bit, ensuring the result is always a valid
+    // Byte.
     type Output = Self;
 
     /// Performs the Not operation on the Byte.
@@ -1060,7 +1063,8 @@ impl Not for Byte {
 }
 
 impl BitAnd for Byte {
-    // The return type is Byte because the BitAnd operation is symmetric.
+    // AND is commutative and associative. The output is always a valid Byte since
+    // each bit position is operated on independently, with no overflow possible.
     type Output = Self;
 
     /// Performs the Bitwise And operation on the Byte.
@@ -1173,7 +1177,8 @@ impl BitAndAssign for Byte {
 }
 
 impl BitOr for Byte {
-    // The return type is Byte because the BitOr operation is symmetric.
+    // OR is commutative and associative. The output is always a valid Byte since
+    // each bit position is operated on independently, with no overflow possible.
     type Output = Self;
 
     /// Performs the Bitwise Or operation on the Byte.
@@ -1285,7 +1290,8 @@ impl BitOrAssign for Byte {
 }
 
 impl BitXor for Byte {
-    // The return type is Byte because the BitXor operation is symmetric.
+    // XOR is commutative and associative. The output is always a valid Byte since
+    // each bit position is operated on independently, with no overflow possible.
     type Output = Self;
 
     /// Performs the Bitwise Xor operation on the Byte.
