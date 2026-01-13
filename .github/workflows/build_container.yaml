@@ -209,7 +209,7 @@ jobs:
               if: github.event_name != 'pull_request'
               env:
                 TAGS: ${{ steps.meta.outputs.tags }}
-                IMAGE_NAME: ${{ env.REPOSITORY_NAME }}
+                IMAGE_NAME: ${{ env.IMAGE_NAME }}
                 DOCKER_ORG: ${{ vars.DOCKER_ORG }}
                 QUAY_ORG: ${{ vars.QUAY_ORG }}
               run: |
@@ -226,7 +226,7 @@ jobs:
               if: github.event_name != 'pull_request'
               env:
                 IMAGE_REF: ${{ steps.resolve-digest.outputs.image_ref }}
-                IMAGE_NAME: ${{ env.REPOSITORY_NAME }}
+                IMAGE_NAME: ${{ env.IMAGE_NAME }}
                 DOCKER_ORG: ${{ vars.DOCKER_ORG }}
                 QUAY_ORG: ${{ vars.QUAY_ORG }}
               run: |
