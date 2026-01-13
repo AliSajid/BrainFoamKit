@@ -108,11 +108,7 @@ jobs:
               id: push-ghcr
               uses: redhat-actions/push-to-registry@5ed88d269cf581ea9ef6dd6806d01562096bee9c
               with:
-                image: ${{ steps.build.outputs.image }}
                 tags: ${{ steps.build.outputs.tags }}
-                registry: ${{ env.CANONICAL_REGISTRY }}
-                username: ${{ github.actor }}
-                password: ${{ secrets.GITHUB_TOKEN }}
             - name: Resolve canonical image digest from GHCR
               id: resolve-digest
               if: github.event_name != 'pull_request'
