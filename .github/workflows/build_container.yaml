@@ -87,7 +87,7 @@ jobs:
                 username: ${{ vars.QUAY_USERNAME }}
                 password: ${{ secrets.QUAY_TOKEN }}
             # ---------- build ----------
-            - name: Build and push image to GHCR
+            - name: Build the container image
               id: build
               env:
                 SOURCE_DATE_EPOCH: ${{ env.SOURCE_DATE_EPOCH }}
@@ -111,23 +111,23 @@ jobs:
               id: resolve-digest
               if: github.event_name != 'pull_request'
               env:
+                DIGEST: ${{ steps.push-ghcr.outputs.digest }}
                 TAGS: ${{ steps.meta.outputs.tags }}
                 REGISTRY: ${{ env.CANONICAL_REGISTRY }}
                 IMAGE: ${{ env.REPOSITORY_FULL }}
               run: |
                 set -euo pipefail
-
-                PRIMARY_TAG=$(printf '%s\n' "${TAGS}" | head -n1)
-                FULL_REF="${REGISTRY}/${IMAGE}:${PRIMARY_TAG##*:}"
-
-                DIGEST=$(skopeo inspect "docker://${FULL_REF}" --format '{{.Digest}}')
-
-                if [ -z "${DIGEST}" ]; then
-                  echo "Failed to resolve image digest" >&2
-                  exit 1
-                fi
-
                 echo "image_ref=${REGISTRY}/${IMAGE}@${DIGEST}" >> "$GITHUB_OUTPUT"
+            - name: Run vulnerability scanning to surface potential issues
+              uses: aquasecurity/trivy-action@0.33.1
+              with:
+                image: ${{steps.resolve-digest.outputs.image_ref}}
+                format: sarif
+                output: trivy-results.sarif
+            - name: Upload Trivy scan results to GitHub Security tab
+              uses: github/codeql-action/upload-sarif@v4
+              with:
+                sarif_file: trivy-results.sarif
             # ---------- SBOM ----------
             - name: Generate SBOM for container image
               if: github.event_name != 'pull_request'
@@ -188,21 +188,40 @@ jobs:
               if: github.event_name != 'pull_request'
               env:
                 IMAGE_REF: ${{ steps.resolve-digest.outputs.image_ref }}
+                IMAGE_NAME: ${{ env.IMAGE_NAME }}
                 DOCKER_ORG: ${{ vars.DOCKER_ORG }}
                 QUAY_ORG: ${{ vars.QUAY_ORG }}
-                IMAGE_NAME: ${{ env.IMAGE_NAME }}
-                TAGS: ${{ steps.meta.outputs.tags }}
               run: |
                 set -euo pipefail
 
-                for TARGET in docker.io/${DOCKER_ORG} quay.io/${QUAY_ORG}; do
-                  echo "Mirroring ${IMAGE_REF} to ${TARGET}/${IMAGE_NAME}"
+                retry() {
+                  local attempt=1
+                  local max=5
+                  while true; do
+                    "$@" && break || {
+                      if [ "$attempt" -ge "$max" ]; then
+                        echo "Command failed after $attempt attempts" >&2
+                        return 1
+                      fi
+                      echo "Retry $attempt/$max failed, sleeping…" >&2
+                      sleep $((2 ** attempt))
+                      attempt=$((attempt + 1))
+                    }
+                  done
+                }
 
-                  skopeo copy \
+                mirror() {
+                  local TARGET_REGISTRY="$1"
+                  echo "Mirroring ${IMAGE_REF} → ${TARGET_REGISTRY}/${IMAGE_NAME}"
+                  retry skopeo copy \
                     --all \
                     docker://${IMAGE_REF} \
-                    docker://${TARGET}/${IMAGE_NAME}
-                done
+                    docker://${TARGET_REGISTRY}/${IMAGE_NAME}
+                }
+
+                mirror docker.io/${DOCKER_ORG} &
+                mirror quay.io/${QUAY_ORG} &
+                wait
             - name: Apply tags to mirrored images
               if: github.event_name != 'pull_request'
               env:
@@ -220,32 +239,40 @@ jobs:
                       docker://${TARGET}/${IMAGE_NAME}:${TAG##*:}
                   done
                 done
-            - name: Verify digest consistency across registries
+            - name: Apply tags to mirrored images
               if: github.event_name != 'pull_request'
               env:
                 IMAGE_REF: ${{ steps.resolve-digest.outputs.image_ref }}
                 IMAGE_NAME: ${{ env.IMAGE_NAME }}
+                TAGS: ${{ steps.meta.outputs.tags }}
                 DOCKER_ORG: ${{ vars.DOCKER_ORG }}
                 QUAY_ORG: ${{ vars.QUAY_ORG }}
               run: |
                 set -euo pipefail
 
+                retry() {
+                  local attempt=1
+                  local max=5
+                  while true; do
+                    "$@" && break || {
+                      if [ "$attempt" -ge "$max" ]; then
+                        echo "Command failed after $attempt attempts" >&2
+                        return 1
+                      fi
+                      sleep $((2 ** attempt))
+                      attempt=$((attempt + 1))
+                    }
+                  done
+                }
+
                 CANONICAL_DIGEST="${IMAGE_REF##*@}"
 
-                echo "Canonical digest: ${CANONICAL_DIGEST}"
-
-                for TARGET in \
-                  docker.io/${DOCKER_ORG}/${IMAGE_NAME} \
-                  quay.io/${QUAY_ORG}/${IMAGE_NAME}; do
-
-                  TARGET_DIGEST=$(skopeo inspect docker://${TARGET} --format '{{.Digest}}')
-
-                  echo "${TARGET} -> ${TARGET_DIGEST}"
-
-                  if [ "${TARGET_DIGEST}" != "${CANONICAL_DIGEST}" ]; then
-                    echo "Digest mismatch detected for ${TARGET}" >&2
-                    exit 1
-                  fi
+                for TARGET in docker.io/${DOCKER_ORG} quay.io/${QUAY_ORG}; do
+                  for FULL_TAG in ${TAGS}; do
+                    TAG="${FULL_TAG##*:}"
+                    echo "Tagging ${TARGET}/${IMAGE_NAME}:${TAG}"
+                    retry skopeo copy \
+                      docker://${TARGET}/${IMAGE_NAME}@${CANONICAL_DIGEST} \
+                      docker://${TARGET}/${IMAGE_NAME}:${TAG}
+                  done
                 done
-
-                echo "All registries match canonical digest"
