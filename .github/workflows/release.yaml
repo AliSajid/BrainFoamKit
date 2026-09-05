@@ -58,7 +58,7 @@ jobs:
                       cross: true
         steps:
             - name: Checkout
-              uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+              uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
             - name: Install tree
               if: runner.os == 'Linux'
               run: sudo apt install tree
@@ -66,15 +66,15 @@ jobs:
               if: runner.os == 'Linux' && !matrix.build.cross
               run: sudo apt install musl-tools mingw-w64
             - name: Install Rust toolchain
-              uses: dtolnay/rust-toolchain@master
+              uses: dtolnay/rust-toolchain@d1031067263f94b142dd6c0ce24c5eb9d02d52a0 # master
               id: rust-toolchain
               with:
                 toolchain: stable
                 target: ${{ matrix.build.target }}
             - name: Cache dependencies
-              uses: Swatinem/rust-cache@f13886b937689c021905a6b90929199931d60db1 # v2.8.1
+              uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
             - name: Install cross
-              uses: taiki-e/install-action@80466ef8efa80486cdfbddf929453a4f3565c791 # v2.62.34
+              uses: taiki-e/install-action@7b8d4719ee4aaa279bdf55df38dacb9ebfe12a6c # v2.87.6
               with:
                 tool: cross
             - name: Configure cross
@@ -114,7 +114,7 @@ jobs:
             new_release_channel: ${{steps.semantic.outputs.new_release_channel}}
         steps:
             - name: Checkout
-              uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+              uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
               with:
                 fetch-depth: 0
                 persist-credentials: false
@@ -135,7 +135,7 @@ jobs:
             - name: Install dependencies
               run: sudo apt install tree
             - name: Install semantic-release-cargo
-              uses: taiki-e/install-action@80466ef8efa80486cdfbddf929453a4f3565c791 # v2.62.34
+              uses: taiki-e/install-action@7b8d4719ee4aaa279bdf55df38dacb9ebfe12a6c # v2.87.6
               with:
                 tool: semantic-release-cargo@${{env.SEMREL_RUST_VERSION}}
             - name: Download release artifacts

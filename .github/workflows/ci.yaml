@@ -28,10 +28,10 @@ jobs:
         source_changed: ${{steps.changed_dirs.outputs.source}}
         book_changed: ${{steps.changed_dirs.outputs.book}}
       steps:
-        - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
         - name: Check changed directories
           id: changed_dirs
-          uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3.0.2
+          uses: dorny/paths-filter@0e4a8c6effa4802afeda77dc8d303f8176d7dfad # v3.0.4
           with:
             base: ${{ github.ref }}
             filters: |
@@ -78,23 +78,23 @@ jobs:
                   - rust: nightly
                     label: nightly
         steps:
-            - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
-            - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+            - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+            - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
             - name: Install Rust
               if: ${{ needs.check_changed_dirs.outputs.source_changed == 'true' }}
-              uses: dtolnay/rust-toolchain@master
+              uses: dtolnay/rust-toolchain@d1031067263f94b142dd6c0ce24c5eb9d02d52a0 # master
               with:
                 toolchain: ${{matrix.rust}}
                 components: rustfmt, clippy
             - name: Install nightly Rust
               if: ${{ needs.check_changed_dirs.outputs.source_changed == 'true' }}
-              uses: dtolnay/rust-toolchain@nightly
+              uses: dtolnay/rust-toolchain@be39649afda95dbf70f87cce95f68b8d5797b296 # nightly
               with:
                 toolchain: nightly
                 components: rustfmt, clippy
             - name: Cache dependencies
               if: ${{ needs.check_changed_dirs.outputs.source_changed == 'true' }}
-              uses: Swatinem/rust-cache@f13886b937689c021905a6b90929199931d60db1 # v2.8.1
+              uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
             - name: Cargo Build
               if: ${{ needs.check_changed_dirs.outputs.source_changed == 'true' }}
               run: cargo build --verbose
@@ -109,12 +109,12 @@ jobs:
               run: cargo clippy -- -D warnings
             - name: Wait before badge creation
               if: ${{ needs.check_changed_dirs.outputs.source_changed == 'true' }}
-              uses: AliSajid/random-wait-action@ae53f7583f1e6c8e8e0fb4587865b586579b07c0 # v2.11.1
+              uses: AliSajid/random-wait-action@933d3635c56777d240b67abe794f1a5f7bdfd063 # v2.12.0
               with:
                 minimum: ${{env.MINIMUM_WAIT}}
                 maximum: ${{env.MAXIMUM_WAIT}}
             - name: Create Awesome Badge - Success
-              uses: schneegans/dynamic-badges-action@e9a478b16159b4d31420099ba146cdc50f134483 # v1.7.0
+              uses: schneegans/dynamic-badges-action@28b0fa8bdeb46170ac397105ece0c1fe58f68910 # v1.9.0
               if: success()
               with:
                 auth: ${{secrets.GIST_SECRET}}
@@ -126,7 +126,7 @@ jobs:
                 message: Succeeded
                 color: darkgreen
             - name: Create Awesome Badge - Failure
-              uses: schneegans/dynamic-badges-action@e9a478b16159b4d31420099ba146cdc50f134483 # v1.7.0
+              uses: schneegans/dynamic-badges-action@28b0fa8bdeb46170ac397105ece0c1fe58f68910 # v1.9.0
               if: failure()
               with:
                 auth: ${{secrets.GIST_SECRET}}
