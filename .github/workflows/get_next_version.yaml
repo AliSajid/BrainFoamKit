@@ -19,16 +19,16 @@ jobs:
             new-release-published: ${{ steps.get-next-version.outputs.new-release-published }}
         steps:
             - name: Checkout
-              uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
               with:
                 fetch-depth: 0
                 persist-credentials: false
             - name: Configure Node.js
-              uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
+              uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
               with:
                 node-version: lts/*
             - name: Cache action npm dependencies
-              uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
+              uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
               id: cache-node-modules
               with:
                 path: ${{ runner.temp }}/.semantic-release-action_next-release-version/node_modules
