@@ -12,16 +12,16 @@ jobs:
         name: Generate Coverage
         runs-on: ubuntu-latest
         container:
-            image: xd009642/tarpaulin:develop-nightly@sha256:a010a7e4c896c2ebcbaf6d3a79b23e659f9b79288c06f834dc987788132d0b46
+            image: xd009642/tarpaulin:develop-nightly@sha256:3580ad00973edefc23c228ab02e271c282e237a9161f82a2adeba6c54b244ca1
             options: --security-opt seccomp=unconfined
         steps:
             - name: Checkout repository
-              uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+              uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
             # Nightly Rust is required for cargo llvm-cov --doc.
-            - uses: dtolnay/rust-toolchain@nightly
+            - uses: dtolnay/rust-toolchain@f0d5300ba8908d942c808f4d31c08471d7798ba3 # nightly
               with:
                 components: llvm-tools-preview
-            - uses: taiki-e/install-action@80466ef8efa80486cdfbddf929453a4f3565c791 # v2.62.34
+            - uses: taiki-e/install-action@ab6895351a88b908e96a4697860d4ffea5e57dbe # v2.87.27
               with:
                 tool: cargo-llvm-cov,nextest
             - name: Collect coverage data (including doctests)
@@ -30,7 +30,7 @@ jobs:
                 cargo llvm-cov --no-report --doc
                 cargo llvm-cov report --doctests --lcov --output-path lcov.info
             - name: Upload to codecov.io
-              uses: codecov/codecov-action@5a1091511ad55cbe89839c7260b706298ca349f7 # v5.5.1
+              uses: codecov/codecov-action@0fb7174895f61a3b6b78fc075e0cd60383518dac # v5.5.5
               with:
                 file: lcov.info
                 token: ${{ secrets.CODECOV_TOKEN }}
